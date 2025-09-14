@@ -8,8 +8,6 @@ import platformerList from '../data/platformer-list.json';
 import futureList from '../data/future-list.json';
 import challengeList from '../data/challenge-list.json';
 import speedhackList from '../data/speedhack-list.json';
-import tslList from '../data/tsl-list.json';
-import tslplus from '../data/tslplus.json';
 
 const allLists = {
   main: mainList,
@@ -18,8 +16,6 @@ const allLists = {
   future: futureList,
   challenge: challengeList,
   speedhack: speedhackList,
-  tsl: tslList,
-  tslplus: tslplus,
 };
 
 const getYouTubeVideoId = (urlOrId) => {

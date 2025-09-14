@@ -7,8 +7,6 @@ import unratedList from '../data/unrated-list.json';
 import platformerList from '../data/platformer-list.json';
 import challengeList from '../data/challenge-list.json';
 import futureList from '../data/future-list.json';
-import tslList from '../data/tsl-list.json';
-import tslplus from '../data/tslplus.json';
 import mainStats from '../data/main-statsviewer.json';
 
 const allLists = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList, tsl: tslList, tslplus: tslplus };
