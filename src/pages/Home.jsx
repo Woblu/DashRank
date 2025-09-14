@@ -9,8 +9,6 @@ import platformerList from "../data/platformer-list.json";
 import futureList from "../data/future-list.json";
 import speedhackList from "../data/speedhack-list.json"; // 1. Import the speedhack list
 import challengeList from "../data/challenge-list.json";
-import tslList from "../data/tsl-list.json";
-import tslplus from "../data/tslplus.json";
 
 const lists = {
   main: mainList,
@@ -19,8 +17,6 @@ const lists = {
   speedhack: speedhackList, // 2. Use the imported array here
   future: futureList,
   challenge: challengeList,
-  tsl: tslList,
-  tslplus: tslplus,
 };
 
 const listTitles = {
@@ -30,8 +26,6 @@ const listTitles = {
   speedhack: "Speedhack List",
   future: "Future List",
   challenge: "Challenge List",
-  tsl: "The Shitty List",
-  tslplus: "The Shitty List+",
 };
 
 export default function Home() {
