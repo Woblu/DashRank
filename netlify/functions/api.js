@@ -1,49 +1,46 @@
+// netlify/functions/api.js
 import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import serverless from 'serverless-http';
+import cors from 'cors';
 
-// Correctly import your Mongoose models from the 'server' directory
-import Level from '../../server/models/Level.js';
-import PlayerStat from '../../server/models/PlayerStat.js';
+// Import all your list data directly.
+// Note the relative paths from this function file to your data folder.
+import mainList from '../../src/data/main-list.json';
+import unratedList from '../../src/data/unrated-list.json';
+import platformerList from '../../src/data/platformer-list.json';
+import futureList from '../../src/data/future-list.json';
+import challengeList from '../../src/data/challenge-list.json';
+import speedhackList from '../../src/data/speedhack-list.json';
+// Add any other lists you have here
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Correct the path to the .env file at the project root
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+const allLists = {
+  main: mainList,
+  unrated: unratedList,
+  platformer: platformerList,
+  future: futureList,
+  challenge: challengeList,
+  speedhack: speedhackList,
+};
 
 const app = express();
-const MONGO_URI = process.env.MONGO_URI;
-
-// Establish MongoDB connection
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB Connection Successful'))
-  .catch(err => console.error('MongoDB Connection Error:', err));
-
-// Define the router *before* using it
 const router = express.Router();
 
-// Setup middleware
+// Apply CORS middleware
 app.use(cors());
-app.use(express.json());
-app.use('/api/', router); // This path is handled by Netlify redirects
 
-// Define your API routes
-router.get('/lists/:listType', async (req, res) => {
-  try {
-    const { listType } = req.params;
-    const levels = await Level.find({ listType }).sort({ placement: 1 });
-    res.json(levels);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching list', error });
+router.get('/lists/:listType', (req, res) => {
+  const { listType } = req.params;
+  const listData = allLists[listType];
+
+  if (listData) {
+    res.json(listData);
+  } else {
+    res.status(404).json({ error: 'List not found' });
   }
 });
 
-// Add any other routes here using the 'router' object
+// The path prefix '/api' is handled by the Netlify redirect.
+// So in this file, we just define the routes relative to the function's entry point.
+app.use('/', router);
 
-// Export the serverless handler
 export const handler = serverless(app);
