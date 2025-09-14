@@ -1,0 +1,32 @@
+{
+  "name": "ROZE",
+  "demonlistRank": 26,
+  "demonlistScore": 2332.23,
+  "demonlistStats": {
+    "main": 17,
+    "extended": 5,
+    "legacy": 0
+  },
+  "hardestDemon": "Silent clubstep",
+  "demonsCompleted": [
+    "Silent clubstep",
+    "Anathema",
+    "Avernus",
+    "Acheron",
+    "Tunnel of Despair",
+    "Abyss of Darkness",
+    "Slaughterhouse",
+    "KOCMOC",
+    "Sakupen Circles",
+    "Firework",
+    "poocubed",
+    "Saul Goodman",
+    "COMBUSTION",
+    "Tartarus",
+    "UNKNOWN",
+    "The Golden",
+    "Shukketsu"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

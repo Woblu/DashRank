@@ -1,0 +1,36 @@
+{
+  "name": "Cookie",
+  "demonlistRank": 39,
+  "demonlistScore": 2042.97,
+  "demonlistStats": {
+    "main": 20,
+    "extended": 15,
+    "legacy": 10
+  },
+  "hardestDemon": "Kyouki",
+  "demonsCompleted": [
+    "Kyouki",
+    "Slaughterhouse",
+    "Sakupen Circles",
+    "Firework",
+    "Saul Goodman",
+    "Eyes in the Water",
+    "MINUSdry",
+    "Solar Flare",
+    "Edge of Destiny",
+    "The Yangire",
+    "The Plunge",
+    "arcturus",
+    "Sonic Wave Infinity",
+    "Tartarus",
+    "UNKNOWN",
+    "Oblivion",
+    "The Golden",
+    "Natural Disaster",
+    "Verdant Landscape"
+  ],
+  "demonsVerified": [
+    "Viprin UFO"
+  ],
+  "records": []
+}

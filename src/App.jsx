@@ -1,0 +1,53 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import LevelDetail from "./pages/LevelDetail";
+import PlayerProfile from "./pages/PlayerProfile";
+import PlayerList from "./components/PlayerList";
+import Tabs from "./components/Tabs";
+import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
+import { LanguageProvider } from "./contexts/LanguageContext.jsx";
+import ReloadPrompt from "./components/ReloadPrompt"; // Import the component
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <Router>
+        <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col overflow-x-hidden">
+          <div 
+            className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-100 dark:opacity-20 z-10"
+            style={{ 
+              backgroundImage: `url(${sideDeco})`,
+              backgroundRepeat: "repeat-y",
+              backgroundPosition: "0px -1.5rem",
+              transform: "scaleX(-1)"
+            }}
+          ></div>
+          
+          <Tabs />
+
+          <main className="flex-grow p-4 w-full max-w-7xl mx-auto z-20">
+            <Routes>
+              <Route path="/" element={<Navigate to="/main" replace />} />
+              <Route path="/:listType" element={<Home />} />
+              <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
+              <Route path="/players" element={<PlayerList />} />
+              <Route path="/players/:playerName" element={<PlayerProfile />} />
+            </Routes>
+          </main>
+
+          <div 
+            className="hidden lg:block absolute right-0 top-0 h-full w-32 xl:w-48 opacity-100 dark:opacity-20 z-10"
+            style={{ 
+              backgroundImage: `url(${sideDeco})`,
+              backgroundRepeat: "repeat-y",
+              backgroundPosition: "0px -1.5rem",
+            }}
+          ></div>
+          
+          <ReloadPrompt /> {/* Add the component here */}
+        </div>
+      </Router>
+    </LanguageProvider>
+  );
+}

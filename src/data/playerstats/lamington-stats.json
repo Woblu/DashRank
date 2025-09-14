@@ -1,0 +1,31 @@
+{
+  "name": "LAMINGTON",
+  "demonlistRank": 47,
+  "demonlistScore": 1811.20,
+  "demonlistStats": {
+    "main": 16,
+    "extended": 27,
+    "legacy": 16
+  },
+  "hardestDemon": "Slaughterhouse",
+  "demonsCompleted": [
+    "Slaughterhouse",
+    "Sakupen Circles",
+    "COMBUSTION",
+    "Solar Flare",
+    "Midnight",
+    "arcturus",
+    "Sonic Wave Infinity",
+    "Tartarus",
+    "Delta",
+    "UNKNOWN",
+    "Oblivion",
+    "The Golden",
+    "Natural Disaster",
+    "Verdant Landscape",
+    "NETWORK",
+    "Shukketsu"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

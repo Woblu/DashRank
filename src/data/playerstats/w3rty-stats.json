@@ -1,0 +1,33 @@
+{
+  "name": "w3rty",
+  "demonlistRank": 27,
+  "demonlistScore": 2289.73,
+  "demonlistStats": {
+    "main": 18,
+    "extended": 5,
+    "legacy": 1
+  },
+  "hardestDemon": "andromeda",
+  "demonsCompleted": [
+    "andromeda",
+    "Anathema",
+    "Avernus",
+    "Acheron",
+    "Spectre",
+    "Kyouki",
+    "Slaughterhouse",
+    "Firework",
+    "Saul Goodman",
+    "MINUSdry",
+    "Belladonna",
+    "ORDINARY",
+    "Climax",
+    "Damascus",
+    "Tartarus",
+    "Oblivion",
+    "The Golden",
+    "Natural Disaster"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

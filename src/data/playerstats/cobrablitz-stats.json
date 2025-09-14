@@ -1,0 +1,34 @@
+{
+  "name": "cobrablitz",
+  "demonlistRank": 32,
+  "demonlistScore": 2146.65,
+  "demonlistStats": {
+    "main": 18,
+    "extended": 30,
+    "legacy": 104
+  },
+  "hardestDemon": "Kyouki",
+  "demonsCompleted": [
+    "Kyouki",
+    "Slaughterhouse",
+    "Saul Goodman",
+    "The Hallucination",
+    "Solar Flare",
+    "LIMBO",
+    "Collapse",
+    "The Yangire",
+    "arcturus",
+    "Tartarus",
+    "Delta",
+    "UNKNOWN",
+    "Oblivion",
+    "The Golden",
+    "Natural Disaster",
+    "Verdant Landscape",
+    "Terminal Rampancy"
+  ],
+  "demonsVerified": [
+    "Operation Evolution"
+  ],
+  "records": []
+}

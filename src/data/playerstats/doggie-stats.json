@@ -1,0 +1,36 @@
+{
+  "name": "Doggie",
+  "demonlistRank": 21,
+  "demonlistScore": 2458.49,
+  "demonlistStats": {
+    "main": 20,
+    "extended": 21,
+    "legacy": 54
+  },
+  "hardestDemon": "Silent clubstep",
+  "demonsCompleted": [
+    "Silent clubstep",
+    "Acheron",
+    "Abyss of Darkness",
+    "KOCMOC",
+    "Sakupen Circles",
+    "Firework",
+    "LIMBO",
+    "Edge of Destiny",
+    "Codependence",
+    "arcturus",
+    "Sonic Wave Infinity",
+    "Waterfall",
+    "Tartarus",
+    "Oblivion",
+    "The Golden",
+    "Verdant Landscape",
+    "Shukketsu"
+  ],
+  "demonsVerified": [
+    "Slaughterhouse",
+    "Deimos",
+    "Delta"
+  ],
+  "records": []
+}

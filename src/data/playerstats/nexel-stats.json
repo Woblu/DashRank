@@ -1,0 +1,37 @@
+{
+  "name": "Nexel",
+  "demonlistRank": 35,
+  "demonlistScore": 2067.33,
+  "demonlistStats": {
+    "main": 21,
+    "extended": 27,
+    "legacy": 31
+  },
+  "hardestDemon": "MINUSdry",
+  "demonsCompleted": [
+    "MINUSdry",
+    "Sevvend Clubstep",
+    "The Hallucination",
+    "COMBUSTION",
+    "Gaggatrondra",
+    "walter white",
+    "The Plunge",
+    "Midnight",
+    "arcturus",
+    "Coalescence",
+    "Delta",
+    "Jigsaw",
+    "BPATA MPAKA",
+    "Oblivion",
+    "Natural Disaster",
+    "Verdant Landscape",
+    "ATOMIC CANNON Mk III",
+    "NETWORK",
+    "Shukketsu",
+    "Terminal Rampancy"
+  ],
+  "demonsVerified": [
+    "Collapse"
+  ],
+  "records": []
+}

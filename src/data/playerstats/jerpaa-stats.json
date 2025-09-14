@@ -1,0 +1,32 @@
+{
+  "name": "Jerpaa",
+  "demonlistRank": 44,
+  "demonlistScore": 1931.65,
+  "demonlistStats": {
+    "main": 17,
+    "extended": 12,
+    "legacy": 5
+  },
+  "hardestDemon": "andromeda",
+  "demonsCompleted": [
+    "andromeda",
+    "Tunnel of Despair",
+    "Slaughterhouse",
+    "Sakupen Circles",
+    "KOSETSU",
+    "Saul Goodman",
+    "The Hallucination",
+    "COMBUSTION",
+    "SARYYX NEVER CLEAR",
+    "arcturus",
+    "Sonic Wave Infinity",
+    "Tartarus",
+    "Jigsaw",
+    "UNKNOWN",
+    "Oblivion",
+    "The Golden",
+    "Shukketsu"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

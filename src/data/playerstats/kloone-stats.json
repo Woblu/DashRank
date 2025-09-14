@@ -1,0 +1,43 @@
+{
+  "name": "kloone",
+  "demonlistRank": 10,
+  "demonlistScore": 3236.71,
+  "demonlistStats": {
+    "main": 28,
+    "extended": 34,
+    "legacy": 51
+  },
+  "hardestDemon": "Acheron",
+  "demonsCompleted": [
+    "Acheron",
+    "Kyouki",
+    "Slaughterhouse",
+    "KOCMOC",
+    "Sakupen Circles",
+    "Deimos",
+    "poocubed",
+    "Saul Goodman",
+    "MINUSdry",
+    "Belladonna",
+    "COMBUSTION",
+    "LIMBO",
+    "SARYYX NEVER CLEAR",
+    "ORDINARY",
+    "Midnight",
+    "arcturus",
+    "Sonic Wave Infinity",
+    "Coalescence",
+    "Tartarus",
+    "Delta",
+    "Jigsaw",
+    "UNKNOWN",
+    "BPATA MPAKA",
+    "Cimmerian Shade",
+    "Oblivion",
+    "The Golden",
+    "Natural Disaster",
+    "Shukketsu"
+  ],
+  "demonsVerified": [],
+  "records": []
+}
