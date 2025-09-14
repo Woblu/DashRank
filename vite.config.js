@@ -8,7 +8,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      workbox: { /* ... workbox config ... */ },
+      workbox: {
+        // This is the new line to add 👇
+        navigateFallbackDenylist: [/^\/api\//],
+      },
       manifest: {
         name: 'DashRank',
         short_name: 'DashRank',
