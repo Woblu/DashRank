@@ -11,7 +11,7 @@ const statsButtonTitles = {
   unrated: "Unrated Stats Viewer",
   platformer: "Platformer Stats Viewer",
   challenge: "Challenge Stats Viewer",
-  speedhack: "Speedhack Stats Viewer"
+  speedhack: "Speedhack Stats Viewer",
   future: "Future Stats Viewer",
 };
 
@@ -21,7 +21,7 @@ export default function Tabs() {
     { name: "Unrated", path: "/unrated", type: "unrated" },
     { name: "Platformer", path: "/platformer", type: "platformer" },
     { name: "Challenge", path: "/challenge", type: "challenge" },
-    { name: "Speedhack", path: "/speedhack", type: "speedhack" }
+    { name: "Speedhack", path: "/speedhack", type: "speedhack" },
     { name: "Future", path: "/future", type: "future" },
   ];
 
