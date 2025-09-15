@@ -9,8 +9,8 @@ import challengeList from '../data/challenge-list.json';
 import futureList from '../data/future-list.json';
 import mainStats from '../data/main-statsviewer.json';
 
-const allLists = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList, tsl: tslList, tslplus: tslplus };
-const listTitles = { main: "Main List", unrated: "Unrated List", platformer: "Platformer List", challenge: "Challenge List", future: "Future List", tsl: "TSL", tslplus: "TSL+" };
+const allLists = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList };
+const listTitles = { main: "Main List", unrated: "Unrated List", platformer: "Platformer List", challenge: "Challenge List", future: "Future List" };
 
 export default function PlayerProfile() {
   const { playerName } = useParams();
