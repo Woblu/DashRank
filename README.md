@@ -1,6 +1,6 @@
 # DashRank
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/4e660452-4528-4b4d-a0ed-97ecec1d2f21/deploy-status)](https://app.netlify.com/projects/dashrank/deploys)https://dashrank.netlify.app
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4e660452-4528-4b4d-a0ed-97ecec1d2f21/deploy-status)](https://app.netlify.com/projects/dashrank/deploys))](https://dashrank.netlify.app)
 
 **DashRank** is the ultimate Geometry Dash demonlist — a community-driven hub that combines multiple demonlists into one powerful and easy-to-use platform.  
 Instead of bouncing between different sites, DashRank brings everything together in one place with a clean interface and fast navigation.

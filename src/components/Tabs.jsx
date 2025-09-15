@@ -11,8 +11,8 @@ const statsButtonTitles = {
   unrated: "Unrated Stats Viewer",
   platformer: "Platformer Stats Viewer",
   challenge: "Challenge Stats Viewer",
-  future: "Future Stats Viewer",
   speedhack: "Speedhack Stats Viewer"
+  future: "Future Stats Viewer",
 };
 
 export default function Tabs() {
@@ -21,8 +21,8 @@ export default function Tabs() {
     { name: "Unrated", path: "/unrated", type: "unrated" },
     { name: "Platformer", path: "/platformer", type: "platformer" },
     { name: "Challenge", path: "/challenge", type: "challenge" },
-    { name: "Future", path: "/future", type: "future" },
     { name: "Speedhack", path: "/speedhack", type: "speedhack" }
+    { name: "Future", path: "/future", type: "future" },
   ];
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
