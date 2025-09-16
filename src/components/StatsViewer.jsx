@@ -6,9 +6,10 @@ import mainStats from '../data/main-statsviewer.json';
 import unratedStats from '../data/unrated-statsviewer.json';
 import platformerStats from '../data/platformer-statsviewer.json';
 import challengeStats from '../data/challenge-statsviewer.json';
+import speedhackStats from '../data/speedhack-statsviewer.json';
 import futureStats from '../data/future-statsviewer.json';
 
-const statsData = { main: mainStats, unrated: unratedStats, platformer: platformerStats, challenge: challengeStats, future: futureStats };
+const statsData = { main: mainStats, unrated: unratedStats, platformer: platformerStats, challenge: challengeStats, speedhack: speedhackStats, future: futureStats };
 
 export default function StatsViewer({ isOpen, onClose, listType }) {
   const [search, setSearch] = useState('');

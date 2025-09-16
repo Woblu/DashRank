@@ -1,22 +1,8 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { ChevronLeft } from 'lucide-react';
-import mainList from '../data/main-list.json';
-import unratedList from '../data/unrated-list.json';
-import platformerList from '../data/platformer-list.json';
-import futureList from '../data/future-list.json';
-import challengeList from '../data/challenge-list.json';
-import speedhackList from '../data/speedhack-list.json';
-
-const allLists = {
-  main: mainList,
-  unrated: unratedList,
-  platformer: platformerList,
-  future: futureList,
-  challenge: challengeList,
-  speedhack: speedhackList,
-};
+import axios from 'axios';
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
@@ -29,26 +15,38 @@ const getYouTubeVideoId = (urlOrId) => {
 };
 
 export default function LevelDetail() {
-  const { listType, levelId } = useParams(); // levelId param can be either ID or placement
+  const { listType, levelId } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
+  
+  const [level, setLevel] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const [isCopied, setIsCopied] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState(null);
 
-  const level = useMemo(() => {
-    const list = allLists[listType] || [];
-    // --- MODIFIED: Find by placement for challenge list, by levelId for all others ---
-    if (listType === 'challenge') {
-      return list.find(l => String(l.placement) === levelId);
-    }
-    return list.find(l => String(l.levelId) === levelId);
-  }, [listType, levelId]);
-
   useEffect(() => {
-    if (level) {
-      setCurrentVideoId(getYouTubeVideoId(level.videoId));
-    }
-  }, [level]);
+    window.scrollTo(0, 0);
+
+    const fetchLevel = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(`/api/level/${levelId}`);
+        setLevel(response.data);
+        setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
+      } catch (err) {
+        console.error("Failed to fetch level details:", err);
+        setError("Failed to load level data. It might not exist.");
+        setLevel(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLevel();
+  }, [levelId, listType]);
 
   const handleCopyClick = () => {
     if (level?.levelId) {
@@ -58,11 +56,23 @@ export default function LevelDetail() {
       });
     }
   };
+  
+  const handleRecordClick = (videoId) => {
+    setCurrentVideoId(getYouTubeVideoId(videoId));
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
-  if (!level) {
+  if (isLoading) {
+    return <div className="text-center p-8 text-gray-800 dark:text-gray-200">{t('loading_data')}</div>;
+  }
+
+  if (error || !level) {
     return (
       <div className="text-center p-8">
-        <h1 className="text-2xl font-bold text-red-500">Level Not Found</h1>
+        <h1 className="text-2xl font-bold text-red-500">{error || "Level Not Found"}</h1>
         <button onClick={() => navigate(-1)} className="mt-4 inline-flex items-center text-cyan-600 hover:underline">
           <ChevronLeft size={16} /> Go Back
         </button>
@@ -70,8 +80,8 @@ export default function LevelDetail() {
     );
   }
 
-  const verifierLabel = listType === 'future' ? 'Verification Status:' : 'Verified by:';
-  const recordVerifierLabel = listType === 'future' ? '(Status)' : '(Verifier)';
+  const verifierLabel = level.list === 'future' ? 'Verification Status:' : 'Verified by:';
+  const recordVerifierLabel = level.list === 'future' ? '(Status)' : '(Verifier)';
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
@@ -111,7 +121,7 @@ export default function LevelDetail() {
                 onClick={handleCopyClick}
                 className="ml-2 px-2 py-1 rounded-md font-mono bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
-                {isCopied ? 'Copied!' : level.levelId}
+                {isCopied ? t('copied') : level.levelId}
               </button>
             </p>
           </div>
@@ -136,7 +146,7 @@ export default function LevelDetail() {
 
       {level.description && (
         <div className="mb-6 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
-          <h2 className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 text-center mb-2">Description</h2>
+          <h2 className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 text-center mb-2">{t('description')}</h2>
           <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-center">
             {level.description}
           </p>
@@ -148,7 +158,7 @@ export default function LevelDetail() {
         
         <ul className="text-center space-y-2 text-lg">
           <li>
-            <button onClick={() => setCurrentVideoId(getYouTubeVideoId(level.videoId))} className="text-cyan-600 dark:text-cyan-400 hover:underline">
+            <button onClick={() => handleRecordClick(level.videoId)} className="text-cyan-600 dark:text-cyan-400 hover:underline">
               <span className="font-bold">{level.verifier}</span>
               <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">{recordVerifierLabel}</span>
             </button>
@@ -157,7 +167,7 @@ export default function LevelDetail() {
           {level.records && level.records.map((record, index) => (
             record.videoId && (
               <li key={index}>
-                <button onClick={() => setCurrentVideoId(getYouTubeVideoId(record.videoId))} className="text-cyan-600 dark:text-cyan-400 hover:underline">
+                <button onClick={() => handleRecordClick(record.videoId)} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                   {record.username}
                   <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
                 </button>

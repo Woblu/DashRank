@@ -3,13 +3,22 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // Add this 'server' section
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8888/.netlify/functions',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       workbox: {
-        // This is the new line to add 👇
         navigateFallbackDenylist: [/^\/api\//],
       },
       manifest: {
@@ -24,7 +33,6 @@ export default defineConfig({
         icons: [
           // ... your icons ...
         ],
-        // OPTIONAL: Add screenshots for a better UI
         screenshots: [
           {
             src: 'screenshot1.png',

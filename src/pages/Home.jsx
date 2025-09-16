@@ -1,23 +1,8 @@
-// src/pages/Home.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
-import mainList from "../data/main-list.json";
-import unratedList from "../data/unrated-list.json";
-import platformerList from "../data/platformer-list.json";
-import futureList from "../data/future-list.json";
-import speedhackList from "../data/speedhack-list.json"; // 1. Import the speedhack list
-import challengeList from "../data/challenge-list.json";
-
-const lists = {
-  main: mainList,
-  unrated: unratedList,
-  platformer: platformerList,
-  speedhack: speedhackList, // 2. Use the imported array here
-  future: futureList,
-  challenge: challengeList,
-};
+import axios from 'axios';
 
 const listTitles = {
   main: "Main List",
@@ -32,12 +17,30 @@ export default function Home() {
   const { listType } = useParams();
   const { t } = useLanguage();
   const currentListType = listType || "main";
-  const levels = lists[currentListType] || [];
   
+  const [levels, setLevels] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    setSearch("");
+    const fetchLevels = async () => {
+      setIsLoading(true);
+      setError(null);
+      setSearch("");
+      try {
+        const response = await axios.get(`/api/lists/${currentListType}`);
+        setLevels(response.data);
+      } catch (err) {
+        console.error("Failed to fetch levels:", err);
+        setError(`Failed to load '${listTitles[currentListType]}'. Please try again later.`);
+        setLevels([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLevels();
   }, [currentListType]);
 
   const filteredLevels = levels.filter(
@@ -61,7 +64,11 @@ export default function Home() {
       />
 
       <div className="flex flex-col gap-4 w-full max-w-3xl">
-        {filteredLevels.length > 0 ? (
+        {isLoading ? (
+          <p className="text-center text-gray-500 dark:text-gray-400 mt-8">{t('loading_data')}</p>
+        ) : error ? (
+          <p className="text-center text-red-500 mt-8">{error}</p>
+        ) : filteredLevels.length > 0 ? (
           filteredLevels.map((level, index) => (
             <LevelCard
               key={level.levelId || index}
