@@ -1,74 +1,70 @@
-// netlify/functions/api.js
 import express from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-// --- Mongoose Schemas (no changes needed) ---
+// --- Database Connection ---
+let cachedDb = null;
+const connectToDatabase = async (uri) => {
+  if (cachedDb) {
+    return;
+  }
+  cachedDb = await mongoose.connect(uri);
+  console.log("New database connection established.");
+};
+
+// --- Mongoose Schemas ---
 const RecordSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  percent: { type: Number, required: true },
-  videoId: { type: String, required: true },
+  username: String,
+  percent: Number,
+  videoId: String,
 });
+
 const LevelSchema = new mongoose.Schema({
-  placement: { type: Number, required: true },
-  name: { type: String, required: true },
-  creator: { type: String, required: true },
-  verifier: { type: String, required: true },
+  placement: Number,
+  name: String,
+  creator: String,
+  verifier: String,
   levelId: { type: Number, unique: true, sparse: true },
   videoId: String,
   description: String,
   records: [RecordSchema],
-  list: { type: String, required: true, index: true }
+  list: { type: String, required: true, index: true },
 });
+
 const PlayerStatSchema = new mongoose.Schema({
-  demonlistRank: { type: Number, required: true },
-  name: { type: String, required: true },
+  demonlistRank: Number,
+  name: String,
   clan: String,
-  demonlistScore: { type: Number, required: true },
-  list: { type: String, required: true, index: true }
+  demonlistScore: Number,
+  list: { type: String, required: true, index: true },
 });
 
-const Level = mongoose.models.Level || mongoose.model('Level', LevelSchema);
-const PlayerStat = mongoose.models.PlayerStat || mongoose.model('PlayerStat', PlayerStatSchema);
-
-// --- Database Connection (no changes needed) ---
-let cachedDb = null;
-const connectToDatabase = async () => {
-  if (cachedDb) {
-    return cachedDb;
-  }
-  const db = await mongoose.connect(process.env.MONGODB_URI);
-  cachedDb = db;
-  return db;
-};
 
 // --- Express App Setup ---
 const app = express();
 const router = express.Router();
 app.use(cors());
 
-// --- API Endpoints (no changes needed) ---
+// --- API Endpoints ---
 router.get('/lists/:listType', async (req, res) => {
   try {
-    await connectToDatabase();
+    await connectToDatabase(process.env.MONGODB_URI);
+    const Level = mongoose.model('Level', LevelSchema);
     const { listType } = req.params;
     const levels = await Level.find({ list: listType }).sort({ placement: 1 }).limit(75);
     
-    if (levels.length > 0) {
-      res.json(levels);
-    } else {
-      res.status(404).json({ error: `List '${listType}' not found or is empty.` });
-    }
+    return res.status(200).json(levels);
   } catch (error) {
     console.error('Error fetching list:', error);
-    res.status(500).json({ error: 'Failed to fetch list data.' });
+    return res.status(500).json({ error: 'Failed to fetch list data.' });
   }
 });
 
 router.get('/level/:levelId', async (req, res) => {
     try {
-        await connectToDatabase();
+        await connectToDatabase(process.env.MONGODB_URI);
+        const Level = mongoose.model('Level', LevelSchema);
         const { levelId } = req.params;
         const identifier = parseInt(levelId, 10);
         
@@ -77,35 +73,34 @@ router.get('/level/:levelId', async (req, res) => {
         });
 
         if (level) {
-            res.json(level);
+            return res.status(200).json(level);
         } else {
-            res.status(404).json({ error: `Level with identifier '${levelId}' not found.` });
+            return res.status(404).json({ error: `Level with identifier '${levelId}' not found.` });
         }
     } catch (error) {
         console.error('Error fetching level:', error);
-        res.status(500).json({ error: 'Failed to fetch level data.' });
+        return res.status(500).json({ error: 'Failed to fetch level data.' });
     }
 });
 
 router.get('/stats/:listType', async (req, res) => {
     try {
-        await connectToDatabase();
+        await connectToDatabase(process.env.MONGODB_URI);
+        const PlayerStat = mongoose.model('PlayerStat', PlayerStatSchema);
         const { listType } = req.params;
         const stats = await PlayerStat.find({ list: listType }).sort({ demonlistRank: 1 });
         
         if (stats.length > 0) {
-            res.json(stats);
+            return res.status(200).json(stats);
         } else {
-            res.status(404).json({ error: `Stats for list '${listType}' not found or are empty.` });
+            return res.status(404).json({ error: `Stats for list '${listType}' not found or are empty.` });
         }
     } catch (error) {
         console.error('Error fetching stats:', error);
-        res.status(500).json({ error: 'Failed to fetch stats data.' });
+        return res.status(500).json({ error: 'Failed to fetch stats data.' });
     }
 });
 
-// --- THIS IS THE FIX ---
-// Mount the router on the '/api' path.
 app.use('/api/', router);
 
 export const handler = serverless(app);
