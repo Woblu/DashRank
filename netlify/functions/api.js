@@ -48,6 +48,6 @@ router.get('/level/:levelId', async (req, res) => {
 });
 
 // Use the router for all paths prefixed with '/api'
-app.use('/api/', router);
+app.use('/', router);
 
 export const handler = serverless(app);
