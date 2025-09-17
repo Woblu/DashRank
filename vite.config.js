@@ -3,13 +3,12 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  // Add this 'server' section
   server: {
     proxy: {
+      // Requests to /api will be sent to the Netlify dev server
       '/api': {
-        target: 'http://localhost:8888/.netlify/functions',
+        target: 'http://localhost:8888',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
