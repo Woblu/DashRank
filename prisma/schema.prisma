@@ -1,0 +1,20 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Level {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  placement Int
+  name      String
+  creator   String
+  levelId   Int?    @unique
+  videoId   String
+  list      String
+}
