@@ -47,7 +47,8 @@ router.get('/level/:levelId', async (req, res) => {
     }
 });
 
-// Use the router for all paths prefixed with '/api'
+// The path is relative to the function's endpoint.
+// Netlify has already handled /api/, so we mount our router at the root.
 app.use('/', router);
 
 export const handler = serverless(app);
