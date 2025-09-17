@@ -1,16 +1,17 @@
+// netlify/functions/api.js
 import express from 'express';
 import serverless from 'serverless-http';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
 // --- Database Connection ---
+// This pattern caches the connection between function invocations.
 let cachedDb = null;
 const connectToDatabase = async (uri) => {
   if (cachedDb) {
     return;
   }
   cachedDb = await mongoose.connect(uri);
-  console.log("New database connection established.");
 };
 
 // --- Mongoose Schemas ---
@@ -40,6 +41,10 @@ const PlayerStatSchema = new mongoose.Schema({
   list: { type: String, required: true, index: true },
 });
 
+// --- Mongoose Models (Robust Pattern) ---
+// This prevents errors in serverless environments where models might be re-compiled.
+const Level = mongoose.models.Level || mongoose.model('Level', LevelSchema);
+const PlayerStat = mongoose.models.PlayerStat || mongoose.model('PlayerStat', PlayerStatSchema);
 
 // --- Express App Setup ---
 const app = express();
@@ -47,13 +52,14 @@ const router = express.Router();
 app.use(cors());
 
 // --- API Endpoints ---
+
 router.get('/lists/:listType', async (req, res) => {
   try {
     await connectToDatabase(process.env.MONGODB_URI);
-    const Level = mongoose.model('Level', LevelSchema);
     const { listType } = req.params;
     const levels = await Level.find({ list: listType }).sort({ placement: 1 }).limit(75);
     
+    // Even if the list is empty, return an empty array, not a 404, to prevent frontend crashes.
     return res.status(200).json(levels);
   } catch (error) {
     console.error('Error fetching list:', error);
@@ -64,7 +70,6 @@ router.get('/lists/:listType', async (req, res) => {
 router.get('/level/:levelId', async (req, res) => {
     try {
         await connectToDatabase(process.env.MONGODB_URI);
-        const Level = mongoose.model('Level', LevelSchema);
         const { levelId } = req.params;
         const identifier = parseInt(levelId, 10);
         
@@ -86,21 +91,17 @@ router.get('/level/:levelId', async (req, res) => {
 router.get('/stats/:listType', async (req, res) => {
     try {
         await connectToDatabase(process.env.MONGODB_URI);
-        const PlayerStat = mongoose.model('PlayerStat', PlayerStatSchema);
         const { listType } = req.params;
         const stats = await PlayerStat.find({ list: listType }).sort({ demonlistRank: 1 });
         
-        if (stats.length > 0) {
-            return res.status(200).json(stats);
-        } else {
-            return res.status(404).json({ error: `Stats for list '${listType}' not found or are empty.` });
-        }
+        return res.status(200).json(stats);
     } catch (error) {
         console.error('Error fetching stats:', error);
         return res.status(500).json({ error: 'Failed to fetch stats data.' });
     }
 });
 
-app.use('/api/', router);
+// The path is relative to the function's endpoint, so we use '/'
+app.use('/', router);
 
 export const handler = serverless(app);
