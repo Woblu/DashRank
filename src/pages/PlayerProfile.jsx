@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
 import mainList from '../data/main-list.json';
@@ -11,6 +11,45 @@ import mainStats from '../data/main-statsviewer.json';
 
 const allLists = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList };
 const listTitles = { main: "Main List", unrated: "Unrated List", platformer: "Platformer List", challenge: "Challenge List", future: "Future List" };
+
+// New component to handle the video link logic
+const PlayerLevelLink = ({ level, playerName }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    e.preventDefault(); // Prevent the default link navigation
+
+    let videoUrl = null;
+
+    // 1. Check if the player is the verifier
+    if (level.verifier.toLowerCase() === playerName.toLowerCase()) {
+      videoUrl = `https://www.youtube.com/watch?v=${level.videoId}`;
+    } else {
+      // 2. Find a record for the player in the level's records
+      const playerRecord = level.records?.find(
+        (record) => record.username.toLowerCase() === playerName.toLowerCase()
+      );
+      if (playerRecord && playerRecord.videoId) {
+        videoUrl = `https://www.youtube.com/watch?v=${playerRecord.videoId}`;
+      }
+    }
+
+    // 3. If a video was found, open it in a new tab
+    if (videoUrl) {
+      window.open(videoUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      // 4. Otherwise, navigate to the level detail page
+      navigate(`/level/${level.listType}/${level.levelId}`);
+    }
+  };
+
+  return (
+    <a href={`/level/${level.listType}/${level.levelId}`} onClick={handleClick} className="text-cyan-600 hover:underline">
+      {level.levelName}
+    </a>
+  );
+};
+
 
 export default function PlayerProfile() {
   const { playerName } = useParams();
@@ -29,160 +68,107 @@ export default function PlayerProfile() {
       }
       
       setLoading(true);
-      try {
-        const specificPlayer = await import(`../data/playerstats/${playerName.toLowerCase()}-stats.json`);
-        
-        const formattedPlayerName = playerName.toLowerCase();
-        const playerStats = mainStats.find(p => p.name.toLowerCase().replace(/\s/g, '-') === formattedPlayerName);
+      const formattedPlayerName = playerName.replace(/-/g, ' ');
+      
+      const stats = mainStats.find(p => p.name.toLowerCase() === formattedPlayerName.toLowerCase());
 
-        const beatenByList = {};
-        if (specificPlayer.demonsCompleted) {
-            specificPlayer.demonsCompleted.forEach(demonName => {
-                for (const listType of Object.keys(allLists)) {
-                    const level = allLists[listType].find(l => l.name.toLowerCase() === demonName.toLowerCase());
-                    if (level) {
-                        if (!beatenByList[listType]) beatenByList[listType] = [];
-                        beatenByList[listType].push({ ...level, listType, levelName: level.name });
-                        break;
-                    }
-                }
-            });
-        }
+      const completedByList = {};
+      const verifiedByList = {};
 
-        const verifiedByList = {};
-        Object.keys(allLists)
-            .filter(listType => listType !== 'future')
-            .forEach(listType => {
-                const verifiedLevels = allLists[listType].filter(level => 
-                    level.verifier && level.verifier.toLowerCase().replace(/\s/g, '-') === formattedPlayerName
-                );
-                if (verifiedLevels.length > 0) {
-                    verifiedByList[listType] = verifiedLevels.map(level => ({...level, listType, levelName: level.name}));
-                }
-            });
-
-        const mainCompletions = [...(beatenByList.main || []), ...(verifiedByList.main || [])];
-        const uniqueMainCompletions = Array.from(new Map(mainCompletions.map(l => [l.levelId || l.name, l])).values());
-        const hardestDemon = uniqueMainCompletions
-            .filter(level => level.placement)
-            .sort((a, b) => a.placement - b.placement)[0];
-
-        setPlayerData({
-          name: specificPlayer.name,
-          stats: { main: playerStats },
-          beatenByList,
-          verifiedByList,
-          hardestDemon,
-        });
-      } catch (error) {
-        console.error("Failed to load player data:", error);
-        setPlayerData(null);
-      } finally {
-        setLoading(false);
-      }
+      Object.entries(allLists).forEach(([listType, list]) => {
+        completedByList[listType] = list
+          .filter(level => level.records?.some(record => record.username.toLowerCase() === formattedPlayerName.toLowerCase()))
+          .map(level => ({ levelId: level.levelId, levelName: level.name, listType, verifier: level.verifier, records: level.records, videoId: level.videoId }));
+          
+        verifiedByList[listType] = list
+          .filter(level => level.verifier.toLowerCase() === formattedPlayerName.toLowerCase())
+          .map(level => ({ levelId: level.levelId, levelName: level.name, listType, verifier: level.verifier, records: level.records, videoId: level.videoId }));
+      });
+      
+      setPlayerData({ stats, completedByList, verifiedByList });
+      setLoading(false);
     };
 
     fetchPlayerData();
   }, [playerName]);
 
   if (loading) {
-    return <div className="text-center p-8 text-gray-800 dark:text-gray-200">{t('loading_data')}</div>;
+    return <p className="text-center text-gray-500 mt-8">{t('loading_data')}</p>;
   }
 
-  if (!playerData) {
+  if (!playerData || !playerData.stats) {
     return (
-      <div className="text-center p-8">
-        <h1 className="text-2xl font-bold text-red-500">{t('player_not_found')}</h1>
+      <div className="text-center">
+        <p className="text-xl text-red-500">{t('player_not_found')}</p>
         <Link to={fromPath} className="mt-4 inline-flex items-center text-cyan-600 hover:underline">
-          <ChevronLeft size={16} /> {t('back_to_home')}
+          <ChevronLeft className="w-4 h-4 mr-1" />
+          {t('back_to_list')}
         </Link>
       </div>
     );
   }
 
-  const { name, stats, beatenByList, verifiedByList, hardestDemon } = playerData;
+  const { stats, completedByList, verifiedByList } = playerData;
+  const normalizedPlayerName = playerName.replace(/-/g, ' ');
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <Link to={fromPath} className="mb-4 inline-flex items-center text-cyan-600 dark:text-cyan-400 hover:underline">
-        <ChevronLeft size={20} />
-        {t('back_to_home')}
+    <div className="max-w-4xl mx-auto p-4">
+      <Link to={fromPath} className="inline-flex items-center text-cyan-600 hover:underline mb-4">
+        <ChevronLeft className="w-4 h-4 mr-1" />
+        {t('back_to_list')}
       </Link>
-      
-      <div className="space-y-6">
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-          
-          <h1 className="font-poppins text-4xl font-bold text-cyan-600 dark:text-cyan-400 mb-4 text-center">
-            {name}
-          </h1>
-          
-          {stats.main && (
-            <div className="text-center mb-4 text-gray-800 dark:text-gray-200">
-              <p><span className="font-semibold">{t('demonlist_rank')}:</span> #{stats.main.demonlistRank || t('na')}</p>
-              <p><span className="font-semibold">{t('demonlist_score')}:</span> {stats.main.demonlistScore?.toFixed(2) || t('na')}</p>
-            </div>
-          )}
 
-          <div className="text-center border-t border-gray-300 dark:border-gray-600 pt-4 space-y-2 text-gray-800 dark:text-gray-200">
-            {hardestDemon ? (
-              <p><span className="font-semibold">{t('hardest_demon')}:</span> <Link to={`/level/${hardestDemon.listType}/${hardestDemon.levelId}`} className="text-cyan-600 hover:underline">{hardestDemon.levelName}</Link></p>
-            ) : (
-              <p><span className="font-semibold">{t('hardest_demon')}:</span> {t('na')}</p>
-            )}
-            
-            {Object.entries(beatenByList).map(([listType, levels]) => (
-                levels.length > 0 && (
-                    <p key={`beaten-${listType}`}>
-                        <span className="font-semibold">{listTitles[listType]} {t('completed_demons')}:</span> {levels.length}
-                    </p>
-                )
-            ))}
-            {Object.entries(verifiedByList).map(([listType, levels]) => (
-                levels.length > 0 && (
-                    <p key={`verified-${listType}`}>
-                        <span className="font-semibold">{listTitles[listType]} {t('verified_demons')}:</span> {levels.length}
-                    </p>
-                )
-            ))}
-          </div>
-        </div>
-
-        {Object.entries(beatenByList).map(([listType, levels]) => (
-          levels.length > 0 && (
-            <div key={`beaten-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">
-                {listTitles[listType]} {t('completed_demons')}
-              </h2>
-              <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
-                {levels.map((level, index) => (
-                  <React.Fragment key={`${level.levelId}-${index}`}>
-                    <Link to={`/level/${level.listType}/${level.levelId}`} className="text-cyan-600 hover:underline">{level.levelName}</Link>
-                    {index < levels.length - 1 && ' - '}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-          )
-        ))}
-
-        {Object.entries(verifiedByList).map(([listType, levels]) => (
-          levels.length > 0 && (
-            <div key={`verified-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">
-                {listTitles[listType]} {t('verified_demons')}
-              </h2>
-              <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
-                {levels.map((level, index) => (
-                  <React.Fragment key={`${level.levelId}-${index}`}>
-                    <Link to={`/level/${level.listType}/${level.levelId}`} className="text-cyan-600 hover:underline">{level.levelName}</Link>
-                    {index < levels.length - 1 && ' - '}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-          )
-        ))}
+      <div className="text-center mb-8">
+        <h1 className="text-5xl font-bold text-gray-900 dark:text-gray-100">{stats.name}</h1>
+        {stats.clan && <p className="text-xl text-gray-500 dark:text-gray-400 mt-1">[{stats.clan}]</p>}
       </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
+          <p className="text-lg text-gray-600 dark:text-gray-300">{t('rank')}</p>
+          <p className="text-4xl font-bold text-cyan-600">#{stats.demonlistRank}</p>
+        </div>
+        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
+          <p className="text-lg text-gray-600 dark:text-gray-300">{t('score')}</p>
+          <p className="text-4xl font-bold text-cyan-600">{stats.demonlistScore.toFixed(2)}</p>
+        </div>
+      </div>
+
+      {Object.entries(completedByList).map(([listType, levels]) => (
+        levels.length > 0 && (
+          <div key={`completed-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">
+              {listTitles[listType]} {t('completed_demons')}
+            </h2>
+            <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
+              {levels.map((level, index) => (
+                <React.Fragment key={`${level.levelId}-${index}`}>
+                  <PlayerLevelLink level={level} playerName={normalizedPlayerName} />
+                  {index < levels.length - 1 && ' - '}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        )
+      ))}
+
+      {Object.entries(verifiedByList).map(([listType, levels]) => (
+        levels.length > 0 && (
+          <div key={`verified-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">
+              {listTitles[listType]} {t('verified_demons')}
+            </h2>
+            <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
+              {levels.map((level, index) => (
+                <React.Fragment key={`${level.levelId}-${index}`}>
+                  <PlayerLevelLink level={level} playerName={normalizedPlayerName} />
+                  {index < levels.length - 1 && ' - '}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        )
+      ))}
     </div>
   );
 }
