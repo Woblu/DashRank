@@ -12,9 +12,11 @@ import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";
 import ReloadPrompt from "./components/ReloadPrompt";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 export default function App() {
   return (
@@ -45,6 +47,7 @@ export default function App() {
                 <Route path="profile" element={<ProfileSettingsPage />} />
                 <Route path="submissions" element={<SubmissionPage />} />
               </Route>
+              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             </Routes>
           </main>
 
