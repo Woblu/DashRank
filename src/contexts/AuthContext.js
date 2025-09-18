@@ -3,26 +3,25 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
-  const [loading, setLoading] = useState(true); // Prevents UI flicker on load
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This effect runs whenever the token changes or on initial load
     const initializeAuth = () => {
       if (token) {
         try {
           const decodedToken = jwtDecode(token);
           const currentTime = Date.now() / 1000;
-
-          // If token is expired, log the user out
+          
           if (decodedToken.exp < currentTime) {
+            // Token is expired
             logout();
           } else {
-            // If token is valid, set user state and default axios headers
+            // Token is valid
             setUser({
               username: decodedToken.username,
               role: decodedToken.role,
@@ -30,13 +29,12 @@ export const AuthProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           }
         } catch (error) {
-          console.error('Invalid token found in storage.', error);
-          logout(); // Clear out the invalid token
+          console.error("Invalid token found.", error);
+          logout(); // Clear the invalid token
         }
       }
-      setLoading(false); // We're done checking, allow app to render
+      setLoading(false);
     };
-
     initializeAuth();
   }, [token]);
 
@@ -44,34 +42,43 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/login', { identifier, password });
       const { token: newToken, user: userData } = response.data;
-
       localStorage.setItem('token', newToken);
+      setToken(newToken);
       setUser(userData);
-      setToken(newToken); // This triggers the useEffect to set axios headers
-      
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
-      console.error('Login failed:', errorMessage);
-      return { success: false, message: errorMessage };
+      const message = error.response?.data?.message || 'Login failed.';
+      console.error(message);
+      return { success: false, message };
     }
   };
 
   const logout = () => {
     localStorage.removeItem('token');
-    setUser(null);
     setToken(null);
-    // Remove the auth header from all future requests
+    setUser(null);
     delete axios.defaults.headers.common['Authorization'];
   };
 
   const value = { user, token, loading, login, logout };
+  
+  // Don't render the rest of the app until the initial auth check is done
+  if (loading) {
+    return null; 
+  }
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    // This error will trigger if you try to use useAuth outside of the provider
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
