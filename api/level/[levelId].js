@@ -8,10 +8,10 @@ export default async function handler(req, res) {
   const { levelId } = req.query;
 
   try {
-    // Find the unique level where the levelId matches.
+    // Find the first level where the levelId matches.
     // We use parseInt because the ID from the URL is a string,
     // but in the database, it's a number (Int).
-    const level = await prisma.level.findUnique({
+    const level = await prisma.level.findFirst({ // Changed from findUnique to findFirst
       where: {
         levelId: parseInt(levelId),
       },
