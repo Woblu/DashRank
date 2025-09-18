@@ -9,18 +9,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// prisma/schema.prisma
+// Define the structure for a single record
+type Record {
+  username String
+  percent  Int
+  videoId  String
+}
 
 model Level {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   placement   Int
   name        String
   creator     String
-  verifier    String? // Added this missing field
-  levelId     Int?    // REMOVED @unique from this line
+  verifier    String?
+  levelId     Int?
   videoId     String
-  description String? // Added this missing field
+  description String?
   list        String
+  records     Record[] // Add this line to include the records array
 
   @@map("levels")
 }
