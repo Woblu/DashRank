@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft, Trash2 } from 'lucide-react'; // Import Trash2 icon
+import { ChevronLeft, Copy, Trash2 } from 'lucide-react'; // Import Trash2 icon
 import { useAuth } from '../contexts/AuthContext.jsx';    // Import auth hook
 import axios from 'axios';
 
@@ -13,6 +13,7 @@ const getYouTubeVideoId = (urlOrId) => {
   if (urlMatch && urlMatch[1]) {
     return urlMatch[1];
   }
+  // Fallback for simple IDs
   return urlOrId.split('?')[0].split('&')[0];
 };
 
@@ -33,6 +34,7 @@ export default function LevelDetail() {
     setIsLoading(true);
     setError(null);
     try {
+      // The API endpoint for a single level might just need the level's own ID, not the listType
       const response = await axios.get(`/api/level/${levelId}`);
       setLevel(response.data);
       if (!currentVideoId) { // Set initial video only once
@@ -49,8 +51,10 @@ export default function LevelDetail() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Reset current video when levelId changes
+    setCurrentVideoId(null);
     fetchLevel();
-  }, [levelId, listType]);
+  }, [levelId]);
 
   const handleCopyClick = () => {
     if (level?.levelId) {
@@ -100,46 +104,102 @@ export default function LevelDetail() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-100">
-      {/* ... Level Info Section (no changes here) ... */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Left column for video */}
+        <div className="md:col-span-2">
+          <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+            {currentVideoId ? (
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${currentVideoId}`}
+                title="Geometry Dash Level"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+              ></iframe>
+            ) : (
+              <div className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg bg-gray-900 flex items-center justify-center">
+                <p>No video available.</p>
+              </div>
+            )}
+          </div>
+        </div>
 
-      <div className="bg-gray-800 p-6 rounded-lg shadow-inner">
-        <h2 className="text-2xl font-bold text-center text-cyan-400 mb-4">{t('records')}</h2>
-        
-        <ul className="space-y-2 text-lg">
-          {/* Verifier Record */}
-          <li className="flex items-center justify-center p-2">
-            <button onClick={() => handleRecordClick(level.videoId)} className="text-cyan-400 hover:underline">
-              <span className="font-bold">{level.verifier}</span>
-              <span className="font-mono text-sm text-gray-400 ml-2">(Verifier)</span>
-            </button>
-          </li>
-
-          {/* Player Records */}
-          {level.records && level.records.map((record, index) => (
-            <li key={record.videoId || index} className="flex items-center justify-between bg-gray-900/50 p-3 rounded-lg">
-              <div className="flex-1 text-center">
-                <button onClick={() => handleRecordClick(record.videoId)} className="text-cyan-400 hover:underline">
+        {/* Right column for records */}
+        <div className="bg-gray-800 p-4 rounded-lg shadow-inner">
+          <h2 className="text-xl font-bold text-center text-cyan-400 mb-4">{t('records')}</h2>
+          <ul className="space-y-2 text-lg max-h-[50vh] overflow-y-auto custom-scrollbar">
+            {/* Verifier Record */}
+            <li>
+              <button
+                onClick={() => handleRecordClick(level.videoId)}
+                className={`w-full text-left p-2 rounded transition-colors ${
+                  getYouTubeVideoId(level.videoId) === currentVideoId
+                    ? 'bg-cyan-500/20'
+                    : 'hover:bg-gray-700'
+                }`}
+              >
+                {level.verifier}
+                <span className="font-mono text-sm text-gray-400 ml-2">(Verifier)</span>
+              </button>
+            </li>
+            {/* Player Records */}
+            {level.records && level.records.map((record, index) => (
+              <li key={record.videoId || index} className="flex items-center justify-between hover:bg-gray-700/50 rounded-lg pr-2">
+                <button
+                  onClick={() => handleRecordClick(record.videoId)}
+                  className={`flex-1 text-left p-2 rounded transition-colors ${
+                    getYouTubeVideoId(record.videoId) === currentVideoId
+                      ? 'bg-cyan-500/20'
+                      : '' // No hover effect needed here, parent li handles it
+                  }`}
+                >
                   {record.username}
                   <span className="font-mono text-sm text-gray-400 ml-2">({record.percent}%)</span>
                 </button>
-              </div>
 
-              {/* Conditional Remove Button for Admins */}
-              {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
-                <button
-                  onClick={() => handleRemoveRecord(record.videoId)}
-                  className="p-2 text-red-500 hover:bg-red-500/20 rounded-full transition-colors"
-                  title="Remove Record"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-        
-        {(!level.records || level.records.length === 0) && (
-          <p className="text-center text-gray-400 mt-4">{t('no_records_yet')}</p>
+                {/* Conditional Remove Button for Admins */}
+                {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
+                  <button
+                    onClick={() => handleRemoveRecord(record.videoId)}
+                    className="p-2 ml-2 text-red-500 hover:bg-red-500/20 rounded-full transition-colors"
+                    title="Remove Record"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Level details below video */}
+      <div className="mt-6 bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div>
+            <h1 className="text-4xl font-bold">{level.name}</h1>
+            <p className="text-lg text-gray-400">
+              by <span className="font-semibold text-cyan-400">{level.creator}</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-2 mt-4 sm:mt-0">
+            <span className="font-mono text-sm text-gray-400">ID: {level.levelId}</span>
+            <button
+              onClick={handleCopyClick}
+              className="p-2 bg-gray-700 hover:bg-gray-600 rounded-md"
+              title="Copy ID"
+            >
+              <Copy size={16} />
+            </button>
+            {isCopied && <span className="text-xs text-green-400">Copied!</span>}
+          </div>
+        </div>
+        <p className="mt-4 text-md">
+          <span className="font-semibold">{verifierLabel}</span> {level.verifier}
+        </p>
+        {level.description && (
+          <p className="mt-4 text-gray-300 whitespace-pre-wrap">{level.description}</p>
         )}
       </div>
     </div>
