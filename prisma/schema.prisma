@@ -17,4 +17,6 @@ model Level {
   levelId   Int?    @unique
   videoId   String
   list      String
+
+  @@map("levels") // Add this line
 }

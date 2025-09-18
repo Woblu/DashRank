@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import { Level } from './src/models/Level.js';
 import { PlayerStat } from './src/models/PlayerStat.js';
 
@@ -16,8 +15,6 @@ import platformerStats from './src/data/platformer-statsviewer.json' with { type
 import challengeStats from './src/data/challenge-statsviewer.json' with { type: 'json' };
 import futureStats from './src/data/future-statsviewer.json' with { type: 'json' };
 
-dotenv.config();
-
 const cleanLevelData = (level, listType) => ({
   ...level,
   placement: parseInt(level.placement, 10),
@@ -27,10 +24,8 @@ const cleanLevelData = (level, listType) => ({
 
 const seedDatabase = async () => {
   try {
-    if (!process.env.MONGODB_URI) {
-      throw new Error("MONGODB_URI is not defined in your .env file.");
-    }
-    await mongoose.connect(process.env.MONGODB_URI);
+    // Hardcoded connection string
+    await mongoose.connect("mongodb+srv://dashrankuser:wMP0nLe8IV2ltn7c@drcluster.65zqtak.mongodb.net/dashrank-db?retryWrites=true&w=majority&appName=DRCluster");
     console.log('MongoDB connection successful.');
 
     console.log('Clearing existing data...');
