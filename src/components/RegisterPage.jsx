@@ -18,7 +18,6 @@ export default function RegisterPage() {
 
     try {
       await axios.post('/api/auth/register', { email, username, password });
-      // On successful registration, redirect to login page with a success message
       navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to register. Please try again.');
@@ -37,7 +36,6 @@ export default function RegisterPage() {
               {error}
             </div>
           )}
-          {/* Form fields for email, username, and password go here, similar to LoginPage.jsx */}
           <div className="mb-4">
             <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="email">Email</label>
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isSubmitting} className="shadow-sm appearance-none border border-gray-600 bg-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500" />
