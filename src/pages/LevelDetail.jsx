@@ -1,7 +1,9 @@
+// src/pages/LevelDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Trash2 } from 'lucide-react'; // Added Trash2
+import { useAuth } from '../contexts/AuthContext.jsx'; // Added useAuth
 import axios from 'axios';
 
 const getYouTubeVideoId = (urlOrId) => {
@@ -18,6 +20,7 @@ export default function LevelDetail() {
   const { listType, levelId } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, token } = useAuth(); // Added for admin check
   
   const [level, setLevel] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,25 +29,24 @@ export default function LevelDetail() {
   const [isCopied, setIsCopied] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState(null);
 
+  const fetchLevel = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(`/api/level/${levelId}`);
+      setLevel(response.data);
+      setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
+    } catch (err) {
+      console.error("Failed to fetch level details:", err);
+      setError("Failed to load level data. It might not exist.");
+      setLevel(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const fetchLevel = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get(`/api/level/${levelId}`);
-        setLevel(response.data);
-        setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
-      } catch (err) {
-        console.error("Failed to fetch level details:", err);
-        setError("Failed to load level data. It might not exist.");
-        setLevel(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchLevel();
   }, [levelId, listType]);
 
@@ -63,6 +65,22 @@ export default function LevelDetail() {
       top: 0,
       behavior: 'smooth'
     });
+  };
+
+  // Function to handle record removal
+  const handleRemoveRecord = async (recordVideoId) => {
+    if (!window.confirm('Are you sure you want to permanently remove this record?')) {
+      return;
+    }
+    try {
+      await axios.post('/api/admin/remove-record', 
+        { levelId: level.id, recordVideoId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      fetchLevel(); // Refresh data after deletion
+    } catch (err) {
+      alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
+    }
   };
 
   if (isLoading) {
@@ -166,11 +184,21 @@ export default function LevelDetail() {
 
           {level.records && level.records.map((record, index) => (
             record.videoId && (
-              <li key={index}>
+              <li key={index} className="flex items-center justify-center gap-2">
                 <button onClick={() => handleRecordClick(record.videoId)} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                   {record.username}
                   <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
                 </button>
+                {/* Admin-only remove button */}
+                {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
+                  <button
+                    onClick={() => handleRemoveRecord(record.videoId)}
+                    className="p-1 text-red-500 hover:bg-red-500/10 rounded-full transition-colors"
+                    title="Remove Record"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </li>
             )
           ))}
