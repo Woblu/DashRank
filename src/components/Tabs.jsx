@@ -1,11 +1,9 @@
 // src/components/Tabs.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import StatsViewer from "./StatsViewer";
-import InfoBox from "./InfoBox";
 import { BarChart2, Info, LogIn, UserPlus, LogOut } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
-import { useAuth } from "../contexts/AuthContext"; // Import the auth hook
+import { useAuth } from "../contexts/AuthContext";
 
 const statsButtonTitles = {
   main: "Main Stats Viewer",
@@ -17,7 +15,7 @@ const statsButtonTitles = {
 };
 
 export default function Tabs() {
-  const { user, logout } = useAuth(); // Get user and logout function from context
+  const { user, logout } = useAuth();
   const tabs = [
     { name: "Main List", path: "/main", type: "main" },
     { name: "Unrated", path: "/unrated", type: "unrated" },
@@ -27,10 +25,8 @@ export default function Tabs() {
     { name: "Future", path: "/future", type: "future" },
   ];
 
-  const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
-  const [isInfoBoxOpen, setIsInfoBoxOpen] = useState(false);
-  const location = useLocation();
   const [listType, setListType] = useState("main");
+  const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname.split("/")[1] || "main";
@@ -39,7 +35,6 @@ export default function Tabs() {
 
   const AuthButtons = () => {
     if (user) {
-      // User is logged in
       return (
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-gray-300">
@@ -55,7 +50,6 @@ export default function Tabs() {
         </div>
       );
     } else {
-      // User is logged out
       return (
         <div className="flex items-center gap-2">
           <Link
@@ -80,7 +74,6 @@ export default function Tabs() {
   return (
     <header className="relative bg-gray-900 shadow-lg z-30 border-b border-gray-700">
       <div className="flex flex-col md:flex-row items-center justify-between px-4 py-3 gap-y-3">
-        {/* Left Group */}
         <div className="w-full md:flex-1 flex justify-start">
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <img src={logo} alt="DashRank Logo" className="w-8 h-8" />
@@ -91,18 +84,26 @@ export default function Tabs() {
           </Link>
         </div>
 
-        {/* Center Group */}
         <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
             <div className="flex items-center gap-2 flex-wrap justify-center">
                 {tabs.map((tab, i) => (
-                <NavLink key={i} to={tab.path} /* ... a-bit-of-a-mouthful ... */ >
+                <NavLink
+                    key={i}
+                    to={tab.path}
+                    className={({ isActive }) =>
+                    `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${
+                        isActive
+                        ? "bg-cyan-500 text-white"
+                        : "text-cyan-400 hover:bg-cyan-700/50"
+                    }`
+                    }
+                >
                     {tab.name}
                 </NavLink>
                 ))}
             </div>
         </nav>
 
-        {/* Right Group - Now with Auth! */}
         <div className="w-full md:flex-1 flex justify-end items-center order-2 md:order-3">
           <AuthButtons />
         </div>
