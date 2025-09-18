@@ -1,3 +1,4 @@
+// src/components/StatsViewer.jsx
 import React, { useState, useMemo } from 'react';
 import { X, Search } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -11,7 +12,7 @@ import futureStats from '../data/future-statsviewer.json';
 
 const statsData = { main: mainStats, unrated: unratedStats, platformer: platformerStats, challenge: challengeStats, speedhack: speedhackStats, future: futureStats };
 
-export default function StatsViewer({ onClose, listType }) { // Removed the 'isOpen' prop
+export default function StatsViewer({ onClose, listType, title }) {
   const [search, setSearch] = useState('');
   const location = useLocation();
   const { t } = useLanguage();
@@ -24,8 +25,6 @@ export default function StatsViewer({ onClose, listType }) { // Removed the 'isO
       (player.clan && player.clan.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // The 'if (!isOpen) return null;' line has been removed.
-
   return (
     <div 
         className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4" 
@@ -36,7 +35,7 @@ export default function StatsViewer({ onClose, listType }) { // Removed the 'isO
         onClick={(e) => e.stopPropagation()}
       >
         <header className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('top_players')}</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>
           <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600">
             <X className="w-6 h-6 text-gray-600 dark:text-gray-300" />
           </button>

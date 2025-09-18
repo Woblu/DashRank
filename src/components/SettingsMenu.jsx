@@ -1,16 +1,13 @@
 // src/components/SettingsMenu.jsx
-import React, { useState, useEffect } from "react";
-import { Sun, Moon, Settings, X } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Sun, Moon, Settings } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 
-export default function SettingsMenu({ onClose }) { // Now accepts onClose prop
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem("darkMode");
-    // Ensure we handle non-boolean values from localStorage
-    return saved === "true";
-  });
-  
+export default function SettingsMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
   const { language, setLanguage, t } = useLanguage();
+  const menuRef = useRef(null);
 
   useEffect(() => {
     if (darkMode) {
@@ -21,20 +18,31 @@ export default function SettingsMenu({ onClose }) { // Now accepts onClose prop
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-xs" onClick={(e) => e.stopPropagation()}>
-        <header className="relative p-4 border-b border-gray-200 dark:border-gray-700 flex justify-end items-center">
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3">
-            <Settings className="w-6 h-6 text-cyan-500" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h2>
-          </div>
-          <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600">
-            <X className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-          </button>
-        </header>
+  // Click outside to close handler
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
 
-        <div className="p-4 space-y-4">
+  return (
+    <div className="relative" ref={menuRef}>
+      <button
+        title="Settings"
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors"
+      >
+        <Settings className="w-5 h-5" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4 space-y-4 z-50">
           <div className="flex items-center justify-between">
             <span className="text-gray-900 dark:text-gray-100 font-semibold">Theme</span>
             <div className="flex items-center justify-center gap-3">
@@ -61,7 +69,7 @@ export default function SettingsMenu({ onClose }) { // Now accepts onClose prop
             </select>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
