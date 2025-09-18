@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
-import { Check, X, Clock } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -34,21 +34,21 @@ export default function AdminDashboard() {
         { submissionId, newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Refresh the list after an update
-      fetchSubmissions();
+      fetchSubmissions(); // Refresh the list after an update
     } catch (err) {
       alert(`Failed to update submission: ${err.response?.data?.message}`);
     }
   };
 
   const getYouTubeId = (url) => {
+    if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  if (loading) return <div className="text-white text-center">Loading submissions...</div>;
-  if (error) return <div className="text-red-400 text-center">{error}</div>;
+  if (loading) return <div className="text-white text-center py-10">Loading submissions...</div>;
+  if (error) return <div className="text-red-400 text-center py-10">{error}</div>;
 
   return (
     <div className="text-white max-w-7xl mx-auto py-8 px-4">
@@ -56,21 +56,19 @@ export default function AdminDashboard() {
       
       <div className="space-y-4">
         {submissions.length === 0 ? (
-          <p className="text-gray-400">No pending submissions.</p>
+          <p className="text-gray-400 text-center py-10">No pending submissions.</p>
         ) : (
           submissions.map((sub) => (
-            <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Side: Video Embed */}
-              <div>
-                <div className="aspect-w-16 aspect-h-9">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${getYouTubeId(sub.videoId)}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full rounded"
-                  ></iframe>
-                </div>
+              <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${getYouTubeId(sub.videoId)}`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute top-0 left-0 w-full h-full rounded"
+                ></iframe>
               </div>
               {/* Right Side: Info & Actions */}
               <div className="flex flex-col justify-between">
@@ -82,10 +80,10 @@ export default function AdminDashboard() {
                   <a href={sub.rawFootageLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline text-sm mt-1 block">View Raw Footage</a>
                 </div>
                 <div className="flex items-center gap-4 mt-4">
-                  <button onClick={() => handleUpdate(sub.id, 'APPROVED')} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2">
+                  <button onClick={() => handleUpdate(sub.id, 'APPROVED')} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
                     <Check /> Approve
                   </button>
-                  <button onClick={() => handleUpdate(sub.id, 'REJECTED')} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2">
+                  <button onClick={() => handleUpdate(sub.id, 'REJECTED')} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
                     <X /> Reject
                   </button>
                 </div>
