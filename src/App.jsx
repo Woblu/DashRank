@@ -1,14 +1,16 @@
+// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import LevelDetail from "./pages/LevelDetail";
 import PlayerProfile from "./pages/PlayerProfile";
 import PlayerList from "./components/PlayerList";
-import LoginPage from "./pages/LoginPage"; // Import the new page
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./components/regiserpage"; // Using your corrected path
 import Tabs from "./components/Tabs";
 import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";
-import ReloadPrompt from "./components/ReloadPrompt"; // Import the component
+import ReloadPrompt from "./components/ReloadPrompt";
 
 export default function App() {
   return (
@@ -29,11 +31,16 @@ export default function App() {
 
           <main className="flex-grow p-4 w-full max-w-7xl mx-auto z-20">
             <Routes>
+              {/* Main Routes */}
               <Route path="/" element={<Navigate to="/main" replace />} />
               <Route path="/:listType" element={<Home />} />
               <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
               <Route path="/players" element={<PlayerList />} />
               <Route path="/players/:playerName" element={<PlayerProfile />} />
+              
+              {/* Auth Routes */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </main>
 
@@ -46,7 +53,7 @@ export default function App() {
             }}
           ></div>
           
-          <ReloadPrompt /> {/* Add the component here */}
+          <ReloadPrompt />
         </div>
       </Router>
     </LanguageProvider>

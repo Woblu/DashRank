@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
+// import { VitePWA } from 'vite-plugin-pwa' // STEP 1: Comment out the import
 
 export default defineConfig({
   server: {
@@ -14,6 +14,8 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    // STEP 2: Comment out the entire VitePWA plugin block
+    /*
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
@@ -50,5 +52,6 @@ export default defineConfig({
         ]
       },
     }),
+    */
   ],
 })
