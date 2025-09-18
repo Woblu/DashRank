@@ -6,25 +6,22 @@ import LevelDetail from "./pages/LevelDetail";
 import PlayerProfile from "./pages/PlayerProfile";
 import PlayerList from "./components/PlayerList";
 import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./components/RegisterPage"; // Using your corrected path
+import RegisterPage from "./components/RegisterPage.jsx";
 import Tabs from "./components/Tabs";
 import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";
 import ReloadPrompt from "./components/ReloadPrompt";
+import ProtectedRoute from "./components/ProtectedRoute"; // Import the wrapper
+import AccountPage from "./pages/AccountPage";       // Import the new page
 
 export default function App() {
   return (
     <LanguageProvider>
       <Router>
-        <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col overflow-x-hidden">
+        <div className="relative min-h-screen bg-gray-900 flex flex-col overflow-x-hidden">
           <div 
-            className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-100 dark:opacity-20 z-10"
-            style={{ 
-              backgroundImage: `url(${sideDeco})`,
-              backgroundRepeat: "repeat-y",
-              backgroundPosition: "0px -1.5rem",
-              transform: "scaleX(-1)"
-            }}
+            className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
+            style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem", transform: "scaleX(-1)" }}
           ></div>
           
           <Tabs />
@@ -41,16 +38,20 @@ export default function App() {
               {/* Auth Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route 
+                path="/account" 
+                element={
+                  <ProtectedRoute>
+                    <AccountPage />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </main>
 
           <div 
-            className="hidden lg:block absolute right-0 top-0 h-full w-32 xl:w-48 opacity-100 dark:opacity-20 z-10"
-            style={{ 
-              backgroundImage: `url(${sideDeco})`,
-              backgroundRepeat: "repeat-y",
-              backgroundPosition: "0px -1.5rem",
-            }}
+            className="hidden lg:block absolute right-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
+            style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem" }}
           ></div>
           
           <ReloadPrompt />

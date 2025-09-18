@@ -5,7 +5,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   server: {
     proxy: {
-      // Requests to /api will be sent to the Netlify dev server
       '/api': {
         target: 'http://localhost:8888',
         changeOrigin: true,
@@ -30,23 +29,12 @@ export default defineConfig({
         scope: '/',
         start_url: '/',
         icons: [
-          // ... your icons ...
+          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' }
         ],
         screenshots: [
-          {
-            src: 'screenshot1.png',
-            sizes: '1280x720',
-            type: 'image/png',
-            form_factor: 'wide',
-            label: 'Demonlist View'
-          },
-          {
-            src: 'screenshot2.png',
-            sizes: '1280x720',
-            type: 'image/png',
-            form_factor: 'wide',
-            label: 'Level Detail Page'
-          }
+          { src: 'screenshot1.png', sizes: '1280x720', type: 'image/png', form_factor: 'wide', label: 'Demonlist View' },
+          { src: 'screenshot2.png', sizes: '1280x720', type: 'image/png', form_factor: 'wide', label: 'Level Detail Page' }
         ]
       },
     }),

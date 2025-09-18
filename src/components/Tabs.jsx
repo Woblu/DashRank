@@ -9,12 +9,8 @@ import InfoBox from "./InfoBox";
 import SettingsMenu from "./SettingsMenu";
 
 const statsButtonTitles = {
-  main: "Main Stats Viewer",
-  unrated: "Unrated Stats Viewer",
-  platformer: "Platformer Stats Viewer",
-  challenge: "Challenge Stats Viewer",
-  speedhack: "Speedhack Stats Viewer",
-  future: "Future Stats Viewer",
+  main: "Main Stats Viewer", unrated: "Unrated Stats Viewer", platformer: "Platformer Stats Viewer",
+  challenge: "Challenge Stats Viewer", speedhack: "Speedhack Stats Viewer", future: "Future Stats Viewer",
 };
 
 export default function Tabs() {
@@ -64,8 +60,6 @@ export default function Tabs() {
     <>
       <header className="relative bg-gray-900 shadow-lg z-30 border-b border-gray-700">
         <div className="flex flex-col md:flex-row items-center justify-between px-4 py-3 gap-y-3">
-          
-          {/* == Left Group: Logo & Title == */}
           <div className="w-full md:flex-1 flex justify-start">
             <Link to="/" className="flex items-center gap-2 flex-shrink-0">
               <img src={logo} alt="DashRank Logo" className="w-8 h-8" />
@@ -75,8 +69,6 @@ export default function Tabs() {
               </div>
             </Link>
           </div>
-
-          {/* == Center Group: List Navigation == */}
           <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
             <div className="flex items-center gap-2 flex-wrap justify-center">
               {tabs.map((tab) => (
@@ -86,14 +78,8 @@ export default function Tabs() {
               ))}
             </div>
           </nav>
-
-          {/* == Right Group: Controls & Auth == */}
           <div className="w-full md:flex-1 flex justify-end items-center gap-2 order-2 md:order-3">
-            <button
-              title={statsButtonTitles[listType]}
-              onClick={() => setIsStatsViewerOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm"
-            >
+            <button title={statsButtonTitles[listType]} onClick={() => setIsStatsViewerOpen(true)} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm">
               <BarChart2 className="w-4 h-4" />
               <span className="hidden md:inline">{statsButtonTitles[listType]}</span>
             </button>
@@ -105,15 +91,7 @@ export default function Tabs() {
           </div>
         </div>
       </header>
-
-      {/* == Modals == */}
-      {isStatsViewerOpen && (
-        <StatsViewer 
-          listType={listType} 
-          onClose={() => setIsStatsViewerOpen(false)}
-          title={`${statsButtonTitles[listType]} Viewer`}
-        />
-      )}
+      {isStatsViewerOpen && <StatsViewer listType={listType} onClose={() => setIsStatsViewerOpen(false)} title={statsButtonTitles[listType]}/>}
       {isInfoBoxOpen && <InfoBox onClose={() => setIsInfoBoxOpen(false)} />}
     </>
   );
