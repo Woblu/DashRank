@@ -24,18 +24,20 @@ export default function InfoBox({ isOpen, onClose }) {
         </header>
         
         <div className="p-6 overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 120px)' }}>
-          {/* --- MODIFICATION: Removed prose classes for custom text colors --- */}
           <div className="text-gray-700 dark:text-gray-300">
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">About DashRank</h3>
             <p className="text-sm mb-4">
-              {/* --- MODIFICATION: Added span for cyan color --- */}
               <span className="text-cyan-600 dark:text-cyan-400 font-semibold">DashRank</span> is the ultimate Geometry Dash demonlist — a community-driven hub that combines multiple demonlists into one powerful and easy-to-use platform. Instead of bouncing between different sites, DashRank brings everything together in one place with a clean interface and fast navigation.
             </p>
 
+            {/* --- UPDATED SECTION --- */}
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Future Plans</h3>
-            <p className="text-sm mb-4">
-              I am currently working on expanding all lists to include up to 150 levels. Stay tuned for more updates!
-            </p>
+            <ul className="list-disc list-inside text-sm mb-4 space-y-1">
+              <li>Expanding all lists to include up to 150 levels.</li>
+              <li>Adding records to every level on every list.</li>
+              <li>Adding detailed statistics for every player.</li>
+            </ul>
+            {/* --- END OF UPDATED SECTION --- */}
 
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Public API</h3>
             <p className="text-sm mb-4">
