@@ -5,11 +5,11 @@ export default function InfoBox({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div 
+      <div
         className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
@@ -24,26 +24,26 @@ export default function InfoBox({ isOpen, onClose }) {
         </header>
         
         <div className="p-6 overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 120px)' }}>
-          <div className="prose dark:prose-invert max-w-none">
-            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-200 mb-2">About DashRank</h3>
+          {/* --- MODIFICATION: Removed prose classes for custom text colors --- */}
+          <div className="text-gray-700 dark:text-gray-300">
+            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">About DashRank</h3>
             <p className="text-sm mb-4">
-              DashRank is the ultimate Geometry Dash demonlist — a community-driven hub that combines multiple demonlists into one powerful and easy-to-use platform. Instead of bouncing between different sites, DashRank brings everything together in one place with a clean interface and fast navigation.
+              {/* --- MODIFICATION: Added span for cyan color --- */}
+              <span className="text-cyan-600 dark:text-cyan-400 font-semibold">DashRank</span> is the ultimate Geometry Dash demonlist — a community-driven hub that combines multiple demonlists into one powerful and easy-to-use platform. Instead of bouncing between different sites, DashRank brings everything together in one place with a clean interface and fast navigation.
             </p>
 
-            {/* --- NEW SECTION ADDED HERE --- */}
-            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-200 mb-2">Future Plans</h3>
+            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Future Plans</h3>
             <p className="text-sm mb-4">
               I am currently working on expanding all lists to include up to 150 levels. Stay tuned for more updates!
             </p>
-            {/* --- END OF NEW SECTION --- */}
 
-            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-200 mb-2">Public API</h3>
+            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Public API</h3>
             <p className="text-sm mb-4">
-              The DashRank API is a free and open resource for the community. You can use the following endpoints to pull data directly from the database.
+              The <span className="text-cyan-600 dark:text-cyan-400 font-semibold">DashRank</span> API is a free and open resource for the community. You can use the following endpoints to pull data directly from the database.
             </p>
             <div className="space-y-4">
               <div>
-                <h4 className="font-semibold">Get a Full List</h4>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-100">Get a Full List</h4>
                 <code className="block bg-gray-200 dark:bg-gray-900 rounded p-2 mt-1 font-mono text-sm text-gray-800 dark:text-gray-200">
                   GET /api/lists/:listType
                 </code>
@@ -53,7 +53,7 @@ export default function InfoBox({ isOpen, onClose }) {
               </div>
 
               <div>
-                <h4 className="font-semibold">Get a Single Level</h4>
+                <h4 className="font-semibold text-gray-800 dark:text-gray-100">Get a Single Level</h4>
                 <code className="block bg-gray-200 dark:bg-gray-900 rounded p-2 mt-1 font-mono text-sm text-gray-800 dark:text-gray-200">
                   GET /api/level/:levelId
                 </code>
