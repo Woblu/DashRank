@@ -9,14 +9,18 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Level {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  placement Int
-  name      String
-  creator   String
-  levelId   Int?    @unique
-  videoId   String
-  list      String
+// prisma/schema.prisma
 
-  @@map("levels") // Add this line
+model Level {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  placement   Int
+  name        String
+  creator     String
+  verifier    String? // Added this missing field
+  levelId     Int?    // REMOVED @unique from this line
+  videoId     String
+  description String? // Added this missing field
+  list        String
+
+  @@map("levels")
 }
