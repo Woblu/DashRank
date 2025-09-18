@@ -11,8 +11,10 @@ import Tabs from "./components/Tabs";
 import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";
 import ReloadPrompt from "./components/ReloadPrompt";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import the wrapper
-import AccountPage from "./pages/AccountPage";       // Import the new page
+import ProtectedRoute from "./components/ProtectedRoute";
+import AccountPage from "./pages/AccountPage";
+import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
+import SubmissionPage from './pages/account/SubmissionPage';
 
 export default function App() {
   return (
@@ -38,14 +40,11 @@ export default function App() {
               {/* Auth Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route 
-                path="/account" 
-                element={
-                  <ProtectedRoute>
-                    <AccountPage />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>}>
+                <Route index element={<Navigate to="profile" replace />} />
+                <Route path="profile" element={<ProfileSettingsPage />} />
+                <Route path="submissions" element={<SubmissionPage />} />
+              </Route>
             </Routes>
           </main>
 

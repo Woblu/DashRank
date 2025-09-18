@@ -1,42 +1,42 @@
 // src/pages/AccountPage.jsx
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import SubmissionForm from '../components/SubmissionForm';
-import ChangeUsernameForm from '../components/forms/ChangeUsernameForm'; // Import new form
-import ChangePasswordForm from '../components/forms/ChangePasswordForm'; // Import new form
+import { NavLink, Outlet } from 'react-router-dom';
+import { User, ClipboardList } from 'lucide-react';
 
 export default function AccountPage() {
-  const { user } = useAuth();
-  if (!user) return null;
+  const navLinks = [
+    { name: 'Profile Settings', path: '/account/profile', icon: User },
+    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList }
+  ];
 
   return (
-    <div className="text-white max-w-4xl mx-auto py-8 px-4 space-y-8">
-      <h1 className="text-4xl font-bold">
-        Welcome, <span className="text-cyan-400">{user.username}</span>
-      </h1>
-      
-      {/* Container for all account sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        {/* Left Column: Submissions */}
-        <div className="bg-gray-800 border border-gray-700 rounded-lg">
-          <header className="p-4 border-b border-gray-700"><h2 className="text-2xl font-bold">Submit a Record</h2></header>
-          <div className="p-6"><SubmissionForm /></div>
-        </div>
+    <div className="text-white max-w-6xl mx-auto py-8 px-4">
+      <h1 className="text-4xl font-bold mb-8">My Account</h1>
+      <div className="md:grid md:grid-cols-4 gap-8">
+        {/* Sidebar Navigation */}
+        <aside className="md:col-span-1 mb-8 md:mb-0">
+          <nav className="space-y-2">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                className={({ isActive }) => 
+                  `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-lg ${
+                    isActive ? 'bg-cyan-500 text-white font-bold' : 'hover:bg-gray-800'
+                  }`
+                }
+              >
+                <link.icon className="w-6 h-6" />
+                <span>{link.name}</span>
+              </NavLink>
+            ))}
+          </nav>
+        </aside>
 
-        {/* Right Column: Settings */}
-        <div className="space-y-8">
-          <div className="bg-gray-800 border border-gray-700 rounded-lg">
-            <header className="p-4 border-b border-gray-700"><h2 className="text-2xl font-bold">Change Username</h2></header>
-            <div className="p-6"><ChangeUsernameForm /></div>
-          </div>
-
-          <div className="bg-gray-800 border border-gray-700 rounded-lg">
-            <header className="p-4 border-b border-gray-700"><h2 className="text-2xl font-bold">Change Password</h2></header>
-            <div className="p-6"><ChangePasswordForm /></div>
-          </div>
-        </div>
-
+        {/* Page Content */}
+        <main className="md:col-span-3">
+          <Outlet /> {/* Child routes will render here */}
+        </main>
       </div>
     </div>
   );

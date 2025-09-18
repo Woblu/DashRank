@@ -62,6 +62,8 @@ model Submission {
   player        String // The player who achieved the record (defaults to submitter)
   percent       Int
   videoId       String
+  rawFootageLink String          // ADD THIS LINE
+  notes         String?          // ADD THIS LINE (optional)
   status        SubmissionStatus @default(PENDING)
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
