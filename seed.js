@@ -14,6 +14,8 @@ import unratedStats from './src/data/unrated-statsviewer.json' with { type: 'jso
 import platformerStats from './src/data/platformer-statsviewer.json' with { type: 'json' };
 import challengeStats from './src/data/challenge-statsviewer.json' with { type: 'json' };
 import futureStats from './src/data/future-statsviewer.json' with { type: 'json' };
+// --- ADD THIS LINE ---
+import speedhackStats from './src/data/speedhack-statsviewer.json' with { type: 'json' };
 
 const cleanLevelData = (level, listType) => ({
   ...level,
@@ -48,6 +50,7 @@ const seedDatabase = async () => {
         ...platformerStats.map(stat => ({ ...stat, list: 'platformer' })),
         ...challengeStats.map(stat => ({ ...stat, list: 'challenge' })),
         ...futureStats.map(stat => ({ ...stat, list: 'future' })),
+        ...speedhackStats.map(stat => ({ ...stat, list: 'speedhack' })),
     ];
 
     console.log('Inserting cleaned data...');

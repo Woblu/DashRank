@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import LevelDetail from "./pages/LevelDetail";
 import PlayerProfile from "./pages/PlayerProfile";
 import PlayerList from "./components/PlayerList";
+import LoginPage from "./pages/LoginPage"; // Import the new page
 import Tabs from "./components/Tabs";
 import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";

@@ -9,7 +9,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Define the structure for a single record
+// Your existing models
 type Record {
   username String
   percent  Int
@@ -17,7 +17,7 @@ type Record {
 }
 
 model Level {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   placement   Int
   name        String
   creator     String
@@ -26,7 +26,46 @@ model Level {
   videoId     String
   description String?
   list        String
-  records     Record[] // Add this line to include the records array
+  records     Record[]
 
   @@map("levels")
+}
+
+// --- ADD THE FOLLOWING ---
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique // Add this line
+  username  String   @unique
+  password  String   // IMPORTANT: This will store a HASHED password
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+
+  submissions Submission[]
+}
+
+model Submission {
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  levelName     String
+  player        String // The player who achieved the record (defaults to submitter)
+  percent       Int
+  videoId       String
+  status        SubmissionStatus @default(PENDING)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  submittedBy   User   @relation(fields: [submittedById], references: [id])
+  submittedById String @db.ObjectId
 }
