@@ -35,13 +35,59 @@ export default function Tabs() {
     setListType(path);
   }, [location.pathname]);
 
-  const AuthButtons = () => { /* ... functional component from before ... */ };
+  const AuthButtons = () => {
+    if (user) {
+      return (
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium text-gray-300">
+            Welcome, <span className="font-bold text-cyan-400">{user.username}</span>
+          </span>
+          <button onClick={logout} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-red-600 hover:bg-red-700 text-white transition-colors text-sm">
+            <LogOut className="w-4 h-4" /> Logout
+          </button>
+        </div>
+      );
+    }
+    return (
+      <div className="flex items-center gap-2">
+        <Link to="/login" className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm">
+          <LogIn className="w-4 h-4" /> Login
+        </Link>
+        <Link to="/register" className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-colors text-sm">
+          <UserPlus className="w-4 h-4" /> Register
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <>
       <header className="relative bg-gray-900 shadow-lg z-30 border-b border-gray-700">
         <div className="flex flex-col md:flex-row items-center justify-between px-4 py-3 gap-y-3">
-          {/* ... Left and Center Groups ... */}
+          
+          {/* == Left Group: Logo & Title == */}
+          <div className="w-full md:flex-1 flex justify-start">
+            <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+              <img src={logo} alt="DashRank Logo" className="w-8 h-8" />
+              <div>
+                <span className="font-bold text-xl text-cyan-400">DashRank</span>
+                <span className="ml-2 text-xs font-mono text-gray-500">v1.0</span>
+              </div>
+            </Link>
+          </div>
+
+          {/* == Center Group: List Navigation == */}
+          <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
+            <div className="flex items-center gap-2 flex-wrap justify-center">
+              {tabs.map((tab) => (
+                <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}>
+                  {tab.name}
+                </NavLink>
+              ))}
+            </div>
+          </nav>
+
+          {/* == Right Group: Controls & Auth == */}
           <div className="w-full md:flex-1 flex justify-end items-center gap-2 order-2 md:order-3">
             <button
               title={statsButtonTitles[listType]}
@@ -60,6 +106,7 @@ export default function Tabs() {
         </div>
       </header>
 
+      {/* == Modals == */}
       {isStatsViewerOpen && (
         <StatsViewer 
           listType={listType} 
