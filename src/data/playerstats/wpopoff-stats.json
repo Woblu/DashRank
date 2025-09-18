@@ -1,10 +1,11 @@
 {
   "name": "wPopoff",
   "clan": "WBT",
-  "demonlistRank": 3,
-  "demonlistScore": 5969.63,
+  "demonlistRank": 2,
+  "demonlistScore": 6467.17,
   "demonsCompleted": [
     "Tidal Wave",
+    "andromeda",
     "Silent clubstep",
     "Anathema",
     "Avernus",
@@ -18,11 +19,13 @@
     "Sakupen Circles",
     "Deimos",
     "Firework",
+    "The Lightning Rod",
     "poocubed",
     "KOSETSU",
     "Saul Goodman",
     "MINUSdry",
     "Belladonna",
+    "Sevvend Clubstep",
     "The Hallucination",
     "Solar Flare",
     "LIMBO",
@@ -30,28 +33,27 @@
     "Mayhem",
     "walter white",
     "Deadlier Clubstep",
+    "Damascus",
     "PSYCHOPATH",
+    "Collapse",
     "The Yangire",
     "SARYYX NEVER CLEAR",
-    "Collapse",
     "Midnight",
     "Sinister Silence",
+    "arcturus",
     "Climax",
     "Sonic Wave Infinity",
-    "Damascus",
     "Coalescence",
     "Tartarus",
     "Jigsaw",
     "UNKNOWN",
     "Oblivion",
+    "Terminal Rampancy",
     "The Golden",
     "Natural Disaster",
-    "Shukketsu",
-    "Terminal Rampancy",
-    "Critical Heat"
+    "Shukketsu"
   ],
   "demonsVerified": [
-    "Amethyst",
-    "ORDINARY"
+    "Amethyst"
   ]
 }
