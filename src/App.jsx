@@ -6,7 +6,7 @@ import LevelDetail from "./pages/LevelDetail";
 import PlayerProfile from "./pages/PlayerProfile";
 import PlayerList from "./components/PlayerList";
 import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./components/registerpage"; // Using your corrected path
+import RegisterPage from "./components/RegisterPage"; // Using your corrected path
 import Tabs from "./components/Tabs";
 import sideDeco from "./assets/c9b562fc33dfe9e93230abab38e1ef32.webp";
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";
