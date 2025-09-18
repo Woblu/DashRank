@@ -1,8 +1,9 @@
 import React from 'react';
 import { X, Info } from 'lucide-react';
 
-export default function InfoBox({ isOpen, onClose }) {
-  if (!isOpen) return null;
+export default function InfoBox({ onClose }) { // Removed the 'isOpen' prop
+
+  // The 'if (!isOpen) return null;' line has been removed.
 
   return (
     <div
@@ -30,14 +31,12 @@ export default function InfoBox({ isOpen, onClose }) {
               <span className="text-cyan-600 dark:text-cyan-400 font-semibold">DashRank</span> is the ultimate Geometry Dash demonlist — a community-driven hub that combines multiple demonlists into one powerful and easy-to-use platform. Instead of bouncing between different sites, DashRank brings everything together in one place with a clean interface and fast navigation.
             </p>
 
-            {/* --- UPDATED SECTION --- */}
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Future Plans</h3>
             <ul className="list-disc list-inside text-sm mb-4 space-y-1">
               <li>Expanding all lists to include up to 150 levels.</li>
               <li>Adding records to every level on every list.</li>
               <li>Adding detailed statistics for every player.</li>
             </ul>
-            {/* --- END OF UPDATED SECTION --- */}
 
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Public API</h3>
             <p className="text-sm mb-4">
