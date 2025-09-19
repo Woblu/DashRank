@@ -7,12 +7,15 @@ export default function LoadingSpinner({ text = 'Loading...' }) {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
       {/* Animation Stage */}
-      <div className="relative w-64 h-32">
+      <div className="relative w-64 h-32 overflow-hidden">
+        {/* The Floor Line */}
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gray-700"></div>
+
         {/* The Cube */}
         <img
           src={cubeImage}
           alt="Loading..."
-          className="absolute bottom-0 left-1/2 w-12 h-12 animate-gd-jump"
+          className="absolute w-12 h-12 animate-gd-jump"
         />
         {/* The Spikes */}
         <img

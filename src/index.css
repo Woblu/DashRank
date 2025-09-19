@@ -55,28 +55,37 @@
 .dark .custom-scrollbar {
   scrollbar-color: #22d3ee #1f2937; /* thumb color and track color (cyan-400 gray-800) */
 }
-@keyframes gd-jump {
+@keyframes gd-jump-arc {
   0% {
-    transform: translate(-80px, 0px);
-    opacity: 0;
+    left: 10%;
+    bottom: 0;
+    transform: rotate(0deg);
   }
-  20% {
-    transform: translate(0px, 0px);
-    opacity: 1;
+  30% {
+    /* Approaching the spikes */
+    left: 40%;
+    bottom: 0;
+    transform: rotate(0deg);
   }
   50% {
     /* Peak of the jump */
-    transform: translate(80px, -80px) rotate(90deg);
+    left: 50%;
+    bottom: 5rem; /* 80px */
+    transform: rotate(90deg);
   }
-  80% {
-    transform: translate(160px, 0px) rotate(90deg);
+  70% {
+    /* Landing after the spikes */
+    left: 60%;
+    bottom: 0;
+    transform: rotate(90deg);
   }
   100% {
-    transform: translate(240px, 0px) rotate(90deg);
-    opacity: 0;
+    left: 90%;
+    bottom: 0;
+    transform: rotate(90deg);
   }
 }
 
 .animate-gd-jump {
-  animation: gd-jump 1.5s ease-in-out infinite;
+  animation: gd-jump-arc 1.5s ease-in-out infinite;
 }
