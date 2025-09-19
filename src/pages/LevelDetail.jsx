@@ -122,7 +122,7 @@ export default function LevelDetail() {
         <div className="flex justify-center text-center mb-4 gap-x-8">
           {level.creator && (
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              <span className="font-bold">Created by:</span> {level.creator}
+              <span className="font-bold">Published by:</span> {level.creator}
             </p>
           )}
           {level.verifier && (
