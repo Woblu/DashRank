@@ -1,17 +1,30 @@
+// src/pages/Home.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
-import axios from 'axios';
-import LoadingSpinner from "../components/LoadingSpinner"; // Added spinner import
+import LoadingSpinner from "../components/LoadingSpinner";
+
+// Import all your list data directly
+import mainListData from '../data/main-list.json';
+import unratedListData from '../data/unrated-list.json';
+import platformerListData from '../data/platformer-list.json';
+import speedhackListData from '../data/speedhack-list.json';
+import futureListData from '../data/future-list.json';
+import challengeListData from '../data/challenge-list.json';
+
+const listDataMap = {
+  main: mainListData,
+  unrated: unratedListData,
+  platformer: platformerListData,
+  speedhack: speedhackListData,
+  future: futureListData,
+  challenge: challengeListData,
+};
 
 const listTitles = {
-  main: "Main List",
-  unrated: "Unrated List",
-  platformer: "Platformer List",
-  speedhack: "Speedhack List",
-  future: "Future List",
-  challenge: "Challenge List",
+  main: "Main List", unrated: "Unrated List", platformer: "Platformer List",
+  speedhack: "Speedhack List", future: "Future List", challenge: "Challenge List",
 };
 
 export default function Home() {
@@ -25,25 +38,23 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const fetchLevels = async () => {
-      setIsLoading(true);
-      setError(null);
-      setSearch("");
-      try {
-        const response = await axios.get(`/api/lists/${currentListType}`);
-        setLevels(response.data);
-      } catch (err) {
-        console.error("Failed to fetch levels:", err);
-        setError(`Failed to load '${listTitles[currentListType]}'. Please try again later.`);
-        setLevels([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    setIsLoading(true);
+    setError(null);
+    setSearch("");
 
-    fetchLevels();
-    // No window.scrollTo(0,0) here to allow scrolling down the page and switching lists
-    // without the page jumping to the top.
+    const data = listDataMap[currentListType];
+
+    if (data) {
+      setLevels(data);
+    } else {
+      setError(`List data for '${currentListType}' not found.`);
+      setLevels([]);
+    }
+
+    // Use a small timeout to simulate loading, preventing jarring flashes on fast switches
+    const timer = setTimeout(() => setIsLoading(false), 200); 
+
+    return () => clearTimeout(timer); // Cleanup the timer
   }, [currentListType]);
 
   const filteredLevels = levels.filter(
@@ -52,8 +63,6 @@ export default function Home() {
       (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
   );
   
-  // The main return statement is now outside of the isLoading check
-  // so the title and search bar are always visible.
   return (
     <div className="min-h-screen flex flex-col items-center pt-6 px-4">
       <h1 className="font-poppins text-4xl font-bold text-center text-cyan-400 mb-4 capitalize break-words">
