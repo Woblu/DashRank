@@ -1,19 +1,28 @@
 // src/components/SubmissionForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Send } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
 export default function SubmissionForm() {
   const { user, token } = useAuth();
+  
+  // New state for the player's name, initialized to the logged-in user
+  const [playerName, setPlayerName] = useState(user.username);
+  
   const [levelName, setLevelName] = useState('');
   const [percent, setPercent] = useState(100);
   const [videoId, setVideoId] = useState('');
   const [rawFootageLink, setRawFootageLink] = useState('');
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] =useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Keep the playerName state in sync if the user object changes
+  useEffect(() => {
+    setPlayerName(user.username);
+  }, [user.username]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +33,7 @@ export default function SubmissionForm() {
     try {
       const response = await axios.post('/api/submissions/create', {
         levelName,
-        player: user.username,
+        player: playerName, // Send the potentially edited player name
         percent: Number(percent),
         videoId,
         rawFootageLink,
@@ -33,6 +42,7 @@ export default function SubmissionForm() {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSuccess(response.data.message);
+      // Clear form on success
       setLevelName('');
       setPercent(100);
       setVideoId('');
@@ -59,7 +69,14 @@ export default function SubmissionForm() {
       <div>
         <label htmlFor="player" className="block text-lg font-bold text-gray-200 mb-1">Holder</label>
         <p className="text-sm text-gray-400 mb-2">The player who achieved the record. This defaults to your username.</p>
-        <input type="text" id="player" value={user.username} disabled className="w-full p-2 rounded-lg border border-gray-600 bg-gray-900 text-gray-400 cursor-not-allowed" />
+        <input 
+          type="text" 
+          id="player" 
+          value={playerName} 
+          onChange={(e) => setPlayerName(e.target.value)}
+          disabled={user.role !== 'ADMIN' && user.role !== 'MODERATOR'} // The main logic is here
+          className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:bg-gray-900 disabled:text-gray-400 disabled:cursor-not-allowed" 
+        />
       </div>
 
       <div>
