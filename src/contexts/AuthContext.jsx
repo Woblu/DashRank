@@ -1,7 +1,8 @@
-// src/contexts/AuthContext.js
+// src/contexts/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
 
 const AuthContext = createContext(null);
 
@@ -18,10 +19,8 @@ export const AuthProvider = ({ children }) => {
           const currentTime = Date.now() / 1000;
           
           if (decodedToken.exp < currentTime) {
-            // Token is expired
             logout();
           } else {
-            // Token is valid
             setUser({
               username: decodedToken.username,
               role: decodedToken.role,
@@ -30,7 +29,7 @@ export const AuthProvider = ({ children }) => {
           }
         } catch (error) {
           console.error("Invalid token found.", error);
-          logout(); // Clear the invalid token
+          logout();
         }
       }
       setLoading(false);
@@ -62,9 +61,8 @@ export const AuthProvider = ({ children }) => {
 
   const value = { user, token, loading, login, logout };
   
-  // Don't render the rest of the app until the initial auth check is done
   if (loading) {
-    return null; 
+    return <LoadingSpinner text="Authenticating..." />;
   }
 
   return (
@@ -77,7 +75,6 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    // This error will trigger if you try to use useAuth outside of the provider
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;

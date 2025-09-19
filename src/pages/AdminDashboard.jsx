@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X } from 'lucide-react';
+import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -34,7 +35,7 @@ export default function AdminDashboard() {
         { submissionId, newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchSubmissions(); // Refresh the list after an update
+      fetchSubmissions();
     } catch (err) {
       alert(`Failed to update submission: ${err.response?.data?.message}`);
     }
@@ -47,7 +48,7 @@ export default function AdminDashboard() {
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  if (loading) return <div className="text-white text-center py-10">Loading submissions...</div>;
+  if (loading) return <LoadingSpinner text="Loading submissions..." />;
   if (error) return <div className="text-red-400 text-center py-10">{error}</div>;
 
   return (
@@ -60,7 +61,6 @@ export default function AdminDashboard() {
         ) : (
           submissions.map((sub) => (
             <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Side: Video Embed */}
               <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${getYouTubeId(sub.videoId)}`}
@@ -70,7 +70,6 @@ export default function AdminDashboard() {
                   className="absolute top-0 left-0 w-full h-full rounded"
                 ></iframe>
               </div>
-              {/* Right Side: Info & Actions */}
               <div className="flex flex-col justify-between">
                 <div>
                   <h3 className="text-2xl font-bold text-cyan-400">{sub.levelName}</h3>

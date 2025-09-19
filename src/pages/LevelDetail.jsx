@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft, Trash2 } from 'lucide-react'; // Added Trash2
-import { useAuth } from '../contexts/AuthContext.jsx'; // Added useAuth
+import { ChevronLeft, Copy, Trash2 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
+import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
@@ -20,7 +21,7 @@ export default function LevelDetail() {
   const { listType, levelId } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { user, token } = useAuth(); // Added for admin check
+  const { user, token } = useAuth();
   
   const [level, setLevel] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,9 @@ export default function LevelDetail() {
     try {
       const response = await axios.get(`/api/level/${levelId}`);
       setLevel(response.data);
-      setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
+      if (response.data.videoId) {
+        setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
+      }
     } catch (err) {
       console.error("Failed to fetch level details:", err);
       setError("Failed to load level data. It might not exist.");
@@ -67,7 +70,6 @@ export default function LevelDetail() {
     });
   };
 
-  // Function to handle record removal
   const handleRemoveRecord = async (recordVideoId) => {
     if (!window.confirm('Are you sure you want to permanently remove this record?')) {
       return;
@@ -77,22 +79,22 @@ export default function LevelDetail() {
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchLevel(); // Refresh data after deletion
+      fetchLevel();
     } catch (err) {
       alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
     }
   };
 
   if (isLoading) {
-    return <div className="text-center p-8 text-gray-800 dark:text-gray-200">{t('loading_data')}</div>;
+    return <LoadingSpinner />;
   }
 
   if (error || !level) {
     return (
       <div className="text-center p-8">
         <h1 className="text-2xl font-bold text-red-500">{error || "Level Not Found"}</h1>
-        <button onClick={() => navigate(-1)} className="mt-4 inline-flex items-center text-cyan-600 hover:underline">
-          <ChevronLeft size={16} /> Go Back
+        <button onClick={() => navigate(`/${listType}`)} className="mt-4 inline-flex items-center text-cyan-600 dark:text-cyan-400 hover:underline">
+          <ChevronLeft size={16} /> Go Back to List
         </button>
       </div>
     );
@@ -189,7 +191,6 @@ export default function LevelDetail() {
                   {record.username}
                   <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
                 </button>
-                {/* Admin-only remove button */}
                 {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
                   <button
                     onClick={() => handleRemoveRecord(record.videoId)}
