@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X } from 'lucide-react';
-import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -48,7 +47,7 @@ export default function AdminDashboard() {
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  if (loading) return <LoadingSpinner text="Loading submissions..." />;
+  if (loading) return <div className="text-white text-center py-10">Loading submissions...</div>;
   if (error) return <div className="text-red-400 text-center py-10">{error}</div>;
 
   return (

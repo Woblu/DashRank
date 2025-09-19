@@ -2,7 +2,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
 
 const AuthContext = createContext(null);
 
@@ -62,8 +61,8 @@ export const AuthProvider = ({ children }) => {
   const value = { user, token, loading, login, logout };
   
   if (loading) {
-    return <LoadingSpinner text="Authenticating..." />;
-  }
+  return null;
+}
 
   return (
     <AuthContext.Provider value={value}>

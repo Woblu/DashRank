@@ -85,9 +85,9 @@ export default function LevelDetail() {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+ if (isLoading) {
+  return <div className="text-center p-8 text-gray-200">Loading...</div>;
+}
 
   if (error || !level) {
     return (

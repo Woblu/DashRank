@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
-import LoadingSpinner from "../components/LoadingSpinner";
 
 // Import all your list data directly
 import mainListData from '../data/main-list.json';
@@ -79,8 +78,8 @@ export default function Home() {
 
       <div className="flex flex-col gap-4 w-full max-w-3xl">
         {isLoading ? (
-          <LoadingSpinner />
-        ) : error ? (
+  <p className="text-center text-gray-400 mt-8">Loading...</p>
+) : error ? (
           <p className="text-center text-red-500 mt-8">{error}</p>
         ) : filteredLevels.length > 0 ? (
           filteredLevels.map((level, index) => (
