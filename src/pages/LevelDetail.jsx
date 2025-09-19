@@ -5,7 +5,6 @@ import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { ChevronLeft, Copy, Trash2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
-import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
