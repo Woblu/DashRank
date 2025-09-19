@@ -1,69 +1,72 @@
-import mongoose from 'mongoose';
-import { Level } from './src/models/Level.js';
-import { PlayerStat } from './src/models/PlayerStat.js';
+// seed.js
+import { PrismaClient } from '@prisma/client';
+import fs from 'fs';
+import path from 'path';
 
-// Import all data files
-import mainList from './src/data/main-list.json' with { type: 'json' };
-import unratedList from './src/data/unrated-list.json' with { type: 'json' };
-import platformerList from './src/data/platformer-list.json' with { type: 'json' };
-import futureList from './src/data/future-list.json' with { type: 'json' };
-import challengeList from './src/data/challenge-list.json' with { type: 'json' };
-import speedhackList from './src/data/speedhack-list.json' with { type: 'json' };
-import mainStats from './src/data/main-statsviewer.json' with { type: 'json' };
-import unratedStats from './src/data/unrated-statsviewer.json' with { type: 'json' };
-import platformerStats from './src/data/platformer-statsviewer.json' with { type: 'json' };
-import challengeStats from './src/data/challenge-statsviewer.json' with { type: 'json' };
-import futureStats from './src/data/future-statsviewer.json' with { type: 'json' };
-// --- ADD THIS LINE ---
-import speedhackStats from './src/data/speedhack-statsviewer.json' with { type: 'json' };
+const prisma = new PrismaClient();
 
-const cleanLevelData = (level, listType) => ({
-  ...level,
-  placement: parseInt(level.placement, 10),
-  levelId: level.levelId ? parseInt(level.levelId, 10) : undefined,
-  list: listType,
-});
+async function main() {
+  console.log('Starting manual seed process from local JSON files...');
 
-const seedDatabase = async () => {
-  try {
-    // Hardcoded connection string
-    await mongoose.connect("mongodb+srv://dashrankuser:wMP0nLe8IV2ltn7c@drcluster.65zqtak.mongodb.net/dashrank-db?retryWrites=true&w=majority&appName=DRCluster");
-    console.log('MongoDB connection successful.');
+  const listsToSeed = [
+    { name: 'main', filePath: './src/data/main-list.json' },
+  ];
 
-    console.log('Clearing existing data...');
-    await Level.deleteMany({});
-    await PlayerStat.deleteMany({});
-    console.log('Data cleared.');
+  for (const list of listsToSeed) {
+    console.log(`Processing ${list.name} list...`);
+    const fullPath = path.resolve(list.filePath);
 
-    const levelsToSeed = [
-      ...mainList.map(l => cleanLevelData(l, 'main')),
-      ...unratedList.map(l => cleanLevelData(l, 'unrated')),
-      ...platformerList.map(l => cleanLevelData(l, 'platformer')),
-      ...futureList.map(l => cleanLevelData(l, 'future')),
-      ...challengeList.map(l => cleanLevelData(l, 'challenge')),
-      ...speedhackList.map(l => cleanLevelData(l, 'speedhack')),
-    ];
+    if (!fs.existsSync(fullPath)) {
+      console.warn(`SKIPPING: Data file not found at ${fullPath}`);
+      continue;
+    }
 
-    const statsToSeed = [
-        ...mainStats.map(stat => ({ ...stat, list: 'main' })),
-        ...unratedStats.map(stat => ({ ...stat, list: 'unrated' })),
-        ...platformerStats.map(stat => ({ ...stat, list: 'platformer' })),
-        ...challengeStats.map(stat => ({ ...stat, list: 'challenge' })),
-        ...futureStats.map(stat => ({ ...stat, list: 'future' })),
-        ...speedhackStats.map(stat => ({ ...stat, list: 'speedhack' })),
-    ];
+    const fileContent = fs.readFileSync(fullPath, 'utf-8');
+    const levelsData = JSON.parse(fileContent);
+    console.log(`Found ${levelsData.length} levels in ${list.name}-list.json.`);
 
-    console.log('Inserting cleaned data...');
-    await Level.insertMany(levelsToSeed);
-    await PlayerStat.insertMany(statsToSeed);
-    console.log('Database seeded successfully!');
+    const transformedLevels = levelsData.map(level => {
+      // Parse levelId to an integer. If it's not a valid number, default to null.
+      const parsedLevelId = level.levelId ? parseInt(level.levelId, 10) : null;
 
-  } catch (error) {
-    console.error('Error seeding database:', error);
-  } finally {
-    await mongoose.connection.close();
-    console.log('MongoDB connection closed.');
+      return {
+        placement: level.placement,
+        name: level.name,
+        creator: level.creator,
+        verifier: level.verifier,
+        levelId: isNaN(parsedLevelId) ? null : parsedLevelId, // THIS IS THE FIX
+        videoId: level.videoId,
+        description: level.description,
+        records: level.records || [],
+        list: list.name,
+      };
+    });
+
+    console.log(`Clearing old "${list.name}" list from the database...`);
+    await prisma.level.deleteMany({
+      where: {
+        list: list.name,
+      },
+    });
+
+    console.log(`Seeding new "${list.name}" list into the database...`);
+    if (transformedLevels.length > 0) {
+        await prisma.$transaction(
+            transformedLevels.map(levelData => 
+            prisma.level.create({ data: levelData })
+            )
+        );
+    }
   }
-};
 
-seedDatabase();
+  console.log('Manual seeding process completed successfully! ✅');
+}
+
+main()
+  .catch((e) => {
+    console.error('An error occurred during the seed process:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
