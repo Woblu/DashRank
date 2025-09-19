@@ -1,6 +1,17 @@
 [
   {
     "placement": 1,
+    "name": "Thinking Space II",
+    "creator": "CairoX",
+    "verifier": "Zoink",
+    "thumbnail": "",
+    "videoId": "CELNmHwln_c",
+    "records": [],
+    "levelId": "119544028",
+    "description": ""
+  },
+  {
+    "placement": 2,
     "name": "Amethyst",
     "creator": "iMist",
     "verifier": "wPopoff",
@@ -17,7 +28,7 @@
     "description": "An idea that started 5 years ago has now been brought to light..."
   },
   {
-    "placement": 2,
+    "placement": 3,
     "name": "Tidal Wave",
     "creator": "OniLink",
     "verifier": "Zoink",
@@ -59,7 +70,7 @@
     "description": "Drown them"
   },
   {
-    "placement": 3,
+    "placement": 4,
     "name": "Nullscapes",
     "creator": "Kiba",
     "verifier": "Zoink",
@@ -81,7 +92,7 @@
     "description": "GET OUT OF MY HEAD"
   },
   {
-    "placement": 4,
+    "placement": 5,
     "name": "BOOBAWAMBA",
     "creator": "Akunakunn",
     "verifier": "eastshark",
@@ -92,7 +103,7 @@
     "description": "BOOBAWAMBA is equal to {10, 100 [1[1\\1\\12-2] 1 [2\\2-2]2]2} using the array of operator and BEAF it has boobol entries. This is my best level and it has been verified by EastShark"
   },
   {
-    "placement": 5,
+    "placement": 6,
     "name": "Every End",
     "creator": "MindCap",
     "verifier": "Hqmy",
@@ -129,7 +140,7 @@
     "description": "Never Ending"
   },
   {
-    "placement": 6,
+    "placement": 7,
     "name": "andromeda",
     "creator": "Insxne97",
     "verifier": "Taiago",
@@ -176,47 +187,159 @@
     "description": "._."
   },
   {
-    "placement": 7,
+    "placement": 8,
     "name": "Silent clubstep",
     "creator": "TheRealSailent",
     "verifier": "Paqoe",
     "thumbnail": "",
     "videoId": "GR4OMkS3SN8",
     "records": [
-      { "username": "Zoink", "percent": 100, "videoId": "https://www.youtube.com/watch?v=57aQ3EmSqQ4" },
-      { "username": "Doggie", "percent": 100, "videoId": "https://www.youtube.com/watch?v=h9XRy_oAMks" },
-      { "username": "Trick", "percent": 100, "videoId": "" },
-      { "username": "Seturan", "percent": 100, "videoId": "https://www.youtube.com/watch?v=uO2ISQnXm4Q" },
-      { "username": "zVision", "percent": 100, "videoId": "https://www.youtube.com/watch?v=z7OUaFod8Fo" },
-      { "username": "wPopoff", "percent": 100, "videoId": "https://www.youtube.com/watch?v=EOr8hDyXDvQ" },
-      { "username": "noname228gg", "percent": 100, "videoId": "https://www.youtube.com/watch?v=trf9--AiLH8" },
-      { "username": "Adri420", "percent": 100, "videoId": "https://www.youtube.com/watch?v=a5hC-SA8gOM" },
-      { "username": "Litoks", "percent": 100, "videoId": "https://www.youtube.com/watch?v=PnECP_bVf1E" },
-      { "username": "Aless50", "percent": 100, "videoId": "https://www.youtube.com/watch?v=Ph4g5Eq_5ms" },
-      { "username": "freksolereal", "percent": 100, "videoId": "https://www.youtube.com/watch?v=8jf_-iyapxU" },
-      { "username": "Diamond", "percent": 100, "videoId": "https://www.youtube.com/watch?v=idHQWAWQUeY" },
-      { "username": "Albert", "percent": 100, "videoId": "https://www.youtube.com/watch?v=2Xf6q-Tc6Yc" },
-      { "username": "MeQ8cNv43s6A", "percent": 100, "videoId": "https://www.youtube.com/watch?v=7xBYD_ud4TU" },
-      { "username": "niwox", "percent": 100, "videoId": "https://www.youtube.com/watch?v=zS7ivyoF8ws" },
-      { "username": "Triqz", "percent": 100, "videoId": "https://www.youtube.com/watch?v=kgqD_SokXas" },
-      { "username": "Netermind", "percent": 100, "videoId": "https://www.youtube.com/watch?v=7Bgw2zlS_Jk" },
-      { "username": "Juls", "percent": 100, "videoId": "https://www.youtube.com/watch?v=kCDunfE96AE" },
-      { "username": "ROZE", "percent": 100, "videoId": "https://www.youtube.com/watch?v=lPScuvG2wC0" },
-      { "username": "akka", "percent": 95, "videoId": "https://www.youtube.com/watch?v=Cf3e8FtEKSc" },
-      { "username": "zThund3r", "percent": 76, "videoId": "https://www.youtube.com/watch?v=ENBsx4tl5A8" },
-      { "username": "parker", "percent": 72, "videoId": "https://www.youtube.com/watch?v=lwYoUZVf2K8" },
-      { "username": "dewbbs", "percent": 66, "videoId": "https://www.youtube.com/watch?v=LFtiWFlqVvc" },
-      { "username": "blazenik", "percent": 65, "videoId": "https://www.youtube.com/watch?v=1jxgw84BMjw" },
-      { "username": "whfyre", "percent": 65, "videoId": "https://www.youtube.com/watch?v=TZ1D2CQQ8Y0" },
-      { "username": "Mixasuspa", "percent": 65, "videoId": "https://www.youtube.com/watch?v=UL-mEcUeFSE" },
-      { "username": "sykaav", "percent": 64, "videoId": "https://www.youtube.com/watch?v=QmMzeI2aN2k" },
-      { "username": "XBelugaX", "percent": 64, "videoId": "https://www.youtube.com/watch?v=IlSdS8kqe2k" }
+      {
+        "username": "Zoink",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=57aQ3EmSqQ4"
+      },
+      {
+        "username": "Doggie",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=h9XRy_oAMks"
+      },
+      {
+        "username": "Trick",
+        "percent": 100,
+        "videoId": ""
+      },
+      {
+        "username": "Seturan",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=uO2ISQnXm4Q"
+      },
+      {
+        "username": "zVision",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=z7OUaFod8Fo"
+      },
+      {
+        "username": "wPopoff",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=EOr8hDyXDvQ"
+      },
+      {
+        "username": "noname228gg",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=trf9--AiLH8"
+      },
+      {
+        "username": "Adri420",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=a5hC-SA8gOM"
+      },
+      {
+        "username": "Litoks",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=PnECP_bVf1E"
+      },
+      {
+        "username": "Aless50",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Ph4g5Eq_5ms"
+      },
+      {
+        "username": "freksolereal",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=8jf_-iyapxU"
+      },
+      {
+        "username": "Diamond",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=idHQWAWQUeY"
+      },
+      {
+        "username": "Albert",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=2Xf6q-Tc6Yc"
+      },
+      {
+        "username": "MeQ8cNv43s6A",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=7xBYD_ud4TU"
+      },
+      {
+        "username": "niwox",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=zS7ivyoF8ws"
+      },
+      {
+        "username": "Triqz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=kgqD_SokXas"
+      },
+      {
+        "username": "Netermind",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=7Bgw2zlS_Jk"
+      },
+      {
+        "username": "Juls",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=kCDunfE96AE"
+      },
+      {
+        "username": "ROZE",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=lPScuvG2wC0"
+      },
+      {
+        "username": "akka",
+        "percent": 95,
+        "videoId": "https://www.youtube.com/watch?v=Cf3e8FtEKSc"
+      },
+      {
+        "username": "zThund3r",
+        "percent": 76,
+        "videoId": "https://www.youtube.com/watch?v=ENBsx4tl5A8"
+      },
+      {
+        "username": "parker",
+        "percent": 72,
+        "videoId": "https://www.youtube.com/watch?v=lwYoUZVf2K8"
+      },
+      {
+        "username": "dewbbs",
+        "percent": 66,
+        "videoId": "https://www.youtube.com/watch?v=LFtiWFlqVvc"
+      },
+      {
+        "username": "blazenik",
+        "percent": 65,
+        "videoId": "https://www.youtube.com/watch?v=1jxgw84BMjw"
+      },
+      {
+        "username": "whfyre",
+        "percent": 65,
+        "videoId": "https://www.youtube.com/watch?v=TZ1D2CQQ8Y0"
+      },
+      {
+        "username": "Mixasuspa",
+        "percent": 65,
+        "videoId": "https://www.youtube.com/watch?v=UL-mEcUeFSE"
+      },
+      {
+        "username": "sykaav",
+        "percent": 64,
+        "videoId": "https://www.youtube.com/watch?v=QmMzeI2aN2k"
+      },
+      {
+        "username": "XBelugaX",
+        "percent": 64,
+        "videoId": "https://www.youtube.com/watch?v=IlSdS8kqe2k"
+      }
     ],
     "levelId": 4125776,
     "description": "7 years and you still play me?!"
   },
   {
-    "placement": 8,
+    "placement": 9,
     "name": "Anathema",
     "creator": "nikroplays",
     "verifier": "Whizkid05",
@@ -227,7 +350,7 @@
     "description": "After 9 long years, The Dedication Series finally comes to a close. Dedicated to everyone who has supported me along the way. Verified by Whizkid05."
   },
   {
-    "placement": 9,
+    "placement": 10,
     "name": "Avernus",
     "creator": "PockeWindfish",
     "verifier": "Zoink",
@@ -238,7 +361,7 @@
     "description": "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv"
   },
   {
-    "placement": 10,
+    "placement": 11,
     "name": "Acheron",
     "creator": "ryamu",
     "verifier": "Zoink",
@@ -249,7 +372,7 @@
     "description": "verified by zoink. \"get ricch or die trying\" -50 cent"
   },
   {
-    "placement": 11,
+    "placement": 12,
     "name": "Spectre",
     "creator": "xander",
     "verifier": "Personhuman42",
@@ -260,256 +383,7 @@
     "description": "Spin-Off to 'Lone' and collab with EpicLight, check him out and show him some support!"
   },
   {
-    "placement": 12,
-    "name": "Tunnel of Despair",
-    "creator": "Exen",
-    "verifier": "Zoink",
-    "thumbnail": "",
-    "videoId": "LpS4JREhW98",
-    "records": [],
-    "levelId": 91351939,
-    "description": "Tunnel of Despair. Gameplay by Exen, Deco by ImMaxX1, Verified by Zoink."
-  },
-  {
     "placement": 13,
-    "name": "Abyss of Darkness",
-    "creator": "Exen",
-    "verifier": "Cursed",
-    "thumbnail": "URL_TO_THUMBNAIL",
-    "videoId": "ejJkpqcMMCY",
-    "records": [],
-    "levelId": 49896559,
-    "description": ""
-  },
-  {
-    "placement": 14,
-    "name": "Kyouki",
-    "creator": "｛出見塩｝",
-    "verifier": "｛出見塩｝",
-    "thumbnail": "",
-    "videoId": "KDa5c0CJTHs",
-    "records": [],
-    "levelId": 86018142,
-    "description": "This is Crazy."
-  },
-  {
-    "placement": 15,
-    "name": "Subterminal Point",
-    "creator": "SyQual",
-    "verifier": "Pocle",
-    "thumbnail": "",
-    "videoId": "h2wmRMgACH4",
-    "records": [],
-    "levelId": 113599729,
-    "description": "Also inspired by Maplestory. Verified by PoCle"
-  },
-  {
-  "placement": 16,
-  "name": "Slaughterhouse",
-  "creator": "icedcave",
-  "verifier": "Doggie",
-  "thumbnail": "",
-  "videoId": "https://youtu.be/kpcF1-QAHQc",
-  "levelId": 27690100,
-  "description": "",
-  "records": [
-    { "username": "Zoink", "percent": 100, "videoId": "https://www.youtube.com/watch?v=KaA6csT7Zo8" },
-    { "username": "Cursed", "percent": 100, "videoId": "https://www.youtube.com/watch?v=BmyCLv1gqyo" },
-    { "username": "Zeroxy", "percent": 100, "videoId": "https://www.youtube.com/watch?v=gqEVuyHOvbQ" },
-    { "username": "RaeveZ", "percent": 100, "videoId": "https://www.youtube.com/watch?v=XOzY7Vs2xgA" },
-    { "username": "Trick", "percent": 100, "videoId": "https://www.youtube.com/watch?v=GVuiXZIQzH4" },
-    { "username": "Diamond", "percent": 100, "videoId": "https://www.youtube.com/watch?v=ayLiN4mJzYo" },
-    { "username": "Emiliano56", "percent": 100, "videoId": "https://www.youtube.com/watch?v=P9QaByT59EQ" },
-    { "username": "wPopoff", "percent": 100, "videoId": "https://www.youtube.com/watch?v=E_jSh91GUwI" },
-    { "username": "Blackhole", "percent": 100, "videoId": "https://www.youtube.com/watch?v=gfmsOJqCY3M" },
-    { "username": "SnowBallerr", "percent": 100, "videoId": "https://www.youtube.com/watch?v=R8BRVYBPFS8" },
-    { "username": "Baeru", "percent": 100, "videoId": "https://www.youtube.com/watch?v=I0MuJY-XO5c" },
-    { "username": "yolomodeboom", "percent": 100, "videoId": "https://www.youtube.com/watch?v=zG1AZDiPa8o" },
-    { "username": "enfix", "percent": 100, "videoId": "https://www.youtube.com/watch?v=E0xnmFWFPdE" },
-    { "username": "ItzTayfun", "percent": 100, "videoId": "https://www.youtube.com/watch?v=6DxZTZwBsrQ" },
-    { "username": "zoe", "percent": 100, "videoId": "https://www.youtube.com/watch?v=9fM_TV7EWJw" },
-    { "username": "TheRealEandis", "percent": 100, "videoId": "https://www.youtube.com/watch?v=StbIYTjPVsU" },
-    { "username": "Beastular", "percent": 100, "videoId": "https://www.youtube.com/watch?v=8BN8cIiYJJk" },
-    { "username": "cobrablitz", "percent": 100, "videoId": "https://www.youtube.com/watch?v=RUsXoTGOPXg" },
-    { "username": "Tunax", "percent": 100, "videoId": "https://www.youtube.com/watch?v=rX8FINYUx1A" },
-    { "username": "Thnnder", "percent": 100, "videoId": "https://www.youtube.com/watch?v=VQn8t72z26I" },
-    { "username": "Netermind", "percent": 100, "videoId": "https://www.youtube.com/watch?v=0lssXLw6A8c" },
-    { "username": "Taiago", "percent": 100, "videoId": "https://www.youtube.com/watch?v=IR9zDULGdDU" },
-    { "username": "zThund3r", "percent": 100, "videoId": "https://www.youtube.com/watch?v=TXet2Px5tT4" },
-    { "username": "Hipo", "percent": 100, "videoId": "https://www.youtube.com/watch?v=ANKh9eqUIMc" },
-    { "username": "pohgii", "percent": 100, "videoId": "https://www.youtube.com/watch?v=pRUREppfhQc" },
-    { "username": "Viwi", "percent": 100, "videoId": "https://www.youtube.com/watch?v=tO8zBvV2oX0" },
-    { "username": "AidanTR", "percent": 100, "videoId": "https://www.youtube.com/watch?v=1fpui0QqQXM" },
-    { "username": "moliklee", "percent": 100, "videoId": "https://www.youtube.com/watch?v=7DvputqOKR4" },
-    { "username": "Litoks", "percent": 100, "videoId": "https://www.youtube.com/watch?v=BXsMjxoy7_M" },
-    { "username": "Tylor", "percent": 100, "videoId": "https://www.youtube.com/watch?v=-38n4NlETbY" },
-    { "username": "fluxe", "percent": 100, "videoId": "https://www.youtube.com/watch?v=1FtdyYNB7OY" },
-    { "username": "kloone", "percent": 100, "videoId": "https://www.youtube.com/watch?v=f-_bwD9ku6A" },
-    { "username": "Cookie", "percent": 100, "videoId": "https://www.youtube.com/watch?v=eVwW74JbGgk" },
-    { "username": "nerveless", "percent": 100, "videoId": "https://www.youtube.com/watch?v=BJfQLp6Ir6c" },
-    { "username": "Abdieldevil", "percent": 100, "videoId": "https://www.youtube.com/watch?v=h4cquG2YMI8" },
-    { "username": "turtle", "percent": 100, "videoId": "https://www.youtube.com/watch?v=nfxU9MF229g" },
-    { "username": "DraxitIII", "percent": 100, "videoId": "https://www.youtube.com/watch?v=xOpl-LHNM6g" },
-    { "username": "slimepesoz", "percent": 100, "videoId": "https://www.youtube.com/watch?v=TrOI1Zne1cg" },
-    { "username": "Donei GD", "percent": 100, "videoId": "https://www.youtube.com/watch?v=0wNoC6IJY9E" },
-    { "username": "spookkd", "percent": 100, "videoId": "https://www.youtube.com/watch?v=HrnAR8NuM_c" },
-    { "username": "Mizukii", "percent": 100, "videoId": "https://www.youtube.com/watch?v=Sl9i-ofRd3Y" },
-    { "username": "Bradenbowl", "percent": 100, "videoId": "https://www.youtube.com/watch?v=u3hETZa-A_M" },
-    { "username": "Dragoon", "percent": 100, "videoId": "https://www.youtube.com/watch?v=1FULyREfy8A" },
-    { "username": "Denni", "percent": 100, "videoId": "https://www.youtube.com/watch?v=JSgBGiJ04KU" },
-    { "username": "ChopBlox", "percent": 100, "videoId": "https://www.youtube.com/watch?v=ybmUBzQK0Tk" },
-    { "username": "Nocturina", "percent": 100, "videoId": "https://www.youtube.com/watch?v=6C_-jSkZJhw" },
-    { "username": "PaltAcheron", "percent": 100, "videoId": "https://www.youtube.com/watch?v=v-EYBYjne9E" },
-    { "username": "blazenik", "percent": 100, "videoId": "https://www.youtube.com/watch?v=EuAWUq9jczk" },
-    { "username": "Adri420", "percent": 100, "videoId": "https://www.youtube.com/watch?v=E3L5-HPBm3Q" },
-    { "username": "Yanlici", "percent": 100, "videoId": "https://www.youtube.com/watch?v=NFErxGhHjAg" },
-    { "username": "The_Bat0", "percent": 100, "videoId": "https://www.youtube.com/watch?v=bRkz2l6o_Wk" },
-    { "username": "Hover", "percent": 100, "videoId": "https://www.youtube.com/watch?v=LruWTWwetok" },
-    { "username": "teraaa", "percent": 100, "videoId": "https://www.youtube.com/watch?v=yRKP2JUEwHs" },
-    { "username": "Kramujo", "percent": 100, "videoId": "https://www.youtube.com/watch?v=4GBKRSE9rrE" },
-    { "username": "Technical", "percent": 100, "videoId": "https://www.youtube.com/watch?v=rJWyAbnQ808" },
-    { "username": "sykaav", "percent": 100, "videoId": "https://www.youtube.com/watch?v=BSt7CVet-DA" },
-    { "username": "Jerpaa", "percent": 100, "videoId": "https://www.youtube.com/watch?v=-FpnSwBPusE" },
-    { "username": "Улыбочку", "percent": 100, "videoId": "https://www.youtube.com/watch?v=tj6a8h3bGQ0" },
-    { "username": "MeQ8cNv43s6A", "percent": 100, "videoId": "https://www.youtube.com/watch?v=TFE-mlpUYSc" },
-    { "username": "LaserGD", "percent": 100, "videoId": "https://www.youtube.com/watch?v=3MDTW2iamt0" },
-    { "username": "ColossalOrange", "percent": 100, "videoId": "https://www.youtube.com/watch?v=158vc2wpWjE" },
-    { "username": "fallen", "percent": 100, "videoId": "https://www.youtube.com/watch?v=hwEQtryMUI8" },
-    { "username": "sawyer", "percent": 100, "videoId": "https://www.youtube.com/watch?v=YkKTOH5-K34" },
-    { "username": "Flexx", "percent": 100, "videoId": "https://www.youtube.com/watch?v=-AvrRgR_ITE" },
-    { "username": "LAMINGTON", "percent": 100, "videoId": "https://www.youtube.com/watch?v=UamriCIcMOc" },
-    { "username": "Saitama", "percent": 100, "videoId": "https://www.youtube.com/watch?v=soJ7j6JlBAg" },
-    { "username": "Harhir", "percent": 100, "videoId": "https://www.youtube.com/watch?v=WC5QIa5WPds" },
-    { "username": "Axinity", "percent": 100, "videoId": "" },
-    { "username": "Rizekk", "percent": 100, "videoId": "https://www.youtube.com/watch?v=a6GIUYcPDMc" },
-    { "username": "jonah", "percent": 100, "videoId": "https://www.youtube.com/watch?v=jROoQcc0Zjo" },
-    { "username": "EdwardUKraine", "percent": 100, "videoId": "https://www.youtube.com/watch?v=kAi7IwiIq2M" },
-    { "username": "Albert", "percent": 100, "videoId": "https://www.youtube.com/watch?v=3wYMIejv9s8" },
-    { "username": "ROZE", "percent": 100, "videoId": "https://www.youtube.com/watch?v=y7dj05cm4M4" },
-    { "username": "strawberry", "percent": 100, "videoId": "https://www.youtube.com/watch?v=LNx4hNpLVc0" },
-    { "username": "Andrey Kapninskii", "percent": 100, "videoId": "https://www.youtube.com/watch?v=zWy1Vso8_xk" },
-    { "username": "Arshadow", "percent": 100, "videoId": "https://www.youtube.com/watch?v=ooxNXR_QDMQ" },
-    { "username": "WaterBottle317", "percent": 100, "videoId": "https://www.youtube.com/watch?v=hJOvknfi0rQ" },
-    { "username": "레전드아잉몰라요", "percent": 100, "videoId": "https://www.youtube.com/watch?v=GdBo0IzRwog" },
-    { "username": "GDwavedash", "percent": 100, "videoId": "https://www.youtube.com/watch?v=LHvu9Kp9lGE" },
-    { "username": "cudby", "percent": 100, "videoId": "https://www.youtube.com/watch?v=WG_3ZJzjLEo" },
-    { "username": "Gamerdude", "percent": 100, "videoId": "https://www.youtube.com/watch?v=gfTSI2w0jvA" },
-    { "username": "w3rty", "percent": 100, "videoId": "https://www.youtube.com/watch?v=w7LOfiQZwuw" },
-    { "username": "o.kuang", "percent": 100, "videoId": "https://www.youtube.com/watch?v=osaIkpmyFKg" },
-    { "username": "JesseGamingGD", "percent": 100, "videoId": "https://www.youtube.com/watch?v=p03j-xL-108" },
-    { "username": "sunix.", "percent": 100, "videoId": "https://www.youtube.com/watch?v=3aNlPkXfO9I" },
-    { "username": "Theitha", "percent": 100, "videoId": "https://www.youtube.com/watch?v=oTTNspIFtYY" },
-    { "username": "ezvie", "percent": 100, "videoId": "https://www.youtube.com/watch?v=5t2mG4_afJg" },
-    { "username": "zStucc", "percent": 100, "videoId": "https://www.youtube.com/watch?v=4SpX4mijqEQ" },
-    { "username": "Raffox", "percent": 100, "videoId": "https://www.youtube.com/watch?v=NV_7IZX-r1o" },
-    { "username": "eastshark", "percent": 100, "videoId": "https://www.youtube.com/watch?v=uyz1JqzHYkQ" },
-    { "username": "ked", "percent": 100, "videoId": "https://www.youtube.com/watch?v=nThZnLqTPjo" },
-    { "username": "Kaza", "percent": 100, "videoId": "https://www.youtube.com/watch?v=LffCd9yGEVU" },
-    { "username": "SpaceRS", "percent": 100, "videoId": "https://www.youtube.com/watch?v=6pjcHLfZPp4" },
-    { "username": "kropka", "percent": 100, "videoId": "https://www.youtube.com/watch?v=j9G9H3PYTkk" },
-    { "username": "surrounded", "percent": 100, "videoId": "https://www.youtube.com/watch?v=Gx0hIA2aARQ" },
-    { "username": "nemzie", "percent": 100, "videoId": "https://www.youtube.com/watch?v=INbkxUsiuZ0" },
-    { "username": "Superjavicon", "percent": 100, "videoId": "https://www.youtube.com/watch?v=wSGhVoxD_eY" },
-    { "username": "Laniakea", "percent": 100, "videoId": "https://www.youtube.com/watch?v=Qv4skMxrJa8" },
-    { "username": "akka", "percent": 100, "videoId": "https://www.youtube.com/watch?v=IMU03DbSR10" },
-    { "username": "Pleid", "percent": 100, "videoId": "https://www.youtube.com/watch?v=hR6BFVSR8Xs" },
-    { "username": "Thisisfcp", "percent": 100, "videoId": "https://www.youtube.com/watch?v=iZRB2GtmF8A" },
-    { "username": "Gamingbyte", "percent": 100, "videoId": "https://www.youtube.com/watch?v=xKNlCW6RhH4" },
-    { "username": "Rybertrion", "percent": 100, "videoId": "https://www.youtube.com/watch?v=0-VurW0Ccq0" },
-    { "username": "Doritos1055", "percent": 100, "videoId": "https://www.youtube.com/watch?v=FTx8Z7ExGn4" },
-    { "username": "xywix", "percent": 100, "videoId": "https://www.youtube.com/watch?v=7U5ZXygiNuM" },
-    { "username": "skzyl", "percent": 100, "videoId": "https://www.youtube.com/watch?v=GA3DjjQv_4Y" },
-    { "username": "GameChief", "percent": 100, "videoId": "https://www.youtube.com/watch?v=yxkms0G_HwU" },
-    { "username": "Perrix47", "percent": 100, "videoId": "https://www.youtube.com/watch?v=Cpi-rR4WJC8" },
-    { "username": "SerVax", "percent": 100, "videoId": "https://www.youtube.com/watch?v=hYpD7GNw2g8" },
-    { "username": "fusion425", "percent": 100, "videoId": "https://www.youtube.com/watch?v=zPU3SA5xZPs" },
-    { "username": "dewbbs", "percent": 100, "videoId": "https://www.youtube.com/watch?v=TwajtE5Wr0M" },
-    { "username": "manu", "percent": 100, "videoId": "https://www.youtube.com/watch?v=jZfoDtRho4I" },
-    { "username": "Editorial", "percent": 100, "videoId": "https://www.youtube.com/watch?v=PLxEF0Qn_UU" },
-    { "username": "Tihra", "percent": 100, "videoId": "https://www.youtube.com/watch?v=5tOszZHHBAE" },
-    { "username": "ffzer", "percent": 100, "videoId": "https://www.youtube.com/watch?v=ln-7BvbH0E0" },
-    { "username": "noxell", "percent": 100, "videoId": "https://www.youtube.com/watch?v=-80k5DtSPkk" },
-    { "username": "Mikhail Krotov", "percent": 100, "videoId": "https://www.youtube.com/watch?v=tJLt_44vDP0" },
-    { "username": "LilGig", "percent": 100, "videoId": "https://www.youtube.com/watch?v=yY0TrfvjTy8" },
-    { "username": "Serpentical GMD", "percent": 100, "videoId": "https://www.youtube.com/watch?v=J3jXFQmUtAk" },
-    { "username": "XBelugaX", "percent": 100, "videoId": "https://www.youtube.com/watch?v=tKioEwz4Wcw" },
-    { "username": "RiVeL", "percent": 100, "videoId": "https://www.youtube.com/watch?v=mGxo7JiMjrw" },
-    { "username": "Moraye", "percent": 100, "videoId": "https://www.youtube.com/watch?v=hT7pHgZA-zM" },
-    { "username": "Swooker", "percent": 100, "videoId": "https://www.youtube.com/watch?v=rQh-MKu05g8" },
-    { "username": "Brian_Cheese", "percent": 100, "videoId": "https://www.youtube.com/watch?v=rSlHEIGwnxk" },
-    { "username": "pillz", "percent": 100, "videoId": "https://www.youtube.com/watch?v=wVZY4YTaVPo" },
-    { "username": "Unlucky2", "percent": 100, "videoId": "https://www.youtube.com/watch?v=UTSxo1l-QgE" },
-    { "username": "Hqmy", "percent": 100, "videoId": "https://www.youtube.com/watch?v=81cYK1QPWUI" },
-    { "username": "Icanplayz", "percent": 100, "videoId": "https://www.youtube.com/watch?v=f9khjUGok28" },
-    { "username": "Cryostaz", "percent": 100, "videoId": "https://www.youtube.com/watch?v=b_zA0K-9lsA" },
-    { "username": "Trolly1", "percent": 100, "videoId": "https://www.youtube.com/watch?v=dSa5f7EjTxY" },
-    { "username": "nebular", "percent": 100, "videoId": "https://www.youtube.com/watch?v=jzCcqW2rPwI" },
-    { "username": "miguel6456", "percent": 100, "videoId": "https://www.youtube.com/watch?v=Sf3O-1bQ79s" },
-    { "username": "CIJO", "percent": 100, "videoId": "https://www.youtube.com/watch?v=JMNSCtlYOek" },
-    { "username": "Finley", "percent": 100, "videoId": "https://www.youtube.com/watch?v=xmsB7y9G4rI" },
-    { "username": "Plkil", "percent": 100, "videoId": "https://www.youtube.com/watch?v=2Y7-tlbZFuU" },
-    { "username": "Slaughter", "percent": 100, "videoId": "https://www.youtube.com/watch?v=n-754j_nP1c" },
-    { "username": "aidn76", "percent": 100, "videoId": "https://www.youtube.com/watch?v=eKyAvPT5s20" },
-    { "username": "Dezstro", "percent": 100, "videoId": "https://www.youtube.com/watch?v=6ElTsAynNoQ" },
-    { "username": "vvay", "percent": 100, "videoId": "https://www.youtube.com/watch?v=K9_qbzThhBA" },
-    { "username": "Delu", "percent": 95, "videoId": "https://www.youtube.com/watch?v=pU8lEEeRgoE" },
-    { "username": "Jaegerdd", "percent": 95, "videoId": "https://www.youtube.com/watch?v=RwGb0ANNCoA" },
-    { "username": "Larapra", "percent": 95, "videoId": "https://www.youtube.com/watch?v=TVLhmARj5ro" },
-    { "username": "bufbat", "percent": 93, "videoId": "https://www.youtube.com/watch?v=jlkM8cun-rA" },
-    { "username": "XaviiiFG", "percent": 93, "videoId": "https://www.youtube.com/watch?v=RJOFBl2alrs" },
-    { "username": "CruxxGMD", "percent": 93, "videoId": "https://www.youtube.com/watch?v=pnWJ5F5o6Lw" },
-    { "username": "KlimK", "percent": 93, "videoId": "https://www.youtube.com/watch?v=PFjTNbiiPRU" },
-    { "username": "samu", "percent": 93, "videoId": "https://www.youtube.com/watch?v=3ZeKlwgeeSc" },
-    { "username": "ProudGiraffe311", "percent": 92, "videoId": "https://www.youtube.com/watch?v=ugbj4PGjc9A" },
-    { "username": "FogMello", "percent": 92, "videoId": "https://www.youtube.com/watch?v=pBQh88FeiVI" },
-    { "username": "soley", "percent": 91, "videoId": "https://www.youtube.com/watch?v=BJXGY2CDmUo" },
-    { "username": "Freikz", "percent": 90, "videoId": "https://www.youtube.com/watch?v=PbzMmeWd4go" },
-    { "username": "dizbro", "percent": 90, "videoId": "https://www.youtube.com/watch?v=9NoD04Ziwpg" },
-    { "username": "kane", "percent": 87, "videoId": "https://www.youtube.com/watch?v=PW_xDLQpYMY" },
-    { "username": "Twenty", "percent": 86, "videoId": "https://www.youtube.com/watch?v=Pv6yRXhdwxY" },
-    { "username": "Regoshi", "percent": 83, "videoId": "https://www.youtube.com/watch?v=somHUowBeGM" },
-    { "username": "axellssl", "percent": 83, "videoId": "https://www.youtube.com/watch?v=SAnQMUgWjfg" },
-    { "username": "CharlyBustaRamos", "percent": 83, "videoId": "https://www.twitch.tv/videos/2497565259" },
-    { "username": "Zaro7", "percent": 83, "videoId": "https://www.youtube.com/watch?v=Mv25daqkqKw" },
-    { "username": "Ryexus", "percent": 83, "videoId": "https://www.youtube.com/watch?v=1KaBJp3lYjY" },
-    { "username": "Frostix", "percent": 82, "videoId": "https://www.youtube.com/watch?v=5VsZj3I1NhA" },
-    { "username": "Fracdayy", "percent": 82, "videoId": "https://www.youtube.com/watch?v=XLv1u_xXmYQ" },
-    { "username": "wwozes", "percent": 82, "videoId": "https://www.youtube.com/watch?v=_SneHx_bKVc" },
-    { "username": "zYosh", "percent": 81, "videoId": "https://www.youtube.com/watch?v=GBgpEaC5JeY" },
-    { "username": "Scep!", "percent": 81, "videoId": "https://www.youtube.com/watch?v=2Tm37Giz-n0" },
-    { "username": "Korunox", "percent": 81, "videoId": "https://www.youtube.com/watch?v=cgSfhraUBBM" },
-    { "username": "RaQwAGMD", "percent": 81, "videoId": "https://www.youtube.com/watch?v=dwVf-V7-_r4" },
-    { "username": "brite", "percent": 81, "videoId": "https://www.youtube.com/watch?v=oKKtyMJE644" },
-    { "username": "CookieIsMine", "percent": 81, "videoId": "https://www.youtube.com/watch?v=KHZ6Gb5QPNc" },
-    { "username": "PoCle", "percent": 81, "videoId": "https://www.youtube.com/watch?v=XNB3bpcwKgs" },
-    { "username": "Doubley123", "percent": 80, "videoId": "https://www.youtube.com/watch?v=GYbLkdiTzwk" },
-    { "username": "WaterRising", "percent": 80, "videoId": "https://www.youtube.com/watch?v=4boPdySUWQs" },
-    { "username": "OneAlphaHelix", "percent": 79, "videoId": "https://www.youtube.com/watch?v=mhEo7Zt0NIc" },
-    { "username": "gdbros", "percent": 79, "videoId": "https://www.youtube.com/watch?v=H0OR-OYq5EI" },
-    { "username": "diversify", "percent": 79, "videoId": "https://www.youtube.com/watch?v=ZizkitUIeYg" },
-    { "username": "notd4n1", "percent": 79, "videoId": "https://www.youtube.com/watch?v=D_UmA33BJaI" },
-    { "username": "tea", "percent": 79, "videoId": "https://www.youtube.com/watch?v=Zji_EB_xwO0" },
-    { "username": "woolfys", "percent": 79, "videoId": "https://www.youtube.com/watch?v=FZxvWo-bheE" },
-    { "username": "redd", "percent": 79, "videoId": "https://www.youtube.com/watch?v=sGx4-PiqRxE" },
-    { "username": "niwox", "percent": 78, "videoId": "https://www.youtube.com/watch?v=0YSbo1GpojI" },
-    { "username": "SLEMNS", "percent": 76, "videoId": "https://www.youtube.com/watch?v=KAPC0mq-ot4" },
-    { "username": "lio3527", "percent": 76, "videoId": "https://www.youtube.com/watch?v=FJiIDiB1xJQ" },
-    { "username": "jamalhebeebhebab", "percent": 76, "videoId": "https://www.youtube.com/watch?v=Weom6yrmSlk" },
-    { "username": "Jolly15", "percent": 76, "videoId": "https://www.twitch.tv/videos/2342971177" },
-    { "username": "jilna", "percent": 75, "videoId": "https://www.youtube.com/watch?v=-npG60O-Zwc" },
-    { "username": "No0byyy", "percent": 75, "videoId": "https://www.youtube.com/watch?v=ggtdQ76PS6Y" },
-    { "username": "Kopre", "percent": 75, "videoId": "https://www.youtube.com/watch?v=watvyGaUl8s" },
-    { "username": "ScoffGD", "percent": 75, "videoId": "https://www.youtube.com/watch?v=XLtzUGOcVi8" },
-    { "username": "PxlishGMD", "percent": 75, "videoId": "https://www.youtube.com/watch?v=fJp_mnK2Ij0" },
-    { "username": "TreblePKGD", "percent": 75, "videoId": "https://www.youtube.com/watch?v=abyEZ4mRY9Y" },
-    { "username": "Acresta", "percent": 75, "videoId": "https://www.youtube.com/watch?v=znbdLZX-ndQ" },
-    { "username": "Adri ketchup", "percent": 75, "videoId": "https://www.youtube.com/watch?v=Y70ezIvkDx4" },
-    { "username": "ZtxGMD", "percent": 75, "videoId": "https://www.youtube.com/watch?v=4OtJTUid-d4" },
-    { "username": "Sera", "percent": 75, "videoId": "https://www.youtube.com/watch?v=N3kaL5_FXfY" }
-  ]
-},
-  {
-    "placement": 17,
     "name": "Menace",
     "creator": "MannyHeffley",
     "verifier": "Whizkid05",
@@ -520,7 +394,1028 @@
     "description": "Thanks for playing! Very short map, hope you enjoy!"
   },
   {
+    "placement": 14,
+    "name": "Tunnel of Despair",
+    "creator": "Exen",
+    "verifier": "Zoink",
+    "thumbnail": "",
+    "videoId": "LpS4JREhW98",
+    "records": [],
+    "levelId": 91351939,
+    "description": "Tunnel of Despair. Gameplay by Exen, Deco by ImMaxX1, Verified by Zoink."
+  },
+  {
+    "placement": 15,
+    "name": "Abyss of Darkness",
+    "creator": "Exen",
+    "verifier": "Cursed",
+    "thumbnail": "URL_TO_THUMBNAIL",
+    "videoId": "ejJkpqcMMCY",
+    "records": [],
+    "levelId": 49896559,
+    "description": ""
+  },
+  {
+    "placement": 16,
+    "name": "Kyouki",
+    "creator": "｛出見塩｝",
+    "verifier": "｛出見塩｝",
+    "thumbnail": "",
+    "videoId": "KDa5c0CJTHs",
+    "records": [],
+    "levelId": 86018142,
+    "description": "This is Crazy."
+  },
+  {
+    "placement": 17,
+    "name": "Subterminal Point",
+    "creator": "SyQual",
+    "verifier": "Pocle",
+    "thumbnail": "",
+    "videoId": "h2wmRMgACH4",
+    "records": [],
+    "levelId": 113599729,
+    "description": "Also inspired by Maplestory. Verified by PoCle"
+  },
+  {
     "placement": 18,
+    "name": "Slaughterhouse",
+    "creator": "icedcave",
+    "verifier": "Doggie",
+    "thumbnail": "",
+    "videoId": "https://youtu.be/kpcF1-QAHQc",
+    "levelId": 27690100,
+    "description": "",
+    "records": [
+      {
+        "username": "Zoink",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=KaA6csT7Zo8"
+      },
+      {
+        "username": "Cursed",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=BmyCLv1gqyo"
+      },
+      {
+        "username": "Zeroxy",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=gqEVuyHOvbQ"
+      },
+      {
+        "username": "RaeveZ",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=XOzY7Vs2xgA"
+      },
+      {
+        "username": "Trick",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=GVuiXZIQzH4"
+      },
+      {
+        "username": "Diamond",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=ayLiN4mJzYo"
+      },
+      {
+        "username": "Emiliano56",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=P9QaByT59EQ"
+      },
+      {
+        "username": "wPopoff",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=E_jSh91GUwI"
+      },
+      {
+        "username": "Blackhole",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=gfmsOJqCY3M"
+      },
+      {
+        "username": "SnowBallerr",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=R8BRVYBPFS8"
+      },
+      {
+        "username": "Baeru",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=I0MuJY-XO5c"
+      },
+      {
+        "username": "yolomodeboom",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=zG1AZDiPa8o"
+      },
+      {
+        "username": "enfix",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=E0xnmFWFPdE"
+      },
+      {
+        "username": "ItzTayfun",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=6DxZTZwBsrQ"
+      },
+      {
+        "username": "zoe",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=9fM_TV7EWJw"
+      },
+      {
+        "username": "TheRealEandis",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=StbIYTjPVsU"
+      },
+      {
+        "username": "Beastular",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=8BN8cIiYJJk"
+      },
+      {
+        "username": "cobrablitz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=RUsXoTGOPXg"
+      },
+      {
+        "username": "Tunax",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=rX8FINYUx1A"
+      },
+      {
+        "username": "Thnnder",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=VQn8t72z26I"
+      },
+      {
+        "username": "Netermind",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=0lssXLw6A8c"
+      },
+      {
+        "username": "Taiago",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=IR9zDULGdDU"
+      },
+      {
+        "username": "zThund3r",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=TXet2Px5tT4"
+      },
+      {
+        "username": "Hipo",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=ANKh9eqUIMc"
+      },
+      {
+        "username": "pohgii",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=pRUREppfhQc"
+      },
+      {
+        "username": "Viwi",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=tO8zBvV2oX0"
+      },
+      {
+        "username": "AidanTR",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=1fpui0QqQXM"
+      },
+      {
+        "username": "moliklee",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=7DvputqOKR4"
+      },
+      {
+        "username": "Litoks",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=BXsMjxoy7_M"
+      },
+      {
+        "username": "Tylor",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=-38n4NlETbY"
+      },
+      {
+        "username": "fluxe",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=1FtdyYNB7OY"
+      },
+      {
+        "username": "kloone",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=f-_bwD9ku6A"
+      },
+      {
+        "username": "Cookie",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=eVwW74JbGgk"
+      },
+      {
+        "username": "nerveless",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=BJfQLp6Ir6c"
+      },
+      {
+        "username": "Abdieldevil",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=h4cquG2YMI8"
+      },
+      {
+        "username": "turtle",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=nfxU9MF229g"
+      },
+      {
+        "username": "DraxitIII",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=xOpl-LHNM6g"
+      },
+      {
+        "username": "slimepesoz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=TrOI1Zne1cg"
+      },
+      {
+        "username": "Donei GD",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=0wNoC6IJY9E"
+      },
+      {
+        "username": "spookkd",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=HrnAR8NuM_c"
+      },
+      {
+        "username": "Mizukii",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Sl9i-ofRd3Y"
+      },
+      {
+        "username": "Bradenbowl",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=u3hETZa-A_M"
+      },
+      {
+        "username": "Dragoon",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=1FULyREfy8A"
+      },
+      {
+        "username": "Denni",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=JSgBGiJ04KU"
+      },
+      {
+        "username": "ChopBlox",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=ybmUBzQK0Tk"
+      },
+      {
+        "username": "Nocturina",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=6C_-jSkZJhw"
+      },
+      {
+        "username": "PaltAcheron",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=v-EYBYjne9E"
+      },
+      {
+        "username": "blazenik",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=EuAWUq9jczk"
+      },
+      {
+        "username": "Adri420",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=E3L5-HPBm3Q"
+      },
+      {
+        "username": "Yanlici",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=NFErxGhHjAg"
+      },
+      {
+        "username": "The_Bat0",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=bRkz2l6o_Wk"
+      },
+      {
+        "username": "Hover",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=LruWTWwetok"
+      },
+      {
+        "username": "teraaa",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=yRKP2JUEwHs"
+      },
+      {
+        "username": "Kramujo",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=4GBKRSE9rrE"
+      },
+      {
+        "username": "Technical",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=rJWyAbnQ808"
+      },
+      {
+        "username": "sykaav",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=BSt7CVet-DA"
+      },
+      {
+        "username": "Jerpaa",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=-FpnSwBPusE"
+      },
+      {
+        "username": "Улыбочку",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=tj6a8h3bGQ0"
+      },
+      {
+        "username": "MeQ8cNv43s6A",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=TFE-mlpUYSc"
+      },
+      {
+        "username": "LaserGD",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=3MDTW2iamt0"
+      },
+      {
+        "username": "ColossalOrange",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=158vc2wpWjE"
+      },
+      {
+        "username": "fallen",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=hwEQtryMUI8"
+      },
+      {
+        "username": "sawyer",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=YkKTOH5-K34"
+      },
+      {
+        "username": "Flexx",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=-AvrRgR_ITE"
+      },
+      {
+        "username": "LAMINGTON",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=UamriCIcMOc"
+      },
+      {
+        "username": "Saitama",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=soJ7j6JlBAg"
+      },
+      {
+        "username": "Harhir",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=WC5QIa5WPds"
+      },
+      {
+        "username": "Axinity",
+        "percent": 100,
+        "videoId": ""
+      },
+      {
+        "username": "Rizekk",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=a6GIUYcPDMc"
+      },
+      {
+        "username": "jonah",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=jROoQcc0Zjo"
+      },
+      {
+        "username": "EdwardUKraine",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=kAi7IwiIq2M"
+      },
+      {
+        "username": "Albert",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=3wYMIejv9s8"
+      },
+      {
+        "username": "ROZE",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=y7dj05cm4M4"
+      },
+      {
+        "username": "strawberry",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=LNx4hNpLVc0"
+      },
+      {
+        "username": "Andrey Kapninskii",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=zWy1Vso8_xk"
+      },
+      {
+        "username": "Arshadow",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=ooxNXR_QDMQ"
+      },
+      {
+        "username": "WaterBottle317",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=hJOvknfi0rQ"
+      },
+      {
+        "username": "레전드아잉몰라요",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=GdBo0IzRwog"
+      },
+      {
+        "username": "GDwavedash",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=LHvu9Kp9lGE"
+      },
+      {
+        "username": "cudby",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=WG_3ZJzjLEo"
+      },
+      {
+        "username": "Gamerdude",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=gfTSI2w0jvA"
+      },
+      {
+        "username": "w3rty",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=w7LOfiQZwuw"
+      },
+      {
+        "username": "o.kuang",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=osaIkpmyFKg"
+      },
+      {
+        "username": "JesseGamingGD",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=p03j-xL-108"
+      },
+      {
+        "username": "sunix.",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=3aNlPkXfO9I"
+      },
+      {
+        "username": "Theitha",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=oTTNspIFtYY"
+      },
+      {
+        "username": "ezvie",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=5t2mG4_afJg"
+      },
+      {
+        "username": "zStucc",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=4SpX4mijqEQ"
+      },
+      {
+        "username": "Raffox",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=NV_7IZX-r1o"
+      },
+      {
+        "username": "eastshark",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=uyz1JqzHYkQ"
+      },
+      {
+        "username": "ked",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=nThZnLqTPjo"
+      },
+      {
+        "username": "Kaza",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=LffCd9yGEVU"
+      },
+      {
+        "username": "SpaceRS",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=6pjcHLfZPp4"
+      },
+      {
+        "username": "kropka",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=j9G9H3PYTkk"
+      },
+      {
+        "username": "surrounded",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Gx0hIA2aARQ"
+      },
+      {
+        "username": "nemzie",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=INbkxUsiuZ0"
+      },
+      {
+        "username": "Superjavicon",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=wSGhVoxD_eY"
+      },
+      {
+        "username": "Laniakea",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Qv4skMxrJa8"
+      },
+      {
+        "username": "akka",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=IMU03DbSR10"
+      },
+      {
+        "username": "Pleid",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=hR6BFVSR8Xs"
+      },
+      {
+        "username": "Thisisfcp",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=iZRB2GtmF8A"
+      },
+      {
+        "username": "Gamingbyte",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=xKNlCW6RhH4"
+      },
+      {
+        "username": "Rybertrion",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=0-VurW0Ccq0"
+      },
+      {
+        "username": "Doritos1055",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=FTx8Z7ExGn4"
+      },
+      {
+        "username": "xywix",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=7U5ZXygiNuM"
+      },
+      {
+        "username": "skzyl",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=GA3DjjQv_4Y"
+      },
+      {
+        "username": "GameChief",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=yxkms0G_HwU"
+      },
+      {
+        "username": "Perrix47",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Cpi-rR4WJC8"
+      },
+      {
+        "username": "SerVax",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=hYpD7GNw2g8"
+      },
+      {
+        "username": "fusion425",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=zPU3SA5xZPs"
+      },
+      {
+        "username": "dewbbs",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=TwajtE5Wr0M"
+      },
+      {
+        "username": "manu",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=jZfoDtRho4I"
+      },
+      {
+        "username": "Editorial",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=PLxEF0Qn_UU"
+      },
+      {
+        "username": "Tihra",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=5tOszZHHBAE"
+      },
+      {
+        "username": "ffzer",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=ln-7BvbH0E0"
+      },
+      {
+        "username": "noxell",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=-80k5DtSPkk"
+      },
+      {
+        "username": "Mikhail Krotov",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=tJLt_44vDP0"
+      },
+      {
+        "username": "LilGig",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=yY0TrfvjTy8"
+      },
+      {
+        "username": "Serpentical GMD",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=J3jXFQmUtAk"
+      },
+      {
+        "username": "XBelugaX",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=tKioEwz4Wcw"
+      },
+      {
+        "username": "RiVeL",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=mGxo7JiMjrw"
+      },
+      {
+        "username": "Moraye",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=hT7pHgZA-zM"
+      },
+      {
+        "username": "Swooker",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=rQh-MKu05g8"
+      },
+      {
+        "username": "Brian_Cheese",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=rSlHEIGwnxk"
+      },
+      {
+        "username": "pillz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=wVZY4YTaVPo"
+      },
+      {
+        "username": "Unlucky2",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=UTSxo1l-QgE"
+      },
+      {
+        "username": "Hqmy",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=81cYK1QPWUI"
+      },
+      {
+        "username": "Icanplayz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=f9khjUGok28"
+      },
+      {
+        "username": "Cryostaz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=b_zA0K-9lsA"
+      },
+      {
+        "username": "Trolly1",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=dSa5f7EjTxY"
+      },
+      {
+        "username": "nebular",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=jzCcqW2rPwI"
+      },
+      {
+        "username": "miguel6456",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Sf3O-1bQ79s"
+      },
+      {
+        "username": "CIJO",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=JMNSCtlYOek"
+      },
+      {
+        "username": "Finley",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=xmsB7y9G4rI"
+      },
+      {
+        "username": "Plkil",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=2Y7-tlbZFuU"
+      },
+      {
+        "username": "Slaughter",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=n-754j_nP1c"
+      },
+      {
+        "username": "aidn76",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=eKyAvPT5s20"
+      },
+      {
+        "username": "Dezstro",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=6ElTsAynNoQ"
+      },
+      {
+        "username": "vvay",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=K9_qbzThhBA"
+      },
+      {
+        "username": "Delu",
+        "percent": 95,
+        "videoId": "https://www.youtube.com/watch?v=pU8lEEeRgoE"
+      },
+      {
+        "username": "Jaegerdd",
+        "percent": 95,
+        "videoId": "https://www.youtube.com/watch?v=RwGb0ANNCoA"
+      },
+      {
+        "username": "Larapra",
+        "percent": 95,
+        "videoId": "https://www.youtube.com/watch?v=TVLhmARj5ro"
+      },
+      {
+        "username": "bufbat",
+        "percent": 93,
+        "videoId": "https://www.youtube.com/watch?v=jlkM8cun-rA"
+      },
+      {
+        "username": "XaviiiFG",
+        "percent": 93,
+        "videoId": "https://www.youtube.com/watch?v=RJOFBl2alrs"
+      },
+      {
+        "username": "CruxxGMD",
+        "percent": 93,
+        "videoId": "https://www.youtube.com/watch?v=pnWJ5F5o6Lw"
+      },
+      {
+        "username": "KlimK",
+        "percent": 93,
+        "videoId": "https://www.youtube.com/watch?v=PFjTNbiiPRU"
+      },
+      {
+        "username": "samu",
+        "percent": 93,
+        "videoId": "https://www.youtube.com/watch?v=3ZeKlwgeeSc"
+      },
+      {
+        "username": "ProudGiraffe311",
+        "percent": 92,
+        "videoId": "https://www.youtube.com/watch?v=ugbj4PGjc9A"
+      },
+      {
+        "username": "FogMello",
+        "percent": 92,
+        "videoId": "https://www.youtube.com/watch?v=pBQh88FeiVI"
+      },
+      {
+        "username": "soley",
+        "percent": 91,
+        "videoId": "https://www.youtube.com/watch?v=BJXGY2CDmUo"
+      },
+      {
+        "username": "Freikz",
+        "percent": 90,
+        "videoId": "https://www.youtube.com/watch?v=PbzMmeWd4go"
+      },
+      {
+        "username": "dizbro",
+        "percent": 90,
+        "videoId": "https://www.youtube.com/watch?v=9NoD04Ziwpg"
+      },
+      {
+        "username": "kane",
+        "percent": 87,
+        "videoId": "https://www.youtube.com/watch?v=PW_xDLQpYMY"
+      },
+      {
+        "username": "Twenty",
+        "percent": 86,
+        "videoId": "https://www.youtube.com/watch?v=Pv6yRXhdwxY"
+      },
+      {
+        "username": "Regoshi",
+        "percent": 83,
+        "videoId": "https://www.youtube.com/watch?v=somHUowBeGM"
+      },
+      {
+        "username": "axellssl",
+        "percent": 83,
+        "videoId": "https://www.youtube.com/watch?v=SAnQMUgWjfg"
+      },
+      {
+        "username": "CharlyBustaRamos",
+        "percent": 83,
+        "videoId": "https://www.twitch.tv/videos/2497565259"
+      },
+      {
+        "username": "Zaro7",
+        "percent": 83,
+        "videoId": "https://www.youtube.com/watch?v=Mv25daqkqKw"
+      },
+      {
+        "username": "Ryexus",
+        "percent": 83,
+        "videoId": "https://www.youtube.com/watch?v=1KaBJp3lYjY"
+      },
+      {
+        "username": "Frostix",
+        "percent": 82,
+        "videoId": "https://www.youtube.com/watch?v=5VsZj3I1NhA"
+      },
+      {
+        "username": "Fracdayy",
+        "percent": 82,
+        "videoId": "https://www.youtube.com/watch?v=XLv1u_xXmYQ"
+      },
+      {
+        "username": "wwozes",
+        "percent": 82,
+        "videoId": "https://www.youtube.com/watch?v=_SneHx_bKVc"
+      },
+      {
+        "username": "zYosh",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=GBgpEaC5JeY"
+      },
+      {
+        "username": "Scep!",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=2Tm37Giz-n0"
+      },
+      {
+        "username": "Korunox",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=cgSfhraUBBM"
+      },
+      {
+        "username": "RaQwAGMD",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=dwVf-V7-_r4"
+      },
+      {
+        "username": "brite",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=oKKtyMJE644"
+      },
+      {
+        "username": "CookieIsMine",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=KHZ6Gb5QPNc"
+      },
+      {
+        "username": "PoCle",
+        "percent": 81,
+        "videoId": "https://www.youtube.com/watch?v=XNB3bpcwKgs"
+      },
+      {
+        "username": "Doubley123",
+        "percent": 80,
+        "videoId": "https://www.youtube.com/watch?v=GYbLkdiTzwk"
+      },
+      {
+        "username": "WaterRising",
+        "percent": 80,
+        "videoId": "https://www.youtube.com/watch?v=4boPdySUWQs"
+      },
+      {
+        "username": "OneAlphaHelix",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=mhEo7Zt0NIc"
+      },
+      {
+        "username": "gdbros",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=H0OR-OYq5EI"
+      },
+      {
+        "username": "diversify",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=ZizkitUIeYg"
+      },
+      {
+        "username": "notd4n1",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=D_UmA33BJaI"
+      },
+      {
+        "username": "tea",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=Zji_EB_xwO0"
+      },
+      {
+        "username": "woolfys",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=FZxvWo-bheE"
+      },
+      {
+        "username": "redd",
+        "percent": 79,
+        "videoId": "https://www.youtube.com/watch?v=sGx4-PiqRxE"
+      },
+      {
+        "username": "niwox",
+        "percent": 78,
+        "videoId": "https://www.youtube.com/watch?v=0YSbo1GpojI"
+      },
+      {
+        "username": "SLEMNS",
+        "percent": 76,
+        "videoId": "https://www.youtube.com/watch?v=KAPC0mq-ot4"
+      },
+      {
+        "username": "lio3527",
+        "percent": 76,
+        "videoId": "https://www.youtube.com/watch?v=FJiIDiB1xJQ"
+      },
+      {
+        "username": "jamalhebeebhebab",
+        "percent": 76,
+        "videoId": "https://www.youtube.com/watch?v=Weom6yrmSlk"
+      },
+      {
+        "username": "Jolly15",
+        "percent": 76,
+        "videoId": "https://www.twitch.tv/videos/2342971177"
+      },
+      {
+        "username": "jilna",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=-npG60O-Zwc"
+      },
+      {
+        "username": "No0byyy",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=ggtdQ76PS6Y"
+      },
+      {
+        "username": "Kopre",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=watvyGaUl8s"
+      },
+      {
+        "username": "ScoffGD",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=XLtzUGOcVi8"
+      },
+      {
+        "username": "PxlishGMD",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=fJp_mnK2Ij0"
+      },
+      {
+        "username": "TreblePKGD",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=abyEZ4mRY9Y"
+      },
+      {
+        "username": "Acresta",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=znbdLZX-ndQ"
+      },
+      {
+        "username": "Adri ketchup",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=Y70ezIvkDx4"
+      },
+      {
+        "username": "ZtxGMD",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=4OtJTUid-d4"
+      },
+      {
+        "username": "Sera",
+        "percent": 75,
+        "videoId": "https://www.youtube.com/watch?v=N3kaL5_FXfY"
+      }
+    ]
+  },
+  {
+    "placement": 19,
     "name": "KOCMOC",
     "creator": "cherryteam",
     "verifier": "Zoink",
@@ -531,7 +1426,7 @@
     "description": "verified by Trick // verified by Zoink"
   },
   {
-    "placement": 19,
+    "placement": 20,
     "name": "Sakupen Circles",
     "creator": "[TCD] Diamond",
     "verifier": "Diamond",
@@ -542,7 +1437,7 @@
     "description": "By Nick24, DrCuber, korewa, Muffy450, Renn241, endevvor, Mzero, NineDice, GhostVandalf. Dedicated to Cursed"
   },
   {
-    "placement": 20,
+    "placement": 21,
     "name": "Deimos",
     "creator": "ItsHybrid",
     "verifier": "Doggie",
@@ -553,7 +1448,7 @@
     "description": "Verified by Npesta!"
   },
   {
-    "placement": 21,
+    "placement": 22,
     "name": "Firework",
     "creator": "[TCD] Trick",
     "verifier": "Trick",
@@ -564,7 +1459,7 @@
     "description": "Here you die"
   },
   {
-    "placement": 22,
+    "placement": 23,
     "name": "The Lightning Rod",
     "creator": "Lavatrex",
     "verifier": "Lavatrex",
@@ -575,7 +1470,7 @@
     "description": "Solve the mystery of thunderstorms on a rainy day. 264 hours and 101 thousand attempts. My greatest project ever. Love you all! (bug @ 10% fixed 2/23/24)"
   },
   {
-    "placement": 23,
+    "placement": 24,
     "name": "poocubed",
     "creator": "Liisp",
     "verifier": "Kyasshukodo",
@@ -586,7 +1481,7 @@
     "description": ""
   },
   {
-    "placement": 24,
+    "placement": 25,
     "name": "KOSETSU",
     "creator": "fwe",
     "verifier": "Taiago",
@@ -597,7 +1492,7 @@
     "description": "prepare for cold..."
   },
   {
-    "placement": 25,
+    "placement": 26,
     "name": "Saul Goodman",
     "creator": "Renn241",
     "verifier": "Jori",
@@ -608,7 +1503,7 @@
     "description": "verified by riley (cool person)"
   },
   {
-    "placement": 26,
+    "placement": 27,
     "name": "Eyes in the Water",
     "creator": "hawkyre",
     "verifier": "LordVaderCraft",
@@ -619,7 +1514,7 @@
     "description": ".-  .-..  .--  .-  -.--  ...  /  .--  .-  -  -.-.  ......  -. --."
   },
   {
-    "placement": 27,
+    "placement": 28,
     "name": "MINUSdry",
     "creator": "CDMusic",
     "verifier": "Varium",
@@ -630,7 +1525,7 @@
     "description": "To be dry, or not to be dry? That is the question. - Created by CDMusic and Sevant, verified by Varium."
   },
   {
-    "placement": 28,
+    "placement": 29,
     "name": "Belladonna",
     "creator": "cherryteam",
     "verifier": "Exsii",
@@ -641,7 +1536,7 @@
     "description": "neo deco"
   },
   {
-    "placement": 29,
+    "placement": 30,
     "name": "Operation Evolution",
     "creator": "Halzion",
     "verifier": "cobrablitz",
@@ -652,7 +1547,7 @@
     "description": "Enjoy 5 minutes of my best decoration and gameplay! (special thanks to ItzMoha)"
   },
   {
-    "placement": 30,
+    "placement": 31,
     "name": "Sevvend Clubstep",
     "creator": "cherryteam",
     "verifier": "Vorten",
@@ -663,7 +1558,7 @@
     "description": "hosted by MinAY // verified by :tomato: Vorten :tomato: // v2: all skips fixed"
   },
   {
-    "placement": 31,
+    "placement": 32,
     "name": "The Hallucination",
     "creator": "SyQual",
     "verifier": "VoTcHi",
@@ -674,7 +1569,7 @@
     "description": "Psychedelic. Layout and verified by Votchi"
   },
   {
-    "placement": 32,
+    "placement": 33,
     "name": "COMBUSTION",
     "creator": "[SKWAD] Cersia",
     "verifier": "Slithium",
@@ -685,7 +1580,7 @@
     "description": "dedicated to Tongii :) v3: changed the \"B\" at the end to an \"X\" cuz of new name :)"
   },
   {
-    "placement": 33,
+    "placement": 34,
     "name": "Solar Flare",
     "creator": "Linear",
     "verifier": "swiborg",
@@ -696,7 +1591,7 @@
     "description": "The star's name is Janet, please be nice to her. Original level by D4rkGryf."
   },
   {
-    "placement": 34,
+    "placement": 35,
     "name": "Apocalyptic Trilogy",
     "creator": "APTeamOfficial",
     "verifier": "Polterghast",
@@ -707,7 +1602,7 @@
     "description": "Forged in the chaos of 2016, finalized against all odds. Will you survive the end of all things?"
   },
   {
-    "placement": 35,
+    "placement": 36,
     "name": "LIMBO",
     "creator": "MindCap",
     "verifier": "BUNNYGRAM",
@@ -718,7 +1613,7 @@
     "description": "                                    FOCUS"
   },
   {
-    "placement": 36,
+    "placement": 37,
     "name": "Gaggatrondra",
     "creator": "MoistyJc",
     "verifier": "Zeronium",
@@ -729,7 +1624,7 @@
     "description": "Second solo moity map is here and queer get used to it - verified by Zeronium"
   },
   {
-    "placement": 37,
+    "placement": 38,
     "name": "Edge of Destiny",
     "creator": "CDMusic",
     "verifier": "Polterghast",
@@ -740,7 +1635,7 @@
     "description": "Your destiny awaits.. - Verified by Polterghast. [BUG-FIX UPDATE FOR 2.2]"
   },
   {
-    "placement": 38,
+    "placement": 39,
     "name": "Codependence",
     "creator": "TCTeam",
     "verifier": "Pukklez",
@@ -751,7 +1646,7 @@
     "description": "Duelo Maestro but better | Verified by Kapinapi and ViralDL | Have fun!"
   },
   {
-    "placement": 39,
+    "placement": 40,
     "name": "Mayhem",
     "creator": "[DL] LordVadercraft",
     "verifier": "LordVaderCraft",
@@ -762,7 +1657,7 @@
     "description": "When mayhem begins there is no way back..."
   },
   {
-    "placement": 40,
+    "placement": 41,
     "name": "walter white",
     "creator": "Renn241",
     "verifier": "iIiLaSeRiIi",
@@ -773,7 +1668,7 @@
     "description": "detjfgjgcbvbvvbvbbvvbvbv"
   },
   {
-    "placement": 41,
+    "placement": 42,
     "name": "Deadlier Clubstep",
     "creator": "HeroZombie80",
     "verifier": "Jenath",
@@ -784,7 +1679,7 @@
     "description": "\"In this shattered world of darkness.. Only Donald Trump may prevail.\" -Pla. Verified by Jenath"
   },
   {
-    "placement": 42,
+    "placement": 43,
     "name": "Damascus",
     "creator": "Dzeser",
     "verifier": "Timo",
@@ -795,7 +1690,7 @@
     "description": "A montage of scattered memories projected from the creating era. Verified by Timo. 2.2 fix by Vikings."
   },
   {
-    "placement": 43,
+    "placement": 44,
     "name": "PSYCHOPATH",
     "creator": "DeniPol",
     "verifier": "BONN GD",
@@ -806,7 +1701,7 @@
     "description": "Uroven dushevnobolnogo || Psychopath || My 4 year old creation || verified by BONN || art of the woman \"Esmy\" drawn by NormDanchik ||"
   },
   {
-    "placement": 44,
+    "placement": 45,
     "name": "Collapse",
     "creator": "[KIRB] Nexel",
     "verifier": "Nexel",
@@ -817,7 +1712,7 @@
     "description": "a map i made for my 18th birthday (july 30th) -thank you so much rob for epic and daily, best birthday present ever :)"
   },
   {
-    "placement": 45,
+    "placement": 46,
     "name": "The Yangire",
     "creator": "Dorami",
     "verifier": "Dorami",
@@ -828,7 +1723,7 @@
     "description": "\"We have one last dance, TO THE DEATH.\""
   },
   {
-    "placement": 46,
+    "placement": 47,
     "name": "SARYYX NEVER CLEAR",
     "creator": "artos",
     "verifier": "skyzl",
@@ -839,7 +1734,7 @@
     "description": "Welcome to the Howling Abyss. Verified by skzyl"
   },
   {
-    "placement": 47,
+    "placement": 48,
     "name": "ORDINARY",
     "creator": "vit12",
     "verifier": "wPopoff",
@@ -850,7 +1745,7 @@
     "description": ""
   },
   {
-    "placement": 48,
+    "placement": 49,
     "name": "The Plunge",
     "creator": "Dolabill",
     "verifier": "Gokill",
@@ -861,7 +1756,7 @@
     "description": "All the elements pull us apart. But I'm holding on. Know your hands by heart. As I'm reaching out into the dark."
   },
   {
-    "placement": 49,
+    "placement": 50,
     "name": "Midnight",
     "creator": "[SKG] Madison Yuko",
     "verifier": "nei",
@@ -872,7 +1767,7 @@
     "description": ""
   },
   {
-    "placement": 50,
+    "placement": 51,
     "name": "Sinister Silence",
     "creator": "Wahffle",
     "verifier": "wwdonut",
@@ -883,7 +1778,7 @@
     "description": ""
   },
   {
-    "placement": 51,
+    "placement": 52,
     "name": "arcturus",
     "creator": "Maxfs",
     "verifier": "ultracauaHD",
@@ -894,7 +1789,7 @@
     "description": "consumed by darkness, will you be able to free yourself? / verified by ultracauaHD"
   },
   {
-    "placement": 52,
+    "placement": 53,
     "name": "BEELINE",
     "creator": "[DOOBY] Galaxxyss",
     "verifier": "Motor8",
@@ -905,7 +1800,7 @@
     "description": "a level about bees and other cool things we like // verified by zewrnoum and moftow"
   },
   {
-    "placement": 53,
+    "placement": 54,
     "name": "Climax",
     "creator": "HushLC",
     "verifier": "Wain",
@@ -916,7 +1811,7 @@
     "description": "Collab with Echonox! Reupload!"
   },
   {
-    "placement": 54,
+    "placement": 55,
     "name": "Sonic Wave Infinity",
     "creator": "APTeamOfficial",
     "verifier": "Xanii",
@@ -927,7 +1822,7 @@
     "description": "Legendary Demon by APTeam. Verified by Xanii. Legacy Mode can be enabled with LDM Checkbox. Legacy Concept by Viprin. Version 2.0"
   },
   {
-    "placement": 55,
+    "placement": 56,
     "name": "Waterfall",
     "creator": "cherryteam",
     "verifier": "LordVaderCraft",
@@ -938,7 +1833,7 @@
     "description": "Water goes down, but we're dream is goes up :).. Robtop! I love you! <3 (Ver 2.it little bit nerfed! )"
   },
   {
-    "placement": 56,
+    "placement": 57,
     "name": "Coalescence",
     "creator": "[JUICE] Amplitron",
     "verifier": "Amplitron",
@@ -949,7 +1844,7 @@
     "description": "One of my old 1.9 levels that I decided to finish! It's kinda short, but I think it's still pretty good! xD Reupload: Nerfed a few parts ;)"
   },
   {
-    "placement": 57,
+    "placement": 58,
     "name": "Crystal Crusher",
     "creator": "Zeniux",
     "verifier": "GuitGuit",
@@ -960,7 +1855,7 @@
     "description": "You might need a friend to help you escape this cave. Made and verified by me and Zeus. :)"
   },
   {
-    "placement": 58,
+    "placement": 59,
     "name": "Tartarus",
     "creator": "[USSR] Dolphy",
     "verifier": "Dolphy",
@@ -971,7 +1866,7 @@
     "description": "By Riot and more."
   },
   {
-    "placement": 59,
+    "placement": 60,
     "name": "Delta",
     "creator": "[FaZe] Drakosa",
     "verifier": "Doggie",
@@ -982,7 +1877,7 @@
     "description": ""
   },
   {
-    "placement": 60,
+    "placement": 61,
     "name": "THE JET ENGINE",
     "creator": "[TARIQ] Billzer",
     "verifier": "",
@@ -993,7 +1888,7 @@
     "description": ""
   },
   {
-    "placement": 61,
+    "placement": 62,
     "name": "Jigsaw",
     "creator": "NekonGames",
     "verifier": "Gokill",
@@ -1004,7 +1899,7 @@
     "description": "You think it's the living who'll have ultimate judgment over you, because the dead will have no claim over your soul... But you may be mistaken. "
   },
   {
-    "placement": 62,
+    "placement": 63,
     "name": "UNKNOWN",
     "creator": "NineDice",
     "verifier": "Diamond",
@@ -1015,7 +1910,7 @@
     "description": ""
   },
   {
-    "placement": 63,
+    "placement": 64,
     "name": "BPATA MPAKA",
     "creator": "Inex",
     "verifier": "maybee",
@@ -1026,7 +1921,7 @@
     "description": ""
   },
   {
-    "placement": 64,
+    "placement": 65,
     "name": "Cimmerian Shade",
     "creator": "spcreat",
     "verifier": "spcreat",
@@ -1037,7 +1932,7 @@
     "description": "Perpetual darkness and silence, covered in mist and cloud. Let their spirits rest."
   },
   {
-    "placement": 65,
+    "placement": 66,
     "name": "Oblivion",
     "creator": "[smd] dice88",
     "verifier": "dice88",
@@ -1048,7 +1943,7 @@
     "description": "Silence and solitude..."
   },
   {
-    "placement": 66,
+    "placement": 67,
     "name": "Viprin UFO",
     "creator": "hawkyre",
     "verifier": "Cookie",
@@ -1059,7 +1954,7 @@
     "description": "Dedicated to Viprin and his favorite gamemode | Verified by TheRealAlexbear in 22k attempts <3"
   },
   {
-    "placement": 67,
+    "placement": 68,
     "name": "Swing Swing",
     "creator": "Kaza",
     "verifier": "Whizkid05",
@@ -1070,7 +1965,7 @@
     "description": "Swing only extreme demon! Layout by me, decorated by 16 people. Verified by Whizkid05. GOOD LUCK!"
   },
   {
-    "placement": 68,
+    "placement": 69,
     "name": "Terminal Rampancy",
     "creator": "Xyriak",
     "verifier": "Bigthunder556",
@@ -1081,7 +1976,7 @@
     "description": "335,000 objects,19,000 attempts, constant revisions, countless hours, and 5 years. Thank you."
   },
   {
-    "placement": 69,
+    "placement": 70,
     "name": "The Golden",
     "creator": "BoBoBoBoBoBoBo",
     "verifier": "nSwish",
@@ -1092,7 +1987,7 @@
     "description": "Roots from forgotten times, rediscovered to bring the truth to light. Do you have enough courage to face the inevitable? Verified by Nswish."
   },
   {
-    "placement": 70,
+    "placement": 71,
     "name": "Natural Disaster",
     "creator": "iIiLaSeRiIi",
     "verifier": "iIiLaSeRiIi",
@@ -1103,7 +1998,7 @@
     "description": "Respect the Earth or face the consequences. New version (without stolen assets)."
   },
   {
-    "placement": 71,
+    "placement": 72,
     "name": "Verdant Landscape",
     "creator": "Nisha",
     "verifier": "Nisha",
@@ -1114,7 +2009,7 @@
     "description": "FINALLY COMPLETE AND VERIFIED MY FIRST 2.1 SOLO LEVEL! From now on, welcome the scenery of spring when it rains."
   },
   {
-    "placement": 72,
+    "placement": 73,
     "name": "ATOMIC CANNON Mk III",
     "creator": "Lieb",
     "verifier": "Zeronium",
@@ -1125,7 +2020,7 @@
     "description": "The third installment in the ATOMIC CANNON tetralogy! Verified by Zeronium, as always! The final level, ATOMIC CANNON PRIME, is coming soon..."
   },
   {
-    "placement": 73,
+    "placement": 74,
     "name": "NETWORK",
     "creator": "Agat3",
     "verifier": "vulcanium4",
@@ -1136,7 +2031,7 @@
     "description": "\"Black and white create a strange dreamscape that color never can.\" - Jack Antonoff || Sequel to Framework || Verified by vulcanium4"
   },
   {
-    "placement": 74,
+    "placement": 75,
     "name": "Shukketsu",
     "creator": "[SKG] Madison Yuko",
     "verifier": "Baeru",
@@ -1145,16 +2040,5 @@
     "records": [],
     "levelId": 75286957,
     "description": "Welcome to the garden, please don't step on the flowers~"
-  },
-  {
-    "placement": 75,
-    "name": "Checked Steam",
-    "creator": "gruzy",
-    "verifier": "Whizkid05",
-    "thumbnail": "URL_TO_THUMBNAIL",
-    "videoId": "cq6047eYGXs",
-    "records": [],
-    "levelId": 105748155,
-    "description": "please play the depths above by bram4real. ID is 112371654"
   }
 ]
