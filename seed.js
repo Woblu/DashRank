@@ -10,6 +10,11 @@ async function main() {
 
   const listsToSeed = [
     { name: 'main', filePath: './src/data/main-list.json' },
+    { name: 'unrated', filePath: './src/data/unrated-list.json' },
+    { name: 'platformer', filePath: './src/data/platformer-list.json' },
+    { name: 'speedhack', filePath: './src/data/speedhack-list.json' },
+    { name: 'future', filePath: './src/data/future-list.json' },
+    { name: 'challenge', filePath: './src/data/challenge-list.json' }
   ];
 
   for (const list of listsToSeed) {
@@ -26,15 +31,17 @@ async function main() {
     console.log(`Found ${levelsData.length} levels in ${list.name}-list.json.`);
 
     const transformedLevels = levelsData.map(level => {
+      // Parse placement to an integer. If it's not a valid number, default to 0.
+      const parsedPlacement = level.placement ? parseInt(level.placement, 10) : 0;
       // Parse levelId to an integer. If it's not a valid number, default to null.
       const parsedLevelId = level.levelId ? parseInt(level.levelId, 10) : null;
 
       return {
-        placement: level.placement,
+        placement: isNaN(parsedPlacement) ? 0 : parsedPlacement, // THIS IS THE FIX
         name: level.name,
         creator: level.creator,
         verifier: level.verifier,
-        levelId: isNaN(parsedLevelId) ? null : parsedLevelId, // THIS IS THE FIX
+        levelId: isNaN(parsedLevelId) ? null : parsedLevelId,
         videoId: level.videoId,
         description: level.description,
         records: level.records || [],

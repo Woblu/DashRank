@@ -17,8 +17,8 @@ export default function LevelCard({ level, index, listType }) {
   const { t } = useLanguage();
 
   const handleClick = () => {
-    // --- MODIFIED: Use placement for challenge list, levelId for all others ---
-    const identifier = listType === 'challenge' ? level.placement : level.levelId;
+    // THIS IS THE FIX: Always use level.levelId
+    const identifier = level.levelId;
     if (identifier) {
       navigate(`/level/${listType}/${identifier}`);
     }
