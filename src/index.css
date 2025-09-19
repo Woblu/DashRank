@@ -55,15 +55,28 @@
 .dark .custom-scrollbar {
   scrollbar-color: #22d3ee #1f2937; /* thumb color and track color (cyan-400 gray-800) */
 }
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+@keyframes gd-jump {
+  0% {
+    transform: translate(-80px, 0px);
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  20% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
+  50% {
+    /* Peak of the jump */
+    transform: translate(80px, -80px) rotate(90deg);
+  }
+  80% {
+    transform: translate(160px, 0px) rotate(90deg);
+  }
+  100% {
+    transform: translate(240px, 0px) rotate(90deg);
+    opacity: 0;
   }
 }
 
-.animate-spin-slow {
-  animation: spin 2s linear infinite;
+.animate-gd-jump {
+  animation: gd-jump 1.5s ease-in-out infinite;
 }
