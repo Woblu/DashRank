@@ -16,6 +16,7 @@ const statsButtonTitles = {
 export default function Tabs() {
   const { user, logout } = useAuth();
   const tabs = [
+    { name: "Leaderboard", path: "/leaderboard" },
     { name: "Main List", path: "/main" }, { name: "Unrated", path: "/unrated" },
     { name: "Platformer", path: "/platformer" }, { name: "Challenge", path: "/challenge" },
     { name: "Speedhack", path: "/speedhack" }, { name: "Future", path: "/future" },

@@ -9,7 +9,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Your existing models
 type Record {
   username String
   percent  Int
@@ -27,11 +26,8 @@ model Level {
   description String?
   list        String
   records     Record[]
-
   @@map("levels")
 }
-
-// --- ADD THE FOLLOWING ---
 
 enum Role {
   USER
@@ -46,28 +42,34 @@ enum SubmissionStatus {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique // Add this line
-  username  String   @unique
-  password  String   // IMPORTANT: This will store a HASHED password
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  email       String       @unique
+  username    String       @unique
+  password    String
+  role        Role         @default(USER)
+  createdAt   DateTime     @default(now())
   submissions Submission[]
 }
 
 model Submission {
-  id            String           @id @default(auto()) @map("_id") @db.ObjectId
-  levelName     String
-  player        String // The player who achieved the record (defaults to submitter)
-  percent       Int
-  videoId       String
-  rawFootageLink String          // ADD THIS LINE
-  notes         String?          // ADD THIS LINE (optional)
-  status        SubmissionStatus @default(PENDING)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  levelName      String
+  player         String
+  percent        Int
+  videoId        String
+  rawFootageLink String
+  notes          String?
+  status         SubmissionStatus @default(PENDING)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  submittedBy    User             @relation(fields: [submittedById], references: [id])
+  submittedById  String           @db.ObjectId
+}
 
-  submittedBy   User   @relation(fields: [submittedById], references: [id])
-  submittedById String @db.ObjectId
+// ADD THIS NEW MODEL
+model LeaderboardEntry {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  rank   Int
+  player String @unique
+  score  Float
 }

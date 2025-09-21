@@ -23,13 +23,17 @@ export default async function handler(req, res) {
       return res.status(403).json({ message: 'Forbidden' });
     }
 
+    // Get status from query, default to PENDING
+    const { status = 'PENDING' } = req.query;
+
     const submissions = await prisma.submission.findMany({
-      where: { status: 'PENDING' },
+      where: { status: status.toUpperCase() }, // Filter by status
       orderBy: { createdAt: 'asc' },
     });
 
     res.status(200).json(submissions);
   } catch (error) {
+    console.error('Fetch submissions error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }

@@ -17,6 +17,7 @@ import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
+import LeaderboardPage from './pages/LeaderboardPage';
 // No longer need to import SearchResults
 
 export default function App() {
@@ -49,7 +50,7 @@ export default function App() {
                 <Route path="submissions" element={<SubmissionPage />} />
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-              
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
               {/* The /search route has been removed */}
             </Routes>
           </main>
