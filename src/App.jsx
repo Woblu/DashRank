@@ -17,7 +17,7 @@ import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
-import SearchResults from './pages/SearchResults'; // Import the new page
+// No longer need to import SearchResults
 
 export default function App() {
   return (
@@ -50,8 +50,7 @@ export default function App() {
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
               
-              {/* Search Route */}
-              <Route path="/search" element={<SearchResults />} />
+              {/* The /search route has been removed */}
             </Routes>
           </main>
 
