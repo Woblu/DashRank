@@ -17,6 +17,7 @@ import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
+import SearchResults from './pages/SearchResults'; // Import the new page
 
 export default function App() {
   return (
@@ -39,7 +40,7 @@ export default function App() {
               <Route path="/players" element={<PlayerList />} />
               <Route path="/players/:playerName" element={<PlayerProfile />} />
               
-              {/* Auth Routes */}
+              {/* Auth & Admin Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>}>
@@ -48,6 +49,9 @@ export default function App() {
                 <Route path="submissions" element={<SubmissionPage />} />
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+              
+              {/* Search Route */}
+              <Route path="/search" element={<SearchResults />} />
             </Routes>
           </main>
 

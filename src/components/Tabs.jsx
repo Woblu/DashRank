@@ -1,7 +1,7 @@
 // src/components/Tabs.jsx
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation, Link } from "react-router-dom";
-import { BarChart2, Info, LogIn, UserPlus, LogOut } from "lucide-react";
+import { NavLink, useLocation, Link, useNavigate } from "react-router-dom";
+import { BarChart2, Info, LogIn, UserPlus, LogOut, Search } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import StatsViewer from "./StatsViewer";
@@ -15,6 +15,9 @@ const statsButtonTitles = {
 
 export default function Tabs() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  
   const tabs = [
     { name: "Main List", path: "/main" }, { name: "Unrated", path: "/unrated" },
     { name: "Platformer", path: "/platformer" }, { name: "Challenge", path: "/challenge" },
@@ -30,6 +33,14 @@ export default function Tabs() {
     const path = location.pathname.split("/")[1] || "main";
     setListType(path);
   }, [location.pathname]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${searchTerm.trim()}`);
+      setSearchTerm(''); // Optional: clear search bar after submit
+    }
+  };
 
   const AuthButtons = () => {
     if (user) {
@@ -69,15 +80,27 @@ export default function Tabs() {
               </div>
             </Link>
           </div>
-          <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
-            <div className="flex items-center gap-2 flex-wrap justify-center">
+          
+          <div className="w-full md:flex-1 flex flex-col items-center gap-3 order-3 md:order-2">
+            <form onSubmit={handleSearchSubmit} className="relative w-full max-w-sm">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search for a level or creator..."
+                className="w-full p-2 pl-10 rounded-lg border border-gray-600 bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            </form>
+            <nav className="flex items-center gap-2 flex-wrap justify-center">
               {tabs.map((tab) => (
                 <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}>
                   {tab.name}
                 </NavLink>
               ))}
-            </div>
-          </nav>
+            </nav>
+          </div>
+
           <div className="w-full md:flex-1 flex justify-end items-center gap-2 order-2 md:order-3">
             <button title={statsButtonTitles[listType]} onClick={() => setIsStatsViewerOpen(true)} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm">
               <BarChart2 className="w-4 h-4" />
