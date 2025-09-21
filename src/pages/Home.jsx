@@ -3,7 +3,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
-import LoadingSpinner from "../components/LoadingSpinner";
 
 import mainListData from '../data/main-list.json';
 import unratedListData from '../data/unrated-list.json';
