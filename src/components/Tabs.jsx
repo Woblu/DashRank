@@ -16,13 +16,16 @@ const statsButtonTitles = {
 export default function Tabs() {
   const { user, logout } = useAuth();
   const tabs = [
-    { name: "Leaderboard", path: "/leaderboard" },
-    { name: "Main List", path: "/main" }, { name: "Unrated", path: "/unrated" },
-    { name: "Platformer", path: "/platformer" }, { name: "Challenge", path: "/challenge" },
-    { name: "Speedhack", path: "/speedhack" }, { name: "Future", path: "/future" },
+    // The "Leaderboard" link has been removed from this array
+    { name: "Main List", path: "/main" }, 
+    { name: "Unrated", path: "/unrated" },
+    { name: "Platformer", path: "/platformer" }, 
+    { name: "Challenge", path: "/challenge" },
+    { name: "Speedhack", path: "/speedhack" }, 
+    { name: "Future", path: "/future" },
   ];
 
-  const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
+  const [isStatsViewerOpen, setIsStatsViewerOpen] useState(false);
   const [isInfoBoxOpen, setIsInfoBoxOpen] = useState(false);
   const [listType, setListType] = useState("main");
   const location = useLocation();

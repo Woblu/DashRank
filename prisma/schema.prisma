@@ -66,10 +66,4 @@ model Submission {
   submittedById  String           @db.ObjectId
 }
 
-// ADD THIS NEW MODEL
-model LeaderboardEntry {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  rank   Int
-  player String @unique
-  score  Float
-}
+// The LeaderboardEntry model has been removed.
