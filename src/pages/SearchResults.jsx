@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import LevelCard from '../components/LevelCard';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
@@ -38,7 +37,7 @@ export default function SearchResults() {
   }, [query]);
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <div className="text-center text-gray-400 p-8">Searching...</div>;
   }
 
   return (
