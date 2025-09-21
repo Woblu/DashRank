@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 
+// Import all your list data directly
 import mainListData from '../data/main-list.json';
 import unratedListData from '../data/unrated-list.json';
 import platformerListData from '../data/platformer-list.json';
@@ -30,13 +31,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const [creatorFilter, setCreatorFilter] = useState(""); // New state for the creator filter
+  const [creatorFilter, setCreatorFilter] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
     setError(null);
     setSearch("");
-    setCreatorFilter(""); // Reset filter when list changes
+    setCreatorFilter("");
 
     const data = listDataMap[currentListType];
     if (data) {
@@ -50,10 +51,9 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [currentListType]);
 
-  // Memoize the unique list of creators to prevent recalculating on every render
   const uniqueCreators = useMemo(() => {
     if (!levels) return [];
-    const creators = levels.map(level => level.creator).filter(Boolean); // Filter out any null/undefined creators
+    const creators = levels.map(level => level.creator).filter(Boolean);
     return [...new Set(creators)].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
   }, [levels]);
 
@@ -62,7 +62,6 @@ export default function Home() {
       level.name.toLowerCase().includes(search.toLowerCase()) ||
       (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()));
     
-    // If a creator is selected, the level's creator must match
     const creatorMatch = creatorFilter ? level.creator === creatorFilter : true;
 
     return searchMatch && creatorMatch;
@@ -74,7 +73,6 @@ export default function Home() {
         {listTitles[currentListType]}
       </h1>
 
-      {/* Filter Container */}
       <div className="w-full max-w-3xl mb-6 flex flex-col sm:flex-row gap-4">
         <input
           type="text"
@@ -97,7 +95,7 @@ export default function Home() {
 
       <div className="flex flex-col gap-4 w-full max-w-3xl">
         {isLoading ? (
-          <LoadingSpinner />
+          <p className="text-center text-gray-400 mt-8">Loading...</p>
         ) : error ? (
           <p className="text-center text-red-500 mt-8">{error}</p>
         ) : filteredLevels.length > 0 ? (
@@ -105,7 +103,9 @@ export default function Home() {
             <LevelCard key={level.levelId || index} level={level} index={index} listType={currentListType} />
           ))
         ) : (
-          <p className="text-center text-gray-400 mt-8">{t('no_levels_found')}</p>
+          <p className="text-center text-gray-400 mt-8">
+            {t('no_levels_found')}
+          </p>
         )}
       </div>
     </div>
