@@ -1,3 +1,4 @@
+// src/components/LevelCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
@@ -17,16 +18,24 @@ export default function LevelCard({ level, index, listType }) {
   const { t } = useLanguage();
 
   const handleClick = () => {
-    // THIS IS THE FIX: Always use level.levelId
-    const identifier = level.levelId;
-    if (identifier) {
-      navigate(`/level/${listType}/${identifier}`);
+    let path;
+    if (listType === 'progression') {
+      // If it's a personal record, use the record's unique ID and go to the personal detail page
+      path = `/progression/${level.id}`;
+    } else {
+      // Otherwise, use the in-game Level ID and go to the public detail page
+      path = `/level/${listType}/${level.levelId}`;
+    }
+    
+    if (level.id || level.levelId) {
+      navigate(path);
     }
   };
 
   let thumbnailUrl;
   const videoId = getYouTubeVideoId(level.videoId);
 
+  // This logic correctly handles thumbnails for both public and personal records
   if (level.thumbnail && level.thumbnail.startsWith('http')) {
     thumbnailUrl = level.thumbnail;
   } else if (videoId) {
@@ -57,7 +66,7 @@ export default function LevelCard({ level, index, listType }) {
         </h2>
         
         <p className="text-gray-500 dark:text-gray-400">
-          {t('published_by')} {level.creator}
+          {listType === 'progression' ? 'Your Record' : `${t('published_by')} ${level.creator}`}
         </p>
       </div>
     </div>

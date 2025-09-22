@@ -15,9 +15,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
-import SubmissionPage from './pages/account/SubmissionPage'; // THIS PATH IS NOW CORRECT
+import SubmissionPage from './pages/account/SubmissionPage';
 import MyProgressPage from './pages/account/MyProgressPage';
 import AdminDashboard from './pages/AdminDashboard';
+import PersonalRecordDetail from './pages/PersonalRecordDetail'; // Import new detail page
 
 export default function App() {
   return (
@@ -39,6 +40,10 @@ export default function App() {
               <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
               <Route path="/players" element={<PlayerList />} />
               <Route path="/players/:playerName" element={<PlayerProfile />} />
+
+              {/* Progression Tracker Routes */}
+              <Route path="/progression" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/progression/:recordId" element={<ProtectedRoute><PersonalRecordDetail /></ProtectedRoute>} />
               
               {/* Auth, Admin, and Account Routes */}
               <Route path="/login" element={<LoginPage />} />
@@ -47,7 +52,6 @@ export default function App() {
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<ProfileSettingsPage />} />
                 <Route path="submissions" element={<SubmissionPage />} />
-                <Route path="progress" element={<MyProgressPage />} />
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             </Routes>

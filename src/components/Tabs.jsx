@@ -77,8 +77,8 @@ export default function Tabs() {
             <div className="flex items-center gap-2 flex-wrap justify-center">
               
               <NavLink
-                to={user ? "/account/progress" : "/login"}
-                state={!user ? { from: { pathname: "/account/progress" } } : undefined}
+                to={user ? "/progression" : "/login"}
+                state={!user ? { from: { pathname: "/progression" } } : undefined}
                 className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}
               >
                 <BookMarked className="w-4 h-4" />

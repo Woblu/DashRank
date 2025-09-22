@@ -20,11 +20,10 @@ export default async function handler(req, res) {
 
   switch (req.method) {
     case 'GET':
-      // Fetch all records for the user
       try {
         const records = await prisma.personalRecord.findMany({
           where: { userId: decodedToken.userId },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { placement: 'asc' }, // Order by placement
         });
         return res.status(200).json(records);
       } catch (error) {
@@ -32,39 +31,59 @@ export default async function handler(req, res) {
       }
 
     case 'POST':
-      // Create a new record
-      const { levelName, difficulty, attempts, videoUrl, rawFootageLink } = req.body;
-      if (!levelName || !difficulty || !videoUrl) {
-        return res.status(400).json({ message: 'Level name, difficulty, and video URL are required.' });
+      const { placement, levelName, difficulty, attempts, videoUrl, rawFootageLink } = req.body;
+      if (!placement || !levelName || !difficulty || !videoUrl) {
+        return res.status(400).json({ message: 'Placement, level name, difficulty, and video URL are required.' });
       }
       try {
-        const record = await prisma.personalRecord.create({
-          data: { 
-            levelName, 
-            difficulty, 
-            attempts: attempts ? Number(attempts) : null, 
-            videoUrl,
-            rawFootageLink,
-            userId: decodedToken.userId 
-          },
-        });
-        return res.status(201).json(record);
+        await prisma.$transaction([
+          // 1. Shift placements of existing records to make room for the new one
+          prisma.personalRecord.updateMany({
+            where: { userId: decodedToken.userId, placement: { gte: Number(placement) } },
+            data: { placement: { increment: 1 } },
+          }),
+          // 2. Create the new record at the specified placement
+          prisma.personalRecord.create({
+            data: {
+              placement: Number(placement),
+              levelName,
+              difficulty,
+              attempts: attempts ? Number(attempts) : null,
+              videoUrl,
+              rawFootageLink,
+              userId: decodedToken.userId
+            },
+          }),
+        ]);
+        return res.status(201).json({ message: 'Record added successfully.' });
       } catch (error) {
+        console.error(error);
         return res.status(500).json({ message: 'Failed to create record.' });
       }
 
     case 'DELETE':
-      // Delete a record
       const { recordId } = req.body;
       if (!recordId) {
         return res.status(400).json({ message: 'Record ID is required.' });
       }
       try {
-        const recordToDelete = await prisma.personalRecord.findUnique({ where: { id: recordId } });
-        if (!recordToDelete || recordToDelete.userId !== decodedToken.userId) {
-          return res.status(403).json({ message: 'Forbidden' });
+        const recordToDelete = await prisma.personalRecord.findFirst({
+          where: { id: recordId, userId: decodedToken.userId },
+        });
+
+        if (!recordToDelete) {
+          return res.status(403).json({ message: 'Record not found or you do not have permission to delete it.' });
         }
-        await prisma.personalRecord.delete({ where: { id: recordId } });
+        
+        await prisma.$transaction([
+          // 1. Delete the record
+          prisma.personalRecord.delete({ where: { id: recordId } }),
+          // 2. Shift placements of subsequent records to fill the gap
+          prisma.personalRecord.updateMany({
+            where: { userId: decodedToken.userId, placement: { gt: recordToDelete.placement } },
+            data: { placement: { decrement: 1 } },
+          }),
+        ]);
         return res.status(200).json({ message: 'Record deleted successfully.' });
       } catch (error) {
         return res.status(500).json({ message: 'Failed to delete record.' });
