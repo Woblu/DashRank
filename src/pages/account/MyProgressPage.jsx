@@ -7,8 +7,6 @@ import { PlusCircle, Trash2, Film, Link as LinkIcon } from 'lucide-react';
 export default function MyProgressPage() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const { token } = useAuth();
   
   // Form State
@@ -17,6 +15,8 @@ export default function MyProgressPage() {
   const [attempts, setAttempts] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [rawFootageLink, setRawFootageLink] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const apiEndpoint = '/api/personal-records';
@@ -31,7 +31,6 @@ export default function MyProgressPage() {
       setRecords(res.data);
     } catch (err) {
       console.error(err);
-      setError('Failed to fetch your records.');
     } finally {
       setLoading(false);
     }
@@ -103,18 +102,17 @@ export default function MyProgressPage() {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">Video Proof (YouTube, Twitch)</label>
+            <label className="block text-sm font-bold text-gray-300 mb-2">Video Proof (YouTube, Twitch, etc.)</label>
             <input type="text" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} required placeholder="https://..." disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
           </div>
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">Raw Footage Link (Optional)</label>
-            <input type="text" value={rawFootageLink} onChange={(e) => setRawFootageLink(e.target.value)} placeholder="https://drive.google.com/..." disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
+            <label className="block text-sm font-bold text-gray-300 mb-2">Raw Footage Link (OneDrive, Google Drive, etc.)</label>
+            <input type="text" value={rawFootageLink} onChange={(e) => setRawFootageLink(e.target.value)} placeholder="https://..." disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
           </div>
           <div>
             <label className="block text-sm font-bold text-gray-300 mb-2">Attempts (Optional)</label>
             <input type="number" value={attempts} onChange={(e) => setAttempts(e.target.value)} min="1" disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
           </div>
-
           <button type="submit" disabled={isSubmitting} className="w-full flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg">
             <PlusCircle className="w-5 h-5" /> Add Record
           </button>

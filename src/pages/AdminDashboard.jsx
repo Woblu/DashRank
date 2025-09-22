@@ -50,6 +50,8 @@ export default function AdminDashboard() {
     { status: 'APPROVED', label: 'Approved', icon: ThumbsUp },
     { status: 'REJECTED', label: 'Rejected', icon: ThumbsDown },
   ];
+  
+  const hostname = window.location.hostname;
 
   return (
     <div className="text-white max-w-7xl mx-auto py-8 px-4">
@@ -81,13 +83,13 @@ export default function AdminDashboard() {
             <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
           ) : (
             submissions.map((sub) => {
-              const embedInfo = getVideoEmbedUrl(sub.videoId);
+              const embedInfo = getVideoEmbedUrl(sub.videoId, hostname);
               return (
                 <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                     {embedInfo ? (
                       embedInfo.type === 'iframe' ? (
-                        <iframe src={embedInfo.url} title="Submission Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute top-0 left-0 w-full h-full rounded bg-black"></iframe>
+                        <iframe src={embedInfo.url} title="Submission Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen className="absolute top-0 left-0 w-full h-full rounded bg-black"></iframe>
                       ) : (
                         <video src={embedInfo.url} controls className="absolute top-0 left-0 w-full h-full rounded bg-black"></video>
                       )
