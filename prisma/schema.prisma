@@ -41,7 +41,6 @@ enum SubmissionStatus {
   REJECTED
 }
 
-// ADD THIS NEW ENUM
 enum DemonDifficulty {
   EASY
   MEDIUM
@@ -58,7 +57,7 @@ model User {
   role            Role             @default(USER)
   createdAt       DateTime         @default(now())
   submissions     Submission[]
-  personalRecords PersonalRecord[] // ADD THIS RELATION
+  personalRecords PersonalRecord[]
 }
 
 model Submission {
@@ -76,15 +75,15 @@ model Submission {
   submittedById  String           @db.ObjectId
 }
 
-// ADD THIS NEW MODEL
 model PersonalRecord {
-  id          String          @id @default(auto()) @map("_id") @db.ObjectId
-  levelName   String
-  difficulty  DemonDifficulty
-  attempts    Int?
-  videoUrl    String
-  createdAt   DateTime        @default(now())
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  levelName      String
+  difficulty     DemonDifficulty
+  attempts       Int?
+  videoUrl       String
+  rawFootageLink String?
+  createdAt      DateTime        @default(now())
 
-  user        User            @relation(fields: [userId], references: [id])
-  userId      String          @db.ObjectId
+  user           User            @relation(fields: [userId], references: [id])
+  userId         String          @db.ObjectId
 }

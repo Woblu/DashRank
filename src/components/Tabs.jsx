@@ -1,7 +1,7 @@
 // src/components/Tabs.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import { BarChart2, Info, LogIn, UserPlus, LogOut } from "lucide-react";
+import { BarChart2, Info, LogIn, UserPlus, LogOut, BookMarked } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import StatsViewer from "./StatsViewer";
@@ -15,6 +15,8 @@ const statsButtonTitles = {
 
 export default function Tabs() {
   const { user, logout } = useAuth();
+  const location = useLocation(); // For passing redirect state
+
   const tabs = [
     { name: "Main List", path: "/main" }, 
     { name: "Unrated", path: "/unrated" },
@@ -24,10 +26,9 @@ export default function Tabs() {
     { name: "Future", path: "/future" },
   ];
 
-  const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false); // THE FIX IS HERE: Added the missing '='
+  const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
   const [isInfoBoxOpen, setIsInfoBoxOpen] = useState(false);
   const [listType, setListType] = useState("main");
-  const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname.split("/")[1] || "main";
@@ -74,6 +75,17 @@ export default function Tabs() {
           </div>
           <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
             <div className="flex items-center gap-2 flex-wrap justify-center">
+              
+              {/* === NEW PROGRESSION TRACKER LINK === */}
+              <NavLink
+                to={user ? "/account/progress" : "/login"}
+                state={!user ? { from: { pathname: "/account/progress" } } : undefined}
+                className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}
+              >
+                <BookMarked className="w-4 h-4" />
+                Progression Tracker
+              </NavLink>
+
               {tabs.map((tab) => (
                 <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}>
                   {tab.name}
@@ -81,21 +93,3 @@ export default function Tabs() {
               ))}
             </div>
           </nav>
-          <div className="w-full md:flex-1 flex justify-end items-center gap-2 order-2 md:order-3">
-            <button title={statsButtonTitles[listType]} onClick={() => setIsStatsViewerOpen(true)} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm">
-              <BarChart2 className="w-4 h-4" />
-              <span className="hidden md:inline">{statsButtonTitles[listType]}</span>
-            </button>
-            <button title="Info" onClick={() => setIsInfoBoxOpen(true)} className="p-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors">
-              <Info className="w-5 h-5" />
-            </button>
-            <SettingsMenu />
-            <AuthButtons />
-          </div>
-        </div>
-      </header>
-      {isStatsViewerOpen && <StatsViewer listType={listType} onClose={() => setIsStatsViewerOpen(false)} title={statsButtonTitles[listType]}/>}
-      {isInfoBoxOpen && <InfoBox onClose={() => setIsInfoBoxOpen(false)} />}
-    </>
-  );
-}

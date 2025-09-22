@@ -33,13 +33,20 @@ export default async function handler(req, res) {
 
     case 'POST':
       // Create a new record
-      const { levelName, difficulty, attempts, videoUrl } = req.body;
+      const { levelName, difficulty, attempts, videoUrl, rawFootageLink } = req.body;
       if (!levelName || !difficulty || !videoUrl) {
         return res.status(400).json({ message: 'Level name, difficulty, and video URL are required.' });
       }
       try {
         const record = await prisma.personalRecord.create({
-          data: { levelName, difficulty, attempts: attempts ? Number(attempts) : null, videoUrl, userId: decodedToken.userId },
+          data: { 
+            levelName, 
+            difficulty, 
+            attempts: attempts ? Number(attempts) : null, 
+            videoUrl,
+            rawFootageLink,
+            userId: decodedToken.userId 
+          },
         });
         return res.status(201).json(record);
       } catch (error) {
