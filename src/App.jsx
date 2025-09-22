@@ -15,9 +15,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
-import SubmissionPage from './pages/account/SubmissionPage';
+import SubmissionPage from './pages-account/SubmissionPage';
+import MyProgressPage from './pages/account/MyProgressPage';
 import AdminDashboard from './pages/AdminDashboard';
-// The LeaderboardPage import has been removed
 
 export default function App() {
   return (
@@ -40,13 +40,14 @@ export default function App() {
               <Route path="/players" element={<PlayerList />} />
               <Route path="/players/:playerName" element={<PlayerProfile />} />
               
-              {/* Auth & Admin Routes */}
+              {/* Auth, Admin, and Account Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>}>
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<ProfileSettingsPage />} />
                 <Route path="submissions" element={<SubmissionPage />} />
+                <Route path="progress" element={<MyProgressPage />} />
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             </Routes>

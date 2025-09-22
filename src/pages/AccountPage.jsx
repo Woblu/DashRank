@@ -1,19 +1,19 @@
 // src/pages/AccountPage.jsx
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { User, ClipboardList } from 'lucide-react';
+import { User, ClipboardList, BookMarked } from 'lucide-react';
 
 export default function AccountPage() {
   const navLinks = [
     { name: 'Profile Settings', path: '/account/profile', icon: User },
-    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList }
+    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList },
+    { name: 'My Progress', path: '/account/progress', icon: BookMarked }
   ];
 
   return (
     <div className="text-white max-w-6xl mx-auto py-8 px-4">
       <h1 className="text-4xl font-bold mb-8">My Account</h1>
       <div className="md:grid md:grid-cols-4 gap-8">
-        {/* Sidebar Navigation */}
         <aside className="md:col-span-1 mb-8 md:mb-0">
           <nav className="space-y-2">
             {navLinks.map((link) => (
@@ -33,9 +33,8 @@ export default function AccountPage() {
           </nav>
         </aside>
 
-        {/* Page Content */}
         <main className="md:col-span-3">
-          <Outlet /> {/* Child routes will render here */}
+          <Outlet />
         </main>
       </div>
     </div>
