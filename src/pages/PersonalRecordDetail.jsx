@@ -4,13 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import { ChevronLeft, Film, Link as LinkIcon, Trash2 } from 'lucide-react';
-
-const getYouTubeVideoId = (urlOrId) => {
-  if (!urlOrId || !urlOrId.includes('youtu')) return null;
-  const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
-  const urlMatch = urlOrId.match(urlRegex);
-  return (urlMatch && urlMatch[1]) ? urlMatch[1] : null;
-};
+import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 
 export default function PersonalRecordDetail() {
   const { recordId } = useParams();
@@ -56,7 +50,7 @@ export default function PersonalRecordDetail() {
   };
 
   if (loading) {
-    return <div className="text-center text-gray-200 p-8">Loading Record...</div>;
+    return <div className="text-center p-8 text-gray-200">Loading Record...</div>;
   }
 
   if (!record) {
@@ -70,8 +64,7 @@ export default function PersonalRecordDetail() {
     );
   }
 
-  const youtubeVideoId = getYouTubeVideoId(record.videoUrl);
-  const isMp4 = record.videoUrl.endsWith('.mp4');
+  const embedInfo = getVideoEmbedUrl(record.videoUrl);
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
@@ -113,32 +106,32 @@ export default function PersonalRecordDetail() {
         </div>
 
         <div className="aspect-video w-full">
-          {youtubeVideoId ? (
-            <iframe
-              width="100%"
-              height="100%"
-              src={`https://www.youtube-nocookie.com/embed/${youtubeVideoId}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="rounded-xl shadow-lg"
-            ></iframe>
-          ) : isMp4 ? (
-            <video
-                width="100%"
-                height="100%"
+          {embedInfo ? (
+            embedInfo.type === 'iframe' ? (
+              <iframe
+                width="100%" height="100%"
+                src={embedInfo.url}
+                title="Record Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded-xl shadow-lg bg-black"
+              ></iframe>
+            ) : (
+              <video
+                width="100%" height="100%"
                 controls
-                src={record.videoUrl}
-                className="rounded-xl shadow-lg"
-            >
+                src={embedInfo.url}
+                className="rounded-xl shadow-lg bg-black"
+              >
                 Your browser does not support the video tag.
-            </video>
+              </video>
+            )
           ) : (
              <div className="w-full h-full rounded-xl shadow-lg bg-gray-900 flex flex-col items-center justify-center">
                 <p className="text-gray-300">Video preview not available.</p>
                 <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-cyan-400 hover:underline">
-                    View Video Link
+                    View Original Video Link
                 </a>
             </div>
           )}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -38,18 +39,10 @@ export default function AdminDashboard() {
         { submissionId, newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Refresh the list after an update by filtering out the handled submission
       setSubmissions(prev => prev.filter(sub => sub.id !== submissionId));
     } catch (err) {
       alert(`Failed to update submission: ${err.response?.data?.message}`);
     }
-  };
-
-  const getYouTubeId = (url) => {
-    if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
   };
 
   const tabs = [
@@ -87,38 +80,46 @@ export default function AdminDashboard() {
           {submissions.length === 0 ? (
             <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
           ) : (
-            submissions.map((sub) => (
-              <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${getYouTubeId(sub.videoId)}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute top-0 left-0 w-full h-full rounded"
-                  ></iframe>
-                </div>
-                <div className="flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-2xl font-bold text-cyan-400">{sub.levelName}</h3>
-                    <p className="text-lg">Player: <span className="font-semibold">{sub.player}</span></p>
-                    <p className="text-lg">Progress: <span className="font-semibold">{sub.percent}%</span></p>
-                    <p className="text-sm text-gray-400 mt-2">Notes: <span className="italic">{sub.notes || 'None'}</span></p>
-                    <a href={sub.rawFootageLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline text-sm mt-1 block">View Raw Footage</a>
+            submissions.map((sub) => {
+              const embedInfo = getVideoEmbedUrl(sub.videoId);
+              return (
+                <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                    {embedInfo ? (
+                      embedInfo.type === 'iframe' ? (
+                        <iframe src={embedInfo.url} title="Submission Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute top-0 left-0 w-full h-full rounded bg-black"></iframe>
+                      ) : (
+                        <video src={embedInfo.url} controls className="absolute top-0 left-0 w-full h-full rounded bg-black"></video>
+                      )
+                    ) : (
+                      <div className="absolute top-0 left-0 w-full h-full rounded bg-black flex flex-col items-center justify-center">
+                        <p>Preview not available.</p>
+                        <a href={sub.videoId} target="_blank" rel="noopener noreferrer" className="mt-2 text-cyan-400 hover:underline">View Original Link</a>
+                      </div>
+                    )}
                   </div>
-                  {activeTab === 'PENDING' && (
-                    <div className="flex items-center gap-4 mt-4">
-                      <button onClick={() => handleUpdate(sub.id, 'APPROVED')} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
-                        <Check /> Approve
-                      </button>
-                      <button onClick={() => handleUpdate(sub.id, 'REJECTED')} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
-                        <X /> Reject
-                      </button>
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-2xl font-bold text-cyan-400">{sub.levelName}</h3>
+                      <p className="text-lg">Player: <span className="font-semibold">{sub.player}</span></p>
+                      <p className="text-lg">Progress: <span className="font-semibold">{sub.percent}%</span></p>
+                      <p className="text-sm text-gray-400 mt-2">Notes: <span className="italic">{sub.notes || 'None'}</span></p>
+                      <a href={sub.rawFootageLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline text-sm mt-1 block">View Raw Footage</a>
                     </div>
-                  )}
+                    {activeTab === 'PENDING' && (
+                      <div className="flex items-center gap-4 mt-4">
+                        <button onClick={() => handleUpdate(sub.id, 'APPROVED')} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
+                          <Check /> Approve
+                        </button>
+                        <button onClick={() => handleUpdate(sub.id, 'REJECTED')} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
+                          <X /> Reject
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
+              )
+            })
           )}
         </div>
       )}
