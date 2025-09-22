@@ -1,7 +1,7 @@
 // src/components/Tabs.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import { BarChart2, Info, LogIn, UserPlus, LogOut } from "lucide-react";
+import { BarChart2, Info, LogIn, UserPlus, LogOut, BookMarked } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import StatsViewer from "./StatsViewer";
@@ -15,6 +15,8 @@ const statsButtonTitles = {
 
 export default function Tabs() {
   const { user, logout } = useAuth();
+  const location = useLocation();
+
   const tabs = [
     { name: "Main List", path: "/main" }, 
     { name: "Unrated", path: "/unrated" },
@@ -27,7 +29,6 @@ export default function Tabs() {
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
   const [isInfoBoxOpen, setIsInfoBoxOpen] = useState(false);
   const [listType, setListType] = useState("main");
-  const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname.split("/")[1] || "main";
@@ -74,6 +75,16 @@ export default function Tabs() {
           </div>
           <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
             <div className="flex items-center gap-2 flex-wrap justify-center">
+              
+              <NavLink
+                to={user ? "/account/progress" : "/login"}
+                state={!user ? { from: { pathname: "/account/progress" } } : undefined}
+                className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}
+              >
+                <BookMarked className="w-4 h-4" />
+                Progression Tracker
+              </NavLink>
+
               {tabs.map((tab) => (
                 <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}>
                   {tab.name}
