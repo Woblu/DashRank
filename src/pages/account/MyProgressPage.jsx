@@ -14,11 +14,13 @@ export default function MyProgressPage() {
   const [error, setError] = useState('');
   const { token } = useAuth();
 
+  const apiEndpoint = '/api/personal-records'; // Use a single endpoint
+
   const fetchRecords = async () => {
     if (!token) return;
     try {
       setLoading(true);
-      const res = await axios.get('/api/personal-records/mine', {
+      const res = await axios.get(apiEndpoint, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRecords(res.data);
@@ -37,15 +39,11 @@ export default function MyProgressPage() {
     e.preventDefault();
     setError('');
     try {
-      await axios.post('/api/personal-records/create',
+      await axios.post(apiEndpoint,
         { levelName, difficulty, attempts, videoUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Clear form and refresh list
-      setLevelName('');
-      setDifficulty('EXTREME');
-      setAttempts('');
-      setVideoUrl('');
+      setLevelName(''); setDifficulty('EXTREME'); setAttempts(''); setVideoUrl('');
       fetchRecords();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add record.');
@@ -55,11 +53,11 @@ export default function MyProgressPage() {
   const handleDelete = async (recordId) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
     try {
-      await axios.post('/api/personal-records/delete',
-        { recordId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      fetchRecords(); // Refresh list
+      await axios.delete(apiEndpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { recordId } // For DELETE requests, the body is in the 'data' property
+      });
+      fetchRecords();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to delete record.');
     }
@@ -110,7 +108,7 @@ export default function MyProgressPage() {
             <div key={record.id} className="flex justify-between items-center bg-gray-900 p-3 rounded">
               <div>
                 <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="font-bold text-lg text-cyan-400 hover:underline">{record.levelName}</a>
-                <p className="text-sm text-gray-400">{record.difficulty} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
+                <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
               </div>
               <button onClick={() => handleDelete(record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full">
                 <Trash2 className="w-5 h-5" />
