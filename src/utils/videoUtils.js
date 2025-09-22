@@ -22,19 +22,11 @@ export const getVideoEmbedUrl = (url) => {
     return { url: `https://drive.google.com/file/d/${driveMatch[1]}/preview`, type: 'iframe' };
   }
 
-  // OneDrive
-  if (url.includes('1drv.ms') || url.includes('onedrive.live.com')) {
-    // OneDrive embed URLs are typically direct links ending with ...&download=1 or can be transformed
-    // A simplified approach is to try embedding directly. More complex logic might be needed for all URL types.
-    // For now, let's assume a direct embeddable link format for OneDrive.
-    let embedUrl = url;
-    if (url.includes('?')) {
-        embedUrl += '&';
-    } else {
-        embedUrl += '?';
-    }
-    embedUrl += 'ithint=video,mp4'; // Hint for content type
-    return { url: embedUrl, type: 'iframe'}; // Attempt to embed OneDrive, may vary based on share link type
+  // OneDrive - THIS IS THE FIX
+  if (url.includes('onedrive.live.com')) {
+    // Transform a standard share URL (which contains /redir?) into an embed URL
+    const embedUrl = url.replace('/redir?', '/embed?');
+    return { url: embedUrl, type: 'iframe' };
   }
 
   // Direct MP4 Link (from Vercel Blob, etc.)
