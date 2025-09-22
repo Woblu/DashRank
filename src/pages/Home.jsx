@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import { useParams, useLocation } from "react-router-dom"; // Import useLocation
+import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
@@ -28,11 +28,8 @@ const listTitles = {
 
 export default function Home() {
   const { listType } = useParams();
-  const location = useLocation(); // Use location to check the path
   const { t } = useLanguage();
   const { user, token } = useAuth();
-  
-  // THIS IS THE FIX: More robustly determine the list type
   const currentListType = location.pathname.startsWith('/progression') ? 'progression' : (listType || "main");
   
   const [levels, setLevels] = useState([]);
@@ -50,9 +47,7 @@ export default function Home() {
     try {
       let responseData;
       if (currentListType === 'progression') {
-        if (!token) {
-          setLevels([]); return;
-        }
+        if (!token) { setLevels([]); return; }
         const response = await axios.get('/api/personal-records', {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -62,6 +57,7 @@ export default function Home() {
           name: record.levelName,
           creator: user.username,
           videoId: record.videoUrl,
+          thumbnail: record.thumbnailUrl, // Pass the thumbnail URL
           records: [],
           list: 'progression',
         }));
@@ -113,7 +109,6 @@ export default function Home() {
             </button>
           )}
         </div>
-
         <div className="w-full max-w-3xl mb-6 flex flex-col sm:flex-row gap-4">
           <input
             type="text"
@@ -133,7 +128,6 @@ export default function Home() {
             </select>
           )}
         </div>
-
         <div className="flex flex-col gap-4 w-full max-w-3xl">
           {isLoading ? (
             <p className="text-center text-gray-400 mt-8">Loading...</p>

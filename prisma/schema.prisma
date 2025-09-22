@@ -83,6 +83,7 @@ model PersonalRecord {
   attempts       Int?
   videoUrl       String
   rawFootageLink String?
+  thumbnailUrl   String?         // ADD THIS NEW FIELD
   createdAt      DateTime        @default(now())
 
   user           User            @relation(fields: [userId], references: [id])

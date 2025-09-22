@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       try {
         const records = await prisma.personalRecord.findMany({
           where: { userId: decodedToken.userId },
-          orderBy: { placement: 'asc' }, // Order by placement
+          orderBy: { placement: 'asc' },
         });
         return res.status(200).json(records);
       } catch (error) {
@@ -31,18 +31,16 @@ export default async function handler(req, res) {
       }
 
     case 'POST':
-      const { placement, levelName, difficulty, attempts, videoUrl, rawFootageLink } = req.body;
+      const { placement, levelName, difficulty, attempts, videoUrl, rawFootageLink, thumbnailUrl } = req.body;
       if (!placement || !levelName || !difficulty || !videoUrl) {
         return res.status(400).json({ message: 'Placement, level name, difficulty, and video URL are required.' });
       }
       try {
         await prisma.$transaction([
-          // 1. Shift placements of existing records to make room for the new one
           prisma.personalRecord.updateMany({
             where: { userId: decodedToken.userId, placement: { gte: Number(placement) } },
             data: { placement: { increment: 1 } },
           }),
-          // 2. Create the new record at the specified placement
           prisma.personalRecord.create({
             data: {
               placement: Number(placement),
@@ -51,6 +49,7 @@ export default async function handler(req, res) {
               attempts: attempts ? Number(attempts) : null,
               videoUrl,
               rawFootageLink,
+              thumbnailUrl, // Save the new field
               userId: decodedToken.userId
             },
           }),
@@ -67,18 +66,12 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Record ID is required.' });
       }
       try {
-        const recordToDelete = await prisma.personalRecord.findFirst({
-          where: { id: recordId, userId: decodedToken.userId },
-        });
-
+        const recordToDelete = await prisma.personalRecord.findFirst({ where: { id: recordId, userId: decodedToken.userId } });
         if (!recordToDelete) {
           return res.status(403).json({ message: 'Record not found or you do not have permission to delete it.' });
         }
-        
         await prisma.$transaction([
-          // 1. Delete the record
           prisma.personalRecord.delete({ where: { id: recordId } }),
-          // 2. Shift placements of subsequent records to fill the gap
           prisma.personalRecord.updateMany({
             where: { userId: decodedToken.userId, placement: { gt: recordToDelete.placement } },
             data: { placement: { decrement: 1 } },
