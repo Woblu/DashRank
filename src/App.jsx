@@ -15,7 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
-import SubmissionPage from './pages-account/SubmissionPage';
+import SubmissionPage from './pages/account/SubmissionPage'; // THIS PATH IS NOW CORRECT
 import MyProgressPage from './pages/account/MyProgressPage';
 import AdminDashboard from './pages/AdminDashboard';
 
