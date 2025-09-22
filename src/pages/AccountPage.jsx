@@ -1,13 +1,12 @@
 // src/pages/AccountPage.jsx
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { User, ClipboardList, BookMarked } from 'lucide-react';
+import { User, ClipboardList } from 'lucide-react';
 
 export default function AccountPage() {
   const navLinks = [
     { name: 'Profile Settings', path: '/account/profile', icon: User },
-    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList },
-    { name: 'My Progress', path: '/account/progress', icon: BookMarked }
+    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList }
   ];
 
   return (

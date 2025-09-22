@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Film, Link as LinkIcon, Trash2 } from 'lucide-react';
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId || !urlOrId.includes('youtu')) return null;
@@ -40,8 +40,23 @@ export default function PersonalRecordDetail() {
     fetchRecord();
   }, [recordId, token]);
 
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to permanently delete this personal record?')) {
+      return;
+    }
+    try {
+      await axios.delete('/api/personal-records', {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { recordId: record.id }
+      });
+      navigate('/progression');
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to delete record.');
+    }
+  };
+
   if (loading) {
-    return <div className="text-center p-8 text-gray-200">Loading Record...</div>;
+    return <div className="text-center text-gray-200 p-8">Loading Record...</div>;
   }
 
   if (!record) {
@@ -68,6 +83,17 @@ export default function PersonalRecordDetail() {
         >
           <ChevronLeft size={24} />
         </button>
+        
+        <div className="absolute top-4 right-4 z-10">
+          <button
+            onClick={handleDelete}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
+            aria-label="Delete Record"
+            title="Delete Record"
+          >
+            <Trash2 size={20} />
+          </button>
+        </div>
 
         <div className="text-center mb-4 pt-8 sm:pt-0">
           <h1 className="font-poppins text-5xl font-bold text-cyan-600 dark:text-cyan-400 break-words">
@@ -85,14 +111,6 @@ export default function PersonalRecordDetail() {
             </p>
           )}
         </div>
-
-        {record.rawFootageLink && (
-            <div className="text-center mb-6">
-                <a href={record.rawFootageLink} target="_blank" rel="noopener noreferrer" className="text-cyan-600 dark:text-cyan-400 hover:underline font-semibold">
-                    View Raw Footage
-                </a>
-            </div>
-        )}
 
         <div className="aspect-video w-full">
           {youtubeVideoId ? (
@@ -127,7 +145,19 @@ export default function PersonalRecordDetail() {
         </div>
       </div>
       
-      {/* Records section is intentionally omitted as requested */}
+      <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-inner">
+        <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">Record Details</h2>
+        <div className="flex items-center justify-center gap-6 mt-2">
+            <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-cyan-400 transition-colors">
+                <Film className="w-5 h-5" /> Video Proof
+            </a>
+            {record.rawFootageLink && (
+              <a href={record.rawFootageLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-cyan-400 transition-colors">
+                <LinkIcon className="w-5 h-5" /> Raw Footage
+              </a>
+            )}
+        </div>
+      </div>
     </div>
   );
 }
