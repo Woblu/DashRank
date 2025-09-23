@@ -1,14 +1,9 @@
-// api/personal-records/[recordId].js
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-
   const { recordId } = req.query;
 
   const authHeader = req.headers.authorization;
@@ -24,19 +19,41 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: 'Invalid token.' });
   }
 
-  try {
-    const record = await prisma.personalRecord.findUnique({
-      where: { id: recordId },
-    });
+  if (req.method === 'PUT') {
+    const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl } = req.body;
 
-    // Security check: ensure the record exists and belongs to the user making the request
-    if (!record || record.userId !== decodedToken.userId) {
-      return res.status(404).json({ message: 'Record not found.' });
+    if (!placement || !levelName || !difficulty || !videoUrl) {
+      return res.status(400).json({ message: 'All required fields must be provided.' });
     }
 
-    res.status(200).json(record);
-  } catch (error) {
-    console.error(`Error fetching personal record ${recordId}:`, error);
-    res.status(500).json({ message: 'Failed to fetch record.' });
+    try {
+      // We use updateMany with the userId to ensure a user can only update their own records.
+      const result = await prisma.personalRecord.updateMany({
+        where: {
+          id: recordId,
+          userId: decodedToken.userId, 
+        },
+        data: {
+          placement: Number(placement),
+          levelName,
+          difficulty,
+          attempts: attempts ? Number(attempts) : null,
+          videoUrl,
+          thumbnailUrl,
+        },
+      });
+
+      if (result.count === 0) {
+        return res.status(404).json({ message: 'Record not found or you do not have permission to edit it.' });
+      }
+
+      return res.status(200).json({ message: 'Record updated successfully.' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Failed to update record.' });
+    }
+  } else {
+    res.setHeader('Allow', ['PUT']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
