@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
@@ -28,6 +28,7 @@ const listTitles = {
 
 export default function Home() {
   const { listType } = useParams();
+  const location = useLocation();
   const { t } = useLanguage();
   const { user, token } = useAuth();
   const currentListType = location.pathname.startsWith('/progression') ? 'progression' : (listType || "main");
@@ -36,14 +37,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const [creatorFilter, setCreatorFilter] = useState("");
   const [isAddFormOpen, setIsAddFormOpen] = useState(false);
 
   const fetchLevels = async () => {
     setIsLoading(true);
     setError(null);
     setSearch("");
-    setCreatorFilter("");
     try {
       let responseData;
       if (currentListType === 'progression') {
@@ -57,7 +56,7 @@ export default function Home() {
           name: record.levelName,
           creator: user.username,
           videoId: record.videoUrl,
-          thumbnail: record.thumbnailUrl, // Pass the thumbnail URL
+          thumbnail: record.thumbnailUrl,
           records: [],
           list: 'progression',
         }));
@@ -79,25 +78,18 @@ export default function Home() {
     fetchLevels();
   }, [currentListType, token]);
 
-  const uniqueCreators = useMemo(() => {
-    if (!levels || currentListType === 'progression') return [];
-    const creators = levels.map(level => level.creator).filter(Boolean);
-    return [...new Set(creators)].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-  }, [levels, currentListType]);
-
   const filteredLevels = levels.filter(level => {
     const searchMatch =
       level.name.toLowerCase().includes(search.toLowerCase()) ||
       (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()));
-    const creatorMatch = creatorFilter ? level.creator === creatorFilter : true;
-    return searchMatch && creatorMatch;
+    return searchMatch;
   });
   
   return (
     <>
       <div className="min-h-screen flex flex-col items-center pt-6 px-4">
         <div className="w-full max-w-3xl flex justify-center sm:justify-between items-center mb-4 relative">
-          <h1 className="font-poppins text-4xl font-bold text-center text-cyan-400 capitalize break-words">
+          <h1 className="font-poppins text-4xl font-bold text-center text-cyan-600 dark:text-cyan-400 capitalize break-words">
             {listTitles[currentListType]}
           </h1>
           {currentListType === 'progression' && user && (
@@ -109,28 +101,18 @@ export default function Home() {
             </button>
           )}
         </div>
-        <div className="w-full max-w-3xl mb-6 flex flex-col sm:flex-row gap-4">
+        <div className="w-full max-w-3xl mb-6">
           <input
             type="text"
             placeholder={t('search_placeholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-grow p-2 rounded-lg border border-gray-600 bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           />
-          {currentListType !== 'progression' && (
-            <select
-              value={creatorFilter}
-              onChange={(e) => setCreatorFilter(e.target.value)}
-              className="p-2 rounded-lg border border-gray-600 bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            >
-              <option value="">All Creators</option>
-              {uniqueCreators.map(creator => ( <option key={creator} value={creator}>{creator}</option>))}
-            </select>
-          )}
         </div>
         <div className="flex flex-col gap-4 w-full max-w-3xl">
           {isLoading ? (
-            <p className="text-center text-gray-400 mt-8">Loading...</p>
+            <p className="text-center text-gray-500 dark:text-gray-400 mt-8">Loading...</p>
           ) : error ? (
             <p className="text-center text-red-500 mt-8">{error}</p>
           ) : filteredLevels.length > 0 ? (
@@ -138,7 +120,7 @@ export default function Home() {
               <LevelCard key={level.id || level.levelId || index} level={level} index={index} listType={currentListType} />
             ))
           ) : (
-            <p className="text-center text-gray-400 mt-8">
+            <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
               {currentListType === 'progression' ? "You haven't added any records yet." : t('no_levels_found')}
             </p>
           )}

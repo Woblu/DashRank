@@ -39,8 +39,8 @@ export default function Tabs() {
     if (user) {
       return (
         <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-gray-300">
-            Welcome, <span className="font-bold text-cyan-400">{user.username}</span>
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Welcome, <span className="font-bold text-cyan-600 dark:text-cyan-400">{user.username}</span>
           </span>
           <button onClick={logout} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-red-600 hover:bg-red-700 text-white transition-colors text-sm">
             <LogOut className="w-4 h-4" /> Logout
@@ -50,7 +50,7 @@ export default function Tabs() {
     }
     return (
       <div className="flex items-center gap-2">
-        <Link to="/login" className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm">
+        <Link to="/login" className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors text-sm">
           <LogIn className="w-4 h-4" /> Login
         </Link>
         <Link to="/register" className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-colors text-sm">
@@ -62,13 +62,13 @@ export default function Tabs() {
 
   return (
     <>
-      <header className="relative bg-gray-900 shadow-lg z-30 border-b border-gray-700">
+      <header className="relative bg-white dark:bg-gray-900 shadow-lg z-30 border-b border-gray-200 dark:border-gray-700">
         <div className="flex flex-col md:flex-row items-center justify-between px-4 py-3 gap-y-3">
           <div className="w-full md:flex-1 flex justify-start">
             <Link to="/" className="flex items-center gap-2 flex-shrink-0">
               <img src={logo} alt="DashRank Logo" className="w-8 h-8" />
               <div>
-                <span className="font-bold text-xl text-cyan-400">DashRank</span>
+                <span className="font-bold text-xl text-cyan-600 dark:text-cyan-400">DashRank</span>
                 <span className="ml-2 text-xs font-mono text-gray-500">v1.0</span>
               </div>
             </Link>
@@ -79,25 +79,25 @@ export default function Tabs() {
               <NavLink
                 to={user ? "/progression" : "/login"}
                 state={!user ? { from: { pathname: "/progression" } } : undefined}
-                className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}
+                className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-cyan-600 text-white" : "text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-700/50"}`}
               >
                 <BookMarked className="w-4 h-4" />
                 Progression Tracker
               </NavLink>
 
               {tabs.map((tab) => (
-                <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-500 text-white" : "text-cyan-400 hover:bg-cyan-700/50"}`}>
+                <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-600 text-white" : "text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-700/50"}`}>
                   {tab.name}
                 </NavLink>
               ))}
             </div>
           </nav>
           <div className="w-full md:flex-1 flex justify-end items-center gap-2 order-2 md:order-3">
-            <button title={statsButtonTitles[listType]} onClick={() => setIsStatsViewerOpen(true)} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors text-sm">
+            <button title={statsButtonTitles[listType]} onClick={() => setIsStatsViewerOpen(true)} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors text-sm">
               <BarChart2 className="w-4 h-4" />
               <span className="hidden md:inline">{statsButtonTitles[listType]}</span>
             </button>
-            <button title="Info" onClick={() => setIsInfoBoxOpen(true)} className="p-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors">
+            <button title="Info" onClick={() => setIsInfoBoxOpen(true)} className="p-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors">
               <Info className="w-5 h-5" />
             </button>
             <SettingsMenu />
