@@ -78,17 +78,15 @@ export default function Home() {
     fetchLevels();
   }, [currentListType, token]);
 
-  const filteredLevels = levels.filter(level => {
-    const searchMatch =
-      level.name.toLowerCase().includes(search.toLowerCase()) ||
-      (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()));
-    return searchMatch;
-  });
+  const filteredLevels = levels.filter(level =>
+    level.name.toLowerCase().includes(search.toLowerCase()) ||
+    (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
+  );
   
   return (
     <>
       <div className="min-h-screen flex flex-col items-center pt-6 px-4">
-        <div className="w-full max-w-3xl flex justify-center sm:justify-between items-center mb-4 relative">
+        <div className="w-full max-w-3xl flex justify-center items-center mb-4 relative">
           <h1 className="font-poppins text-4xl font-bold text-center text-cyan-600 dark:text-cyan-400 capitalize break-words">
             {listTitles[currentListType]}
           </h1>
