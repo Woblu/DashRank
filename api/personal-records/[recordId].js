@@ -27,28 +27,76 @@ export default async function handler(req, res) {
     }
 
     try {
-      // We use updateMany with the userId to ensure a user can only update their own records.
-      const result = await prisma.personalRecord.updateMany({
-        where: {
-          id: recordId,
-          userId: decodedToken.userId, 
-        },
-        data: {
-          placement: Number(placement),
-          levelName,
-          difficulty,
-          attempts: attempts ? Number(attempts) : null,
-          videoUrl,
-          thumbnailUrl,
-        },
+      const newPlacement = Number(placement);
+
+      // Use a transaction to safely update the list
+      await prisma.$transaction(async (tx) => {
+        // First, find the original record to get its old placement
+        const originalRecord = await tx.personalRecord.findFirst({
+          where: { id: recordId, userId: decodedToken.userId },
+        });
+
+        // If it doesn't exist, throw an error to cancel the transaction
+        if (!originalRecord) {
+          throw new Error('Record not found');
+        }
+
+        const oldPlacement = originalRecord.placement;
+
+        // If the placement hasn't changed, just do a simple update
+        if (oldPlacement === newPlacement) {
+          await tx.personalRecord.update({
+            where: { id: recordId },
+            data: { levelName, difficulty, attempts: attempts ? Number(attempts) : null, videoUrl, thumbnailUrl },
+          });
+          return;
+        }
+
+        // --- Re-ordering Logic ---
+        // 1. Shift records between the old and new placements
+        if (oldPlacement > newPlacement) {
+          // Moving record UP the list (e.g., #5 -> #3)
+          // Increment placement of records that are now between the new and old spots
+          await tx.personalRecord.updateMany({
+            where: {
+              userId: decodedToken.userId,
+              placement: { gte: newPlacement, lt: oldPlacement },
+            },
+            data: { placement: { increment: 1 } },
+          });
+        } else { // oldPlacement < newPlacement
+          // Moving record DOWN the list (e.g., #3 -> #5)
+          // Decrement placement of records that are now between the old and new spots
+          await tx.personalRecord.updateMany({
+            where: {
+              userId: decodedToken.userId,
+              placement: { gt: oldPlacement, lte: newPlacement },
+            },
+            data: { placement: { decrement: 1 } },
+          });
+        }
+
+        // 2. Finally, update the actual record with its new placement and data
+        await tx.personalRecord.update({
+          where: { id: recordId },
+          data: {
+            placement: newPlacement,
+            levelName,
+            difficulty,
+            attempts: attempts ? Number(attempts) : null,
+            videoUrl,
+            thumbnailUrl,
+          },
+        });
       });
 
-      if (result.count === 0) {
+      return res.status(200).json({ message: 'Record updated successfully.' });
+
+    } catch (error) {
+      // Catch the "Record not found" error from the transaction
+      if (error.message === 'Record not found') {
         return res.status(404).json({ message: 'Record not found or you do not have permission to edit it.' });
       }
-
-      return res.status(200).json({ message: 'Record updated successfully.' });
-    } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Failed to update record.' });
     }
