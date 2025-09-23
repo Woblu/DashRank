@@ -69,10 +69,10 @@ export default function PersonalRecordDetail() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
-      <div className="relative bg-gray-100 dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg mb-6">
+      <div className="relative bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg mb-6">
         <button 
           onClick={() => navigate('/progression')} 
-          className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100 hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
+          className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           aria-label="Go back to list"
         >
           <ChevronLeft size={24} />
@@ -106,7 +106,7 @@ export default function PersonalRecordDetail() {
           )}
         </div>
 
-        <div className="aspect-video w-full">
+        <div className="aspect-video w-full bg-black rounded-xl">
           {embedInfo ? (
             embedInfo.type === 'iframe' ? (
               <iframe
@@ -116,14 +116,14 @@ export default function PersonalRecordDetail() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="rounded-xl shadow-lg bg-black"
+                className="rounded-xl shadow-lg"
               ></iframe>
             ) : (
               <video
                 width="100%" height="100%"
                 controls
                 src={embedInfo.url}
-                className="rounded-xl shadow-lg bg-black"
+                className="rounded-xl shadow-lg"
               >
                 Your browser does not support the video tag.
               </video>
@@ -139,7 +139,7 @@ export default function PersonalRecordDetail() {
         </div>
       </div>
       
-      <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-inner">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-inner">
         <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">Record Details</h2>
         <div className="flex items-center justify-center gap-6 mt-2">
             <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-cyan-400 transition-colors">

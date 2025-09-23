@@ -38,9 +38,10 @@ export default function SettingsMenu() {
       <button
         title="Settings"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-md font-semibold bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors"
+        className="p-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
       >
-        <Settings className="w-5 h-5" />
+        {/* THE FIX IS HERE: Added text color classes to the icon */}
+        <Settings className="w-5 h-5 text-gray-800 dark:text-gray-200" />
       </button>
 
       {isOpen && (
