@@ -13,6 +13,7 @@ export default function AddPersonalRecordForm({ onClose, recordCount, onRecordAd
   const [attempts, setAttempts] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [rawFootageLink, setRawFootageLink] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,11 +23,11 @@ export default function AddPersonalRecordForm({ onClose, recordCount, onRecordAd
     setIsSubmitting(true);
     try {
       await axios.post('/api/personal-records', 
-        { placement, levelName, difficulty, attempts, videoUrl, rawFootageLink },
+        { placement, levelName, difficulty, attempts, videoUrl, rawFootageLink, thumbnailUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      onRecordAdded(); // Tell the Home page to refresh its data
-      onClose(); // Close the modal
+      onRecordAdded();
+      onClose();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add record.');
     } finally {
@@ -73,6 +74,18 @@ export default function AddPersonalRecordForm({ onClose, recordCount, onRecordAd
           <div className="md:col-span-2">
             <label className="block text-sm font-bold text-gray-300 mb-2">Raw Footage Link (Optional)</label>
             <input type="text" value={rawFootageLink} onChange={(e) => setRawFootageLink(e.target.value)} placeholder="https://drive.google.com/..." disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-bold text-gray-300 mb-2">Thumbnail URL (Optional)</label>
+            <p className="text-xs text-gray-500 mb-2">For non-YouTube videos, paste an image link (e.g., from Imgur).</p>
+            <input 
+              type="text" 
+              value={thumbnailUrl} 
+              onChange={(e) => setThumbnailUrl(e.target.value)} 
+              placeholder="https://i.imgur.com/..." 
+              disabled={isSubmitting} 
+              className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" 
+            />
           </div>
           
           {error && <p className="md:col-span-2 text-red-400 text-center">{error}</p>}
