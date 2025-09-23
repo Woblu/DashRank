@@ -1,6 +1,5 @@
-// src/pages/Home.jsx
-import React, { useState, useEffect, useMemo } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
@@ -27,17 +26,18 @@ const listTitles = {
 };
 
 export default function Home() {
-  const { listType } = useParams();
   const location = useLocation();
   const { t } = useLanguage();
   const { user, token } = useAuth();
-  const currentListType = location.pathname.startsWith('/progression') ? 'progression' : (listType || "main");
+  const currentListType = location.pathname.startsWith('/progression') ? 'progression' : (location.pathname.substring(1) || "main");
   
   const [levels, setLevels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const [isAddFormOpen, setIsAddFormOpen] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [recordToEdit, setRecordToEdit] = useState(null);
 
   const fetchLevels = async () => {
     setIsLoading(true);
@@ -46,13 +46,17 @@ export default function Home() {
     try {
       let responseData;
       if (currentListType === 'progression') {
-        if (!token) { setLevels([]); return; }
+        if (!token) { 
+          setLevels([]); 
+          setIsLoading(false);
+          return; 
+        }
         const response = await axios.get('/api/personal-records', {
           headers: { Authorization: `Bearer ${token}` }
         });
         responseData = response.data.map((record) => ({
+          ...record,
           id: record.id,
-          placement: record.placement,
           name: record.levelName,
           creator: user.username,
           videoId: record.videoUrl,
@@ -78,6 +82,29 @@ export default function Home() {
     fetchLevels();
   }, [currentListType, token]);
 
+  const handleOpenEditModal = (record) => {
+    setRecordToEdit(record);
+    setIsModalOpen(true);
+  };
+  
+  const handleOpenAddModal = () => {
+    setRecordToEdit(null);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (recordId) => {
+    if (!window.confirm('Are you sure you want to delete this record?')) return;
+    try {
+      await axios.delete('/api/personal-records', {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { recordId }
+      });
+      fetchLevels();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to delete record.');
+    }
+  };
+
   const filteredLevels = levels.filter(level =>
     level.name.toLowerCase().includes(search.toLowerCase()) ||
     (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
@@ -92,7 +119,7 @@ export default function Home() {
           </h1>
           {currentListType === 'progression' && user && (
             <button 
-              onClick={() => setIsAddFormOpen(true)}
+              onClick={handleOpenAddModal}
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-colors text-sm absolute right-0"
             >
               <PlusCircle className="w-5 h-5" /> Add Record
@@ -115,7 +142,14 @@ export default function Home() {
             <p className="text-center text-red-500 mt-8">{error}</p>
           ) : filteredLevels.length > 0 ? (
             filteredLevels.map((level, index) => (
-              <LevelCard key={level.id || level.levelId || index} level={level} index={index} listType={currentListType} />
+              <LevelCard 
+                key={level.id || level.levelId || index} 
+                level={level} 
+                index={index} 
+                listType={currentListType}
+                onEdit={handleOpenEditModal}
+                onDelete={handleDelete}
+              />
             ))
           ) : (
             <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
@@ -124,7 +158,14 @@ export default function Home() {
           )}
         </div>
       </div>
-      {isAddFormOpen && <AddPersonalRecordForm recordCount={levels.length} onClose={() => setIsAddFormOpen(false)} onRecordAdded={fetchLevels} />}
+      {isModalOpen && (
+        <AddPersonalRecordForm 
+          recordCount={levels.length} 
+          onClose={() => setIsModalOpen(false)} 
+          onRecordAdded={fetchLevels}
+          existingRecord={recordToEdit}
+        />
+      )}
     </>
   );
 }

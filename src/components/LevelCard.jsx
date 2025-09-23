@@ -1,74 +1,83 @@
-// src/components/LevelCard.jsx
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useLanguage } from "../contexts/LanguageContext.jsx";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
+import { Pencil, Trash2 } from 'lucide-react';
 
-const getYouTubeVideoId = (urlOrId) => {
-  if (!urlOrId) return null;
-  const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
-  const urlMatch = urlOrId.match(urlRegex);
-  if (urlMatch && urlMatch[1]) {
-    return urlMatch[1];
-  }
-  return urlOrId.split('?')[0].split('&')[0];
+const getYouTubeId = (url) => {
+    if (!url) return null;
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
 };
 
-export default function LevelCard({ level, index, listType }) {
-  const navigate = useNavigate();
+export default function LevelCard({ level, index, listType, onEdit, onDelete }) {
   const { t } = useLanguage();
+  const youTubeId = getYouTubeId(level.videoId);
+  const thumbnailUrl = level.thumbnail || (youTubeId ? `https://img.youtube.com/vi/${youTubeId}/mqdefault.jpg` : null);
+  const placement = level.placement || index + 1;
 
-  const handleClick = () => {
-    let path;
-    if (listType === 'progression') {
-      // If it's a personal record, use the record's unique ID and go to the personal detail page
-      path = `/progression/${level.id}`;
-    } else {
-      // Otherwise, use the in-game Level ID and go to the public detail page
-      path = `/level/${listType}/${level.levelId}`;
-    }
-    
-    if (level.id || level.levelId) {
-      navigate(path);
-    }
-  };
-
-  let thumbnailUrl;
-  const videoId = getYouTubeVideoId(level.videoId);
-
-  // This logic correctly handles thumbnails for both public and personal records
-  if (level.thumbnail && level.thumbnail.startsWith('http')) {
-    thumbnailUrl = level.thumbnail;
-  } else if (videoId) {
-    thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-  } else {
-    thumbnailUrl = `https://placehold.co/160x90/cccccc/ffffff?text=GD`;
+  // Render a different card structure for the progression tracker
+  if (listType === 'progression') {
+    return (
+      <div className="flex items-center bg-gray-900 p-3 rounded-lg gap-4">
+        <Link to={`/progression/${level.id}`} className="flex items-center gap-4 flex-grow hover:bg-gray-800/50 rounded-lg -m-3 p-3 transition-colors">
+          {thumbnailUrl && (
+            <div className="flex-shrink-0">
+              <img 
+                src={thumbnailUrl} 
+                alt={`${level.name} thumbnail`}
+                className="w-32 h-20 object-cover rounded"
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
+            </div>
+          )}
+          <div className="flex-grow">
+            <p className="font-bold text-lg text-cyan-400">#{placement} - {level.name}</p>
+            <p className="text-sm text-gray-400">{level.difficulty?.replace('_', ' ')} Demon {level.attempts ? `- ${level.attempts} attempts` : ''}</p>
+          </div>
+        </Link>
+        <div className="flex flex-col sm:flex-row gap-1 z-10">
+          <button 
+            type="button" 
+            onClick={() => onEdit(level)} 
+            className="p-2 text-gray-300 hover:bg-gray-700 rounded-full"
+            aria-label="Edit Record"
+          >
+            <Pencil className="w-5 h-5" />
+          </button>
+          <button 
+            type="button" 
+            onClick={() => onDelete(level.id)} 
+            className="p-2 text-red-500 hover:bg-red-500/20 rounded-full"
+            aria-label="Delete Record"
+          >
+            <Trash2 className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    );
   }
 
+  // Default card structure for all other lists
   return (
-    <div
-      onClick={handleClick}
-      className={`w-full rounded-xl shadow-md p-4 flex flex-col sm:flex-row items-center gap-3 cursor-pointer
-        transition-transform transform hover:-translate-y-1 hover:shadow-xl hover:ring-2 hover:ring-cyan-400
-        border-2 border-dotted border-cyan-400 bg-white dark:bg-gray-800`}
+    <Link 
+      to={`/level/${listType}/${level.id || placement}`} 
+      className="flex items-center gap-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="w-full sm:w-40 aspect-video rounded-md overflow-hidden flex-shrink-0">
-        <img
-          src={thumbnailUrl}
-          alt={`${level.name} thumbnail`}
-          className="w-full h-full object-cover"
-          onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/160x90/cccccc/ffffff?text=GD`; }}
-        />
+      <p className="text-xl font-bold w-12 text-center text-cyan-600 dark:text-cyan-400">#{placement}</p>
+      {thumbnailUrl && (
+        <div className="flex-shrink-0">
+          <img src={thumbnailUrl} alt={level.name} className="w-32 h-20 object-cover rounded"/>
+        </div>
+      )}
+      <div className="flex-grow">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{level.name}</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{t('by')} {level.creator}</p>
       </div>
-
-      <div className="flex flex-col flex-grow text-center sm:text-left">
-        <h2 className="font-bold text-xl text-cyan-700 dark:text-cyan-400">
-          #{level.placement} - {level.name}
-        </h2>
-        
-        <p className="text-gray-500 dark:text-gray-400">
-          {listType === 'progression' ? 'Your Record' : `${t('published_by')} ${level.creator}`}
-        </p>
+      <div className="hidden sm:block text-right">
+        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Verifier</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{level.verifier}</p>
       </div>
-    </div>
+    </Link>
   );
 }
