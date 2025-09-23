@@ -100,16 +100,14 @@ export default function MyProgressPage() {
             const recordThumbnail = record.thumbnailUrl || (youTubeId ? `https://img.youtube.com/vi/${youTubeId}/mqdefault.jpg` : null);
             
             return (
-              <div key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4 transition-colors hover:bg-gray-800/50">
-                {/* The Link now only wraps the content you want to navigate with */}
-                <Link to={`/records/${record.id}`} className="flex items-center gap-4 flex-grow">
+              <div key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4">
+                <Link to={`/records/${record.id}`} className="flex items-center gap-4 flex-grow hover:bg-gray-800/50 rounded-lg -m-3 p-3 transition-colors">
                   {recordThumbnail && (
                     <div className="flex-shrink-0">
                       <img 
                         src={recordThumbnail} 
                         alt={`${record.levelName} thumbnail`}
                         className="w-32 h-20 object-cover rounded"
-                        onError={(e) => { e.target.style.display = 'none'; }}
                       />
                     </div>
                   )}
@@ -119,12 +117,19 @@ export default function MyProgressPage() {
                   </div>
                 </Link>
 
-                {/* This div is now a SIBLING to the Link, not a child */}
                 <div className="flex flex-col sm:flex-row gap-1 z-10">
-                  <button onClick={() => handleOpenEditModal(record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full">
+                  <button 
+                    type="button" // This is the fix
+                    onClick={() => handleOpenEditModal(record)} 
+                    className="p-2 text-gray-300 hover:bg-gray-700 rounded-full"
+                  >
                     <Pencil className="w-5 h-5" />
                   </button>
-                  <button onClick={() => handleDelete(record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full">
+                  <button 
+                    type="button" // This is the fix
+                    onClick={() => handleDelete(record.id)} 
+                    className="p-2 text-red-500 hover:bg-red-500/20 rounded-full"
+                  >
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
