@@ -19,7 +19,28 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: 'Invalid token.' });
   }
 
-  if (req.method === 'PUT') {
+  // Handle GET request to fetch a single record
+  if (req.method === 'GET') {
+    try {
+      const record = await prisma.personalRecord.findFirst({
+        where: {
+          id: recordId,
+          userId: decodedToken.userId, // Ensures users can only get their own records
+        },
+      });
+
+      if (!record) {
+        return res.status(404).json({ message: 'Record not found.' });
+      }
+
+      return res.status(200).json(record);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Failed to fetch record.' });
+    }
+  }
+  // Handle PUT request to update a record
+  else if (req.method === 'PUT') {
     const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl } = req.body;
 
     if (!placement || !levelName || !difficulty || !videoUrl) {
@@ -29,21 +50,17 @@ export default async function handler(req, res) {
     try {
       const newPlacement = Number(placement);
 
-      // Use a transaction to safely update the list
       await prisma.$transaction(async (tx) => {
-        // First, find the original record to get its old placement
         const originalRecord = await tx.personalRecord.findFirst({
           where: { id: recordId, userId: decodedToken.userId },
         });
 
-        // If it doesn't exist, throw an error to cancel the transaction
         if (!originalRecord) {
           throw new Error('Record not found');
         }
 
         const oldPlacement = originalRecord.placement;
 
-        // If the placement hasn't changed, just do a simple update
         if (oldPlacement === newPlacement) {
           await tx.personalRecord.update({
             where: { id: recordId },
@@ -52,11 +69,7 @@ export default async function handler(req, res) {
           return;
         }
 
-        // --- Re-ordering Logic ---
-        // 1. Shift records between the old and new placements
         if (oldPlacement > newPlacement) {
-          // Moving record UP the list (e.g., #5 -> #3)
-          // Increment placement of records that are now between the new and old spots
           await tx.personalRecord.updateMany({
             where: {
               userId: decodedToken.userId,
@@ -64,9 +77,7 @@ export default async function handler(req, res) {
             },
             data: { placement: { increment: 1 } },
           });
-        } else { // oldPlacement < newPlacement
-          // Moving record DOWN the list (e.g., #3 -> #5)
-          // Decrement placement of records that are now between the old and new spots
+        } else {
           await tx.personalRecord.updateMany({
             where: {
               userId: decodedToken.userId,
@@ -76,7 +87,6 @@ export default async function handler(req, res) {
           });
         }
 
-        // 2. Finally, update the actual record with its new placement and data
         await tx.personalRecord.update({
           where: { id: recordId },
           data: {
@@ -93,15 +103,16 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: 'Record updated successfully.' });
 
     } catch (error) {
-      // Catch the "Record not found" error from the transaction
       if (error.message === 'Record not found') {
         return res.status(404).json({ message: 'Record not found or you do not have permission to edit it.' });
       }
       console.error(error);
       return res.status(500).json({ message: 'Failed to update record.' });
     }
-  } else {
-    res.setHeader('Allow', ['PUT']);
+  }
+  // If method is not GET or PUT, deny it
+  else {
+    res.setHeader('Allow', ['GET', 'PUT']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
