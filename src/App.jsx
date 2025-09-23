@@ -17,13 +17,12 @@ import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
-import SearchResults from './pages/SearchResults';
+// The 'SearchResults' import has been removed.
 
 export default function App() {
   return (
     <LanguageProvider>
       <Router>
-        {/* THIS IS THE FIX: Added bg-gray-100 for light mode */}
         <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col overflow-x-hidden">
           <div 
             className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
@@ -50,7 +49,8 @@ export default function App() {
                 <Route path="submissions" element={<SubmissionPage />} />
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-              <Route path="/search" element={<SearchResults />} />
+
+              {/* The '/search' route has been removed. */}
             </Routes>
           </main>
 
