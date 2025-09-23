@@ -47,15 +47,13 @@ export default function MyProgressPage() {
     if (recordIdToEdit && records.length > 0) {
       const recordFromState = records.find(r => r.id === recordIdToEdit);
       if (recordFromState) {
-        handleOpenEditModal(null, recordFromState); // Pass null for the event
+        handleOpenEditModal(recordFromState);
         navigate(location.pathname, { replace: true });
       }
     }
   }, [location.state, records, navigate]);
 
-  // UPDATE THIS FUNCTION
-  const handleDelete = async (event, recordId) => {
-    event.stopPropagation(); // Prevents the link from being triggered
+  const handleDelete = async (recordId) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
     try {
       await axios.delete(apiEndpoint, {
@@ -73,9 +71,7 @@ export default function MyProgressPage() {
     setIsModalOpen(true);
   };
   
-  // UPDATE THIS FUNCTION
-  const handleOpenEditModal = (event, record) => {
-    event?.stopPropagation(); // Prevents the link from being triggered
+  const handleOpenEditModal = (record) => {
     setRecordToEdit(record);
     setIsModalOpen(true);
   };
@@ -104,34 +100,35 @@ export default function MyProgressPage() {
             const recordThumbnail = record.thumbnailUrl || (youTubeId ? `https://img.youtube.com/vi/${youTubeId}/mqdefault.jpg` : null);
             
             return (
-              <Link to={`/records/${record.id}`} key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4 hover:bg-gray-700/50 transition-colors group">
-                {recordThumbnail && (
-                  <div className="flex-shrink-0">
-                    <img 
-                      src={recordThumbnail} 
-                      alt={`${record.levelName} thumbnail`}
-                      className="w-32 h-20 object-cover rounded"
-                      onError={(e) => { e.target.style.display = 'none'; }}
-                    />
+              <div key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4 transition-colors hover:bg-gray-800/50">
+                {/* The Link now only wraps the content you want to navigate with */}
+                <Link to={`/records/${record.id}`} className="flex items-center gap-4 flex-grow">
+                  {recordThumbnail && (
+                    <div className="flex-shrink-0">
+                      <img 
+                        src={recordThumbnail} 
+                        alt={`${record.levelName} thumbnail`}
+                        className="w-32 h-20 object-cover rounded"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
+                  <div className="flex-grow">
+                    <p className="font-bold text-lg text-cyan-400">#{record.placement} - {record.levelName}</p>
+                    <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
                   </div>
-                )}
+                </Link>
 
-                <div className="flex-grow">
-                  <p className="font-bold text-lg text-cyan-400 group-hover:text-cyan-300">#{record.placement} - {record.levelName}</p>
-                  <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
-                </div>
-
+                {/* This div is now a SIBLING to the Link, not a child */}
                 <div className="flex flex-col sm:flex-row gap-1 z-10">
-                  {/* UPDATE THIS BUTTON'S onClick */}
-                  <button onClick={(e) => handleOpenEditModal(e, record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full">
+                  <button onClick={() => handleOpenEditModal(record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full">
                     <Pencil className="w-5 h-5" />
                   </button>
-                  {/* UPDATE THIS BUTTON'S onClick */}
-                  <button onClick={(e) => handleDelete(e, record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full">
+                  <button onClick={() => handleDelete(record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full">
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
-              </Link>
+              </div>
             );
           }) : <p className="text-gray-400 text-center">You haven't added any personal records yet.</p>}
         </div>
