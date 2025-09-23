@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext.jsx';
-import { PlusCircle, Trash2, Film, Pencil } from 'lucide-react';
-import AddPersonalRecordForm from '../../components/AddPersonalRecordForm.jsx'; // Import the form
+import { PlusCircle, Trash2, Film, Pencil } from 'lucide-react'; // Ensure Pencil is imported
+import AddPersonalRecordForm from '../../components/AddPersonalRecordForm.jsx';
 
 // Helper function to extract YouTube video ID from various URL formats
 const getYouTubeId = (url) => {
@@ -110,6 +110,7 @@ export default function MyProgressPage() {
                   </div>
                 </div>
 
+                {/* This is the section that contains the Edit and Delete buttons */}
                 <div className="flex flex-col sm:flex-row gap-1">
                   <button onClick={() => handleOpenEditModal(record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full transition-colors"><Pencil className="w-5 h-5" /></button>
                   <button onClick={() => handleDelete(record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full transition-colors"><Trash2 className="w-5 h-5" /></button>
