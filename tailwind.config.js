@@ -1,12 +1,21 @@
+// tailwind.config.js
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: "class", // ⬅️ critical fix
+  // THIS IS THE FIX: Enable class-based dark mode
+  darkMode: 'class', 
+  
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // This is a common font used in Geometry Dash-related content
+        poppins: ['Poppins', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
