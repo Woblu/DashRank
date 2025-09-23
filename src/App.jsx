@@ -16,15 +16,15 @@ import AdminRoute from "./components/AdminRoute";
 import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
-import MyProgressPage from './pages/account/MyProgressPage';
 import AdminDashboard from './pages/AdminDashboard';
-import PersonalRecordDetail from './pages/PersonalRecordDetail'; // Import new detail page
+import SearchResults from './pages/SearchResults';
 
 export default function App() {
   return (
     <LanguageProvider>
       <Router>
-        <div className="relative min-h-screen bg-gray-900 flex flex-col overflow-x-hidden">
+        {/* THIS IS THE FIX: Added bg-gray-100 for light mode */}
+        <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col overflow-x-hidden">
           <div 
             className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
             style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem", transform: "scaleX(-1)" }}
@@ -40,10 +40,6 @@ export default function App() {
               <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
               <Route path="/players" element={<PlayerList />} />
               <Route path="/players/:playerName" element={<PlayerProfile />} />
-
-              {/* Progression Tracker Routes */}
-              <Route path="/progression" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-              <Route path="/progression/:recordId" element={<ProtectedRoute><PersonalRecordDetail /></ProtectedRoute>} />
               
               {/* Auth, Admin, and Account Routes */}
               <Route path="/login" element={<LoginPage />} />
@@ -54,6 +50,7 @@ export default function App() {
                 <Route path="submissions" element={<SubmissionPage />} />
               </Route>
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+              <Route path="/search" element={<SearchResults />} />
             </Routes>
           </main>
 
