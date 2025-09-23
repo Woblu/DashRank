@@ -17,7 +17,7 @@ import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
-// The 'SearchResults' import has been removed.
+import PersonalRecordDetail from './pages/PersonalRecordDetail'; // Import the new detail page
 
 export default function App() {
   return (
@@ -33,24 +33,28 @@ export default function App() {
 
           <main className="flex-grow p-4 w-full max-w-7xl mx-auto z-20">
             <Routes>
-              {/* Main Routes */}
+              {/* Main public lists */}
               <Route path="/" element={<Navigate to="/main" replace />} />
               <Route path="/:listType" element={<Home />} />
               <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
               <Route path="/players" element={<PlayerList />} />
               <Route path="/players/:playerName" element={<PlayerProfile />} />
               
-              {/* Auth, Admin, and Account Routes */}
+              {/* User-specific routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+
+              {/* ADD THESE TWO ROUTES FOR THE PROGRESSION TRACKER */}
+              <Route path="/progression" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/progression/:recordId" element={<ProtectedRoute><PersonalRecordDetail /></ProtectedRoute>} />
+              
               <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>}>
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<ProfileSettingsPage />} />
                 <Route path="submissions" element={<SubmissionPage />} />
               </Route>
-              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
 
-              {/* The '/search' route has been removed. */}
+              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             </Routes>
           </main>
 
