@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       }
 
     case 'POST':
-      const { placement, levelName, difficulty, attempts, videoUrl, rawFootageLink, thumbnailUrl } = req.body;
+      const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl } = req.body;
       if (!placement || !levelName || !difficulty || !videoUrl) {
         return res.status(400).json({ message: 'Placement, level name, difficulty, and video URL are required.' });
       }
@@ -48,8 +48,7 @@ export default async function handler(req, res) {
               difficulty,
               attempts: attempts ? Number(attempts) : null,
               videoUrl,
-              rawFootageLink,
-              thumbnailUrl, // Save the new field
+              thumbnailUrl,
               userId: decodedToken.userId
             },
           }),
