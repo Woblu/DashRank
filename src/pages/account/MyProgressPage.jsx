@@ -5,7 +5,6 @@ import { PlusCircle, Trash2, Film, Pencil } from 'lucide-react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import AddPersonalRecordForm from '../../components/AddPersonalRecordForm.jsx';
 
-// Helper function to extract YouTube video ID from various URL formats
 const getYouTubeId = (url) => {
   if (!url) return null;
   const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -43,27 +42,27 @@ export default function MyProgressPage() {
     fetchRecords();
   }, [token]);
 
-  // This useEffect hook opens the modal if navigated from the detail page
   useEffect(() => {
     const recordIdToEdit = location.state?.editRecordId;
     if (recordIdToEdit && records.length > 0) {
       const recordFromState = records.find(r => r.id === recordIdToEdit);
       if (recordFromState) {
-        handleOpenEditModal(recordFromState);
-        // Clear the state from location history
+        handleOpenEditModal(null, recordFromState); // Pass null for the event
         navigate(location.pathname, { replace: true });
       }
     }
   }, [location.state, records, navigate]);
 
-  const handleDelete = async (recordId) => {
+  // UPDATE THIS FUNCTION
+  const handleDelete = async (event, recordId) => {
+    event.stopPropagation(); // Prevents the link from being triggered
     if (!window.confirm('Are you sure you want to delete this record?')) return;
     try {
       await axios.delete(apiEndpoint, {
         headers: { Authorization: `Bearer ${token}` },
         data: { recordId }
       });
-      fetchRecords(); // Refresh list after deleting
+      fetchRecords();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to delete record.');
     }
@@ -74,7 +73,9 @@ export default function MyProgressPage() {
     setIsModalOpen(true);
   };
   
-  const handleOpenEditModal = (record) => {
+  // UPDATE THIS FUNCTION
+  const handleOpenEditModal = (event, record) => {
+    event?.stopPropagation(); // Prevents the link from being triggered
     setRecordToEdit(record);
     setIsModalOpen(true);
   };
@@ -103,33 +104,34 @@ export default function MyProgressPage() {
             const recordThumbnail = record.thumbnailUrl || (youTubeId ? `https://img.youtube.com/vi/${youTubeId}/mqdefault.jpg` : null);
             
             return (
-              <div key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4">
-                <Link to={`/records/${record.id}`} className="flex items-center gap-4 flex-grow">
-                  {recordThumbnail && (
-                    <div className="flex-shrink-0">
-                      <img 
-                        src={recordThumbnail} 
-                        alt={`${record.levelName} thumbnail`}
-                        className="w-32 h-20 object-cover rounded hover:opacity-80 transition-opacity"
-                        onError={(e) => { e.target.style.display = 'none'; }}
-                      />
-                    </div>
-                  )}
-
-                  <div className="flex-grow">
-                    <p className="font-bold text-lg text-cyan-400">#{record.placement} - {record.levelName}</p>
-                    <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
-                    <div className="flex items-center gap-4 mt-2 text-xs">
-                      <div className="flex items-center gap-1 text-gray-300 hover:text-cyan-400 transition-colors"><Film className="w-4 h-4" /> Video Proof</div>
-                    </div>
+              <Link to={`/records/${record.id}`} key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4 hover:bg-gray-700/50 transition-colors group">
+                {recordThumbnail && (
+                  <div className="flex-shrink-0">
+                    <img 
+                      src={recordThumbnail} 
+                      alt={`${record.levelName} thumbnail`}
+                      className="w-32 h-20 object-cover rounded"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
                   </div>
-                </Link>
+                )}
 
-                <div className="flex flex-col sm:flex-row gap-1">
-                  <button onClick={() => handleOpenEditModal(record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full transition-colors"><Pencil className="w-5 h-5" /></button>
-                  <button onClick={() => handleDelete(record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full transition-colors"><Trash2 className="w-5 h-5" /></button>
+                <div className="flex-grow">
+                  <p className="font-bold text-lg text-cyan-400 group-hover:text-cyan-300">#{record.placement} - {record.levelName}</p>
+                  <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
                 </div>
-              </div>
+
+                <div className="flex flex-col sm:flex-row gap-1 z-10">
+                  {/* UPDATE THIS BUTTON'S onClick */}
+                  <button onClick={(e) => handleOpenEditModal(e, record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full">
+                    <Pencil className="w-5 h-5" />
+                  </button>
+                  {/* UPDATE THIS BUTTON'S onClick */}
+                  <button onClick={(e) => handleDelete(e, record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full">
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
+              </Link>
             );
           }) : <p className="text-gray-400 text-center">You haven't added any personal records yet.</p>}
         </div>
