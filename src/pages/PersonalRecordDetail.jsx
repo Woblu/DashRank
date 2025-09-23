@@ -1,9 +1,8 @@
-// src/pages/PersonalRecordDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
-import { ChevronLeft, Film, Link as LinkIcon, Trash2 } from 'lucide-react';
+import { ChevronLeft, Film, Link as LinkIcon, Pencil, Trash2 } from 'lucide-react';
 import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 
 export default function PersonalRecordDetail() {
@@ -78,7 +77,16 @@ export default function PersonalRecordDetail() {
           <ChevronLeft size={24} />
         </button>
         
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-4 right-4 z-10 flex gap-2">
+          <button
+            onClick={() => navigate('/progression', { state: { editRecordId: record.id } })}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors"
+            aria-label="Edit Record"
+            title="Edit Record"
+          >
+            <Pencil size={20} />
+          </button>
+          
           <button
             onClick={handleDelete}
             className="w-10 h-10 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
@@ -145,11 +153,6 @@ export default function PersonalRecordDetail() {
             <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-cyan-400 transition-colors">
                 <Film className="w-5 h-5" /> Video Proof
             </a>
-            {record.rawFootageLink && (
-              <a href={record.rawFootageLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-cyan-400 transition-colors">
-                <LinkIcon className="w-5 h-5" /> Raw Footage
-              </a>
-            )}
         </div>
       </div>
     </div>

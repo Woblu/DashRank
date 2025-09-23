@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext.jsx';
-import { PlusCircle, Trash2, Film, Pencil } from 'lucide-react'; // Ensure Pencil is imported
+import { PlusCircle, Trash2, Film, Pencil } from 'lucide-react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import AddPersonalRecordForm from '../../components/AddPersonalRecordForm.jsx';
 
 // Helper function to extract YouTube video ID from various URL formats
@@ -17,9 +18,11 @@ export default function MyProgressPage() {
   const [loading, setLoading] = useState(true);
   const { token } = useAuth();
   
-  // State to manage the modal and the record being edited
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const apiEndpoint = '/api/personal-records';
 
@@ -40,6 +43,19 @@ export default function MyProgressPage() {
     fetchRecords();
   }, [token]);
 
+  // This useEffect hook opens the modal if navigated from the detail page
+  useEffect(() => {
+    const recordIdToEdit = location.state?.editRecordId;
+    if (recordIdToEdit && records.length > 0) {
+      const recordFromState = records.find(r => r.id === recordIdToEdit);
+      if (recordFromState) {
+        handleOpenEditModal(recordFromState);
+        // Clear the state from location history
+        navigate(location.pathname, { replace: true });
+      }
+    }
+  }, [location.state, records, navigate]);
+
   const handleDelete = async (recordId) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
     try {
@@ -53,9 +69,8 @@ export default function MyProgressPage() {
     }
   };
 
-  // Handlers to open the modal for adding or editing
   const handleOpenAddModal = () => {
-    setRecordToEdit(null); // Ensure we're not editing
+    setRecordToEdit(null);
     setIsModalOpen(true);
   };
   
@@ -66,7 +81,6 @@ export default function MyProgressPage() {
   
   return (
     <div className="space-y-8">
-      {/* Conditionally render the modal */}
       {isModalOpen && (
         <AddPersonalRecordForm
           onClose={() => setIsModalOpen(false)}
@@ -90,27 +104,27 @@ export default function MyProgressPage() {
             
             return (
               <div key={record.id} className="flex items-center bg-gray-900 p-3 rounded-lg gap-4">
-                
-                {recordThumbnail && (
-                  <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-                    <img 
-                      src={recordThumbnail} 
-                      alt={`${record.levelName} thumbnail`}
-                      className="w-32 h-20 object-cover rounded hover:opacity-80 transition-opacity"
-                      onError={(e) => { e.target.parentElement.style.display = 'none'; }}
-                    />
-                  </a>
-                )}
+                <Link to={`/records/${record.id}`} className="flex items-center gap-4 flex-grow">
+                  {recordThumbnail && (
+                    <div className="flex-shrink-0">
+                      <img 
+                        src={recordThumbnail} 
+                        alt={`${record.levelName} thumbnail`}
+                        className="w-32 h-20 object-cover rounded hover:opacity-80 transition-opacity"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
 
-                <div className="flex-grow">
-                  <p className="font-bold text-lg text-cyan-400">#{record.placement} - {record.levelName}</p>
-                  <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
-                  <div className="flex items-center gap-4 mt-2 text-xs">
-                    <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-gray-300 hover:text-cyan-400 transition-colors"><Film className="w-4 h-4" /> Video Proof</a>
+                  <div className="flex-grow">
+                    <p className="font-bold text-lg text-cyan-400">#{record.placement} - {record.levelName}</p>
+                    <p className="text-sm text-gray-400">{record.difficulty.replace('_', ' ')} Demon {record.attempts ? `- ${record.attempts} attempts` : ''}</p>
+                    <div className="flex items-center gap-4 mt-2 text-xs">
+                      <div className="flex items-center gap-1 text-gray-300 hover:text-cyan-400 transition-colors"><Film className="w-4 h-4" /> Video Proof</div>
+                    </div>
                   </div>
-                </div>
+                </Link>
 
-                {/* This is the section that contains the Edit and Delete buttons */}
                 <div className="flex flex-col sm:flex-row gap-1">
                   <button onClick={() => handleOpenEditModal(record)} className="p-2 text-gray-300 hover:bg-gray-700 rounded-full transition-colors"><Pencil className="w-5 h-5" /></button>
                   <button onClick={() => handleDelete(record.id)} className="p-2 text-red-500 hover:bg-red-500/20 rounded-full transition-colors"><Trash2 className="w-5 h-5" /></button>
