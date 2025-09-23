@@ -67,7 +67,7 @@ export default function AddPersonalRecordForm({ onClose, recordCount, onRecordAd
             </select>
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-gray-300 mb-2">Video Proof (YouTube, Twitch)</label>
+            <label className="block text-sm font-bold text-gray-300 mb-2">Video Proof (YouTube, Twitch, Google Drive, Medal)</label>
             <input type="text" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} required placeholder="https://..." disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
           </div>
           <div className="md:col-span-2">

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext.jsx';
-import { PlusCircle, Trash2, Film, Link as LinkIcon } from 'lucide-react';
+import { PlusCircle, Trash2, Film } from 'lucide-react';
 
 // Helper function to extract YouTube video ID from various URL formats
 const getYouTubeId = (url) => {
@@ -107,7 +107,7 @@ export default function MyProgressPage() {
             </select>
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-gray-300 mb-2">Video Proof (YouTube, etc.)</label>
+            <label className="block text-sm font-bold text-gray-300 mb-2">Video Proof (YouTube, Twitch, Google Drive, Medal)</label>
             <input type="text" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} required placeholder="https://..." disabled={isSubmitting} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
           </div>
           <div className="md:col-span-2">
