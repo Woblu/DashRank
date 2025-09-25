@@ -1,4 +1,3 @@
-// Forcing a new build to clear the Vercel cache - 9/25/2025
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -17,9 +16,8 @@ export default function LoginPage() {
     setError('');
     setIsSubmitting(true);
     try {
-      // This is the line that needs to be updated
       const response = await axios.post('/api/auth', {
-        action: 'login', // We tell the consolidated endpoint what to do
+        action: 'login',
         email,
         password,
       });
