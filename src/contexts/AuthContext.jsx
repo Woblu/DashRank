@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
@@ -18,16 +17,19 @@ export const AuthProvider = ({ children }) => {
           const currentTime = Date.now() / 1000;
           
           if (decodedToken.exp < currentTime) {
+            // Token is expired
             logout();
           } else {
+            // Token is valid, set user state
             setUser({
+              id: decodedToken.userId,
               username: decodedToken.username,
               role: decodedToken.role,
             });
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           }
         } catch (error) {
-          console.error("Invalid token found.", error);
+          console.error("Invalid token found, logging out.", error);
           logout();
         }
       }
@@ -36,19 +38,11 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, [token]);
 
-  const login = async (identifier, password) => {
-    try {
-      const response = await axios.post('/api/auth/login', { identifier, password });
-      const { token: newToken, user: userData } = response.data;
-      localStorage.setItem('token', newToken);
-      setToken(newToken);
-      setUser(userData);
-      return { success: true };
-    } catch (error) {
-      const message = error.response?.data?.message || 'Login failed.';
-      console.error(message);
-      return { success: false, message };
-    }
+  // REWRITTEN LOGIN FUNCTION
+  // Its only job is to receive a new token and update the state.
+  const login = (newToken) => {
+    localStorage.setItem('token', newToken);
+    setToken(newToken); // This triggers the useEffect above to decode the token and set the user
   };
 
   const logout = () => {
@@ -58,11 +52,13 @@ export const AuthProvider = ({ children }) => {
     delete axios.defaults.headers.common['Authorization'];
   };
 
+  // We expose the full user object now
   const value = { user, token, loading, login, logout };
   
+  // Don't render the app until we've checked for a token
   if (loading) {
-  return null;
-}
+    return null;
+  }
 
   return (
     <AuthContext.Provider value={value}>
