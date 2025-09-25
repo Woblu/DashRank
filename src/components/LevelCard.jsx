@@ -1,19 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { Pencil, Trash2, Pin, PinOff } from 'lucide-react';
-import YouTubeThumbnail from './YouTubeThumbnail'; // Import the new component
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
+
+  // 1. First, try to extract the ID from a standard YouTube URL.
   const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
   const urlMatch = urlOrId.match(urlRegex);
   if (urlMatch && urlMatch[1]) {
-    return urlMatch[1].substring(0, 11);
+    return urlMatch[1].substring(0, 11); // Return the 11-character ID
   }
+
+  // 2. If that fails, assume the string IS the ID.
   if (typeof urlOrId === 'string' && urlOrId.length >= 11) {
      return urlOrId.substring(0, 11);
   }
+
   return null;
 };
 
@@ -26,8 +30,11 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
   const levelName = level.name || level.levelName;
   const videoId = getYouTubeVideoId(videoUrl);
   
-  // Custom thumbnail from JSON/database is checked first
-  const customThumbnail = level.thumbnail || level.thumbnailUrl;
+  let thumbnailUrl = level.thumbnail || level.thumbnailUrl;
+  if (!thumbnailUrl && videoId) {
+    // We now use '0.jpg', which is a highly reliable default thumbnail.
+    thumbnailUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+  }
 
   const handleClick = () => {
     let path;
@@ -50,21 +57,11 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
         border-2 border-dotted border-cyan-400 bg-white dark:bg-gray-800`}
     >
       <div className="w-full sm:w-40 aspect-video rounded-md overflow-hidden flex-shrink-0 relative">
-        {customThumbnail ? (
-          <img
-            src={customThumbnail}
-            alt={`${levelName} thumbnail`}
-            className="w-full h-full object-cover"
-            onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/160x90/1e293b/ffffff?text=Invalid`; }}
-          />
-        ) : (
-          <YouTubeThumbnail
-            videoId={videoId}
-            altText={`${levelName} thumbnail`}
-            className="w-full h-full object-cover"
-          />
-        )}
-        
+        <img
+          src={thumbnailUrl || 'https://placehold.co/320x180/1e293b/ffffff?text=No+Thumb'}
+          alt={`${levelName} thumbnail`}
+          className="w-full h-full object-cover"
+        />
         {isPinned && listType === 'progression' && (
           <div className="absolute top-1 right-1 bg-yellow-400 p-1 rounded-full"><Pin size={12} className="text-gray-900"/></div>
         )}
@@ -81,8 +78,37 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
       </div>
 
       {listType === 'progression' && (
-        <div className="flex flex-col sm:flex-row gap-1">
-          {/* ... buttons remain the same ... */}
+        <div className="flex flex-col sm:flex-row gap-1 z-10">
+          {onPin && (
+            <button 
+              type="button" 
+              onClick={(e) => { e.stopPropagation(); onPin(isPinned ? null : level.id); }} 
+              className={`p-2 rounded-full ${isPinned ? 'text-yellow-400 bg-yellow-500/20' : 'text-gray-300 hover:bg-gray-700'}`}
+              title={isPinned ? "Unpin Record" : "Pin Record"}
+            >
+              {isPinned ? <PinOff className="w-5 h-5" /> : <Pin className="w-5 h-5" />}
+            </button>
+          )}
+          {onEdit && (
+            <button 
+              type="button" 
+              onClick={(e) => { e.stopPropagation(); onEdit(level); }} 
+              className="p-2 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
+              title="Edit Record"
+            >
+              <Pencil className="w-5 h-5" />
+            </button>
+          )}
+          {onDelete && (
+            <button 
+              type="button" 
+              onClick={(e) => { e.stopPropagation(); onDelete(level.id); }} 
+              className="p-2 text-red-500 hover:bg-red-500/20 rounded-full"
+              title="Delete Record"
+            >
+              <Trash2 className="w-5 h-5" />
+            </button>
+          )}
         </div>
       )}
     </div>
