@@ -1,20 +1,26 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { Pencil, Trash2, Pin, PinOff } from 'lucide-react';
 
+// This new, more robust function handles both full URLs and raw ID strings.
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
+
+  // 1. First, try to extract the ID from a standard YouTube URL.
   const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
   const urlMatch = urlOrId.match(urlRegex);
   if (urlMatch && urlMatch[1]) {
-    return urlMatch[1];
+    return urlMatch[1].substring(0, 11); // Return the 11-character ID
   }
-  // This part is a fallback for cases where only the ID is provided
-  if (typeof urlOrId === 'string' && urlOrId.length === 11 && !urlOrId.includes('/')) {
-    return urlOrId;
+
+  // 2. If that fails, assume the string IS the ID (like in your original file).
+  // This handles cases where your JSON just contains "dQw4w9WgXcQ".
+  if (typeof urlOrId === 'string' && urlOrId.length >= 11) {
+     return urlOrId.substring(0, 11);
   }
-  return null; // Return null if it's not a valid YouTube URL or ID
+
+  return null; // If neither works, return null.
 };
 
 export default function LevelCard({ level, index, listType, onEdit, onDelete, onPin, pinnedRecordId }) {
@@ -26,7 +32,6 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
   const levelName = level.name || level.levelName;
   const videoId = getYouTubeVideoId(videoUrl);
   
-  // This logic is now more robust
   let thumbnailUrl = level.thumbnail || level.thumbnailUrl;
   if (!thumbnailUrl && videoId) {
     thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
@@ -59,7 +64,6 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
           className="w-full h-full object-cover"
           onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/160x90/1e293b/ffffff?text=Invalid`; }}
         />
-        {/* FIX: This icon now only shows on the progression list */}
         {isPinned && listType === 'progression' && (
           <div className="absolute top-1 right-1 bg-yellow-400 p-1 rounded-full"><Pin size={12} className="text-gray-900"/></div>
         )}
