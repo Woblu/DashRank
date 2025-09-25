@@ -24,22 +24,11 @@
         "videoId": "x3Sof3yGJ5Y"
       }
     ],
-    "levelId": "8424015",
+    "levelId": 8424015,
     "description": "An idea that started 5 years ago has now been brought to light..."
   },
   {
     "placement": 3,
-    "name": "Flamewall",
-    "creator": "UNarwall",
-    "verifier": "CuatrocientosYT",
-    "thumbnail": "",
-    "videoId": "x4Io4zkWVRw",
-    "records": [],
-    "levelId": "126242564",
-    "description": "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts."
-  },
-  {
-    "placement": 4,
     "name": "Tidal Wave",
     "creator": "OniLink",
     "verifier": "Zoink",
@@ -77,11 +66,11 @@
         "videoId": "https://www.youtube.com/watch?v=a2KnQloJiOU"
       }
     ],
-    "levelId": "86407629",
+    "levelId": 86407629,
     "description": "Drown them"
   },
   {
-    "placement": 5,
+    "placement": 4,
     "name": "Nullscapes",
     "creator": "Kiba",
     "verifier": "Zoink",
@@ -99,22 +88,22 @@
         "videoId": "https://www.youtube.com/watch?v=hRUAGZmDn1k"
       }
     ],
-    "levelId": "109780665",
+    "levelId": 109780665,
     "description": "GET OUT OF MY HEAD"
   },
   {
-    "placement": 6,
+    "placement": 5,
     "name": "BOOBAWAMBA",
     "creator": "Akunakunn",
     "verifier": "eastshark",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "20fYiqLAo_E",
     "records": [],
-    "levelId": "110816181",
+    "levelId": 110816181,
     "description": "BOOBAWAMBA is equal to {10, 100 [1[1\\1\\12-2] 1 [2\\2-2]2]2} using the array of operator and BEAF it has boobol entries. This is my best level and it has been verified by EastShark"
   },
   {
-    "placement": 7,
+    "placement": 6,
     "name": "Every End",
     "creator": "MindCap",
     "verifier": "Hqmy",
@@ -147,11 +136,11 @@
         "videoId": "https://www.youtube.com/watch?v=gXUwH1NNIYc"
       }
     ],
-    "levelId": "116174063",
+    "levelId": 116174063,
     "description": "Never Ending"
   },
   {
-    "placement": 8,
+    "placement": 7,
     "name": "andromeda",
     "creator": "Insxne97",
     "verifier": "Taiago",
@@ -194,582 +183,920 @@
         "videoId": "yoqY5Rzx9Us"
       }
     ],
-    "levelId": "32223092",
+    "levelId": 32223092,
     "description": "._."
   },
   {
-    "placement": 9,
+    "placement": 8,
     "name": "Silent clubstep",
     "creator": "TheRealSailent",
     "verifier": "Paqoe",
     "thumbnail": "",
     "videoId": "GR4OMkS3SN8",
-    "records": [],
-    "levelId": "4125776",
+    "records": [
+      {
+        "username": "Zoink",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=57aQ3EmSqQ4"
+      },
+      {
+        "username": "Doggie",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=h9XRy_oAMks"
+      },
+      {
+        "username": "Trick",
+        "percent": 100,
+        "videoId": ""
+      },
+      {
+        "username": "Seturan",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=uO2ISQnXm4Q"
+      },
+      {
+        "username": "zVision",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=z7OUaFod8Fo"
+      },
+      {
+        "username": "wPopoff",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=EOr8hDyXDvQ"
+      },
+      {
+        "username": "noname228gg",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=trf9--AiLH8"
+      },
+      {
+        "username": "Adri420",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=a5hC-SA8gOM"
+      },
+      {
+        "username": "Litoks",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=PnECP_bVf1E"
+      },
+      {
+        "username": "Aless50",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=Ph4g5Eq_5ms"
+      },
+      {
+        "username": "freksolereal",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=8jf_-iyapxU"
+      },
+      {
+        "username": "Diamond",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=idHQWAWQUeY"
+      },
+      {
+        "username": "Albert",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=2Xf6q-Tc6Yc"
+      },
+      {
+        "username": "MeQ8cNv43s6A",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=7xBYD_ud4TU"
+      },
+      {
+        "username": "niwox",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=zS7ivyoF8ws"
+      },
+      {
+        "username": "Triqz",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=kgqD_SokXas"
+      },
+      {
+        "username": "Netermind",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=7Bgw2zlS_Jk"
+      },
+      {
+        "username": "Juls",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=kCDunfE96AE"
+      },
+      {
+        "username": "ROZE",
+        "percent": 100,
+        "videoId": "https://www.youtube.com/watch?v=lPScuvG2wC0"
+      },
+      {
+        "username": "akka",
+        "percent": 95,
+        "videoId": "https://www.youtube.com/watch?v=Cf3e8FtEKSc"
+      },
+      {
+        "username": "zThund3r",
+        "percent": 76,
+        "videoId": "https://www.youtube.com/watch?v=ENBsx4tl5A8"
+      },
+      {
+        "username": "parker",
+        "percent": 72,
+        "videoId": "https://www.youtube.com/watch?v=lwYoUZVf2K8"
+      },
+      {
+        "username": "dewbbs",
+        "percent": 66,
+        "videoId": "https://www.youtube.com/watch?v=LFtiWFlqVvc"
+      },
+      {
+        "username": "blazenik",
+        "percent": 65,
+        "videoId": "https://www.youtube.com/watch?v=1jxgw84BMjw"
+      },
+      {
+        "username": "whfyre",
+        "percent": 65,
+        "videoId": "https://www.youtube.com/watch?v=TZ1D2CQQ8Y0"
+      },
+      {
+        "username": "Mixasuspa",
+        "percent": 65,
+        "videoId": "https://www.youtube.com/watch?v=UL-mEcUeFSE"
+      },
+      {
+        "username": "sykaav",
+        "percent": 64,
+        "videoId": "https://www.youtube.com/watch?v=QmMzeI2aN2k"
+      },
+      {
+        "username": "XBelugaX",
+        "percent": 64,
+        "videoId": "https://www.youtube.com/watch?v=IlSdS8kqe2k"
+      }
+    ],
+    "levelId": 4125776,
     "description": "7 years and you still play me?!"
   },
+{
+  "placement": 8,
+  "name": "Anathema",
+  "creator": "nikroplays",
+  "verifier": "[IQB7] Whizkid05",
+  "levelId": 112313819,
+  "videoId": "_uKwmjHmySI",
+  "records": [
+    { "username": "[WBT] Andrey Kapninskii", "percent": 100, "videoId": "BL7h6xAjq-E" },
+    { "username": "[67] Zoink", "percent": 100, "videoId": "HqoF9zgCAlI" },
+    { "username": "[FAXE] teraaa", "percent": 100, "videoId": "NgK4mj5G-ng" },
+    { "username": "[SSS] SerVax", "percent": 100, "videoId": "gxp3BclgjBc" },
+    { "username": "[YAHO] PoCle", "percent": 100, "videoId": "h01WnSNfky0" },
+    { "username": "[SARK] Netermind", "percent": 100, "videoId": "0M_1AaX7dms" },
+    { "username": "[SSS] w3rty", "percent": 100, "videoId": "CZJokuuRGdQ" },
+    { "username": "[TACSO] Sophie", "percent": 100, "videoId": "y3g6xhYwkmg" },
+    { "username": "[EVIL] Arshadow", "percent": 100, "videoId": "U-iJannzStg" },
+    { "username": "[TCD] Trick", "percent": 100, "videoId": "vU1B2fA_B9I" },
+    { "username": "Gokill", "percent": 100, "videoId": "fF8CZ-R1xwk" },
+    { "username": "[WBT] wPopoff", "percent": 100, "videoId": "kVBz9ogtL6g" },
+    { "username": "[4MO] ROZE", "percent": 100, "videoId": "Ih8BaOXc1QE" },
+    { "username": "[67] Jif", "percent": 100, "videoId": "WB9nMLKC330" },
+    { "username": "[ROAR] coubitic", "percent": 100, "videoId": "jYudeaXiVws" },
+    { "username": "[Ñ] Yuuwi", "percent": 92, "videoId": "RzNEszVrqCI" },
+    { "username": "[RF] Ronrjkw", "percent": 85, "videoId": "knoiM5dInGE" }
+  ]
+},
   {
-    "placement": 10,
-    "name": "Anathema",
-    "creator": "nikroplays",
-    "verifier": "[IQB7] Whizkid05",
-    "levelId": "112313819",
-    "videoId": "_uKwmjHmySI",
-    "records": [],
-    "description": ""
-  },
+  "placement": 10,
+  "name": "Avernus",
+  "creator": "PockeWindfish",
+  "verifier": "Zoink",
+  "thumbnail": "URL_TO_THUMBNAIL",
+  "videoId": "16Zh8jssanc",
+  "records": [
+    {
+      "username": "[TCD] Diamond",
+      "percent": 100,
+      "videoId": "oEFB-ZrhMmM"
+    },
+    {
+      "username": "[TCD] Trick",
+      "percent": 100,
+      "videoId": "aWyNtYYpjy8"
+    },
+    {
+      "username": "[WBT] wPopoff",
+      "percent": 100,
+      "videoId": "-ynbIhRflw8"
+    },
+    {
+      "username": "[SSS] SerVax",
+      "percent": 100,
+      "videoId": "s4LJd1WsPos"
+    },
+    {
+      "username": "[FAXE] moliklee",
+      "percent": 100,
+      "videoId": "lXgcuhWiThE"
+    },
+    {
+      "username": "[EVIL] Arshadow",
+      "percent": 100,
+      "videoId": "8jMEdJCuekg"
+    },
+    {
+      "username": "[WBT] Andrey Kapninskii",
+      "percent": 100,
+      "videoId": "FifpSVGGq1U"
+    },
+    {
+      "username": "[CHAT] Abdieldevil",
+      "percent": 100,
+      "videoId": "KqJW42qq-7c"
+    },
+    {
+      "username": "[WBT] Taiago",
+      "percent": 100,
+      "videoId": "nSSr_W9CUFs"
+    },
+    {
+      "username": "[WBT] Mizukii",
+      "percent": 100,
+      "videoId": "3l4akJem96w"
+    },
+    {
+      "username": "[SARK] Netermind",
+      "percent": 100,
+      "videoId": "csTgoj00VQI"
+    },
+    {
+      "username": "[4MO] ROZE",
+      "percent": 100,
+      "videoId": "5qAiQ_v-SC4"
+    },
+    {
+      "username": "[SSS] w3rty",
+      "percent": 100,
+      "videoId": "SAgyELodik8"
+    },
+    {
+      "username": "[4MO] fallen",
+      "percent": 100,
+      "videoId": "toLsDvVv4Mc"
+    },
+    {
+      "username": "[TACSO] Sophie",
+      "percent": 100,
+      "videoId": "vefvpRl0Kd4"
+    },
+    {
+      "username": "[USSR] Light",
+      "percent": 98,
+      "videoId": "jBiI9dbn-cg"
+    },
+    {
+      "username": "Wavyy",
+      "percent": 95,
+      "videoId": "mVm6jjmz8V4"
+    }
+  ],
+  "levelId": 89496627,
+  "description": "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv"
+},
   {
-    "placement": 11,
-    "name": "Avernus",
-    "creator": "PockeWindfish",
-    "verifier": "Zoink",
-    "thumbnail": "URL_TO_THUMBNAIL",
-    "videoId": "16Zh8jssanc",
-    "records": [],
-    "levelId": "89496627",
-    "description": "By Bo & Kyhros - https://discord.gg/YcNkfHMJGv"
-  },
+  "placement": 11,
+  "name": "Acheron",
+  "creator": "ryamu",
+  "verifier": "Zoink",
+  "thumbnail": "URL_TO_THUMBNAIL",
+  "videoId": "sBKR6aUorzA",
+  "records": [
+    { "username": "[TCD] Doggie", "percent": 100, "videoId": "4ytMwX9B1Ss" },
+    { "username": "[TCD] Trick", "percent": 100, "videoId": "ttsK0KYHJb8" },
+    { "username": "Zeroxy", "percent": 100, "videoId": "bHG-L8_aOQg" },
+    { "username": "[WBT] wPopoff", "percent": 100, "videoId": "QV0lz9c8BYw" },
+    { "username": "OneAlphaHelix", "percent": 100, "videoId": "V1airJGB4ns" },
+    { "username": "TheRealEandis", "percent": 100, "videoId": "hjJToXwpyUQ" },
+    { "username": "[WBT] Taiago", "percent": 100, "videoId": "xtpDCz4ubG0" },
+    { "username": "[Ñ] RaeveZ", "percent": 100, "videoId": "HrlVPQznZz0" },
+    { "username": "[FAX] Hover", "percent": 100, "videoId": "bG8JFVK5gUA" },
+    { "username": "[USSR] Light", "percent": 100, "videoId": "WsD-bcKsltU" },
+    { "username": "[FAXE] moliklee", "percent": 100, "videoId": "pJnkZR3JKEw" },
+    { "username": "[WBT] Mizukii", "percent": 100, "videoId": "obDiKsr24vo" },
+    { "username": "[SARK] Netermind", "percent": 100, "videoId": "erAA29O2zpE" },
+    { "username": "[SSS] SerVax", "percent": 100, "videoId": "dYounJFa6f8" },
+    { "username": "[EVIL] Arshadow", "percent": 100, "videoId": "F5miPcJpCvY" },
+    { "username": "[SSS] w3rty", "percent": 100, "videoId": "nefQ8qDuaCs" },
+    { "username": "[SOS] Mikhail Krotov", "percent": 100, "videoId": "bTb7U5KdLOM" },
+    { "username": "[TRIGO] takma", "percent": 100, "videoId": "gHmW0a4Tu6s" },
+    { "username": "[smd] Finley", "percent": 100, "videoId": "ytoz_jxB-qc" },
+    { "username": "hstorm", "percent": 100, "videoId": "DLKQEJqbStc" },
+    { "username": "[FAXE] teraaa", "percent": 100, "videoId": "zi-KHOVY2GI" },
+    { "username": "Gokill", "percent": 100, "videoId": "5fqciPrucTc" },
+    { "username": "[TWN] PaltAcheron", "percent": 100, "videoId": "oSI7bEwP99s" },
+    { "username": "[RF] Ronrjkw", "percent": 100, "videoId": "e6v9hSPKqvM" },
+    { "username": "SnowBallerr", "percent": 100, "videoId": "Ol6uwqtBkFY" },
+    { "username": "[4MO] ROZE", "percent": 100, "videoId": "QLxVOIzFCO4" },
+    { "username": "[WBT] Andrey Kapninskii", "percent": 100, "videoId": "wLlQAWoSsPo" },
+    { "username": "[SPQR] brite", "percent": 100, "videoId": "HJDLAaYDp50" },
+    { "username": "[VDL] zThund3r", "percent": 100, "videoId": "CxgCN7gqLY0" },
+    { "username": "Axinity", "percent": 100, "videoId": "LgGRfBKtP7s" },
+    { "username": "RG", "percent": 100, "videoId": "dLkUvVPns4c" },
+    { "username": "[THNDR] Thnnder", "percent": 100, "videoId": "hcNpkVnGSKE" },
+    { "username": "[SVO] The_Bat0", "percent": 100, "videoId": "uTlxyw3vwoc" },
+    { "username": "noname228gg", "percent": 100, "videoId": "GQxNNxPahZQ" },
+    { "username": "[BLKHL] ScoffGD", "percent": 100, "videoId": "YsSrdiH-1rw" },
+    { "username": "[IQB7] Alexander Saraf", "percent": 100, "videoId": "mZnxPfwZ2LU" },
+    { "username": "[EAGLE] Kopyedz", "percent": 100, "videoId": "T4B8Lb5b_I4" },
+    { "username": "(SWEDEN) LOL123", "percent": 100, "videoId": "sqyv6ZsgVoI" },
+    { "username": "Goanga", "percent": 100, "videoId": "htp5BJIxSmk" },
+    { "username": "[4MO] fallen", "percent": 100, "videoId": "bzsCtDYX7Po" },
+    { "username": "[910] Stefan Boss", "percent": 100, "videoId": "jubtZDiyztI" },
+    { "username": "[FOWL] Hqmy", "percent": 100, "videoId": "1LiB3r35a6U" },
+    { "username": "Tunax", "percent": 100, "videoId": "avOcyba1BAQ" },
+    { "username": "TheRealMike", "percent": 100, "videoId": "AAYYuu51Gd0" },
+    { "username": "[DL] zoe", "percent": 100, "videoId": "r4aUtGVdKYI" },
+    { "username": "[103] Kole", "percent": 100, "videoId": "ElQtERaIAz4" },
+    { "username": "[RF] Sharkified", "percent": 100, "videoId": "R-xOdu6RjAw" },
+    { "username": "Unlucky2", "percent": 100, "videoId": "s79u5znl_YI" },
+    { "username": "[TACSO] Sophie", "percent": 100, "videoId": "_ec1UztPW6g" },
+    { "username": "[TCD] Cursed", "percent": 100, "videoId": "TjXVpA_46i0" },
+    { "username": "[RF] Kopre", "percent": 100, "videoId": "a7xZtawIHbY" },
+    { "username": "Kaza", "percent": 100, "videoId": "Y1qEo6wp1x0" },
+    { "username": "[EZ] kloone", "percent": 100, "videoId": "hBMIewMcQSg" },
+    { "username": "[NFLD] NLShorty", "percent": 100, "videoId": "P1lpmowngIg" },
+    { "username": "[IQB7] Breakcore", "percent": 100, "videoId": "1eM1gXrxGKo" },
+    { "username": "MeQ8cNv43s6A", "percent": 100, "videoId": "ewYSw8XM1K0" },
+    { "username": "ChopBlox", "percent": 100, "videoId": "Oaop6-ans7g" },
+    { "username": "[CHAT] Abdieldevil", "percent": 100, "videoId": "nmOaPNUbKvg" },
+    { "username": "JesseGamingGD", "percent": 100, "videoId": "tmFzWL7rOZw" },
+    { "username": "fluget", "percent": 100, "videoId": "c3uNMHwAPvY" },
+    { "username": "[MTM] NordstromUSA", "percent": 100, "videoId": "iLkOYLbRNHQ" },
+    { "username": "LilGig", "percent": 100, "videoId": "QioMw1sgM2I" },
+    { "username": "[USSR] Dolphy", "percent": 100, "videoId": "x9Wwp7KWfm4" },
+    { "username": "[YAHO] Rediio", "percent": 100, "videoId": "Tf0-bjmNMBw" },
+    { "username": "[RF] turtle", "percent": 100, "videoId": "wlPYhot7wKM" },
+    { "username": "KlimK", "percent": 100, "videoId": "qzJ8jaLSy9Q" },
+    { "username": "DibiiziCookie", "percent": 100, "videoId": "Pw7Ifr6o6_E" },
+    { "username": "[st] Albert", "percent": 100, "videoId": "CIHgOMmzzMY" },
+    { "username": "[VALET] Joker", "percent": 100, "videoId": "ljyZVYGX_2o" },
+    { "username": "[4MO] xalval", "percent": 100, "videoId": "2wmHzDvy_10" },
+    { "username": "eastshark", "percent": 100, "videoId": "ibOBMkvnQg0" },
+    { "username": "[910] Ranian", "percent": 100, "videoId": "wREvfdkKmTI" },
+    { "username": "ColossalOrange", "percent": 100, "videoId": "DJJ7aTgtk0Y" },
+    { "username": "[SSS] Vorten", "percent": 100, "videoId": "EpVJuiae1Us" },
+    { "username": "sawyer", "percent": 100, "videoId": "bOlNqbHHbtY" },
+    { "username": "[USSR] vvay", "percent": 100, "videoId": "yMVe2vCG5HM" },
+    { "username": "yolomodeboom", "percent": 98, "videoId": "qC6xtNtzoVw" },
+    { "username": "[MYS] za1lx", "percent": 98, "videoId": "b-WA2DKy0j4" },
+    { "username": "Rodmentor", "percent": 89, "videoId": "b_Nk4A_J_nk" },
+    { "username": "[TACSO] Teyyo", "percent": 89, "videoId": "AvMDIouwhUU" },
+    { "username": "Flexx", "percent": 89, "videoId": "YB8TVVQtz5c" },
+    { "username": "[ARMED] notd4n1", "percent": 86, "videoId": "i6y12vQLw_U" },
+    { "username": "DeyLix", "percent": 86, "videoId": "LkQGD00dgZM" },
+    { "username": "[CSLG] RAASU", "percent": 85, "videoId": "Mn010ckPHyk" },
+    { "username": "[Ñ] Emiliano56", "percent": 83, "videoId": "Gf_Aab15vkg" },
+    { "username": "[ROAR] Flavyola64", "percent": 83, "videoId": "jG-qR65EVFA" },
+    { "username": "[SOSA] dovvin", "percent": 75, "videoId": "RPbpKUQy-jQ" },
+    { "username": "Tami", "percent": 75, "videoId": "Gsn5djuRHsY" },
+    { "username": "[ISITT] blazenik", "percent": 73, "videoId": "N2KRkZw-yCY" },
+    { "username": "[HUFS] Clutter", "percent": 72, "videoId": "d_CqnO1O8y4" },
+    { "username": "[CHAT] sunix.", "percent": 72, "videoId": "Us-7ssjiszQ" },
+    { "username": "ffzer", "percent": 71, "videoId": "JsKX2ZzEKa8" },
+    { "username": "[PRIME] exsii", "percent": 70, "videoId": "aBIDeqQUeOY" }
+  ],
+  "levelId": 73667628,
+  "description": "verified by zoink. \"get ricch or die trying\" -50 cent"
+},
   {
     "placement": 12,
-    "name": "Acheron",
-    "creator": "ryamu",
-    "verifier": "Zoink",
-    "thumbnail": "URL_TO_THUMBNAIL",
-    "videoId": "sBKR6aUorzA",
-    "records": [],
-    "levelId": "73667628",
-    "description": "verified by zoink. \"get ricch or die trying\" -50 cent"
-  },
-  {
-    "placement": 13,
     "name": "Spectre",
     "creator": "xander",
     "verifier": "PersonHuman42",
     "thumbnail": "",
     "videoId": "MzsSLKJrLSI",
     "records": [],
-    "levelId": "110815379",
+    "levelId": 110815379,
     "description": "Extreme Demon Megacollab made by 40 amazing creators! Hosted by me. Verified by PersonHuman42 in 106,017 attempts."
   },
   {
-    "placement": 14,
+    "placement": 13,
     "name": "Menace",
     "creator": "MannyHeffly",
     "verifier": "Whizkid05",
     "thumbnail": "",
     "videoId": "nnkgghxxsEE",
     "records": [],
-    "levelId": "107805281",
+    "levelId": 107805281,
     "description": "The only truth in this world is that there is no truth. Verified by Whizkid. Level and song by me."
   },
   {
-    "placement": 15,
+    "placement": 14,
     "name": "Tunnel of Despair",
     "creator": "Exen",
     "verifier": "Zoink",
     "thumbnail": "",
     "videoId": "LpS4JREhW98",
     "records": [],
-    "levelId": "91351939",
+    "levelId": 91351939,
     "description": "Tunnel of Despair. Gameplay by Exen, Deco by ImMaxX1, Verified by Zoink."
   },
   {
-    "placement": 16,
+    "placement": 15,
     "name": "Abyss of Darkness",
     "creator": "Exen",
     "verifier": "Cursed",
     "thumbnail": "",
     "videoId": "ejJkpqcMMCY",
     "records": [],
-    "levelId": "49896559",
+    "levelId": 49896559,
     "description": ""
   },
-  {
-    "placement": 17,
+   {
+    "placement": 16,
     "name": "Kyouki",
-    "creator": "｛出見塩｝",
-    "verifier": "｛出見塩｝",
+    "creator": "⁨｛出見塩｝",
+    "verifier": "⁨｛出見塩｝",
     "thumbnail": "",
     "videoId": "KDa5c0CJTHs",
     "records": [],
-    "levelId": "86018142",
+    "levelId": 86018142,
     "description": "This is Crazy."
   },
   {
-    "placement": 18,
+    "placement": 17,
     "name": "Subterminal Point",
-    "creator": "SyQual",
+    "creator": "⁨SyQual",
     "verifier": "PoCle",
     "thumbnail": "",
     "videoId": "h2wmRMgACH4",
     "records": [],
-    "levelId": "113599729",
+    "levelId": 113599729,
     "description": "Also inspired by Maplestory. Verified by PoCle"
   },
   {
-    "placement": 19,
+    "placement": 18,
     "name": "Slaughterhouse",
-    "creator": "icedcave",
+    "creator": "⁨icedcave",
     "verifier": "Doggie",
     "thumbnail": "",
     "videoId": "kpcF1-QAHQc",
     "records": [],
-    "levelId": "27690100",
+    "levelId": 27690100,
     "description": "THE GATES HAVE OPENED ONCE AGAIN."
   },
   {
-    "placement": 20,
+    "placement": 19,
     "name": "KOCMOC",
     "creator": "cherryteam",
     "verifier": "Zoink",
     "thumbnail": "",
     "videoId": "2CxE-UWCIG4",
     "records": [],
-    "levelId": "87665224",
+    "levelId": 87665224,
     "description": "verified by Trick // verified by Zoink"
   },
   {
-    "placement": 21,
+    "placement": 20,
     "name": "Sakupen Circles",
     "creator": "[TCD] Diamond",
     "verifier": "Diamond",
     "thumbnail": "",
     "videoId": "ofG2mJi9kEA",
     "records": [],
-    "levelId": "76962930",
+    "levelId": 76962930,
     "description": "By Nick24, DrCuber, korewa, Muffy450, Renn241, endevvor, Mzero, NineDice, GhostVandalf. Dedicated to Cursed"
   },
   {
-    "placement": 22,
+    "placement": 21,
     "name": "Deimos",
     "creator": "ItsHybrid",
     "verifier": "Doggie",
     "thumbnail": "",
     "videoId": "b2yHaIk5zio",
     "records": [],
-    "levelId": "52955167",
+    "levelId": 52955167,
     "description": "Verified by Npesta!"
   },
   {
-    "placement": 23,
+    "placement": 22,
     "name": "Firework",
     "creator": "[TCD] Trick",
     "verifier": "Trick",
     "thumbnail": "",
     "videoId": "QBe5x2o9v2w",
     "records": [],
-    "levelId": "75206202",
+    "levelId": 75206202,
     "description": "Here you die"
   },
   {
-    "placement": 24,
+    "placement": 23,
     "name": "The Lightning Rod",
     "creator": "Lavatrex",
     "verifier": "Lavatrex",
     "thumbnail": "",
     "videoId": "nQDTi077O6M",
     "records": [],
-    "levelId": "93917076",
+    "levelId": 93917076,
     "description": "Solve the mystery of thunderstorms on a rainy day. 264 hours and 101 thousand attempts. My greatest project ever. Love you all! (bug @ 10% fixed 2/23/24)"
   },
   {
-    "placement": 25,
+    "placement": 24,
     "name": "poocubed",
     "creator": "Liisp",
     "verifier": "Kyasshukodo",
     "thumbnail": "",
     "videoId": "fzL31vai1ms",
     "records": [],
-    "levelId": "85133223",
+    "levelId": 85133223,
     "description": ""
   },
   {
-    "placement": 26,
+    "placement": 25,
     "name": "KOSETSU",
     "creator": "fwe",
     "verifier": "Taiago",
     "thumbnail": "",
     "videoId": "hZ8vFX8z_BU",
     "records": [],
-    "levelId": "109439644",
+    "levelId": 109439644,
     "description": "prepare for cold..."
   },
   {
-    "placement": 27,
+    "placement": 26,
     "name": "Saul Goodman",
     "creator": "Renn241",
     "verifier": "Jori",
     "thumbnail": "",
     "videoId": "hjs5PjUaw9k",
     "records": [],
-    "levelId": "90477539",
+    "levelId": 90477539,
     "description": "verified by riley (cool person)"
   },
   {
-    "placement": 28,
+    "placement": 27,
     "name": "Eyes in the Water",
     "creator": "hawkyre",
     "verifier": "LordVaderCraft",
     "thumbnail": "",
     "videoId": "yvLwiOy3KEA",
     "records": [],
-    "levelId": "72687502",
+    "levelId": 72687502,
     "description": ".-  .-..  .--  .-  -.--  ...  /  .--  .-  -  -.-.  ......  -. --."
   },
   {
-    "placement": 29,
+    "placement": 28,
     "name": "MINUSdry",
     "creator": "CDMusic",
     "verifier": "Varium",
     "thumbnail": "",
     "videoId": "YvA8ehhzz0Q",
     "records": [],
-    "levelId": "89414220",
+    "levelId": 89414220,
     "description": "To be dry, or not to be dry? That is the question. - Created by CDMusic and Sevant, verified by Varium."
   },
   {
-    "placement": 30,
+    "placement": 29,
     "name": "Belladonna",
     "creator": "cherryteam",
     "verifier": "Exsii",
     "thumbnail": "",
     "videoId": "saHSgoU1JQQ",
     "records": [],
-    "levelId": "94969889",
+    "levelId": 94969889,
     "description": "neo deco"
   },
   {
-    "placement": 31,
+    "placement": 30,
     "name": "Operation Evolution",
     "creator": "Halzion",
     "verifier": "cobrablitz",
     "thumbnail": "",
     "videoId": "WsVF-ayipvY",
     "records": [],
-    "levelId": "108570682",
+    "levelId": 108570682,
     "description": "Enjoy 5 minutes of my best decoration and gameplay! (special thanks to ItzMoha)"
   },
   {
-    "placement": 32,
+    "placement": 31,
     "name": "Sevvend Clubstep",
     "creator": "cherryteam",
     "verifier": "Vorten",
     "thumbnail": "",
     "videoId": "TvA8EJTJFCc",
     "records": [],
-    "levelId": "120255728",
+    "levelId": 120255728,
     "description": "hosted by MinAY // verified by :tomato: Vorten :tomato: // v2: all skips fixed"
   },
   {
-    "placement": 33,
+    "placement": 32,
     "name": "The Hallucination",
     "creator": "SyQual",
     "verifier": "VoTcHi",
     "thumbnail": "",
     "videoId": "tYbXsNkO9HE",
     "records": [],
-    "levelId": "81139702",
+    "levelId": 81139702,
     "description": "Psychedelic. Layout and verified by Votchi"
   },
   {
-    "placement": 34,
+    "placement": 33,
     "name": "COMBUSTION",
     "creator": "[SKWAD] Cersia",
     "verifier": "Slithium",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "3cTR4XUcA28",
     "records": [],
-    "levelId": "29779228",
+    "levelId": 29779228,
     "description": "dedicated to Tongii :) v3: changed the \"B\" at the end to an \"X\" cuz of new name :)"
   },
   {
-    "placement": 35,
+    "placement": 34,
     "name": "Solar Flare",
     "creator": "Linear",
     "verifier": "swiborg",
     "thumbnail": "",
     "videoId": "eHQNgty8ypY",
     "records": [],
-    "levelId": "90390075",
+    "levelId": 90390075,
     "description": "The star's name is Janet, please be nice to her. Original level by D4rkGryf."
   },
   {
-    "placement": 36,
+    "placement": 35,
     "name": "Apocalyptic Trilogy",
     "creator": "APTeamOfficial",
     "verifier": "Polterghast",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "RUBbpsTR5eU",
     "records": [],
-    "levelId": "113443235",
+    "levelId": 113443235,
     "description": "Forged in the chaos of 2016, finalized against all odds. Will you survive the end of all things?"
   },
   {
-    "placement": 37,
+    "placement": 36,
     "name": "LIMBO",
     "creator": "MindCap",
     "verifier": "BUNNYGRAM",
     "thumbnail": "",
     "videoId": "kXYMbaMVOZg",
     "records": [],
-    "levelId": "86084399",
+    "levelId": 86084399,
     "description": "                                    FOCUS"
   },
   {
-    "placement": 38,
+    "placement": 37,
     "name": "Gaggatrondra",
     "creator": "MoistyJc",
     "verifier": "Zeronium",
     "thumbnail": "",
     "videoId": "A4G41vw6Cf0",
     "records": [],
-    "levelId": "114990369",
+    "levelId": 114990369,
     "description": "Second solo moity map is here and queer get used to it - verified by Zeronium"
   },
   {
-    "placement": 39,
+    "placement": 38,
     "name": "Edge of Destiny",
     "creator": "CDMusic",
     "verifier": "Polterghast",
     "thumbnail": "",
     "videoId": "rUphe3H59yU",
     "records": [],
-    "levelId": "89187968",
+    "levelId": 89187968,
     "description": "Your destiny awaits.. - Verified by Polterghast. [BUG-FIX UPDATE FOR 2.2]"
   },
   {
-    "placement": 40,
+    "placement": 39,
     "name": "Codependence",
     "creator": "TCTeam",
     "verifier": "Pukklez",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "IKGk41hSnDo",
     "records": [],
-    "levelId": "62556400",
+    "levelId": 62556400,
     "description": "Duelo Maestro but better | Verified by Kapinapi and ViralDL | Have fun!"
   },
   {
-    "placement": 41,
+    "placement": 40,
     "name": "Mayhem",
     "creator": "[DL] LordVadercraft",
     "verifier": "LordVaderCraft",
     "thumbnail": "",
     "videoId": "U6e6DD32noM",
     "records": [],
-    "levelId": "23208646",
+    "levelId": 23208646,
     "description": "When mayhem begins there is no way back..."
   },
   {
-    "placement": 42,
+    "placement": 41,
     "name": "walter white",
     "creator": "Renn241",
     "verifier": "iIiLaSeRiIi",
     "thumbnail": "",
     "videoId": "KzK62PkWOJ0",
     "records": [],
-    "levelId": "81011195",
+    "levelId": 81011195,
     "description": "detjfgjgcbvbvvbvbbvvbvbv"
   },
   {
-    "placement": 43,
+    "placement": 42,
     "name": "Deadlier Clubstep",
     "creator": "HeroZombie80",
     "verifier": "Jenath",
     "thumbnail": "",
     "videoId": "eRhgaF0r5Q0",
     "records": [],
-    "levelId": "96314787",
+    "levelId": 96314787,
     "description": "\"In this shattered world of darkness.. Only Donald Trump may prevail.\" -Pla. Verified by Jenath"
   },
   {
-    "placement": 44,
+    "placement": 43,
     "name": "Damascus",
     "creator": "Dzeser",
     "verifier": "Timo",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "MWQyCUGt76Y",
     "records": [],
-    "levelId": "93339534",
+    "levelId": 93339534,
     "description": "A montage of scattered memories projected from the creating era. Verified by Timo. 2.2 fix by Vikings."
   },
   {
-    "placement": 45,
+    "placement": 44,
     "name": "PSYCHOPATH",
     "creator": "DeniPol",
     "verifier": "BONN GD",
     "thumbnail": "",
     "videoId": "1luL7tTE8p8",
     "records": [],
-    "levelId": "103925676",
+    "levelId": 103925676,
     "description": "Uroven dushevnobolnogo || Psychopath || My 4 year old creation || verified by BONN || art of the woman \"Esmy\" drawn by NormDanchik ||"
   },
   {
-    "placement": 46,
+    "placement": 45,
     "name": "Collapse",
     "creator": "[KIRB] Nexel",
     "verifier": "Nexel",
     "thumbnail": "",
     "videoId": "RCFpXyf6bn0",
     "records": [],
-    "levelId": "123855055",
+    "levelId": 123855055,
     "description": "a map i made for my 18th birthday (july 30th) -thank you so much rob for epic and daily, best birthday present ever :)"
   },
   {
-    "placement": 47,
+    "placement": 46,
     "name": "The Yangire",
     "creator": "Dorami",
     "verifier": "Dorami",
     "thumbnail": "",
     "videoId": "V3FjIorIfWg",
     "records": [],
-    "levelId": "110500920",
+    "levelId": 110500920,
     "description": "\"We have one last dance, TO THE DEATH.\""
   },
   {
-    "placement": 48,
+    "placement": 47,
     "name": "SARYYX NEVER CLEAR",
     "creator": "artos",
     "verifier": "skyzl",
     "thumbnail": "",
     "videoId": "rRlyvmjcz_4",
     "records": [],
-    "levelId": "95998005",
+    "levelId": 95998005,
     "description": "Welcome to the Howling Abyss. Verified by skzyl"
   },
   {
-    "placement": 49,
+    "placement": 48,
     "name": "ORDINARY",
     "creator": "vit12",
     "verifier": "wPopoff",
     "thumbnail": "",
     "videoId": "4QiHP3jpGnk",
     "records": [],
-    "levelId": "105593215",
+    "levelId": 105593215,
     "description": ""
   },
   {
-    "placement": 50,
+    "placement": 49,
     "name": "The Plunge",
     "creator": "Dolabill",
     "verifier": "Gokill",
     "thumbnail": "",
     "videoId": "8gW1-_u1K0Y",
     "records": [],
-    "levelId": "113220284",
+    "levelId": 113220284,
     "description": "All the elements pull us apart. But I'm holding on. Know your hands by heart. As I'm reaching out into the dark."
   },
   {
-    "placement": 51,
+    "placement": 50,
     "name": "Midnight",
     "creator": "[SKG] Madison Yuko",
     "verifier": "nei",
     "thumbnail": "",
     "videoId": "NhkN_a9cNi8",
     "records": [],
-    "levelId": "96083028",
+    "levelId": 96083028,
     "description": ""
   },
   {
-    "placement": 52,
+    "placement": 51,
     "name": "Sinister Silence",
     "creator": "Wahffle",
     "verifier": "wwdonut",
     "thumbnail": "",
     "videoId": "dJCdTMQxHMo",
     "records": [],
-    "levelId": "82249742",
+    "levelId": 82249742,
     "description": ""
   },
   {
-    "placement": 53,
+    "placement": 52,
     "name": "arcturus",
     "creator": "Maxfs",
     "verifier": "ultracauaHD",
     "thumbnail": "",
     "videoId": "a_Bqa8l9Xtc",
     "records": [],
-    "levelId": "72315402",
+    "levelId": 72315402,
     "description": "consumed by darkness, will you be able to free yourself? / verified by ultracauaHD"
   },
   {
-    "placement": 54,
+    "placement": 53,
     "name": "BEELINE",
     "creator": "[DOOBY] Galaxxyss",
     "verifier": "Motor8",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "nt6T9YDb6gw",
     "records": [],
-    "levelId": "93792764",
+    "levelId": 93792764,
     "description": "a level about bees and other cool things we like // verified by zewrnoum and moftow"
   },
   {
-    "placement": 55,
+    "placement": 54,
     "name": "Climax",
     "creator": "HushLC",
     "verifier": "Wain",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "E4ppq2WeAAs",
     "records": [],
-    "levelId": "15990131",
+    "levelId": 15990131,
     "description": "Collab with Echonox! Reupload!"
   },
   {
-    "placement": 56,
+    "placement": 55,
     "name": "Sonic Wave Infinity",
     "creator": "APTeamOfficial",
     "verifier": "Xanii",
     "thumbnail": "",
     "videoId": "C3-l_fFikpQ",
     "records": [],
-    "levelId": "69685815",
+    "levelId": 69685815,
     "description": "Legendary Demon by APTeam. Verified by Xanii. Legacy Mode can be enabled with LDM Checkbox. Legacy Concept by Viprin. Version 2.0"
   },
   {
-    "placement": 57,
+    "placement": 56,
     "name": "Waterfall",
     "creator": "cherryteam",
     "verifier": "LordVaderCraft",
     "thumbnail": "",
     "videoId": "VKuVdqneG9Y",
     "records": [],
-    "levelId": "25190466",
+    "levelId": 25190466,
     "description": "Water goes down, but we're dream is goes up :).. Robtop! I love you! <3 (Ver 2.it little bit nerfed! )"
   },
   {
-    "placement": 58,
+    "placement": 57,
     "name": "Coalescence",
     "creator": "[JUICE] Amplitron",
     "verifier": "Amplitron",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "do-a2EzZ4R8",
     "records": [],
-    "levelId": "19092328",
+    "levelId": 19092328,
     "description": "One of my old 1.9 levels that I decided to finish! It's kinda short, but I think it's still pretty good! xD Reupload: Nerfed a few parts ;)"
   },
   {
-    "placement": 59,
+    "placement": 58,
     "name": "Crystal Crusher",
     "creator": "Zeniux",
     "verifier": "GuitGuit",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "qirwgz-haVQ",
     "records": [],
-    "levelId": "93732702",
+    "levelId": 93732702,
     "description": "You might need a friend to help you escape this cave. Made and verified by me and Zeus. :)"
   },
   {
-    "placement": 60,
+    "placement": 59,
     "name": "Tartarus",
     "creator": "[USSR] Dolphy",
     "verifier": "Dolphy",
     "thumbnail": "",
     "videoId": "9YYQBbrsV5Y",
     "records": [],
-    "levelId": "59075347",
+    "levelId": 59075347,
     "description": "By Riot and more."
   },
   {
-    "placement": 61,
+    "placement": 60,
     "name": "Delta",
     "creator": "[FaZe] Drakosa",
     "verifier": "Doggie",
@@ -780,7 +1107,7 @@
     "description": ""
   },
   {
-    "placement": 62,
+    "placement": 61,
     "name": "THE JET ENGINE",
     "creator": "[TARIQ] Billzer",
     "verifier": "",
@@ -791,897 +1118,832 @@
     "description": ""
   },
   {
-    "placement": 63,
+    "placement": 62,
     "name": "Jigsaw",
     "creator": "NekonGames",
     "verifier": "Gokill",
     "thumbnail": "",
     "videoId": "FPfSqlI0T30",
     "records": [],
-    "levelId": "95031870",
+    "levelId": 95031870,
     "description": "You think it's the living who'll have ultimate judgment over you, because the dead will have no claim over your soul... But you may be mistaken. "
   },
   {
-    "placement": 64,
+    "placement": 63,
     "name": "UNKNOWN",
     "creator": "NineDice",
     "verifier": "Diamond",
     "thumbnail": "",
     "videoId": "a1sQxQqU6EM",
     "records": [],
-    "levelId": "88203501",
+    "levelId": 88203501,
     "description": ""
   },
   {
-    "placement": 65,
+    "placement": 64,
     "name": "BPATA MPAKA",
     "creator": "Inex",
     "verifier": "maybee",
     "thumbnail": "URL_TO_THUMBNAIL",
     "videoId": "sSbHYzYgYfA",
     "records": [],
-    "levelId": "109947627",
+    "levelId": 109947627,
     "description": ""
   },
   {
-    "placement": 66,
+    "placement": 65,
     "name": "Cimmerian Shade",
     "creator": "spcreat",
     "verifier": "spcreat",
     "thumbnail": "",
     "videoId": "lUNvV1k19HA",
     "records": [],
-    "levelId": "93340783",
+    "levelId": 93340783,
     "description": "Perpetual darkness and silence, covered in mist and cloud. Let their spirits rest."
   },
   {
-    "placement": 67,
+    "placement": 66,
     "name": "Oblivion",
     "creator": "[smd] dice88",
     "verifier": "dice88",
     "thumbnail": "",
     "videoId": "ZcmDAm50BB0",
     "records": [],
-    "levelId": "29012340",
+    "levelId": 29012340,
     "description": "Silence and solitude..."
   },
   {
-    "placement": 68,
+    "placement": 67,
     "name": "Viprin UFO",
     "creator": "hawkyre",
     "verifier": "Cookie",
     "thumbnail": "",
     "videoId": "LTMW9Py-nHE",
     "records": [],
-    "levelId": "107238250",
+    "levelId": 107238250,
     "description": "Dedicated to Viprin and his favorite gamemode | Verified by TheRealAlexbear in 22k attempts <3"
   },
   {
-    "placement": 69,
+    "placement": 68,
     "name": "Swing Swing",
     "creator": "Kaza",
     "verifier": "Whizkid05",
     "thumbnail": "",
     "videoId": "_hL9hFU3WI4",
     "records": [],
-    "levelId": "112231282",
+    "levelId": 112231282,
     "description": "Swing only extreme demon! Layout by me, decorated by 16 people. Verified by Whizkid05. GOOD LUCK!"
   },
   {
-    "placement": 70,
+    "placement": 69,
     "name": "Terminal Rampancy",
     "creator": "Xyriak",
     "verifier": "Bigthunder556",
     "thumbnail": "",
     "videoId": "29hRhhqQTLc",
     "records": [],
-    "levelId": "90057148",
+    "levelId": 90057148,
     "description": "335,000 objects,19,000 attempts, constant revisions, countless hours, and 5 years. Thank you."
   },
   {
-    "placement": 71,
+    "placement": 70,
     "name": "The Golden",
     "creator": "BoBoBoBoBoBoBo",
     "verifier": "nSwish",
     "thumbnail": "",
     "videoId": "wpS5PSHmji0",
     "records": [],
-    "levelId": "60978746",
+    "levelId": 60978746,
     "description": "Roots from forgotten times, rediscovered to bring the truth to light. Do you have enough courage to face the inevitable? Verified by Nswish."
   },
   {
-    "placement": 72,
+    "placement": 71,
     "name": "Natural Disaster",
     "creator": "iIiLaSeRiIi",
     "verifier": "iIiLaSeRiIi",
     "thumbnail": "",
     "videoId": "_0GqdSFmG_8",
     "records": [],
-    "levelId": "76483916",
+    "levelId": 76483916,
     "description": "Respect the Earth or face the consequences. New version (without stolen assets)."
   },
   {
-    "placement": 73,
+    "placement": 72,
     "name": "Verdant Landscape",
     "creator": "Nisha",
     "verifier": "Nisha",
     "thumbnail": "",
     "videoId": "wjZxkS5KC0A",
     "records": [],
-    "levelId": "76543324",
+    "levelId": 76543324,
     "description": "FINALLY COMPLETE AND VERIFIED MY FIRST 2.1 SOLO LEVEL! From now on, welcome the scenery of spring when it rains."
   },
   {
-    "placement": 74,
+    "placement": 73,
     "name": "ATOMIC CANNON Mk III",
     "creator": "Lieb",
     "verifier": "Zeronium",
     "thumbnail": "",
     "videoId": "5nM4hlnLDyM",
     "records": [],
-    "levelId": "104672501",
+    "levelId": 104672501,
     "description": "The third installment in the ATOMIC CANNON tetralogy! Verified by Zeronium, as always! The final level, ATOMIC CANNON PRIME, is coming soon..."
   },
   {
-    "placement": 75,
+    "placement": 74,
     "name": "NETWORK",
     "creator": "Agat3",
     "verifier": "vulcanium4",
     "thumbnail": "",
     "videoId": "K7wJi01J5D8",
     "records": [],
-    "levelId": "95176417",
+    "levelId": 95176417,
     "description": "\"Black and white create a strange dreamscape that color never can.\" - Jack Antonoff || Sequel to Framework || Verified by vulcanium4"
   },
   {
-    "placement": 76,
+    "placement": 75,
     "name": "Shukketsu",
     "creator": "[SKG] Madison Yuko",
     "verifier": "Baeru",
     "thumbnail": "",
     "videoId": "nkG4hKJIz2g",
     "records": [],
-    "levelId": "75286957",
+    "levelId": 75286957,
     "description": "Welcome to the garden, please don't step on the flowers~"
   },
   {
-    "placement": 77,
+    "placement": 76,
     "name": "Checked Steam",
     "creator": "gruzy",
     "verifier": "[IQB7] Whizkid05",
-    "levelId": "105748155",
+    "levelId": 105748155,
     "videoId": "cq6047eYGXs",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 78,
+    "placement": 77,
     "name": "Critical Heat",
     "creator": "Zeniux",
     "verifier": "hstorm",
-    "levelId": "88442157",
+    "levelId": 88442157,
     "videoId": "UjYIt2jy_BY",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 79,
+    "placement": 78,
     "name": "limbo but uwu ig idk",
     "creator": "Akunakunn",
     "verifier": "[JOB] ViperVenom95",
-    "levelId": "110705712",
+    "levelId": 110705712,
     "videoId": "3B36N-qfOD8",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 80,
+    "placement": 79,
     "name": "The Paroxysm of Rage",
     "creator": "Zacanaii",
     "verifier": "[RF] turtle",
-    "levelId": "87071894",
+    "levelId": 87071894,
     "videoId": "nq3i1qJQeEk",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 81,
+    "placement": 80,
     "name": "Aerial Gleam",
     "creator": "Endlevel",
     "verifier": "[TCD] Doggie",
-    "levelId": "79771070",
+    "levelId": 79771070,
     "videoId": "eyZjKtrGVYw",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 82,
+    "placement": 81,
     "name": "Starlit Stroll",
     "creator": "[TCC] Enfur",
     "verifier": "[TCC] TheButcher",
-    "levelId": "115380769",
+    "levelId": 115380769,
     "videoId": "U7MM74dTXuI",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 83,
+    "placement": 82,
     "name": "Trueffet",
     "creator": "SyQual",
     "verifier": "[YAHO] Baeru",
-    "levelId": "71434979",
+    "levelId": 71434979,
     "videoId": "yHESkazVD4Q",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 84,
+    "placement": 83,
     "name": "VOID",
     "creator": "nikoberry",
     "verifier": "[IQB7] Whizkid05",
-    "levelId": "100990392",
+    "levelId": 100990392,
     "videoId": "kN1FUoucoSc",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 85,
+    "placement": 84,
     "name": "Destruction 19",
     "creator": "bosjoker",
     "verifier": "[DAMN!] razsta4ax",
-    "levelId": "99495619",
+    "levelId": 99495619,
     "videoId": "UUyzGg_4mqs",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 86,
+    "placement": 85,
     "name": "Starlight Summit",
     "creator": "hazelmrow",
     "verifier": "hazelmrow",
-    "levelId": "114530859",
+    "levelId": 114530859,
     "videoId": "LB9xx41M4Ns",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 87,
+    "placement": 86,
     "name": "IRIS",
     "creator": "Kaza",
     "verifier": "[KIRB] bnuuy",
-    "levelId": "123853954",
+    "levelId": 123853954,
     "videoId": "WiFwAU8pgr4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 88,
+    "placement": 87,
     "name": "Judgement Knights",
     "creator": "HangerLord",
     "verifier": "Helix",
-    "levelId": "110913375",
+    "levelId": 110913375,
     "videoId": "MzzY8nWfxnk",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 89,
+    "placement": 88,
     "name": "Kenos",
     "creator": "npesta",
     "verifier": "npesta",
-    "levelId": "58673581",
+    "levelId": 58673581,
     "videoId": "Bs1kVySdUtI",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 90,
+    "placement": 89,
     "name": "Zodiac",
     "creator": "Bianox",
     "verifier": "-",
-    "levelId": "52374843",
+    "levelId": 52374843,
     "videoId": "HCQK_y8JutU",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 91,
+    "placement": 90,
     "name": "Esfera",
     "creator": "SyQual",
     "verifier": "[YAHO] Baeru",
-    "levelId": "78435955",
+    "levelId": 78435955,
     "videoId": "GK0Z8rgziH4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 92,
+    "placement": 91,
     "name": "Axinie",
     "creator": "[IQB7] SaturMan",
     "verifier": "[IQB7] SaturMan",
-    "levelId": "107299600",
+    "levelId": 107299600,
     "videoId": "LjfO2fqnozI",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 93,
+    "placement": 92,
     "name": "NEUTRA",
     "creator": "Jenkins GD",
     "verifier": "AeonAir",
-    "levelId": "88611404",
+    "levelId": 88611404,
     "videoId": "0fNBFwNS1qg",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 94,
+    "placement": 93,
     "name": "Guideless Goobering",
     "creator": "[TCC] Enfur",
     "verifier": "Zytrox",
-    "levelId": "105625871",
+    "levelId": 105625871,
     "videoId": "pFxdGKYQrcg",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 95,
+    "placement": 94,
     "name": "DISSONANCE",
     "creator": "[meow] ImMaxX1",
     "verifier": "[KIRB] zSquidknight",
-    "levelId": "108141323",
+    "levelId": 108141323,
     "videoId": "IfFser-f9c0",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 96,
+    "placement": 95,
     "name": "Lithium",
     "creator": "L4tezk",
     "verifier": "[SARK] Bamvie",
-    "levelId": "97364686",
+    "levelId": 97364686,
     "videoId": "IfVM56qNVdA",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 97,
+    "placement": 96,
     "name": "Fragile",
     "creator": "Endlevel",
     "verifier": "[PRIME] vaen",
-    "levelId": "65588448",
+    "levelId": 65588448,
     "videoId": "XfXzGv0oALw",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 98,
+    "placement": 97,
     "name": "Hard Machine",
     "creator": "Komp",
     "verifier": "Varium",
-    "levelId": "72744364",
+    "levelId": 72744364,
     "videoId": "6i0pdTDAo1c",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 99,
+    "placement": 98,
     "name": "Widestep",
     "creator": "｛出見塩｝",
     "verifier": "｛出見塩｝",
-    "levelId": "69289606",
+    "levelId": 69289606,
     "videoId": "TN8fHN_XV3o",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 100,
+    "placement": 99,
     "name": "Crackhead Circles",
     "creator": "AlrexX",
     "verifier": "[FAXE] teraaa",
-    "levelId": "95524621",
+    "levelId": 95524621,
     "videoId": "_4MDq8Us5gM",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 101,
+    "placement": 100,
     "name": "Scream Machine",
     "creator": "TMco",
     "verifier": "WatchPiggy",
-    "levelId": "96035641",
+    "levelId": 96035641,
     "videoId": "n-KeSGEX7Jg",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 102,
+    "placement": 101,
     "name": "Keres",
     "creator": "ItsHybrid",
     "verifier": "Crisis",
-    "levelId": "74391640",
+    "levelId": 74391640,
     "videoId": "MFFIjZP7PxQ",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 103,
+    "placement": 102,
     "name": "Ascent",
     "creator": "Rimexon",
     "verifier": "[DL] LordVadercraft",
-    "levelId": "112046512",
+    "levelId": 112046512,
     "videoId": "sII8zQZIJlg",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 104,
+    "placement": 103,
     "name": "Lotus Flower",
     "creator": "StarkytheSalad",
     "verifier": "BrianTheBurger",
-    "levelId": "75813671",
+    "levelId": 75813671,
     "videoId": "pTgOHcwJhd0",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 105,
+    "placement": 104,
     "name": "Frost Spirit",
     "creator": "Quaybus",
     "verifier": "Varium",
-    "levelId": "95767653",
+    "levelId": 95767653,
     "videoId": "KXbaRnRpm58",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 106,
+    "placement": 105,
     "name": "Dry Out Copyable 2",
     "creator": "[FaZe] tenzk",
     "verifier": "[JOB] s3batr0nic",
-    "levelId": "106522770",
+    "levelId": 106522770,
     "videoId": "FXW9J9CaREU",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 107,
+    "placement": 106,
     "name": "Promethean",
     "creator": "Endlevel",
     "verifier": "RicoLP",
-    "levelId": "69333212",
+    "levelId": 69333212,
     "videoId": "19kE_Yo8puE",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 108,
+    "placement": 107,
     "name": "Cold Sweat",
     "creator": "para",
     "verifier": "Kapinapi",
-    "levelId": "63996127",
+    "levelId": 63996127,
     "videoId": "tBpEPXGhQug",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 109,
+    "placement": 108,
     "name": "Thinking Space",
     "creator": "Atomic",
     "verifier": "Atomic",
-    "levelId": "54953085",
+    "levelId": 54953085,
     "videoId": "iHf2nanWjvE",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 110,
+    "placement": 109,
     "name": "Renevant",
     "creator": "nikroplays",
     "verifier": "rori",
-    "levelId": "58161496",
+    "levelId": 58161496,
     "videoId": "2Y8kBw8YxO8",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 111,
+    "placement": 110,
     "name": "ConClusion",
     "creator": "DreamZoneGD",
     "verifier": "BrowarKedawar",
-    "levelId": "96471171",
+    "levelId": 96471171,
     "videoId": "wpuPFFqnJFY",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 112,
+    "placement": 111,
     "name": "We Are Not The Same",
     "creator": "mbed",
     "verifier": "[YAHO] GuitGuit",
-    "levelId": "90104288",
+    "levelId": 90104288,
     "videoId": "yLLd4mpeYC4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 113,
+    "placement": 112,
     "name": "Instinct",
     "creator": "Krazyman50",
     "verifier": "[DL] Blitzer",
-    "levelId": "92538968",
+    "levelId": 92538968,
     "videoId": "6W3Gvi9ft0w",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 114,
+    "placement": 113,
     "name": "Sky Shredder",
     "creator": "Dorvict",
     "verifier": "Dorvict",
-    "levelId": "88136707",
+    "levelId": 88136707,
     "videoId": "Z-69-4RKRgk",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 115,
+    "placement": 114,
     "name": "Calculator Core",
     "creator": "Walroose",
     "verifier": "-",
-    "levelId": "58355141",
+    "levelId": 58355141,
     "videoId": "VrgNFsF2NGw",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 116,
+    "placement": 115,
     "name": "Trotil",
     "creator": "cherryteam",
     "verifier": "[USSR] ItzTayfun",
-    "levelId": "94578424",
+    "levelId": 94578424,
     "videoId": "kblnO7LfQn4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 117,
+    "placement": 116,
     "name": "shimmer",
     "creator": "[JUICE] Amplitron",
     "verifier": "[JUICE] Amplitron",
-    "levelId": "94156085",
+    "levelId": 94156085,
     "videoId": "J89j-_l7ezg",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 118,
+    "placement": 117,
     "name": "Crimson Planet",
     "creator": "TrueOmega",
     "verifier": "Wooshi",
-    "levelId": "45866767",
+    "levelId": 45866767,
     "videoId": "euMInLjyG6k",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 119,
+    "placement": 118,
     "name": "DIRECTIONS",
     "creator": "[meow] wokecat",
     "verifier": "SwordBx",
-    "levelId": "88233955",
+    "levelId": 88233955,
     "videoId": "-SEgSgxpRxo",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 120,
+    "placement": 119,
     "name": "Disconnected Descent",
     "creator": "TheSkeletonGMD",
     "verifier": "Lia",
-    "levelId": "118664383",
+    "levelId": 118664383,
     "videoId": "TP7OAAVH-uA",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 121,
+    "placement": 120,
     "name": "Cognition",
     "creator": "Endlevel",
     "verifier": "nSwish",
-    "levelId": "57600307",
+    "levelId": 57600307,
     "videoId": "XkKlOjww6aQ",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 122,
+    "placement": 121,
     "name": "ATOMIC CANNON Mk II",
     "creator": "Lieb",
     "verifier": "Zeronium",
-    "levelId": "91180835",
+    "levelId": 91180835,
     "videoId": "4-lOnZsfhNQ",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 123,
+    "placement": 122,
     "name": "Indivine",
     "creator": "MercuryDT",
     "verifier": "[PRIME] Bigthunder556",
-    "levelId": "112586799",
+    "levelId": 112586799,
     "videoId": "g2CVts-tX70",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 124,
+    "placement": 123,
     "name": "Cosmic Cyclone",
     "creator": "APTeamOfficial",
     "verifier": "DoSh7t",
-    "levelId": "76159410",
+    "levelId": 76159410,
     "videoId": "0I9xCfTOpXg",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 125,
+    "placement": 124,
     "name": "qoUEO",
     "creator": "GhostVandalf",
     "verifier": "Franzy",
-    "levelId": "81721025",
+    "levelId": 81721025,
     "videoId": "PJbfroH0sok",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 126,
+    "placement": 125,
     "name": "Gloxinia",
     "creator": "solarion",
     "verifier": "rose;",
-    "levelId": "110038200",
+    "levelId": 110038200,
     "videoId": "MJh_6Z5v6bM",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 127,
+    "placement": 126,
     "name": "ta1LSD0ll",
     "creator": "ta1lsdoll",
     "verifier": "[EVIL] Arshadow",
-    "levelId": "115151904",
+    "levelId": 115151904,
     "videoId": "w-NH14vgMb8",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 128,
+    "placement": 127,
     "name": "SARY NEVER CLEAR",
     "creator": "[S9] Kugelblitz",
     "verifier": "Spamdrew128",
-    "levelId": "33498127",
+    "levelId": 33498127,
     "videoId": "23u3SlwrOMw",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 129,
+    "placement": 128,
     "name": "Rigel",
     "creator": "Dan2D",
     "verifier": "Dan2D",
-    "levelId": "93155813",
+    "levelId": 93155813,
     "videoId": "CkDTr84FEpI",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 130,
+    "placement": 129,
     "name": "Scrubbabingo force",
     "creator": "Akunakunn",
     "verifier": "[BLKHL] Popsi",
-    "levelId": "111193316",
+    "levelId": 111193316,
     "videoId": "eT_izuCxGUU",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 131,
+    "placement": 130,
     "name": "Call Me Maybe",
     "creator": "hawkyre",
     "verifier": "[DL] LordVadercraft",
-    "levelId": "80178903",
+    "levelId": 80178903,
     "videoId": "Jc-98ND5OJk",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 132,
+    "placement": 131,
     "name": "RUST",
     "creator": "neigefeu",
     "verifier": "Keir",
-    "levelId": "71912451",
+    "levelId": 71912451,
     "videoId": "mEXGlrNMyR4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 133,
+    "placement": 132,
     "name": "CORRODERE",
     "creator": "[MOOSH] Moosh",
     "verifier": "[KIRB] Oscar",
-    "levelId": "90597202",
+    "levelId": 90597202,
     "videoId": "-V87Bh44lAU",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 134,
+    "placement": 133,
     "name": "SAND SAILOR",
     "creator": "Custi",
     "verifier": "[JOB] nei",
-    "levelId": "88868682",
+    "levelId": 88868682,
     "videoId": "QPmzn9X77Uo",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 135,
+    "placement": 134,
     "name": "Akashic Records",
     "creator": "VoTcHi",
     "verifier": "VoTcHi",
-    "levelId": "58150142",
+    "levelId": 58150142,
     "videoId": "qnZnV6q-mt4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 136,
+    "placement": 135,
     "name": "Lucid Nightmares",
     "creator": "CairoX",
     "verifier": "Wooshi",
-    "levelId": "52310333",
+    "levelId": 52310333,
     "videoId": "G7hBE5qWx6M",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 137,
+    "placement": 136,
     "name": "RUTHLESS",
     "creator": "Surjaco",
     "verifier": "[PRIME] vaen",
-    "levelId": "85612571",
+    "levelId": 85612571,
     "videoId": "9jwVeYtc6H4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 138,
+    "placement": 137,
     "name": "Axiom Asterism",
     "creator": "Filqh",
     "verifier": "[BHO] fusion425",
-    "levelId": "114340057",
+    "levelId": 114340057,
     "videoId": "sxWIHRzxr3A",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 139,
+    "placement": 138,
     "name": "Neon Skyline",
     "creator": "recillia",
     "verifier": "[S9] MahjongLegend",
-    "levelId": "88822041",
+    "levelId": 88822041,
     "videoId": "MIONYC4SLK4",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 140,
+    "placement": 139,
     "name": "Coral Cave",
     "creator": "awesomeme360",
     "verifier": "[DAMN!] Washed",
-    "levelId": "90891227",
+    "levelId": 90891227,
     "videoId": "kTOM1nSEF3I",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 141,
+    "placement": 140,
     "name": "Launchpad Labyrinth",
     "creator": "Moffe",
     "verifier": "-",
-    "levelId": "85426437",
+    "levelId": 85426437,
     "videoId": "kUlXcaFc6RA",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 142,
+    "placement": 141,
     "name": "SUPERHATEMEWORLD",
     "creator": "icedcave",
     "verifier": "[TCD] Cursed",
-    "levelId": "57571983",
+    "levelId": 57571983,
     "videoId": "fhmgZYCJ29M",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 143,
+    "placement": 142,
     "name": "Shardscapes",
     "creator": "Kiba",
     "verifier": "kiseta",
-    "levelId": "79997992",
+    "levelId": 79997992,
     "videoId": "tme4Mvm0Mf8",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 144,
+    "placement": 143,
     "name": "Amalgam",
     "creator": "XLSpiral",
     "verifier": "Wooshi",
-    "levelId": "95675702",
+    "levelId": 95675702,
     "videoId": "82DDR2BjXSI",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 145,
+    "placement": 144,
     "name": "Tenkai",
     "creator": "HidekiX",
     "verifier": "[IH82P] Motor8",
-    "levelId": "64100176",
+    "levelId": 64100176,
     "videoId": "AM2KHSZkjcc",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 146,
+    "placement": 145,
     "name": "Sides Of My Mind",
     "creator": "MaxxoRMeN",
     "verifier": "rqd",
-    "levelId": "91042484",
+    "levelId": 91042484,
     "videoId": "d3d2KPVgCAk",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 147,
+    "placement": 146,
     "name": "Horros",
     "creator": "Shrc",
     "verifier": "Ryclix",
-    "levelId": "85670310",
+    "levelId": 85670310,
     "videoId": "OS46C-zvqDA",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 148,
+    "placement": 147,
     "name": "Cobwebs",
     "creator": "NineDice",
     "verifier": "[TCD] Cursed",
-    "levelId": "82172844",
+    "levelId": 82172844,
     "videoId": "bgZ85rCaEGY",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 149,
+    "placement": 148,
     "name": "Omega Interface",
     "creator": "Platnuu",
     "verifier": "RG",
-    "levelId": "68654380",
+    "levelId": 68654380,
     "videoId": "sVngEgj0who",
-    "records": [],
-    "description": ""
+    "records": []
   },
   {
-    "placement": 150,
+    "placement": 149,
     "name": "Ykds1479ymdppr",
     "creator": "Kapycta999",
     "verifier": "[USSR] BONN GD",
-    "levelId": "104464785",
+    "levelId": 104464785,
     "videoId": "t7w2HNfD0eI",
-    "records": [],
-    "description": ""
+    "records": []
+  },
+  {
+    "placement": 150,
+    "name": "Ragnarok",
+    "creator": "knobbelboy",
+    "verifier": "[st] Technical",
+    "levelId": 55624478,
+    "videoId": "aGtXqn9HL2o",
+    "records": []
   }
 ]
