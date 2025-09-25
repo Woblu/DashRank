@@ -18,6 +18,11 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
   const { t } = useLanguage();
   const isPinned = level.id === pinnedRecordId;
 
+  // This logic is now more robust to handle different data shapes
+  const videoUrl = level.videoUrl || level.videoId;
+  const videoId = getYouTubeVideoId(videoUrl);
+  const thumbnailUrl = level.thumbnail || level.thumbnailUrl || (videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : null);
+
   const handleClick = () => {
     let path;
     if (listType === 'progression') {
@@ -31,17 +36,7 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
     }
   };
 
-  let thumbnailUrl;
-  const videoId = getYouTubeVideoId(level.videoId);
-
-  if (level.thumbnail && level.thumbnail.startsWith('http')) {
-    thumbnailUrl = level.thumbnail;
-  } else if (videoId) {
-    thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-  }
-
   return (
-    // This is your original styling, now applied to all cards
     <div
       onClick={handleClick}
       className={`w-full rounded-xl shadow-md p-4 flex flex-col sm:flex-row items-center gap-3 cursor-pointer
@@ -50,10 +45,10 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
     >
       <div className="w-full sm:w-40 aspect-video rounded-md overflow-hidden flex-shrink-0 relative">
         <img
-          src={thumbnailUrl}
+          src={thumbnailUrl || 'https://placehold.co/160x90/1e293b/ffffff?text=No+Thumb'}
           alt={`${level.name} thumbnail`}
           className="w-full h-full object-cover"
-          onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/160x90/cccccc/ffffff?text=GD`; }}
+          onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/160x90/1e293b/ffffff?text=Error`; }}
         />
         {isPinned && <div className="absolute top-1 right-1 bg-yellow-400 p-1 rounded-full"><Pin size={12} className="text-gray-900"/></div>}
       </div>
@@ -68,33 +63,38 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
         </p>
       </div>
 
-      {/* Conditionally render buttons ONLY for the progression tracker */}
       {listType === 'progression' && (
         <div className="flex flex-col sm:flex-row gap-1">
-          <button 
-            type="button" 
-            onClick={(e) => { e.stopPropagation(); onPin(isPinned ? null : level.id); }} 
-            className={`p-2 rounded-full ${isPinned ? 'text-yellow-400 bg-yellow-500/20' : 'text-gray-300 hover:bg-gray-700'}`}
-            title={isPinned ? "Unpin Record" : "Pin Record"}
-          >
-            {isPinned ? <PinOff className="w-5 h-5" /> : <Pin className="w-5 h-5" />}
-          </button>
-          <button 
-            type="button" 
-            onClick={(e) => { e.stopPropagation(); onEdit(level); }} 
-            className="p-2 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
-            title="Edit Record"
-          >
-            <Pencil className="w-5 h-5" />
-          </button>
-          <button 
-            type="button" 
-            onClick={(e) => { e.stopPropagation(); onDelete(level.id); }} 
-            className="p-2 text-red-500 hover:bg-red-500/20 rounded-full"
-            title="Delete Record"
-          >
-            <Trash2 className="w-5 h-5" />
-          </button>
+          {onPin && (
+            <button 
+              type="button" 
+              onClick={(e) => { e.stopPropagation(); onPin(isPinned ? null : level.id); }} 
+              className={`p-2 rounded-full ${isPinned ? 'text-yellow-400 bg-yellow-500/20' : 'text-gray-300 hover:bg-gray-700'}`}
+              title={isPinned ? "Unpin Record" : "Pin Record"}
+            >
+              {isPinned ? <PinOff className="w-5 h-5" /> : <Pin className="w-5 h-5" />}
+            </button>
+          )}
+          {onEdit && (
+            <button 
+              type="button" 
+              onClick={(e) => { e.stopPropagation(); onEdit(level); }} 
+              className="p-2 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
+              title="Edit Record"
+            >
+              <Pencil className="w-5 h-5" />
+            </button>
+          )}
+          {onDelete && (
+            <button 
+              type="button" 
+              onClick={(e) => { e.stopPropagation(); onDelete(level.id); }} 
+              className="p-2 text-red-500 hover:bg-red-500/20 rounded-full"
+              title="Delete Record"
+            >
+              <Trash2 className="w-5 h-5" />
+            </button>
+          )}
         </div>
       )}
     </div>
