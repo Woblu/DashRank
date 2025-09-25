@@ -16,8 +16,9 @@ export default function LoginPage() {
     setError('');
     setIsSubmitting(true);
     try {
+      // This is the line that needs to be updated
       const response = await axios.post('/api/auth', {
-        action: 'login', // Specify the action for the consolidated endpoint
+        action: 'login', // We tell the consolidated endpoint what to do
         email,
         password,
       });
