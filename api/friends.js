@@ -47,30 +47,41 @@ export default async function handler(req, res) {
       return res.status(200).json(friends);
 
     } catch (error) {
+      console.error(error);
       return res.status(500).json({ message: 'Failed to fetch data.' });
     }
   }
 
   // --- HANDLE POST REQUESTS (Send Request) ---
   if (req.method === 'POST') {
-    const { receiverId } = req.body;
+    const { action, receiverId } = req.body;
+    if (action !== 'request') return res.status(400).json({ message: 'Invalid action.' });
     if (!receiverId) return res.status(400).json({ message: 'Receiver ID is required.' });
     if (userId === receiverId) return res.status(400).json({ message: 'You cannot send a friend request to yourself.' });
 
     try {
       const existing = await prisma.friendship.findFirst({ where: { OR: [{ requesterId: userId, receiverId }, { requesterId: receiverId, receiverId: userId }] } });
-      if (existing) return res.status(400).json({ message: `A friendship or pending request already exists.` });
+      if (existing && existing.status !== 'DECLINED') return res.status(400).json({ message: `A friendship or pending request already exists.` });
       
-      await prisma.friendship.create({ data: { requesterId: userId, receiverId, status: 'PENDING' } });
+      if (existing && existing.status === 'DECLINED') {
+        await prisma.friendship.update({
+            where: { id: existing.id },
+            data: { status: 'PENDING', requesterId: userId, receiverId }
+        });
+      } else {
+        await prisma.friendship.create({ data: { requesterId: userId, receiverId, status: 'PENDING' } });
+      }
       return res.status(201).json({ message: 'Friend request sent.' });
     } catch (error) {
+      console.error(error);
       return res.status(500).json({ message: 'Failed to send friend request.' });
     }
   }
 
   // --- HANDLE PUT REQUESTS (Respond to Request) ---
   if (req.method === 'PUT') {
-    const { friendshipId, response } = req.body;
+    const { action, friendshipId, response } = req.body;
+    if (action !== 'response') return res.status(400).json({ message: 'Invalid action.'});
     if (!friendshipId || !['ACCEPTED', 'DECLINED'].includes(response)) {
       return res.status(400).json({ message: 'Friendship ID and a valid response are required.' });
     }
@@ -83,6 +94,7 @@ export default async function handler(req, res) {
       await prisma.friendship.update({ where: { id: friendshipId }, data: { status: response } });
       return res.status(200).json({ message: `Friend request has been ${response.toLowerCase()}.` });
     } catch (error) {
+      console.error(error);
       return res.status(500).json({ message: 'Failed to respond to friend request.' });
     }
   }
