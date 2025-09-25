@@ -18,8 +18,9 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
   const { t } = useLanguage();
   const isPinned = level.id === pinnedRecordId;
 
-  // This logic is now more robust to handle different data shapes
+  // This logic is now robust for all properties
   const videoUrl = level.videoUrl || level.videoId;
+  const levelName = level.name || level.levelName; // <-- Add this line
   const videoId = getYouTubeVideoId(videoUrl);
   const thumbnailUrl = level.thumbnail || level.thumbnailUrl || (videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : null);
 
@@ -46,7 +47,7 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
       <div className="w-full sm:w-40 aspect-video rounded-md overflow-hidden flex-shrink-0 relative">
         <img
           src={thumbnailUrl || 'https://placehold.co/160x90/1e293b/ffffff?text=No+Thumb'}
-          alt={`${level.name} thumbnail`}
+          alt={`${levelName} thumbnail`} // <-- Update this line
           className="w-full h-full object-cover"
           onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/160x90/1e293b/ffffff?text=Error`; }}
         />
@@ -55,7 +56,7 @@ export default function LevelCard({ level, index, listType, onEdit, onDelete, on
 
       <div className="flex flex-col flex-grow text-center sm:text-left">
         <h2 className="font-bold text-xl text-cyan-700 dark:text-cyan-400">
-          #{level.placement} - {level.name}
+          #{level.placement} - {levelName} {/* <-- Update this line */}
         </h2>
         
         <p className="text-gray-500 dark:text-gray-400">
