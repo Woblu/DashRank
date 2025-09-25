@@ -1,12 +1,13 @@
-// src/pages/AccountPage.jsx
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { User, ClipboardList } from 'lucide-react';
+import { User, ClipboardList, Users } from 'lucide-react'; // Import the Users icon
 
 export default function AccountPage() {
   const navLinks = [
     { name: 'Profile Settings', path: '/account/profile', icon: User },
-    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList }
+    { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList },
+    // Add the new link for the friends page
+    { name: 'Manage Friends', path: '/account/friends', icon: Users },
   ];
 
   return (

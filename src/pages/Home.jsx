@@ -35,9 +35,17 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
+  const [pinnedRecordId, setPinnedRecordId] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState(null);
+
+  // We need to get the pinned record ID from the user object when the component loads
+  useEffect(() => {
+    if (user) {
+      setPinnedRecordId(user.pinnedRecordId);
+    }
+  }, [user]);
 
   const fetchLevels = async () => {
     setIsLoading(true);
@@ -105,6 +113,20 @@ export default function Home() {
     }
   };
 
+  const handlePinRecord = async (recordId) => {
+    try {
+      await axios.post('/api/users/pin-record', { recordId }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      // Update the UI instantly
+      setPinnedRecordId(recordId);
+      // It's good practice to also update the user object in your AuthContext,
+      // but for now, this local state update will work perfectly.
+    } catch(err) {
+      alert(err.response?.data?.message || 'Failed to pin record.');
+    }
+  };
+
   const filteredLevels = levels.filter(level =>
     level.name.toLowerCase().includes(search.toLowerCase()) ||
     (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
@@ -149,6 +171,8 @@ export default function Home() {
                 listType={currentListType}
                 onEdit={handleOpenEditModal}
                 onDelete={handleDelete}
+                onPin={handlePinRecord}
+                pinnedRecordId={pinnedRecordId}
               />
             ))
           ) : (

@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
@@ -17,7 +16,9 @@ import AccountPage from "./pages/AccountPage";
 import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
-import PersonalRecordDetail from './pages/PersonalRecordDetail'; // Import the new detail page
+import PersonalRecordDetail from './pages/PersonalRecordDetail';
+import UserProfile from './pages/UserProfile'; // Import new profile page
+import FriendsPage from './pages/account/FriendsPage'; // Import new friends page
 
 export default function App() {
   return (
@@ -44,14 +45,18 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
 
-              {/* ADD THESE TWO ROUTES FOR THE PROGRESSION TRACKER */}
               <Route path="/progression" element={<ProtectedRoute><Home /></ProtectedRoute>} />
               <Route path="/progression/:recordId" element={<ProtectedRoute><PersonalRecordDetail /></ProtectedRoute>} />
+              
+              {/* ADD THIS NEW ROUTE for public profiles */}
+              <Route path="/u/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
               
               <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>}>
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<ProfileSettingsPage />} />
                 <Route path="submissions" element={<SubmissionPage />} />
+                {/* ADD THIS NEW ROUTE for friends page */}
+                <Route path="friends" element={<FriendsPage />} />
               </Route>
 
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
