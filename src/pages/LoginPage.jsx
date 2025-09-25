@@ -1,83 +1,95 @@
-// src/pages/LoginPage.jsx
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
-  const [identifier, setIdentifier] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const { login } = useAuth();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isSubmitting) return;
-
     setError('');
     setIsSubmitting(true);
-
-    const result = await login(identifier, password);
-
-    if (result.success) {
-      navigate('/');
-    } else {
-      setError(result.message);
+    try {
+      const response = await axios.post('/api/auth', {
+        action: 'login', // Specify the action for the consolidated endpoint
+        email,
+        password,
+      });
+      login(response.data.token);
+      navigate('/progression');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    setIsSubmitting(false);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4">
-      <div className="w-full max-w-md">
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8">
-          <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">Login</h2>
-          {error && (
-            <div className="bg-red-100 dark:bg-red-500/20 border border-red-400 dark:border-red-500 text-red-700 dark:text-red-300 px-4 py-3 rounded-md mb-4 text-center">
-              {error}
+    <div className="flex items-center justify-center min-h-full py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 bg-gray-800 p-10 rounded-xl shadow-lg">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
+            Sign in to your account
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isSubmitting}
+              />
             </div>
-          )}
-          <div className="mb-4">
-            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="identifier">
-              Username or Email
-            </label>
-            <input
-              type="text"
-              id="identifier"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              className="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded w-full py-2 px-3 text-gray-900 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              required
-              disabled={isSubmitting}
-            />
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isSubmitting}
+              />
+            </div>
           </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded w-full py-2 px-3 text-gray-900 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              required
+
+          {error && <p className="text-red-400 text-center text-sm">{error}</p>}
+
+          <div>
+            <button
+              type="submit"
               disabled={isSubmitting}
-            />
-          </div>
-          <div className="flex items-center justify-center">
-            <button 
-              type="submit" 
-              className="w-full bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200"
-              disabled={isSubmitting}
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:bg-cyan-800 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Logging In...' : 'Sign In'}
+              {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
         </form>
+        <p className="mt-2 text-center text-sm text-gray-400">
+          Don't have an account?{' '}
+          <Link to="/register" className="font-medium text-cyan-400 hover:text-cyan-300">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );

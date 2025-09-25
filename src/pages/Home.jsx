@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
@@ -40,7 +40,6 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState(null);
 
-  // We need to get the pinned record ID from the user object when the component loads
   useEffect(() => {
     if (user) {
       setPinnedRecordId(user.pinnedRecordId);
@@ -115,13 +114,11 @@ export default function Home() {
 
   const handlePinRecord = async (recordId) => {
     try {
-      await axios.post('/api/users/pin-record', { recordId }, {
+      // Updated API call to the consolidated endpoint
+      await axios.post('/api/users', { action: 'pin', recordId }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Update the UI instantly
       setPinnedRecordId(recordId);
-      // It's good practice to also update the user object in your AuthContext,
-      // but for now, this local state update will work perfectly.
     } catch(err) {
       alert(err.response?.data?.message || 'Failed to pin record.');
     }

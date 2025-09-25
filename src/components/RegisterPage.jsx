@@ -1,6 +1,5 @@
-// src/pages/RegisterPage.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function RegisterPage() {
@@ -8,52 +7,107 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setIsSubmitting(true);
-
     try {
-      await axios.post('/api/auth/register', { email, username, password });
-      navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
+      await axios.post('/api/auth', {
+        action: 'register', // Specify the action for the consolidated endpoint
+        email,
+        username,
+        password,
+      });
+      setSuccess('Registration successful! Please log in.');
+      setTimeout(() => navigate('/login'), 2000); // Redirect to login after 2 seconds
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to register. Please try again.');
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    setIsSubmitting(false);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900 p-4">
-      <div className="w-full max-w-md">
-        <form onSubmit={handleSubmit} className="bg-gray-800 border border-gray-700 shadow-lg rounded-lg px-8 pt-6 pb-8">
-          <h2 className="text-3xl font-bold mb-6 text-center text-gray-100">Create Account</h2>
-          {error && (
-            <div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded-md mb-4 text-center">
-              {error}
+    <div className="flex items-center justify-center min-h-full py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 bg-gray-800 p-10 rounded-xl shadow-lg">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
+            Create a new account
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isSubmitting}
+              />
             </div>
-          )}
-          <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="email">Email</label>
-            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isSubmitting} className="shadow-sm appearance-none border border-gray-600 bg-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500" />
+            <div>
+              <label htmlFor="username" className="sr-only">Username</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                required
+                className="relative block w-full appearance-none rounded-none border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isSubmitting}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-500 focus:z-10 focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isSubmitting}
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="username">Username</label>
-            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required disabled={isSubmitting} className="shadow-sm appearance-none border border-gray-600 bg-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500" />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="password">Password</label>
-            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={isSubmitting} className="shadow-sm appearance-none border border-gray-600 bg-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500" />
-          </div>
-          <div className="flex items-center justify-center">
-            <button type="submit" disabled={isSubmitting} className="w-full bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200">
-              {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+
+          {error && <p className="text-red-400 text-center text-sm">{error}</p>}
+          {success && <p className="text-green-400 text-center text-sm">{success}</p>}
+
+          <div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-cyan-600 py-2 px-4 text-sm font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:bg-cyan-800 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Creating account...' : 'Create Account'}
             </button>
           </div>
         </form>
+        <p className="mt-2 text-center text-sm text-gray-400">
+          Already have an account?{' '}
+          <Link to="/login" className="font-medium text-cyan-400 hover:text-cyan-300">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
