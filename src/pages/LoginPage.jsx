@@ -21,9 +21,19 @@ export default function LoginPage() {
         email,
         password,
       });
-      login(response.data.token);
-      navigate('/progression');
+
+      // The request is succeeding. Now we process the response.
+      if (response.data && response.data.token) {
+        console.log('Login successful! Token received.');
+        login(response.data.token);
+        navigate('/progression');
+      } else {
+        // This is a fallback for an unexpected success response
+        throw new Error('Login response was invalid.');
+      }
+
     } catch (err) {
+      console.error("Login attempt failed:", err);
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsSubmitting(false);
