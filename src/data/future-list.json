@@ -1,6 +1,16 @@
 [
   {
     "placement": 1,
+    "name": "Angelicide",
+    "creator": "lexycat",
+    "verifier": "Cookie/Kaza",
+    "thumbnail": null,
+    "videoId": "UvLvEh_xN5A",
+    "records": [],
+    "levelId": "102135018"
+  },
+  {
+    "placement": 2,
     "name": "Aeternus",
     "creator": "Riot",
     "verifier": "Open Verification",
@@ -10,7 +20,7 @@
     "levelId": "102647436"
   },
   {
-    "placement": 2,
+    "placement": 3,
     "name": "Fairy Knife Hell",
     "creator": "EternaswipVMAX",
     "verifier": "Open Verification",
@@ -20,7 +30,7 @@
     "levelId": "111680151"
   },
   {
-    "placement": 3,
+    "placement": 4,
     "name": "Vehemence",
     "creator": "TBT",
     "verifier": "wPopoff",
@@ -30,7 +40,7 @@
     "levelId": "96572223"
   },
   {
-    "placement": 4,
+    "placement": 5,
     "name": "Grief",
     "creator": "icedcave",
     "verifier": "Doggie",
@@ -40,7 +50,7 @@
     "levelId": "102422025"
   },
   {
-    "placement": 5,
+    "placement": 6,
     "name": "KOCMOC Unleashed",
     "creator": "Cherry Team",
     "verifier": "Arshadow",
@@ -50,7 +60,7 @@
     "levelId": "100698755"
   },
   {
-    "placement": 6,
+    "placement": 7,
     "name": "Heliopolis",
     "creator": "Mindcap",
     "verifier": "Abdieldevil",
@@ -60,7 +70,7 @@
     "levelId": "104860245"
   },
   {
-    "placement": 7,
+    "placement": 8,
     "name": "Ascension To Heaven",
     "creator": "Blueskii",
     "verifier": "Open Verification",
@@ -70,7 +80,7 @@
     "levelId": "76046475"
   },
   {
-    "placement": 8,
+    "placement": 9,
     "name": "Silent Acropolis",
     "creator": "ThePurgatory",
     "verifier": "SerVax",
@@ -80,7 +90,7 @@
     "levelId": "111237270"
   },
   {
-    "placement": 9,
+    "placement": 10,
     "name": "I N J U R Y",
     "creator": "greafer",
     "verifier": "KYWY",
