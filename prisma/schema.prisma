@@ -14,37 +14,73 @@ type Record {
   videoId  String
 }
 
-enum Role { USER, MODERATOR, ADMIN }
-enum SubmissionStatus { PENDING, APPROVED, REJECTED }
-enum DemonDifficulty { EASY, MEDIUM, HARD, INSANE, EXTREME }
-enum RecordStatus { IN_PROGRESS, COMPLETED }
-enum FriendStatus { PENDING, ACCEPTED, DECLINED, BLOCKED }
-
-// Enum for the Creator's Workshop
-enum LayoutStatus {
-  OPEN        // Looking for decorators
-  IN_PROGRESS // Actively being decorated
-  COMPLETED   // Fully decorated
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
 }
 
-// Enum for the Analytics Dashboard
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DemonDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  INSANE
+  EXTREME
+}
+
+enum RecordStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum FriendStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  BLOCKED
+}
+
+enum LayoutStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+}
+
 enum GameplayTag {
-  WAVE, SHIP, TIMING, MEMORY, STRAIGHT_FLY, SPAM, DUAL, UFO, BALL, ROBOT, SPIDER, SWING, PLATFORMER
+  WAVE
+  SHIP
+  TIMING
+  MEMORY
+  STRAIGHT_FLY
+  SPAM
+  DUAL
+  UFO
+  BALL
+  ROBOT
+  SPIDER
+  SWING
+  PLATFORMER
 }
 
 model Level {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
   placement   Int
   name        String
   creator     String
   verifier    String?
-  levelId     Int?     @unique
+  levelId     Int?          @unique
   videoId     String
   description String?
   list        String
   records     Record[]
   tags        GameplayTag[]
-  completions PersonalRecord[] 
+  completions PersonalRecord[]
   @@map("levels")
 }
 
@@ -78,20 +114,20 @@ model Submission {
 }
 
 model PersonalRecord {
-  id             String          @id @default(auto()) @map("_id") @db.ObjectId
-  placement      Int
-  levelName      String
-  difficulty     DemonDifficulty
-  attempts       Int?
-  videoUrl       String
-  thumbnailUrl   String?
-  createdAt      DateTime        @default(now())
-  status         RecordStatus    @default(COMPLETED)
-  percent        Int?            
-  user           User            @relation(fields: [userId], references: [id])
-  userId         String          @db.ObjectId
-  level          Level?          @relation(fields: [levelId], references: [id], onDelete: SetNull)
-  levelId        String?         @db.ObjectId
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  placement    Int
+  levelName    String
+  difficulty   DemonDifficulty
+  attempts     Int?
+  videoUrl     String
+  thumbnailUrl String?
+  createdAt    DateTime        @default(now())
+  status       RecordStatus    @default(COMPLETED)
+  percent      Int?
+  user         User            @relation(fields: [userId], references: [id])
+  userId       String          @db.ObjectId
+  level        Level?          @relation(fields: [levelId], references: [id], onDelete: SetNull)
+  levelId      String?         @db.ObjectId
 }
 
 model Friendship {
@@ -107,17 +143,17 @@ model Friendship {
 }
 
 model Layout {
-  id           String       @id @default(auto()) @map("_id") @db.ObjectId
-  levelName    String
-  description  String?
-  status       LayoutStatus @default(OPEN)
-  songName     String?
-  songId       String?
-  videoUrl     String
-  difficulty   DemonDifficulty
-  tags         GameplayTag[]
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  creator      User         @relation(fields: [creatorId], references: [id])
-  creatorId    String       @db.ObjectId
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  levelName   String
+  description String?
+  status      LayoutStatus  @default(OPEN)
+  songName    String?
+  songId      String?
+  videoUrl    String
+  difficulty  DemonDifficulty
+  tags        GameplayTag[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  creator     User          @relation(fields: [creatorId], references: [id])
+  creatorId   String        @db.ObjectId
 }
