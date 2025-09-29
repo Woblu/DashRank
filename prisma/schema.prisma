@@ -74,7 +74,7 @@ model Level {
   name        String
   creator     String
   verifier    String?
-  levelId     Int?          @unique
+  levelId     Int?
   videoId     String
   description String?
   list        String
@@ -143,17 +143,18 @@ model Friendship {
 }
 
 model Layout {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  levelName   String
-  description String?
-  status      LayoutStatus  @default(OPEN)
-  songName    String?
-  songId      String?
-  videoUrl    String
-  difficulty  DemonDifficulty
-  tags        GameplayTag[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  creator     User          @relation(fields: [creatorId], references: [id])
-  creatorId   String        @db.ObjectId
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  levelName    String
+  description  String?
+  status       LayoutStatus  @default(OPEN)
+  songName     String?
+  songId       String?
+  videoUrl     String
+  thumbnailUrl String?
+  difficulty   DemonDifficulty
+  tags         GameplayTag[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  creator      User          @relation(fields: [creatorId], references: [id])
+  creatorId    String        @db.ObjectId
 }
