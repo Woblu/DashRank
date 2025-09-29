@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -7,7 +5,6 @@ datasource db {
 
 generator client {
   provider      = "prisma-client-js"
-  // This line is essential for Vercel deployments
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -17,52 +14,38 @@ type Record {
   videoId  String
 }
 
+enum Role { USER, MODERATOR, ADMIN }
+enum SubmissionStatus { PENDING, APPROVED, REJECTED }
+enum DemonDifficulty { EASY, MEDIUM, HARD, INSANE, EXTREME }
+enum RecordStatus { IN_PROGRESS, COMPLETED }
+enum FriendStatus { PENDING, ACCEPTED, DECLINED, BLOCKED }
+
+// Enum for the Creator's Workshop
+enum LayoutStatus {
+  OPEN        // Looking for decorators
+  IN_PROGRESS // Actively being decorated
+  COMPLETED   // Fully decorated
+}
+
+// Enum for the Analytics Dashboard
+enum GameplayTag {
+  WAVE, SHIP, TIMING, MEMORY, STRAIGHT_FLY, SPAM, DUAL, UFO, BALL, ROBOT, SPIDER, SWING, PLATFORMER
+}
+
 model Level {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   placement   Int
   name        String
   creator     String
   verifier    String?
-  levelId     Int?
+  levelId     Int?     @unique
   videoId     String
   description String?
   list        String
   records     Record[]
+  tags        GameplayTag[]
+  completions PersonalRecord[] 
   @@map("levels")
-}
-
-enum Role {
-  USER
-  MODERATOR
-  ADMIN
-}
-
-enum SubmissionStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-enum DemonDifficulty {
-  EASY
-  MEDIUM
-  HARD
-  INSANE
-  EXTREME
-}
-
-// Enum for the progress tracking feature
-enum RecordStatus {
-  IN_PROGRESS
-  COMPLETED
-}
-
-// Enum for the friends system feature
-enum FriendStatus {
-  PENDING
-  ACCEPTED
-  DECLINED
-  BLOCKED
 }
 
 model User {
@@ -74,11 +57,10 @@ model User {
   createdAt              DateTime         @default(now())
   submissions            Submission[]
   personalRecords        PersonalRecord[]
-
-  // Fields for the friends & profile system
   pinnedRecordId         String?          @db.ObjectId
   friendshipsAsRequester Friendship[]     @relation("Requester")
   friendshipsAsReceiver  Friendship[]     @relation("Receiver")
+  layoutsCreated         Layout[]
 }
 
 model Submission {
@@ -87,7 +69,6 @@ model Submission {
   player        String
   percent       Int
   videoId       String
-  rawFootageLink String
   notes         String?
   status        SubmissionStatus @default(PENDING)
   createdAt     DateTime         @default(now())
@@ -105,27 +86,38 @@ model PersonalRecord {
   videoUrl       String
   thumbnailUrl   String?
   createdAt      DateTime        @default(now())
-
-  // Fields for the progress tracking feature
   status         RecordStatus    @default(COMPLETED)
   percent        Int?            
-
   user           User            @relation(fields: [userId], references: [id])
   userId         String          @db.ObjectId
+  level          Level?          @relation(fields: [levelId], references: [id], onDelete: SetNull)
+  levelId        String?         @db.ObjectId
 }
 
-// Model for the friends system
 model Friendship {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   status      FriendStatus @default(PENDING)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-
   requester   User         @relation("Requester", fields: [requesterId], references: [id])
   requesterId String       @db.ObjectId
-
   receiver    User         @relation("Receiver", fields: [receiverId], references: [id])
   receiverId  String       @db.ObjectId
-
   @@unique([requesterId, receiverId])
+}
+
+model Layout {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  levelName    String
+  description  String?
+  status       LayoutStatus @default(OPEN)
+  songName     String?
+  songId       String?
+  videoUrl     String
+  difficulty   DemonDifficulty
+  tags         GameplayTag[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  creator      User         @relation(fields: [creatorId], references: [id])
+  creatorId    String       @db.ObjectId
 }

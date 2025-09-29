@@ -17,21 +17,19 @@ import ProfileSettingsPage from './pages/account/ProfileSettingsPage';
 import SubmissionPage from './pages/account/SubmissionPage';
 import AdminDashboard from './pages/AdminDashboard';
 import PersonalRecordDetail from './pages/PersonalRecordDetail';
-import UserProfile from './pages/UserProfile'; // Import new profile page
-import FriendsPage from './pages/account/FriendsPage'; // Import new friends page
+import UserProfile from './pages/UserProfile';
+import FriendsPage from './pages/account/FriendsPage';
+import CreateLayoutPage from './pages/layouts/CreateLayoutPage';
+import LayoutGalleryPage from './pages/layouts/LayoutGalleryPage'; // Import gallery
+import LayoutDetailPage from './pages/layouts/LayoutDetailPage'; // Import detail page (we'll create this later)
 
 export default function App() {
   return (
     <LanguageProvider>
       <Router>
         <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col overflow-x-hidden">
-          <div 
-            className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
-            style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem", transform: "scaleX(-1)" }}
-          ></div>
-          
+          {/* ... side decorations ... */}
           <Tabs />
-
           <main className="flex-grow p-4 w-full max-w-7xl mx-auto z-20">
             <Routes>
               {/* Main public lists */}
@@ -44,30 +42,26 @@ export default function App() {
               {/* User-specific routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-
               <Route path="/progression" element={<ProtectedRoute><Home /></ProtectedRoute>} />
               <Route path="/progression/:recordId" element={<ProtectedRoute><PersonalRecordDetail /></ProtectedRoute>} />
-              
-              {/* ADD THIS NEW ROUTE for public profiles */}
               <Route path="/u/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
               
+              {/* Creator's Hub Routes */}
+              <Route path="/layouts" element={<LayoutGalleryPage />} />
+              <Route path="/layouts/new" element={<ProtectedRoute><CreateLayoutPage /></ProtectedRoute>} />
+              <Route path="/layouts/:layoutId" element={<LayoutDetailPage />} />
+
               <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>}>
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<ProfileSettingsPage />} />
                 <Route path="submissions" element={<SubmissionPage />} />
-                {/* ADD THIS NEW ROUTE for friends page */}
                 <Route path="friends" element={<FriendsPage />} />
               </Route>
 
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             </Routes>
           </main>
-
-          <div 
-            className="hidden lg:block absolute right-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
-            style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem" }}
-          ></div>
-          
+          {/* ... side decorations ... */}
           <ReloadPrompt />
         </div>
       </Router>

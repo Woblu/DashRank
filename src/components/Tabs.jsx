@@ -1,7 +1,7 @@
 // src/components/Tabs.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import { BarChart2, Info, LogIn, UserPlus, LogOut, BookMarked } from "lucide-react";
+import { BarChart2, Info, LogIn, UserPlus, LogOut, BookMarked, Hammer } from "lucide-react"; // Added Hammer icon for consistency
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import StatsViewer from "./StatsViewer";
@@ -24,6 +24,8 @@ export default function Tabs() {
     { name: "Challenge", path: "/challenge" },
     { name: "Speedhack", path: "/speedhack" }, 
     { name: "Future", path: "/future" },
+    // ADD THIS NEW LINE FOR THE CREATOR'S WORKSHOP
+    { name: "Creator's Workshop", path: "/layouts" },
   ];
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
@@ -42,9 +44,7 @@ export default function Tabs() {
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Welcome, <span className="font-bold text-cyan-600 dark:text-cyan-400">{user.username}</span>
           </span>
-          <button onClick={logout} className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-red-600 hover:bg-red-700 text-white transition-colors text-sm">
-            <LogOut className="w-4 h-4" /> Logout
-          </button>
+          {/* SettingsMenu might be better here, but following original structure */}
         </div>
       );
     }
@@ -100,8 +100,7 @@ export default function Tabs() {
             <button title="Info" onClick={() => setIsInfoBoxOpen(true)} className="p-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors">
               <Info className="w-5 h-5" />
             </button>
-            <SettingsMenu />
-            <AuthButtons />
+            {user ? <SettingsMenu /> : <AuthButtons />}
           </div>
         </div>
       </header>
