@@ -23,7 +23,7 @@ export default function Tabs() {
     { name: "Challenge", path: "/challenge" },
     { name: "Speedhack", path: "/speedhack" }, 
     { name: "Future", path: "/future" },
-    { name: "Creator's Workshop", path: "/layouts", icon: Hammer }, // Only this tab has an icon
+    { name: "Creator's Workshop", path: "/layouts", icon: Hammer },
   ];
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
@@ -65,7 +65,8 @@ export default function Tabs() {
             </Link>
           </div>
           <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
-            <div className="flex items-center gap-2 flex-wrap justify-center">
+            {/* The `flex-wrap` class has been removed from this div */}
+            <div className="flex items-center gap-2 justify-center">
               
               <NavLink
                 to={user ? "/progression" : "/login"}
