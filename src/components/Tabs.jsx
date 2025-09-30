@@ -1,7 +1,6 @@
-// src/components/Tabs.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import { BarChart2, Info, LogIn, UserPlus, LogOut, BookMarked, Hammer } from "lucide-react"; // Added Hammer icon for consistency
+import { BarChart2, Info, LogIn, UserPlus, BookMarked, Hammer } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import StatsViewer from "./StatsViewer";
@@ -14,7 +13,7 @@ const statsButtonTitles = {
 };
 
 export default function Tabs() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
 
   const tabs = [
@@ -24,8 +23,7 @@ export default function Tabs() {
     { name: "Challenge", path: "/challenge" },
     { name: "Speedhack", path: "/speedhack" }, 
     { name: "Future", path: "/future" },
-    // ADD THIS NEW LINE FOR THE CREATOR'S WORKSHOP
-    { name: "Creator's Workshop", path: "/layouts" },
+    { name: "Creator's Workshop", path: "/layouts", icon: Hammer }, // Only this tab has an icon
   ];
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
@@ -39,14 +37,7 @@ export default function Tabs() {
 
   const AuthButtons = () => {
     if (user) {
-      return (
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Welcome, <span className="font-bold text-cyan-600 dark:text-cyan-400">{user.username}</span>
-          </span>
-          {/* SettingsMenu might be better here, but following original structure */}
-        </div>
-      );
+      return null;
     }
     return (
       <div className="flex items-center gap-2">
@@ -86,7 +77,8 @@ export default function Tabs() {
               </NavLink>
 
               {tabs.map((tab) => (
-                <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap ${isActive ? "bg-cyan-600 text-white" : "text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-700/50"}`}>
+                <NavLink key={tab.name} to={tab.path} className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-cyan-600 text-white" : "text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-700/50"}`}>
+                  {tab.icon && <tab.icon className="w-4 h-4" />}
                   {tab.name}
                 </NavLink>
               ))}
