@@ -1,6 +1,5 @@
 {
   "rewrites": [
-    // --- Routes handled by our new monolithic api/index.js function ---
     { "source": "/api/auth", "destination": "/api" },
     { "source": "/api/friends", "destination": "/api" },
     { "source": "/api/users", "destination": "/api" },
@@ -9,9 +8,6 @@
     { "source": "/api/layouts/:path*", "destination": "/api" },
     { "source": "/api/personal-records", "destination": "/api" },
     { "source": "/api/personal-records/:path*", "destination": "/api" },
-
-    // --- Fallback for all other frontend routes (like /login, /u/username, etc.) ---
-    // This tells Vercel to let the React app handle the routing.
     { "source": "/((?!api/|assets/).*)", "destination": "/index.html" }
   ]
 }
