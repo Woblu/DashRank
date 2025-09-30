@@ -22,6 +22,8 @@ export default function LayoutDetailPage() {
     const fetchLayout = async () => {
       setIsLoading(true);
       try {
+        // This endpoint will not work until we migrate the 'layouts/:id' logic
+        // into our new monolithic API router.
         const res = await axios.get(`/api/layouts/${layoutId}`);
         setLayout(res.data);
       } catch (err) {
@@ -51,7 +53,14 @@ export default function LayoutDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <div className="aspect-video w-full bg-black rounded-xl mb-4">
+          
+          {/* --- This section has been moved above the video --- */}
+          <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700 mb-4">
+             <h1 className="text-4xl font-bold mb-2">{layout.levelName}</h1>
+             <p className="text-gray-400">{layout.description || "No description provided."}</p>
+          </div>
+
+          <div className="aspect-video w-full bg-black rounded-xl">
             {embedInfo ? (
               <iframe
                 width="100%" height="100%"
@@ -64,10 +73,7 @@ export default function LayoutDetailPage() {
               ></iframe>
             ) : <div className="w-full h-full rounded-xl bg-gray-900 flex items-center justify-center"><p>Video preview not available.</p></div>}
           </div>
-          <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-             <h1 className="text-4xl font-bold mb-2">{layout.levelName}</h1>
-             <p className="text-gray-400">{layout.description || "No description provided."}</p>
-          </div>
+
         </div>
         
         <div className="lg:col-span-1 space-y-6">
