@@ -5,6 +5,7 @@ import * as layoutHandlers from '../src/server/layoutHandlers.js';
 import * as userHandlers from '../src/server/userHandlers.js';
 import * as accountHandlers from '../src/server/accountHandlers.js';
 import * as personalRecordHandlers from '../src/server/personalRecordHandlers.js';
+import * as moderationHandlers from '../src/server/moderationHandlers.js';
 
 export default async function handler(req, res) {
   const path = req.url.split('?')[0];
@@ -26,19 +27,41 @@ export default async function handler(req, res) {
   }
 
   // --- AUTHENTICATION BARRIER ---
-  // All routes below this point require a valid token.
   const decodedToken = verifyToken(req.headers.authorization);
   if (!decodedToken) {
-    // This allows old, un-migrated public routes to still work for now.
-    // We will remove this check once all routes are migrated.
-    if (path.startsWith('/api/level') || path.startsWith('/api/lists')) {
-      // Passthrough for old public routes - requires separate files still exist
-    } else {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  // --- AUTHENTICATED ROUTES ---
+  // --- AUTHENTICATED & PROTECTED ROUTES ---
+  
+  // Admin Routes
+  if (path === '/api/admin/layout-reports') {
+    if (decodedToken.role !== 'ADMIN' && decodedToken.role !== 'MODERATOR') {
+      return res.status(403).json({ message: 'Forbidden: Access is limited to administrators.' });
+    }
+    if (req.method === 'GET') return moderationHandlers.listLayoutReports(req, res);
+    if (req.method === 'PUT') return moderationHandlers.updateReportStatus(req, res);
+  }
+  
+  if (path === '/api/admin/layouts' && req.method === 'DELETE') {
+    if (decodedToken.role !== 'ADMIN' && decodedToken.role !== 'MODERATOR') {
+      return res.status(403).json({ message: 'Forbidden: Access is limited to administrators.' });
+    }
+    return layoutHandlers.deleteLayoutByAdmin(req, res);
+  }
+
+  if (path === '/api/admin/users/ban' && req.method === 'PUT') {
+    if (decodedToken.role !== 'ADMIN' && decodedToken.role !== 'MODERATOR') {
+      return res.status(403).json({ message: 'Forbidden: Access is limited to administrators.' });
+    }
+    return moderationHandlers.banUserFromWorkshop(req, res);
+  }
+
+  // Moderation Route (user-facing)
+  if (path === '/api/layout-reports' && req.method === 'POST') {
+    return moderationHandlers.createLayoutReport(req, res, decodedToken);
+  }
+  
   // Friend Routes
   if (path === '/api/friends') {
     if (req.method === 'GET') return friendHandlers.listFriends(req, res, decodedToken);
@@ -77,6 +100,6 @@ export default async function handler(req, res) {
     return personalRecordHandlers.updatePersonalRecord(req, res, decodedToken, recordId);
   }
 
-  // If no route in this file matches, return a 404
+  // If no route matches, return 404
   res.status(404).json({ message: `Route ${req.method} ${path} not found.` });
 }

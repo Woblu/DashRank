@@ -68,6 +68,12 @@ enum GameplayTag {
   PLATFORMER
 }
 
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED
+}
+
 model Level {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   placement   Int
@@ -85,18 +91,20 @@ model Level {
 }
 
 model User {
-  id                     String           @id @default(auto()) @map("_id") @db.ObjectId
-  email                  String           @unique
-  username               String           @unique
+  id                     String         @id @default(auto()) @map("_id") @db.ObjectId
+  email                  String         @unique
+  username               String         @unique
   password               String
-  role                   Role             @default(USER)
-  createdAt              DateTime         @default(now())
+  role                   Role           @default(USER)
+  createdAt              DateTime       @default(now())
+  isWorkshopBanned       Boolean        @default(false)
   submissions            Submission[]
   personalRecords        PersonalRecord[]
-  pinnedRecordId         String?          @db.ObjectId
-  friendshipsAsRequester Friendship[]     @relation("Requester")
-  friendshipsAsReceiver  Friendship[]     @relation("Receiver")
+  pinnedRecordId         String?        @db.ObjectId
+  friendshipsAsRequester Friendship[]   @relation("Requester")
+  friendshipsAsReceiver  Friendship[]   @relation("Receiver")
   layoutsCreated         Layout[]
+  reportsFiled           LayoutReport[]
 }
 
 model Submission {
@@ -157,4 +165,17 @@ model Layout {
   updatedAt    DateTime      @updatedAt
   creator      User          @relation(fields: [creatorId], references: [id])
   creatorId    String        @db.ObjectId
+  reports      LayoutReport[]
+}
+
+model LayoutReport {
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  reason           String
+  status           ReportStatus @default(PENDING)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  reportedLayout   Layout       @relation(fields: [reportedLayoutId], references: [id])
+  reportedLayoutId String       @db.ObjectId
+  reporter         User         @relation(fields: [reporterId], references: [id])
+  reporterId       String       @db.ObjectId
 }

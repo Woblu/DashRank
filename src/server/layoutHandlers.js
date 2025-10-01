@@ -4,8 +4,6 @@ const prisma = new PrismaClient();
 
 /**
  * Fetches all layouts for the public gallery.
- * @param {import('http').IncomingMessage} req The request object.
- * @param {import('http').ServerResponse} res The response object.
  */
 export async function listLayouts(req, res) {
   try {
@@ -24,9 +22,6 @@ export async function listLayouts(req, res) {
 
 /**
  * Fetches a single layout by its unique ID.
- * @param {import('http').IncomingMessage} req The request object.
- * @param {import('http').ServerResponse} res The response object.
- * @param {string} layoutId The ID of the layout to fetch.
  */
 export async function getLayoutById(req, res, layoutId) {
   try {
@@ -51,9 +46,6 @@ export async function getLayoutById(req, res, layoutId) {
 
 /**
  * Creates a new layout for the authenticated user.
- * @param {import('http').IncomingMessage} req The request object.
- * @param {import('http').ServerResponse} res The response object.
- * @param {object} decodedToken The verified JWT payload.
  */
 export async function createLayout(req, res, decodedToken) {
   const { levelName, description, songName, songId, videoUrl, difficulty, tags } = req.body;
@@ -80,4 +72,34 @@ export async function createLayout(req, res, decodedToken) {
     console.error("Failed to create layout:", error);
     return res.status(500).json({ message: 'Failed to create layout.' });
   }
+}
+
+/**
+ * Deletes a layout as an admin action.
+ * Also deletes all reports associated with that layout.
+ */
+export async function deleteLayoutByAdmin(req, res) {
+    const { layoutId } = req.body;
+
+    if (!layoutId) {
+        return res.status(400).json({ message: 'Layout ID is required.' });
+    }
+
+    try {
+        // Use a transaction to ensure both operations succeed or fail together
+        await prisma.$transaction([
+            // First, delete all reports associated with the layout
+            prisma.layoutReport.deleteMany({
+                where: { reportedLayoutId: layoutId },
+            }),
+            // Then, delete the layout itself
+            prisma.layout.delete({
+                where: { id: layoutId },
+            }),
+        ]);
+        return res.status(200).json({ message: 'Layout and associated reports deleted successfully.' });
+    } catch (error) {
+        console.error("Failed to delete layout:", error);
+        return res.status(500).json({ message: 'Failed to delete layout.' });
+    }
 }
