@@ -51,8 +51,8 @@ export default function LayoutGalleryPage() {
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
-        // This div has been changed from a flex column to a grid
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        // The grid classes have been updated to a 3-column layout on large screens
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {layouts.length > 0 ? (
             layouts.map(layout => <LayoutCard key={layout.id} layout={layout} />)
           ) : (

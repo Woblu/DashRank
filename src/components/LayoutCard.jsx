@@ -29,7 +29,7 @@ export default function LayoutCard({ layout }) {
 
   return (
     <Link to={`/layouts/${layout.id}`} className="block bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-4 transition-all hover:border-cyan-400/50 hover:bg-gray-800/80">
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 h-full">
         <div className="w-full sm:w-48 aspect-video rounded-md overflow-hidden flex-shrink-0">
           <img
             src={thumbnailUrl}
@@ -37,16 +37,17 @@ export default function LayoutCard({ layout }) {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="flex flex-col flex-grow">
+        {/* Added `min-w-0` to this container to prevent cropping */}
+        <div className="flex flex-col flex-grow min-w-0">
           <div className="flex justify-between items-start">
-            <div>
-              <h3 className="font-bold text-xl text-white">{layout.levelName}</h3>
+            <div className="min-w-0">
+              <h3 className="font-bold text-xl text-white truncate">{layout.levelName}</h3>
               <p className="text-sm text-gray-400 flex items-center gap-1.5">
                 <User size={14} />
                 {layout.creator.username}
               </p>
             </div>
-            <span className={`text-xs font-bold px-2 py-1 rounded-full border ${difficultyColors[layout.difficulty]}`}>
+            <span className={`text-xs font-bold px-2 py-1 rounded-full border flex-shrink-0 ${difficultyColors[layout.difficulty]}`}>
               {layout.difficulty.replace('_', ' ')}
             </span>
           </div>
