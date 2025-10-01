@@ -20,16 +20,22 @@ import PersonalRecordDetail from './pages/PersonalRecordDetail';
 import UserProfile from './pages/UserProfile';
 import FriendsPage from './pages/account/FriendsPage';
 import CreateLayoutPage from './pages/layouts/CreateLayoutPage';
-import LayoutGalleryPage from './pages/layouts/LayoutGalleryPage'; // Import gallery
-import LayoutDetailPage from './pages/layouts/LayoutDetailPage'; // Import detail page (we'll create this later)
+import LayoutGalleryPage from './pages/layouts/LayoutGalleryPage';
+import LayoutDetailPage from './pages/layouts/LayoutDetailPage';
+import AdminReportsPage from './pages/AdminReportsPage';
 
 export default function App() {
   return (
     <LanguageProvider>
       <Router>
         <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col overflow-x-hidden">
-          {/* ... side decorations ... */}
+          <div 
+            className="hidden lg:block absolute left-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
+            style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem", transform: "scaleX(-1)" }}
+          ></div>
+          
           <Tabs />
+
           <main className="flex-grow p-4 w-full max-w-7xl mx-auto z-20">
             <Routes>
               {/* Main public lists */}
@@ -58,10 +64,21 @@ export default function App() {
                 <Route path="friends" element={<FriendsPage />} />
               </Route>
 
-              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>}>
+                <Route index element={<div className="text-white text-center"><h1>Welcome to the Admin Dashboard!</h1><p>Select a section to manage.</p></div>} />
+                <Route path="reports" element={<AdminReportsPage />} />
+                {/* You can add more admin tabs here in the future, like /admin/submissions */}
+              </Route>
+
             </Routes>
           </main>
-          {/* ... side decorations ... */}
+
+          <div 
+            className="hidden lg:block absolute right-0 top-0 h-full w-32 xl:w-48 opacity-20 z-10"
+            style={{ backgroundImage: `url(${sideDeco})`, backgroundRepeat: "repeat-y", backgroundPosition: "0px -1.5rem" }}
+          ></div>
+          
           <ReloadPrompt />
         </div>
       </Router>
