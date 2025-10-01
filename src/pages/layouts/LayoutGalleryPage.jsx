@@ -51,11 +51,12 @@ export default function LayoutGalleryPage() {
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
-        <div className="flex flex-col gap-4">
+        // This div has been changed from a flex column to a grid
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {layouts.length > 0 ? (
             layouts.map(layout => <LayoutCard key={layout.id} layout={layout} />)
           ) : (
-            <div className="text-center text-gray-500 border-2 border-dashed border-gray-700 p-10 rounded-lg">
+            <div className="text-center text-gray-500 border-2 border-dashed border-gray-700 p-10 rounded-lg col-span-full">
               <p>No layouts have been submitted yet. Be the first!</p>
             </div>
           )}
