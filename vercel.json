@@ -9,6 +9,9 @@
     { "source": "/api/personal-records", "destination": "/api" },
     { "source": "/api/personal-records/:path*", "destination": "/api" },
     { "source": "/api/layout-reports", "destination": "/api" },
+    { "source": "/api/admin/layout-reports", "destination": "/api" },
+    { "source": "/api/admin/layouts", "destination": "/api" },
+    { "source": "/api/admin/users/ban", "destination": "/api" },
 
     { "source": "/((?!api/|assets/).*)", "destination": "/index.html" }
   ]
