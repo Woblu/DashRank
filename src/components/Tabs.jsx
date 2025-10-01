@@ -28,11 +28,21 @@ export default function Tabs() {
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
   const [isInfoBoxOpen, setIsInfoBoxOpen] = useState(false);
-  const [listType, setListType] = useState("main");
+  
+  // 1. Initialize state from localStorage, defaulting to 'main'
+  const [listType, setListType] = useState(() => {
+    return localStorage.getItem('lastViewedList') || 'main';
+  });
 
+  // 2. Only update the state and localStorage if on a valid list page
   useEffect(() => {
-    const path = location.pathname.split("/")[1] || "main";
-    setListType(path);
+    const currentPathSegment = location.pathname.split("/")[1] || "main";
+
+    // Check if the current path is a key in our statsButtonTitles object
+    if (Object.keys(statsButtonTitles).includes(currentPathSegment)) {
+      setListType(currentPathSegment);
+      localStorage.setItem('lastViewedList', currentPathSegment);
+    }
   }, [location.pathname]);
 
   const AuthButtons = () => {
@@ -65,7 +75,6 @@ export default function Tabs() {
             </Link>
           </div>
           <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
-            {/* The `flex-wrap` class has been removed from this div */}
             <div className="flex items-center gap-2 justify-center">
               
               <NavLink
