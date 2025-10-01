@@ -1,17 +1,6 @@
 [
   {
     "placement": 1,
-    "name": "Thinking Space II",
-    "creator": "CairoX",
-    "verifier": "Zoink",
-    "thumbnail": "",
-    "videoId": "CELNmHwln_c",
-    "records": [],
-    "levelId": "119544028",
-    "description": ""
-  },
-  {
-    "placement": 2,
     "name": "Amethyst",
     "creator": "iMist",
     "verifier": "wPopoff",
@@ -28,7 +17,7 @@
     "description": "An idea that started 5 years ago has now been brought to light..."
   },
   {
-    "placement": 3,
+    "placement": 2,
     "name": "Flamewall",
     "creator": "UNarwall",
     "verifier": "CuatrocientosYT",
@@ -37,6 +26,17 @@
     "records": [],
     "levelId": "126242564",
     "description": "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts."
+  },
+  {
+    "placement": 3,
+    "name": "Thinking Space II",
+    "creator": "CairoX",
+    "verifier": "Zoink",
+    "thumbnail": "",
+    "videoId": "CELNmHwln_c",
+    "records": [],
+    "levelId": "119544028",
+    "description": ""
   },
   {
     "placement": 4,
