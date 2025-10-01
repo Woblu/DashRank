@@ -13,6 +13,37 @@ const difficultyColors = {
   EXTREME: 'text-purple-400',
 };
 
+// The Modal component is now defined OUTSIDE the main page component to fix the focus issue.
+const ReportModal = ({ layout, onClose, reportReason, setReportReason, handleReportSubmit, reportError, reportSuccess }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700" onClick={(e) => e.stopPropagation()}>
+      <header className="p-4 border-b border-gray-700">
+        <h2 className="text-xl font-bold text-white">Report Layout: {layout.levelName}</h2>
+      </header>
+      <form onSubmit={handleReportSubmit} className="p-6 space-y-4">
+        <div>
+          <label className="block text-sm font-bold text-gray-300 mb-2">Reason for reporting</label>
+          <textarea
+            value={reportReason}
+            onChange={(e) => setReportReason(e.target.value)}
+            required
+            rows="5"
+            placeholder="Please provide a detailed reason for your report (e.g., inappropriate content, stolen layout, etc.)."
+            className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200"
+          />
+        </div>
+        {reportError && <p className="text-red-400">{reportError}</p>}
+        {reportSuccess && <p className="text-green-400">{reportSuccess}</p>}
+        <div className="flex justify-end gap-4">
+          <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-gray-600 hover:bg-gray-500">Cancel</button>
+          <button type="submit" className="px-4 py-2 rounded-lg font-semibold bg-red-600 hover:bg-red-700">Submit Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+);
+
+
 export default function LayoutDetailPage() {
   const { layoutId } = useParams();
   const { token } = useAuth();
@@ -20,7 +51,6 @@ export default function LayoutDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // State for the report modal
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState('');
   const [reportError, setReportError] = useState('');
@@ -59,6 +89,7 @@ export default function LayoutDetailPage() {
       setTimeout(() => {
         setIsReportModalOpen(false);
         setReportReason('');
+        setReportSuccess('');
       }, 2000);
     } catch (err) {
       setReportError(err.response?.data?.message || 'Failed to submit report.');
@@ -71,38 +102,19 @@ export default function LayoutDetailPage() {
 
   const embedInfo = getVideoEmbedUrl(layout.videoUrl, window.location.hostname);
 
-  const ReportModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={() => setIsReportModalOpen(false)}>
-      <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700" onClick={(e) => e.stopPropagation()}>
-        <header className="p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold text-white">Report Layout: {layout.levelName}</h2>
-        </header>
-        <form onSubmit={handleReportSubmit} className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">Reason for reporting</label>
-            <textarea
-              value={reportReason}
-              onChange={(e) => setReportReason(e.target.value)}
-              required
-              rows="5"
-              placeholder="Please provide a detailed reason for your report (e.g., inappropriate content, stolen layout, etc.)."
-              className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200"
-            />
-          </div>
-          {reportError && <p className="text-red-400">{reportError}</p>}
-          {reportSuccess && <p className="text-green-400">{reportSuccess}</p>}
-          <div className="flex justify-end gap-4">
-            <button type="button" onClick={() => setIsReportModalOpen(false)} className="px-4 py-2 rounded-lg font-semibold bg-gray-600 hover:bg-gray-500">Cancel</button>
-            <button type="submit" className="px-4 py-2 rounded-lg font-semibold bg-red-600 hover:bg-red-700">Submit Report</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-
   return (
     <>
-      {isReportModalOpen && <ReportModal />}
+      {isReportModalOpen && (
+        <ReportModal 
+          layout={layout}
+          onClose={() => setIsReportModalOpen(false)}
+          reportReason={reportReason}
+          setReportReason={setReportReason}
+          handleReportSubmit={handleReportSubmit}
+          reportError={reportError}
+          reportSuccess={reportSuccess}
+        />
+      )}
       <div className="max-w-5xl mx-auto text-white">
         <div className="mb-6">
           <Link to="/layouts" className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors">
@@ -118,7 +130,17 @@ export default function LayoutDetailPage() {
                <p className="text-gray-400">{layout.description || "No description provided."}</p>
             </div>
             <div className="aspect-video w-full bg-black rounded-xl">
-              {embedInfo && <iframe width="100%" height="100%" src={embedInfo.url} title="Layout Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="rounded-xl shadow-lg"></iframe>}
+              {embedInfo ? (
+                <iframe
+                  width="100%" height="100%"
+                  src={embedInfo.url}
+                  title="Layout Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="rounded-xl shadow-lg"
+                ></iframe>
+              ) : <div className="w-full h-full rounded-xl bg-gray-900 flex items-center justify-center"><p>Video preview not available.</p></div>}
             </div>
           </div>
           
