@@ -12,17 +12,6 @@
   },
   {
     "placement": 2,
-    "name": "Flamewall",
-    "creator": "UNarwall",
-    "verifier": "CuatrocientosYT",
-    "thumbnail": "",
-    "videoId": "x4Io4zkWVRw",
-    "records": [],
-    "levelId": "126242564",
-    "description": "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts."
-  },
-  {
-    "placement": 3,
     "name": "Amethyst",
     "creator": "iMist",
     "verifier": "wPopoff",
@@ -37,6 +26,17 @@
     ],
     "levelId": "8424015",
     "description": "An idea that started 5 years ago has now been brought to light..."
+  },
+  {
+    "placement": 3,
+    "name": "Flamewall",
+    "creator": "UNarwall",
+    "verifier": "CuatrocientosYT",
+    "thumbnail": "",
+    "videoId": "x4Io4zkWVRw",
+    "records": [],
+    "levelId": "126242564",
+    "description": "The ultimate endurance test, in the works since 2022. | Verified by Cuatrocientos in 221.703 attempts."
   },
   {
     "placement": 4,
