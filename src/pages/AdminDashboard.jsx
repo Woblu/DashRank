@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
 import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 import { Link } from 'react-router-dom';
-import ListManager from '../components/admin/ListManager'; // Import the new component
+import { ListManager } from '../components/admin/ListManager'; // ** THE FIX IS HERE **
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -17,7 +17,6 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return;
-      // If the active tab is for the List Manager, let it handle its own data fetching.
       if (activeTab === 'LIST_MANAGEMENT') {
         setLoading(false);
         return;
@@ -133,7 +132,6 @@ export default function AdminDashboard() {
 
       {!loading && !error && (
         <div>
-          {/* Render the List Manager when its tab is active */}
           {activeTab === 'LIST_MANAGEMENT' && <ListManager />}
 
           {['PENDING', 'APPROVED', 'REJECTED'].includes(activeTab) && (
