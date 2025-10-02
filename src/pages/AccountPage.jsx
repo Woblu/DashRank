@@ -1,10 +1,15 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext'; // Import useAuth
-import { User, ClipboardList, Users, LogOut } from 'lucide-react'; // Import LogOut icon
+import { useAuth } from '../contexts/AuthContext';
+import { User, ClipboardList, Users, LogOut } from 'lucide-react';
 
 export default function AccountPage() {
-  const { signOut } = useAuth(); // Get the signOut function from the context
+  const { signOut } = useAuth();
+
+  const handleSignOut = () => {
+    console.log('Sign Out button clicked, attempting to call signOut function...');
+    signOut();
+  };
 
   const navLinks = [
     { name: 'Profile Settings', path: '/account/profile', icon: User },
@@ -33,10 +38,9 @@ export default function AccountPage() {
               </NavLink>
             ))}
             
-            {/* Sign Out Button */}
             <div className="pt-4 mt-4 border-t border-gray-700">
               <button
-                onClick={signOut}
+                onClick={handleSignOut}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-lg text-red-400 hover:bg-red-500/20"
               >
                 <LogOut className="w-6 h-6" />
