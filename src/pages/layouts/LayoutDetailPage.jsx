@@ -242,7 +242,8 @@ export default function LayoutDetailPage() {
             </button>
           </div>
         </div>
-        {isOwner && <LayoutManagement layoutId={layout.id} />}
+        {/* ** THE FIX IS HERE ** */}
+        {isOwner && <LayoutManagement layoutId={layout.id} layoutCreatorId={layout.creatorId} />}
       </div>
     </>
   );

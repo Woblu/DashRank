@@ -100,14 +100,17 @@ export default function LayoutManagement({ layoutId, layoutCreatorId }) {
     try {
       if (activeTab === 'applicants') {
         const res = await axios.get(`/api/layouts/${layoutId}/applicants`, { headers: { Authorization: `Bearer ${token}` } });
-        setApplicants(res.data);
+        setApplicants(res.data || []);
       } else if (activeTab === 'parts') {
         const res = await axios.get(`/api/layouts/${layoutId}/parts-and-team`, { headers: { Authorization: `Bearer ${token}` } });
-        setParts(res.data.parts);
-        setTeam(res.data.team);
+        // ** THE FIX IS HERE **
+        setParts(res.data.parts || []);
+        setTeam(res.data.team || []);
       }
     } catch (err) {
       setError(`Failed to load ${activeTab}.`);
+      setParts([]); // Also reset on error to be safe
+      setTeam([]);
     } finally {
       setIsLoading(false);
     }
@@ -177,7 +180,7 @@ export default function LayoutManagement({ layoutId, layoutCreatorId }) {
               <CreatePartForm layoutId={layoutId} onPartCreated={fetchData} />
               <div className="space-y-4">
                 {parts.length > 0 ? parts.map(part => {
-                  const canManageStatus = user.userId === layoutCreatorId || user.userId === part.assigneeId;
+                  const canManageStatus = user?.userId === layoutCreatorId || user?.userId === part.assigneeId;
                   return (
                     <div key={part.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center p-4 bg-gray-700/50 rounded-lg">
                       <div className="md:col-span-2">
@@ -186,7 +189,7 @@ export default function LayoutManagement({ layoutId, layoutCreatorId }) {
                       </div>
                       <div>{getStatusBadge(part.status)}</div>
                       <div className="flex items-center gap-2">
-                        <select value={part.assigneeId || ''} onChange={(e) => handleAssignPart(part.id, e.target.value)} disabled={user.userId !== layoutCreatorId} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-800 text-gray-200 disabled:opacity-50">
+                        <select value={part.assigneeId || ''} onChange={(e) => handleAssignPart(part.id, e.target.value)} disabled={user?.userId !== layoutCreatorId} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-800 text-gray-200 disabled:opacity-50">
                           <option value="">Unassigned</option>
                           {team.map(member => <option key={member.id} value={member.id}>{member.username}</option>)}
                         </select>
@@ -194,7 +197,7 @@ export default function LayoutManagement({ layoutId, layoutCreatorId }) {
                       <div className="flex justify-end gap-2">
                         {part.status === 'ASSIGNED' && <button onClick={() => handleUpdatePartStatus(part.id, 'COMPLETED')} disabled={!canManageStatus} className="px-3 py-1 text-xs rounded-full bg-green-500/20 hover:bg-green-500/40 text-green-400 disabled:opacity-50 disabled:cursor-not-allowed">Complete</button>}
                         {part.status === 'COMPLETED' && <button onClick={() => handleUpdatePartStatus(part.id, 'ASSIGNED')} disabled={!canManageStatus} className="px-3 py-1 text-xs rounded-full bg-yellow-500/20 hover:bg-yellow-500/40 text-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed">Re-open</button>}
-                        {user.userId === layoutCreatorId && <button onClick={() => handleDeletePart(part.id)} className="p-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded-full"><Trash2 size={16} /></button>}
+                        {user?.userId === layoutCreatorId && <button onClick={() => handleDeletePart(part.id)} className="p-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded-full"><Trash2 size={16} /></button>}
                       </div>
                     </div>
                   )
