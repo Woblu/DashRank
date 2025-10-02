@@ -4,10 +4,6 @@ const prisma = new PrismaClient();
 
 /**
  * Fetches conversation history for a given layout.
- * @param {import('http').IncomingMessage} req The request object.
- * @param {import('http').ServerResponse} res The response object.
- * @param {string} layoutId The ID of the layout.
- * @param {object} decodedToken The verified JWT payload.
  */
 export async function getConversationHistory(req, res, layoutId, decodedToken) {
   try {
@@ -27,11 +23,9 @@ export async function getConversationHistory(req, res, layoutId, decodedToken) {
     });
 
     if (!conversation) {
-      // It's not an error if a convo hasn't started. Just return empty.
       return res.status(200).json({ messages: [], conversationId: null });
     }
 
-    // Security check: ensure the user is part of this conversation
     const isUserInConversation = conversation.members.some(member => member.id === decodedToken.userId);
     if (!isUserInConversation) {
       return res.status(403).json({ message: 'You are not authorized to view this chat.' });
@@ -50,10 +44,6 @@ export async function getConversationHistory(req, res, layoutId, decodedToken) {
 
 /**
  * Posts a new message to a conversation.
- * NOTE: This is for a RESTful approach. Real-time chat will use WebSockets.
- * @param {import('http').IncomingMessage} req The request object.
- * @param {import('http').ServerResponse} res The response object.
- * @param {object} decodedToken The verified JWT payload.
  */
 export async function postMessage(req, res, decodedToken) {
   const { conversationId, content } = req.body;
@@ -64,7 +54,6 @@ export async function postMessage(req, res, decodedToken) {
   }
 
   try {
-    // Security check: ensure the user is part of this conversation before allowing them to post.
     const conversation = await prisma.conversation.findFirst({
         where: {
             id: conversationId,
@@ -87,9 +76,6 @@ export async function postMessage(req, res, decodedToken) {
       },
     });
     
-    // In a WebSocket setup, you would now broadcast this `newMessage` object
-    // to all other clients in the conversation's room.
-
     return res.status(201).json(newMessage);
   } catch (error) {
     console.error('Failed to post message:', error);
