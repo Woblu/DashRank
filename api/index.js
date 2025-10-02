@@ -9,8 +9,7 @@ import * as moderationHandlers from '../src/server/moderationHandlers.js';
 import * as collaborationHandlers from '../src/server/collaborationHandlers.js';
 import * as partHandlers from '../src/server/partHandlers.js';
 import * as chatHandlers from '../src/server/chatHandlers.js';
-import * as listManagementHandlers from '../src/server/listManagementHandlers.js'; // Ensure filename matches
-
+import * as listManagementHandlers from '../src/server/listsManagementHandlers.js'; 
 export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const path = url.pathname;
