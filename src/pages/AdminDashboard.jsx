@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
-import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle } from 'lucide-react';
+import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
 import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 import { Link } from 'react-router-dom';
+import ListManager from '../components/admin/ListManager'; // Import the new component
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -16,6 +17,12 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return;
+      // If the active tab is for the List Manager, let it handle its own data fetching.
+      if (activeTab === 'LIST_MANAGEMENT') {
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError('');
       try {
@@ -93,6 +100,7 @@ export default function AdminDashboard() {
   const tabs = [
     { status: 'PENDING', label: 'Submissions', icon: Clock },
     { status: 'LAYOUT_REPORTS', label: 'Layout Reports', icon: ShieldAlert },
+    { status: 'LIST_MANAGEMENT', label: 'List Management', icon: List },
     { status: 'APPROVED', label: 'Approved', icon: ThumbsUp },
     { status: 'REJECTED', label: 'Rejected', icon: ThumbsDown },
   ];
@@ -103,12 +111,12 @@ export default function AdminDashboard() {
     <div className="text-white max-w-7xl mx-auto py-8 px-4">
       <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
       
-      <div className="flex border-b border-gray-700 mb-6">
+      <div className="flex border-b border-gray-700 mb-6 overflow-x-auto">
         {tabs.map(tab => (
           <button
             key={tab.status}
             onClick={() => setActiveTab(tab.status)}
-            className={`flex items-center gap-2 px-4 py-2 text-lg font-semibold border-b-2 transition-colors ${
+            className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 text-lg font-semibold border-b-2 transition-colors ${
               activeTab === tab.status
                 ? 'border-cyan-400 text-cyan-400'
                 : 'border-transparent text-gray-400 hover:text-white'
@@ -124,7 +132,10 @@ export default function AdminDashboard() {
       {error && <div className="text-red-400 text-center py-10">{error}</div>}
 
       {!loading && !error && (
-        <div className="space-y-4">
+        <div>
+          {/* Render the List Manager when its tab is active */}
+          {activeTab === 'LIST_MANAGEMENT' && <ListManager />}
+
           {['PENDING', 'APPROVED', 'REJECTED'].includes(activeTab) && (
             submissions.length === 0 ? (
               <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
