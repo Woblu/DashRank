@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { User, ClipboardList, Users } from 'lucide-react'; // Import the Users icon
+import { useAuth } from '../contexts/AuthContext'; // Import useAuth
+import { User, ClipboardList, Users, LogOut } from 'lucide-react'; // Import LogOut icon
 
 export default function AccountPage() {
+  const { signOut } = useAuth(); // Get the signOut function from the context
+
   const navLinks = [
     { name: 'Profile Settings', path: '/account/profile', icon: User },
     { name: 'My Submissions', path: '/account/submissions', icon: ClipboardList },
-    // Add the new link for the friends page
     { name: 'Manage Friends', path: '/account/friends', icon: Users },
   ];
 
@@ -30,6 +32,17 @@ export default function AccountPage() {
                 <span>{link.name}</span>
               </NavLink>
             ))}
+            
+            {/* Sign Out Button */}
+            <div className="pt-4 mt-4 border-t border-gray-700">
+              <button
+                onClick={signOut}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-lg text-red-400 hover:bg-red-500/20"
+              >
+                <LogOut className="w-6 h-6" />
+                <span>Sign Out</span>
+              </button>
+            </div>
           </nav>
         </aside>
 
