@@ -6,6 +6,7 @@ import * as userHandlers from '../src/server/userHandlers.js';
 import * as accountHandlers from '../src/server/accountHandlers.js';
 import * as personalRecordHandlers from '../src/server/personalRecordHandlers.js';
 import * as moderationHandlers from '../src/server/moderationHandlers.js';
+import * as collaborationHandlers from '../src/server/collaborationHandlers.js';
 
 export default async function handler(req, res) {
   const path = req.url.split('?')[0];
@@ -27,6 +28,7 @@ export default async function handler(req, res) {
   }
 
   // --- AUTHENTICATION BARRIER ---
+  // All routes below this point require a valid token.
   const decodedToken = verifyToken(req.headers.authorization);
   if (!decodedToken) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -55,6 +57,11 @@ export default async function handler(req, res) {
       return res.status(403).json({ message: 'Forbidden: Access is limited to administrators.' });
     }
     return moderationHandlers.banUserFromWorkshop(req, res);
+  }
+
+  // Collaboration Routes
+  if (path === '/api/collaboration-requests' && req.method === 'POST') {
+    return collaborationHandlers.applyToLayout(req, res, decodedToken);
   }
 
   // Moderation Route (user-facing)
