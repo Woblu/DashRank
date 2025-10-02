@@ -13,26 +13,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    const decodedToken = await verifyToken(req);
+    // ** THE FIX IS HERE **
+    // We now correctly pass the header string, not the whole req object.
+    const decodedToken = verifyToken(req.headers.authorization);
+
     if (!decodedToken) {
       return res.status(401).json({ message: 'Unauthorized: Invalid or missing token.' });
     }
     
-    // The body needs to be parsed from the request stream
-    let body = '';
-    req.on('data', chunk => {
-        body += chunk.toString();
-    });
-    req.on('end', async () => {
-        try {
-            req.body = JSON.parse(body);
-            await createPart(req, res, decodedToken);
-        } catch (e) {
-            return res.status(400).json({ message: 'Invalid JSON body.' });
-        }
-    });
+    // Most serverless environments automatically parse the body, so req.body should be available.
+    if (!req.body) {
+        return res.status(400).json({ message: 'Missing request body.' });
+    }
+
+    await createPart(req, res, decodedToken);
 
   } catch (error) {
-    return res.status(401).json({ message: error.message || 'Unauthorized.' });
+    console.error("Error in /api/parts/create:", error);
+    return res.status(500).json({ message: 'An internal server error occurred.' });
   }
 }
