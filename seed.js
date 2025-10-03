@@ -9,12 +9,12 @@ async function main() {
   console.log('Starting manual seed process from local JSON files...');
 
   const listsToSeed = [
-    { name: 'main', filePath: './src/data/main-list.json' },
-    { name: 'unrated', filePath: './src/data/unrated-list.json' },
-    { name: 'platformer', filePath: './src/data/platformer-list.json' },
-    { name: 'speedhack', filePath: './src/data/speedhack-list.json' },
-    { name: 'future', filePath: './src/data/future-list.json' },
-    { name: 'challenge', filePath: './src/data/challenge-list.json' }
+    { name: 'main-list', filePath: './src/data/main-list.json' },
+    { name: 'unrated-list', filePath: './src/data/unrated-list.json' },
+    { name: 'platformer-list', filePath: './src/data/platformer-list.json' },
+    { name: 'speedhack-list', filePath: './src/data/speedhack-list.json' },
+    { name: 'future-list', filePath: './src/data/future-list.json' },
+    { name: 'challenge-list', filePath: './src/data/challenge-list.json' }
   ];
 
   for (const list of listsToSeed) {
