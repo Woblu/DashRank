@@ -26,10 +26,6 @@ export default async function handler(req, res) {
   const path = url.pathname;
   req.query = Object.fromEntries(url.searchParams);
 
-  // --- DEBUGGING LOG ---
-  console.log(`[API ROUTER] Received request: ${req.method} ${path}`);
-  // --- END DEBUGGING LOG ---
-
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
     try {
       const chunks = [];
@@ -39,10 +35,10 @@ export default async function handler(req, res) {
   }
 
   // --- PUBLIC ROUTES ---
-  if (path === '/api/auth' && req.method === 'POST') {
-    const { action } = req.body;
-    if (action === 'login') return authHandlers.loginUser(req, res);
-    if (action === 'register') return authHandlers.registerUser(req, res);
+  if ((path === '/api/auth' || path === '/api/register') && req.method === 'POST') {
+    const { action } = req.body || {}; // Default action if body is empty
+    if (path === '/api/auth' && action === 'login') return authHandlers.loginUser(req, res);
+    if (path === '/api/register' || (path === '/api/auth' && action === 'register')) return authHandlers.registerUser(req, res);
   } 
   else if (path.match(/^\/api\/level\/\d+$/) && req.method === 'GET') {
     const levelId = parseInt(path.split('/')[3], 10);
@@ -67,7 +63,7 @@ export default async function handler(req, res) {
     if (!decodedToken) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
-   // General Protected Routes
+   
     if (path === '/api/users') {
       if (req.method === 'GET') return userHandlers.getUser(req, res, decodedToken);
       if (req.method === 'POST') return userHandlers.pinRecord(req, res, decodedToken);
@@ -96,13 +92,6 @@ export default async function handler(req, res) {
     else if (path === '/api/account' && req.method === 'PUT') {
         return accountHandlers.updateAccount(req, res, decodedToken);
     }
-    else if (path === '/api/submissions/create' && req.method === 'POST') {
-        // This is a placeholder for your submission creation logic.
-        // Assuming it's in a `submissionHandlers.js` file.
-        const { createSubmission } = await import('../src/server/submissionHandlers.js');
-        return createSubmission(req, res, decodedToken);
-    }
-    // Creator's Workshop Routes
     else if (path.match(/^\/api\/layouts\/[a-zA-Z0-9]+\/(applicants|parts-and-team)$/) && req.method === 'GET') {
       const [, , , layoutId, subRoute] = path.split('/');
       if (subRoute === 'applicants') return collaborationHandlers.listLayoutApplicants(req, res, layoutId);
@@ -133,12 +122,10 @@ export default async function handler(req, res) {
     else if (path === '/api/chat/post' && req.method === 'POST') {
       return chatHandlers.postMessage(req, res, decodedToken);
     }
-   // Admin Routes
     else if (path.startsWith('/api/admin/')) {
       if (!['ADMIN', 'MODERATOR'].includes(decodedToken.role)) {
         return res.status(403).json({ message: 'Forbidden' });
       }
-
       if (path === '/api/admin/add-level' && req.method === 'POST') return listManagementHandlers.addLevelToList(req, res);
       if (path === '/api/admin/move-level' && req.method === 'PUT') return listManagementHandlers.moveLevelInList(req, res);
       if (path === '/api/admin/remove-level' && req.method === 'DELETE') return listManagementHandlers.removeLevelFromList(req, res);
@@ -150,7 +137,6 @@ export default async function handler(req, res) {
       if (path === '/api/admin/users/ban' && req.method === 'PUT') return moderationHandlers.banUserFromWorkshop(req, res);
     } 
     else {
-      // If no route matches, return 404
       return res.status(404).json({ message: `Route ${req.method} ${path} not found.` });
     }
   }
