@@ -7,17 +7,7 @@ import { useLanguage } from "../contexts/LanguageContext.jsx";
 import AddPersonalRecordForm from "../components/AddPersonalRecordForm";
 import { PlusCircle } from 'lucide-react';
 
-import mainListData from '../data/main-list.json';
-import unratedListData from '../data/unrated-list.json';
-import platformerListData from '../data/platformer-list.json';
-import speedhackListData from '../data/speedhack-list.json';
-import futureListData from '../data/future-list.json';
-import challengeListData from '../data/challenge-list.json';
-
-const listDataMap = {
-  main: mainListData, unrated: unratedListData, platformer: platformerListData,
-  speedhack: speedhackListData, future: futureListData, challenge: challengeListData,
-};
+// Note: JSON imports have been removed.
 
 const listTitles = {
   main: "Main List", unrated: "Unrated List", platformer: "Platformer List",
@@ -51,17 +41,17 @@ export default function Home() {
     setError(null);
     setSearch("");
     try {
-      let responseData;
+      let response;
       if (currentListType === 'progression') {
         if (!token) { 
           setLevels([]); 
           setIsLoading(false);
           return; 
         }
-        const response = await axios.get('/api/personal-records', {
+        response = await axios.get('/api/personal-records', {
           headers: { Authorization: `Bearer ${token}` }
         });
-        responseData = response.data.map((record) => ({
+        const responseData = response.data.map((record) => ({
           ...record,
           id: record.id,
           name: record.levelName,
@@ -71,11 +61,13 @@ export default function Home() {
           records: [],
           list: 'progression',
         }));
+        setLevels(responseData);
       } else {
-        responseData = listDataMap[currentListType];
+        // Updated logic: Fetch from the API for all other lists
+        const listName = `${currentListType}-list`;
+        response = await axios.get(`/api/lists/${listName}`);
+        setLevels(response.data);
       }
-      if (responseData) setLevels(responseData);
-      else { setError(`List data for '${currentListType}' not found.`); setLevels([]); }
     } catch (err) {
       console.error("Failed to fetch levels:", err);
       setError(`Failed to load '${listTitles[currentListType]}'. Please try again later.`);
@@ -114,7 +106,6 @@ export default function Home() {
 
   const handlePinRecord = async (recordId) => {
     try {
-      // Updated API call to the consolidated endpoint
       await axios.post('/api/users', { action: 'pin', recordId }, {
         headers: { Authorization: `Bearer ${token}` }
       });
