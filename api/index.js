@@ -26,6 +26,10 @@ export default async function handler(req, res) {
   const path = url.pathname;
   req.query = Object.fromEntries(url.searchParams);
 
+  // --- DEBUGGING LOG ---
+  console.log(`[API ROUTER] Received request: ${req.method} ${path}`);
+  // --- END DEBUGGING LOG ---
+
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
     try {
       const chunks = [];
