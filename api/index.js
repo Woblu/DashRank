@@ -14,22 +14,18 @@ import * as listManagementHandlers from '../src/server/listsManagementHandlers.j
 
 const prisma = new PrismaClient();
 
-// Helper to get decoded token
 const getDecodedToken = (req) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
   const token = authHeader.split(' ')[1];
-  try { return jwt.verify(token, process.env.JWT_SECRET); }
-  catch (error) { return null; }
+  try { return jwt.verify(token, process.env.JWT_SECRET); } catch (error) { return null; }
 };
 
-// Main handler function
 export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const path = url.pathname;
   req.query = Object.fromEntries(url.searchParams);
-  
-  // Manual body parser for POST/PUT/DELETE
+
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
     try {
       const chunks = [];
@@ -61,8 +57,7 @@ export default async function handler(req, res) {
   }
   const layoutDetailMatch = path.match(/^\/api\/layouts\/([a-zA-Z0-9]+)$/);
   if (layoutDetailMatch && req.method === 'GET') {
-    const layoutId = layoutDetailMatch[1];
-    return layoutHandlers.getLayoutById(req, res, layoutId);
+    return layoutHandlers.getLayoutById(req, res, layoutDetailMatch[1]);
   }
 
   // --- AUTH BARRIER ---
@@ -72,19 +67,15 @@ export default async function handler(req, res) {
   }
 
   // --- PROTECTED ROUTES ---
- // Admin Routes
-  if (path.startsWith('/api/admin/')) {
-    if (decodedToken.role !== 'ADMIN' && decodedToken.role !== 'MODERATOR') {
-      return res.status(403).json({ message: 'Forbidden: Access is restricted to administrators.' });
-    }
-    if (path === '/api/admin/layout-reports' && req.method === 'GET') return moderationHandlers.listLayoutReports(req, res);
-    if (path === '/api/admin/layout-reports' && req.method === 'PUT') return moderationHandlers.updateReportStatus(req, res);
-    if (path === '/api/admin/layouts' && req.method === 'DELETE') return layoutHandlers.deleteLayoutByAdmin(req, res);
-    if (path === '/api/admin/users/ban' && req.method === 'PUT') return moderationHandlers.banUserFromWorkshop(req, res);
-    // NEW ADMIN LIST ROUTES
-    if (path === '/api/admin/add-level' && req.method === 'POST') return listManagementHandlers.addLevelToList(req, res, decodedToken);
-    if (path === '/api/admin/move-level' && req.method === 'PUT') return listManagementHandlers.moveLevelInList(req, res, decodedToken);
-    if (path === '/api/admin/remove-level' && req.method === 'DELETE') return listManagementHandlers.removeLevelFromList(req, res, decodedToken);
+  if (path === '/api/users' && req.method === 'GET') {
+    return userHandlers.getUser(req, res, decodedToken);
+  }
+  if (path === '/api/layout-reports' && req.method === 'POST') {
+    return moderationHandlers.createLayoutReport(req, res, decodedToken);
+  }
+  if (path === '/api/personal-records') {
+    if (req.method === 'GET') return personalRecordHandlers.listPersonalRecords(req, res, decodedToken);
+    // Add other methods for this route if needed
   }
   if (path === '/api/friends') {
     if (req.method === 'GET') return friendHandlers.listFriends(req, res, decodedToken);
@@ -94,6 +85,38 @@ export default async function handler(req, res) {
   if (path === '/api/layouts' && req.method === 'POST') {
     return layoutHandlers.createLayout(req, res, decodedToken);
   }
+    // --- ADMIN & MODERATOR ROUTES ---
+  if (path.startsWith('/api/admin/')) {
+    if (!['ADMIN', 'MODERATOR'].includes(decodedToken.role)) {
+      return res.status(403).json({ message: 'Forbidden: Access is restricted to administrators.' });
+    }
+
+    // List Management Routes
+    if (path === '/api/admin/add-level' && req.method === 'POST') return listManagementHandlers.addLevelToList(req, res);
+    if (path === '/api/admin/move-level' && req.method === 'PUT') return listManagementHandlers.moveLevelInList(req, res);
+    if (path === '/api/admin/remove-level' && req.method === 'DELETE') return listManagementHandlers.removeLevelFromList(req, res);
+
+    // Submission Management Routes from your original files
+    if (path === '/api/admin/submissions' && req.method === 'GET') {
+        return moderationHandlers.listSubmissions(req, res);
+    }
+    if (path === '/api/admin/update-submission' && req.method === 'POST') {
+        return moderationHandlers.updateSubmissionStatus(req, res);
+    }
+
+    // Other Moderation Routes
+    if (path === '/api/admin/layout-reports') {
+        if (req.method === 'GET') return moderationHandlers.listLayoutReports(req, res);
+        if (req.method === 'PUT') return moderationHandlers.updateReportStatus(req, res);
+    }
+    if (path === '/api/admin/layouts' && req.method === 'DELETE') {
+        return layoutHandlers.deleteLayoutByAdmin(req, res);
+    }
+    if (path === '/api/admin/users/ban' && req.method === 'PUT') {
+        return moderationHandlers.banUserFromWorkshop(req, res);
+    }
+  }
+  // All other protected routes we built...
   const layoutSubRouteMatch = path.match(/^\/api\/layouts\/([a-zA-Z0-9]+)\/(applicants|parts-and-team)$/);
   if (layoutSubRouteMatch && req.method === 'GET') {
     const [, layoutId, subRoute] = layoutSubRouteMatch;
@@ -108,7 +131,7 @@ export default async function handler(req, res) {
   if (path === '/api/parts/delete' && req.method === 'DELETE') return partHandlers.deletePart(req, res, decodedToken);
   const chatHistoryMatch = path.match(/^\/api\/chat\/history\/(.+)$/);
   if (chatHistoryMatch && req.method === 'GET') {
-      return chatHandlers.getConversationHistory(req, res, chatHistoryMatch[1], decodedToken);
+    return chatHandlers.getConversationHistory(req, res, chatHistoryMatch[1], decodedToken);
   }
   if (path === '/api/chat/post' && req.method === 'POST') return chatHandlers.postMessage(req, res, decodedToken);
 
