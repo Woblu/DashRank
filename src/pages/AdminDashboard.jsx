@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
 import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 import { Link } from 'react-router-dom';
-import { ListManager } from '../components/admin/ListManager'; // ** THE FIX IS HERE **
+import ListManager from '../components/admin/ListManager'; // ** THE FIX IS HERE **
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
