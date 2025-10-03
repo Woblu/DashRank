@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 /**
- * Adds a new level to a list, shifting others down.
+ * Adds a new level to a list, shifting others down and removing any that fall off.
  */
 export async function addLevelToList(req, res) {
   const { levelData, list, placement } = req.body;
@@ -13,13 +13,28 @@ export async function addLevelToList(req, res) {
 
   try {
     const newLevel = await prisma.$transaction(async (tx) => {
+      // 1. Shift all levels at or below the new placement down by one rank.
       await tx.level.updateMany({
         where: { list, placement: { gte: placement } },
         data: { placement: { increment: 1 } },
       });
+
+      // 2. Create the new level at the now-vacant placement.
       const createdLevel = await tx.level.create({
         data: { ...levelData, placement, list },
       });
+
+      // 3. Delete any levels that have been pushed off the list.
+      const limit = list === 'main-list' ? 150 : 75;
+      await tx.level.deleteMany({
+        where: {
+          list: list,
+          placement: {
+            gt: limit,
+          },
+        },
+      });
+
       return createdLevel;
     });
     return res.status(201).json(newLevel);
@@ -30,7 +45,7 @@ export async function addLevelToList(req, res) {
 }
 
 /**
- * Removes a level from a list, shifting others up.
+ * Removes a level from a list, shifting subsequent levels up to close the gap.
  */
 export async function removeLevelFromList(req, res) {
   const { levelId } = req.body;
@@ -59,7 +74,7 @@ export async function removeLevelFromList(req, res) {
 }
 
 /**
- * Moves a level to a new placement in a list.
+ * Moves a level to a new placement, re-shuffling and removing any that fall off.
  */
 export async function moveLevelInList(req, res) {
   const { levelId, newPlacement } = req.body;
@@ -73,24 +88,39 @@ export async function moveLevelInList(req, res) {
       if (!levelToMove) throw new Error('Level not found');
 
       const oldPlacement = levelToMove.placement;
-      if (oldPlacement === newPlacement) return levelToMove;
+      const { list } = levelToMove;
 
-      if (oldPlacement > newPlacement) {
-        await tx.level.updateMany({
-          where: { list: levelToMove.list, placement: { gte: newPlacement, lt: oldPlacement } },
-          data: { placement: { increment: 1 } },
-        });
-      } else {
-        await tx.level.updateMany({
-          where: { list: levelToMove.list, placement: { gt: oldPlacement, lte: newPlacement } },
-          data: { placement: { decrement: 1 } },
-        });
+      if (oldPlacement !== newPlacement) {
+        if (oldPlacement > newPlacement) {
+          await tx.level.updateMany({
+            where: { list, placement: { gte: newPlacement, lt: oldPlacement } },
+            data: { placement: { increment: 1 } },
+          });
+        } else {
+          await tx.level.updateMany({
+            where: { list, placement: { gt: oldPlacement, lte: newPlacement } },
+            data: { placement: { decrement: 1 } },
+          });
+        }
       }
 
-      return tx.level.update({
+      const finalUpdatedLevel = await tx.level.update({
         where: { id: levelId },
         data: { placement: newPlacement },
       });
+
+      // Delete any levels that have been pushed off the list by the shuffle.
+      const limit = list === 'main-list' ? 150 : 75;
+      await tx.level.deleteMany({
+        where: {
+          list: list,
+          placement: {
+            gt: limit,
+          },
+        },
+      });
+
+      return finalUpdatedLevel;
     });
     return res.status(200).json(updatedLevel);
   } catch (error) {
