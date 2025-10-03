@@ -3,12 +3,11 @@ import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { Plus, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 
-// You might want to fetch this list from your server in the future
 const LIST_NAMES = ['main-list', 'extended-list', 'legacy-list', 'platformer-list'];
 
 const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
     const { token } = useAuth();
-    const [levelData, setLevelData] = useState({ name: '', creator: '', videoId: '' });
+    const [levelData, setLevelData] = useState({ name: '', creator: '', videoId: '', levelId: '' });
     const [placement, setPlacement] = useState(1);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +46,7 @@ const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
                     <input name="name" value={levelData.name} onChange={handleInputChange} placeholder="Level Name" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     <input name="creator" value={levelData.creator} onChange={handleInputChange} placeholder="Creator(s)" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     <input name="videoId" value={levelData.videoId} onChange={handleInputChange} placeholder="YouTube Video ID" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
+                    <input type="number" name="levelId" value={levelData.levelId} onChange={handleInputChange} placeholder="Level ID (Optional)" className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     <input type="number" value={placement} onChange={(e) => setPlacement(e.target.value)} placeholder="Placement" required min="1" className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     
                     {error && <p className="text-red-400">{error}</p>}
@@ -60,7 +60,7 @@ const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
     );
 };
 
-export const ListManager = () => {
+export default function ListManager() {
     const { token } = useAuth();
     const [selectedList, setSelectedList] = useState(LIST_NAMES[0]);
     const [levels, setLevels] = useState([]);
@@ -93,7 +93,7 @@ export const ListManager = () => {
                 headers: { Authorization: `Bearer ${token}` },
                 data: { levelId }
             });
-            fetchLevels(); // Refresh list
+            fetchLevels();
         } catch (err) {
             alert(err.response?.data?.message || 'Failed to remove level.');
         }
@@ -106,7 +106,7 @@ export const ListManager = () => {
                 { levelId, newPlacement },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            fetchLevels(); // Refresh list
+            fetchLevels();
         } catch (err) {
             alert(err.response?.data?.message || 'Failed to move level.');
         }

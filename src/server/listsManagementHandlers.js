@@ -19,12 +19,20 @@ export async function addLevelToList(req, res) {
         data: { placement: { increment: 1 } },
       });
 
-      // 2. Create the new level at the now-vacant placement.
+      // 2. Prepare the data for creation, ensuring levelId is a number or null.
+      const dataToCreate = {
+        ...levelData,
+        levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : null,
+        placement: parseInt(placement, 10),
+        list,
+      };
+
+      // 3. Create the new level at the now-vacant placement.
       const createdLevel = await tx.level.create({
-        data: { ...levelData, placement, list },
+        data: dataToCreate,
       });
 
-      // 3. Delete any levels that have been pushed off the list.
+      // 4. Delete any levels that have been pushed off the list.
       const limit = list === 'main-list' ? 150 : 75;
       await tx.level.deleteMany({
         where: {
@@ -109,7 +117,6 @@ export async function moveLevelInList(req, res) {
         data: { placement: newPlacement },
       });
 
-      // Delete any levels that have been pushed off the list by the shuffle.
       const limit = list === 'main-list' ? 150 : 75;
       await tx.level.deleteMany({
         where: {
