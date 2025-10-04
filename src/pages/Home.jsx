@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import AddPersonalRecordForm from "../components/AddPersonalRecordForm";
-import { PlusCircle, SlidersHorizontal, History, X } from 'lucide-react';
+import { PlusCircle, History, X } from 'lucide-react';
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const listTitles = {
@@ -61,7 +61,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState('placement');
   const [historicDate, setHistoricDate] = useState(null);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   
@@ -137,20 +136,10 @@ export default function Home() {
     fetchLevels();
   }, [currentListType, token]);
   
-  const sortedLevels = useMemo(() => {
-    const sortableLevels = [...levels];
-    if (sortBy === 'creator') {
-      return sortableLevels.sort((a, b) => (a.creator || '').localeCompare(b.creator || ''));
-    }
-    if (sortBy === 'verifier') {
-      return sortableLevels.sort((a, b) => (a.verifier || '').localeCompare(b.verifier || ''));
-    }
-    return levels;
-  }, [levels, sortBy]);
-
-  const filteredLevels = sortedLevels.filter(level =>
+  const filteredLevels = levels.filter(level =>
     level.name.toLowerCase().includes(search.toLowerCase()) ||
-    (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
+    (level.creator && level.creator.toLowerCase().includes(search.toLowerCase())) ||
+    (level.verifier && level.verifier.toLowerCase().includes(search.toLowerCase()))
   );
   
   const handleOpenEditModal = (record) => {
@@ -222,20 +211,6 @@ export default function Home() {
             onChange={(e) => setSearch(e.target.value)}
             className="flex-grow p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           />
-          <div className="relative">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 py-2 pl-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            >
-              <option value="placement">Sort by Placement</option>
-              <option value="creator">Sort by Creator</option>
-              <option value="verifier">Sort by Verifier</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-200">
-              <SlidersHorizontal className="w-4 h-4" />
-            </div>
-          </div>
           {currentListType === 'main' && (
             <button onClick={() => setIsHistoryModalOpen(true)} title="View List History" className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
                 <History className="w-5 h-5"/>
@@ -253,7 +228,6 @@ export default function Home() {
               <LevelCard 
                 key={level.id || level.levelId || index} 
                 level={level} 
-                index={sortBy === 'placement' ? null : index} 
                 listType={currentListType}
                 onEdit={handleOpenEditModal}
                 onDelete={handleDelete}
