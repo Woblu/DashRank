@@ -20,23 +20,23 @@ export default function GuidelinesPage() {
         <h2 className="text-3xl font-bold text-white mb-6 border-b border-gray-700 pb-2">Relationship to Community Lists</h2>
         <div className="space-y-4 text-gray-300">
           <p>
-            [cite_start]<strong>DashRank is an independent project and is not affiliated with Pointercrate.</strong> While our rules are comprehensive, the <a href="https://www.pointercrate.com/guidelines/index" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Pointercrate guidelines</a> [cite: 1] serve as the foundational standard for the community. In any situation not explicitly covered by our rules, their guidelines should be considered the default reference.
+            <strong>DashRank is an independent project and is not affiliated with Pointercrate.</strong> While our rules are comprehensive, the <a href="https://www.pointercrate.com/guidelines/index" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Pointercrate guidelines</a> serve as the foundational standard for the community. In any situation not explicitly covered by our rules, their guidelines should be considered the default reference.
           </p>
           <p>
             Furthermore, for specific categories of challenges, DashRank recognizes the authority and specialized rulesets of other established community lists. Submissions to these categories must adhere to the guidelines of the respective list:
           </p>
           <ul className="list-disc list-inside space-y-2 pl-4">
             <li>
-              [cite_start]<strong>Unrated Demon List (UDL):</strong> <a href="https://udl.pages.dev/#/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">UDL Guidelines</a> [cite: 2]
+              <strong>Unrated Demon List (UDL):</strong> <a href="https://udl.pages.dev/#/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">UDL Guidelines</a> 
             </li>
             <li>
-              [cite_start]<strong>Platformer Demonlist (Pemonlist):</strong> <a href="https://pemonlist.com/rules" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Pemonlist Rules</a> [cite: 3]
+              <strong>Platformer Demonlist (Pemonlist):</strong> <a href="https://pemonlist.com/rules" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Pemonlist Rules</a>
             </li>
             <li>
-              [cite_start]<strong>Challenge List:</strong> <a href="https://docs.google.com/document/d/1_rtzUbfCGQY-j5AYGtnYwjcpYQ_G54jy_6sTHAcNENQ/edit?tab=t.0" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Challenge List Rules</a> [cite: 4]
+             <strong>Challenge List:</strong> <a href="https://docs.google.com/document/d/1_rtzUbfCGQY-j5AYGtnYwjcpYQ_G54jy_6sTHAcNENQ/edit?tab=t.0" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Challenge List Rules</a> 
             </li>
             <li>
-              [cite_start]<strong>Speedhack Demon List (SDL):</strong> <a href="https://sdlpages.pro/#/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">SDL Guidelines</a> [cite: 5]
+              <strong>Speedhack Demon List (SDL):</strong> <a href="https://sdlpages.pro/#/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">SDL Guidelines</a>
             </li>
           </ul>
         </div>
