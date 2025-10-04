@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import AddPersonalRecordForm from "../components/AddPersonalRecordForm";
-import { PlusCircle } from 'lucide-react';
-import LoadingSpinner from "../components/LoadingSpinner"; // Import the new component
+import { PlusCircle, SlidersHorizontal } from 'lucide-react';
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const listTitles = {
   main: "Main List", unrated: "Unrated List", platformer: "Platformer List",
@@ -24,8 +24,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState('placement');
   const [pinnedRecordId, setPinnedRecordId] = useState(null);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState(null);
 
@@ -78,7 +78,23 @@ export default function Home() {
   useEffect(() => {
     fetchLevels();
   }, [currentListType, token]);
+  
+  const sortedLevels = useMemo(() => {
+    const sortableLevels = [...levels];
+    if (sortBy === 'creator') {
+      return sortableLevels.sort((a, b) => (a.creator || '').localeCompare(b.creator || ''));
+    }
+    if (sortBy === 'verifier') {
+      return sortableLevels.sort((a, b) => (a.verifier || '').localeCompare(b.verifier || ''));
+    }
+    return levels;
+  }, [levels, sortBy]);
 
+  const filteredLevels = sortedLevels.filter(level =>
+    level.name.toLowerCase().includes(search.toLowerCase()) ||
+    (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
+  );
+  
   const handleOpenEditModal = (record) => {
     setRecordToEdit(record);
     setIsModalOpen(true);
@@ -112,11 +128,6 @@ export default function Home() {
       alert(err.response?.data?.message || 'Failed to pin record.');
     }
   };
-
-  const filteredLevels = levels.filter(level =>
-    level.name.toLowerCase().includes(search.toLowerCase()) ||
-    (level.creator && level.creator.toLowerCase().includes(search.toLowerCase()))
-  );
   
   return (
     <>
@@ -134,15 +145,31 @@ export default function Home() {
             </button>
           )}
         </div>
-        <div className="w-full max-w-3xl mb-6">
+        
+        <div className="w-full max-w-3xl mb-6 flex gap-2">
           <input
             type="text"
             placeholder={t('search_placeholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="flex-grow p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           />
+          <div className="relative">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="appearance-none w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 py-2 pl-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            >
+              <option value="placement">Sort by Placement</option>
+              <option value="creator">Sort by Creator</option>
+              <option value="verifier">Sort by Verifier</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-200">
+              <SlidersHorizontal className="w-4 h-4" />
+            </div>
+          </div>
         </div>
+
         <div className="flex flex-col gap-4 w-full max-w-3xl">
           {isLoading ? (
             <LoadingSpinner message="Loading List..." />
@@ -153,7 +180,7 @@ export default function Home() {
               <LevelCard 
                 key={level.id || level.levelId || index} 
                 level={level} 
-                index={index} 
+                index={sortBy === 'placement' ? null : index} 
                 listType={currentListType}
                 onEdit={handleOpenEditModal}
                 onDelete={handleDelete}
@@ -163,7 +190,7 @@ export default function Home() {
             ))
           ) : (
             <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
-              {currentListType === 'progression' ? "You haven't added any records yet." : t('no_levels_found')}
+              {t('no_levels_found')}
             </p>
           )}
         </div>

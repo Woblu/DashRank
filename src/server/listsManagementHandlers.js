@@ -26,7 +26,7 @@ export async function addLevelToList(req, res) {
       await tx.listChange.create({
         data: {
           type: 'ADD',
-          description: `${createdLevel.name} added to the ${list} at #${placement}`,
+          description: `${createdLevel.name} added at #${placement}`,
           levelId: createdLevel.id,
         },
       });
@@ -45,25 +45,19 @@ export async function addLevelToList(req, res) {
 
 export async function removeLevelFromList(req, res) {
   const { levelId } = req.body;
-  if (!levelId) {
-    return res.status(400).json({ message: 'Missing required field: levelId.' });
-  }
-
+  if (!levelId) { return res.status(400).json({ message: 'Missing required field: levelId.' }); }
   try {
     const result = await prisma.$transaction(async (tx) => {
       const levelToRemove = await tx.level.findUnique({ where: { id: levelId } });
       if (!levelToRemove) throw new Error('Level not found.');
-
       await tx.listChange.create({
         data: {
           type: 'REMOVE',
-          description: `${levelToRemove.name} removed from the ${levelToRemove.list} (was #${levelToRemove.placement})`,
+          description: `${levelToRemove.name} removed from ${levelToRemove.list} (was #${levelToRemove.placement})`,
           levelId: levelToRemove.id,
         },
       });
-
       await tx.level.delete({ where: { id: levelId } });
-
       await tx.level.updateMany({
         where: { list: levelToRemove.list, placement: { gt: levelToRemove.placement } },
         data: { placement: { decrement: 1 } },
@@ -79,18 +73,13 @@ export async function removeLevelFromList(req, res) {
 
 export async function moveLevelInList(req, res) {
   const { levelId, newPlacement } = req.body;
-  if (!levelId || newPlacement === undefined) {
-    return res.status(400).json({ message: 'Missing fields: levelId or newPlacement.' });
-  }
-
+  if (!levelId || newPlacement === undefined) { return res.status(400).json({ message: 'Missing fields: levelId or newPlacement.' }); }
   try {
     const updatedLevel = await prisma.$transaction(async (tx) => {
       const levelToMove = await tx.level.findUnique({ where: { id: levelId } });
       if (!levelToMove) throw new Error('Level not found');
-
       const oldPlacement = levelToMove.placement;
       const { list } = levelToMove;
-
       if (oldPlacement !== newPlacement) {
         if (oldPlacement > newPlacement) {
           await tx.level.updateMany({
@@ -104,12 +93,10 @@ export async function moveLevelInList(req, res) {
           });
         }
       }
-
       const finalUpdatedLevel = await tx.level.update({
         where: { id: levelId },
         data: { placement: newPlacement },
       });
-
       if (oldPlacement !== newPlacement) {
         await tx.listChange.create({
           data: {
@@ -119,10 +106,8 @@ export async function moveLevelInList(req, res) {
           },
         });
       }
-
       const limit = list === 'main-list' ? 150 : 75;
       await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
-
       return finalUpdatedLevel;
     });
     return res.status(200).json(updatedLevel);
@@ -134,10 +119,7 @@ export async function moveLevelInList(req, res) {
 
 export async function updateLevel(req, res) {
   const { levelId, levelData } = req.body;
-  if (!levelId || !levelData) {
-    return res.status(400).json({ message: 'Level ID and level data are required.' });
-  }
-
+  if (!levelId || !levelData) { return res.status(400).json({ message: 'Level ID and level data are required.' }); }
   try {
     const updatedLevel = await prisma.level.update({
       where: { id: levelId },
@@ -156,14 +138,10 @@ export async function updateLevel(req, res) {
   }
 }
 
-/**
- * (NEW) Fetches the position history for a specific level.
- */
 export async function getLevelHistory(req, res, levelId) {
     if (!levelId) {
         return res.status(400).json({ message: 'Level ID is required.' });
     }
-
     try {
         const history = await prisma.listChange.findMany({
             where: { levelId: levelId },
