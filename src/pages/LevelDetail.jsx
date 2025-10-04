@@ -33,7 +33,8 @@ export default function LevelDetail() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`/api/level/${levelId}`);
+      // ** THE FIX IS HERE: Added a cache-busting timestamp parameter **
+      const response = await axios.get(`/api/level/${levelId}?t=${new Date().getTime()}`);
       setLevel(response.data);
       if (response.data.videoId) {
         setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
