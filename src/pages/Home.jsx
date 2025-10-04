@@ -136,11 +136,15 @@ export default function Home() {
     fetchLevels();
   }, [currentListType, token]);
   
-  const filteredLevels = levels.filter(level =>
-    level.name.toLowerCase().includes(search.toLowerCase()) ||
-    (level.creator && level.creator.toLowerCase().includes(search.toLowerCase())) ||
-    (level.verifier && level.verifier.toLowerCase().includes(search.toLowerCase()))
-  );
+  const filteredLevels = levels.filter(level => {
+    const searchTerm = search.toLowerCase();
+    return (
+      level.name.toLowerCase().includes(searchTerm) ||
+      level.placement.toString().includes(searchTerm) ||
+      (level.creator && level.creator.toLowerCase().includes(searchTerm)) ||
+      (level.verifier && level.verifier.toLowerCase().includes(searchTerm))
+    );
+});
   
   const handleOpenEditModal = (record) => {
     setRecordToEdit(record);
@@ -206,7 +210,7 @@ export default function Home() {
         <div className="w-full max-w-3xl mb-6 flex gap-2">
           <input
             type="text"
-            placeholder={t('search_placeholder')}
+            placeholder="Search by Level Name, Placement, Creator, or Verifier..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="flex-grow p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
