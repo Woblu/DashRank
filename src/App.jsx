@@ -23,6 +23,7 @@ import CreateLayoutPage from './pages/layouts/CreateLayoutPage';
 import LayoutGalleryPage from './pages/layouts/LayoutGalleryPage';
 import LayoutDetailPage from './pages/layouts/LayoutDetailPage';
 import AdminReportsPage from './pages/AdminReportsPage';
+import GuidelinesPage from './pages/GuidelinesPage'; // Import the new page
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
             <Route path="/players" element={<PlayerList />} />
             <Route path="/players/:playerName" element={<PlayerProfile />} />
+            <Route path="/guidelines" element={<GuidelinesPage />} /> {/* Add the new route */}
             
             {/* User-specific routes */}
             <Route path="/login" element={<LoginPage />} />
@@ -67,7 +69,6 @@ export default function App() {
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>}>
               <Route index element={<div className="text-white text-center"><h1>Welcome to the Admin Dashboard!</h1><p>Select a section to manage.</p></div>} />
               <Route path="reports" element={<AdminReportsPage />} />
-              {/* You can add more admin tabs here in the future, like /admin/submissions */}
             </Route>
 
           </Routes>
