@@ -1,4 +1,3 @@
-// src/pages/LevelDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
@@ -10,9 +9,7 @@ const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
   const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
   const urlMatch = urlOrId.match(urlRegex);
-  if (urlMatch && urlMatch[1]) {
-    return urlMatch[1];
-  }
+  if (urlMatch && urlMatch[1]) { return urlMatch[1]; }
   return urlOrId.split('?')[0].split('&')[0];
 };
 
@@ -33,15 +30,24 @@ export default function LevelDetail() {
     setIsLoading(true);
     setError(null);
     try {
-      // ** THE FIX IS HERE: Added a cache-busting timestamp parameter **
-      const response = await axios.get(`/api/level/${levelId}?t=${new Date().getTime()}`);
-      setLevel(response.data);
-      if (response.data.videoId) {
-        setCurrentVideoId(getYouTubeVideoId(response.data.videoId));
+      // This is the API call that fetches live data from the database
+      const dbListName = `${listType}-list`;
+      const response = await axios.get(`/api/lists/${dbListName}`);
+      
+      // Find the specific level from the fetched list using the in-game levelId
+      const foundLevel = response.data.find(l => l.levelId === parseInt(levelId));
+
+      if (foundLevel) {
+        setLevel(foundLevel);
+        if (foundLevel.videoId) {
+          setCurrentVideoId(getYouTubeVideoId(foundLevel.videoId));
+        }
+      } else {
+        throw new Error("Level not found on this list.");
       }
     } catch (err) {
       console.error("Failed to fetch level details:", err);
-      setError("Failed to load level data. It might not exist.");
+      setError("Failed to load level data. It might not exist on this list.");
       setLevel(null);
     } finally {
       setIsLoading(false);
@@ -64,16 +70,11 @@ export default function LevelDetail() {
   
   const handleRecordClick = (videoId) => {
     setCurrentVideoId(getYouTubeVideoId(videoId));
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRemoveRecord = async (recordVideoId) => {
-    if (!window.confirm('Are you sure you want to permanently remove this record?')) {
-      return;
-    }
+    if (!window.confirm('Are you sure you want to permanently remove this record?')) return;
     try {
       await axios.post('/api/admin/remove-record', 
         { levelId: level.id, recordVideoId },
@@ -85,9 +86,9 @@ export default function LevelDetail() {
     }
   };
 
- if (isLoading) {
-  return <div className="text-center p-8 text-gray-200">Loading...</div>;
-}
+  if (isLoading) {
+    return <div className="text-center p-8 text-gray-200">Loading...</div>;
+  }
 
   if (error || !level) {
     return (
@@ -99,10 +100,9 @@ export default function LevelDetail() {
       </div>
     );
   }
-
-  const verifierLabel = level.list === 'future' ? 'Verification Status:' : 'Verified by:';
-  const recordVerifierLabel = level.list === 'future' ? '(Status)' : '(Verifier)';
-
+  
+  const verifierLabel = level.list === 'future-list' ? 'Verification Status:' : 'Verified by:';
+  
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
       <div className="relative bg-gray-100 dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg mb-6">
@@ -121,16 +121,12 @@ export default function LevelDetail() {
         </div>
 
         <div className="flex justify-center text-center mb-4 gap-x-8">
-          {level.creator && (
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              <span className="font-bold">Published by:</span> {level.creator}
-            </p>
-          )}
-          {level.verifier && (
-             <p className="text-lg text-gray-700 dark:text-gray-300">
-              <span className="font-bold">{verifierLabel}</span> {level.verifier}
-            </p>
-          )}
+          <p className="text-lg text-gray-700 dark:text-gray-300">
+            <span className="font-bold">Published by:</span> {level.creator}
+          </p>
+          <p className="text-lg text-gray-700 dark:text-gray-300">
+            <span className="font-bold">{verifierLabel}</span> {level.verifier}
+          </p>
         </div>
         
         {level.levelId && (
@@ -164,15 +160,6 @@ export default function LevelDetail() {
         )}
       </div>
 
-      {level.description && (
-        <div className="mb-6 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
-          <h2 className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 text-center mb-2">{t('description')}</h2>
-          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-center">
-            {level.description}
-          </p>
-        </div>
-      )}
-
       <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-inner">
         <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">{t('records')}</h2>
         
@@ -180,7 +167,7 @@ export default function LevelDetail() {
           <li>
             <button onClick={() => handleRecordClick(level.videoId)} className="text-cyan-600 dark:text-cyan-400 hover:underline">
               <span className="font-bold">{level.verifier}</span>
-              <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">{recordVerifierLabel}</span>
+              <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">(Verifier)</span>
             </button>
           </li>
 
