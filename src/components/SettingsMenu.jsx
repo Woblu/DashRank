@@ -1,6 +1,6 @@
 // src/components/SettingsMenu.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { Sun, Moon, Settings, User, Shield } from "lucide-react";
+import { Sun, Moon, Settings, User, Shield, BookText } from "lucide-react"; // Import BookText
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { Link } from "react-router-dom";
@@ -40,7 +40,6 @@ export default function SettingsMenu() {
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
       >
-        {/* THE FIX IS HERE: Added text color classes to the icon */}
         <Settings className="w-5 h-5 text-gray-800 dark:text-gray-200" />
       </button>
 
@@ -74,6 +73,18 @@ export default function SettingsMenu() {
               <hr className="border-gray-300 dark:border-gray-600 my-2" />
             </>
           )}
+
+          {/* New Guidelines Link */}
+          <Link
+            to="/guidelines"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
+          >
+            <BookText className="w-5 h-5" />
+            <span>Guidelines</span>
+          </Link>
+
+          <hr className="border-gray-300 dark:border-gray-600 my-2" />
 
           <div className="flex items-center justify-between">
             <span className="text-gray-900 dark:text-gray-100 font-semibold">Theme</span>
