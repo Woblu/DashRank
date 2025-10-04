@@ -34,7 +34,6 @@ export default function LevelDetail() {
     setError(null);
     setHistory([]);
     try {
-      // Fetch the main level data
       const dbListName = `${listType}-list`;
       const listResponse = await axios.get(`/api/lists/${dbListName}`);
       const foundLevel = listResponse.data.find(l => l.levelId === parseInt(levelId));
@@ -44,7 +43,6 @@ export default function LevelDetail() {
         if (foundLevel.videoId) {
           setCurrentVideoId(getYouTubeVideoId(foundLevel.videoId));
         }
-        // If the level was found, fetch its history
         const historyResponse = await axios.get(`/api/levels/${foundLevel.id}/history`, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -64,7 +62,7 @@ export default function LevelDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchLevelAndHistory();
-  }, [levelId, listType, token]); // Added token dependency
+  }, [levelId, listType, token]);
 
   const handleCopyClick = () => {
     if (level?.levelId) {
@@ -87,8 +85,9 @@ export default function LevelDetail() {
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchLevelAndHistory(); // Re-fetch all data to ensure consistency
-    } catch (err) {
+      fetchLevelAndHistory();
+    } catch (err)
+ {
       alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
     }
   };
@@ -183,7 +182,7 @@ export default function LevelDetail() {
                   <li key={change.id} className="text-gray-700 dark:text-gray-300 flex justify-between items-center">
                     <span>{change.description}</span>
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      {new Date(change.createdAt).toLocaleDateString()}
+                      {new Date(change.createdAt).toLocaleString()}
                     </span>
                   </li>
                 ))}
