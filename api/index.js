@@ -49,7 +49,10 @@ export default async function handler(req, res) {
     const listType = path.split('/')[3];
     const levels = await prisma.level.findMany({ where: { list: listType }, orderBy: { placement: 'asc' } });
     return res.status(200).json(levels);
-  } 
+  }
+  else if (path === '/api/lists/main-list/history' && req.method === 'GET') {
+    return listManagementHandlers.getHistoricList(req, res);
+  }
   else if (path === '/api/layouts' && req.method === 'GET') {
     return layoutHandlers.listLayouts(req, res);
   } 
@@ -122,7 +125,6 @@ export default async function handler(req, res) {
     else if (path === '/api/chat/post' && req.method === 'POST') {
       return chatHandlers.postMessage(req, res, decodedToken);
     }
-    // ** NEW ROUTE IS HERE **
     else if (path.match(/^\/api\/levels\/[a-zA-Z0-9]+\/history$/) && req.method === 'GET') {
         const levelId = path.split('/')[3];
         return listManagementHandlers.getLevelHistory(req, res, levelId);
