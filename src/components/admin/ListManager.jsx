@@ -3,7 +3,15 @@ import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { Plus, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 
-const LIST_NAMES = ['main-list', 'extended-list', 'legacy-list', 'platformer-list'];
+// ** THE FIX IS HERE: Updated the list of options **
+const LIST_NAMES = [
+  'main-list', 
+  'unrated-list', 
+  'platformer-list', 
+  'speedhack-list', 
+  'challenge-list', 
+  'future-list'
+];
 
 const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
     const { token } = useAuth();
