@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import LevelCard from "../components/LevelCard";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import AddPersonalRecordForm from "../components/AddPersonalRecordForm";
 import { PlusCircle } from 'lucide-react';
-
-// Note: JSON imports have been removed.
+import LoadingSpinner from "../components/LoadingSpinner"; // Import the new component
 
 const listTitles = {
   main: "Main List", unrated: "Unrated List", platformer: "Platformer List",
@@ -63,7 +62,6 @@ export default function Home() {
         }));
         setLevels(responseData);
       } else {
-        // Updated logic: Fetch from the API for all other lists
         const listName = `${currentListType}-list`;
         response = await axios.get(`/api/lists/${listName}`);
         setLevels(response.data);
@@ -147,7 +145,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 w-full max-w-3xl">
           {isLoading ? (
-            <p className="text-center text-gray-500 dark:text-gray-400 mt-8">Loading...</p>
+            <LoadingSpinner message="Loading List..." />
           ) : error ? (
             <p className="text-center text-red-500 mt-8">{error}</p>
           ) : filteredLevels.length > 0 ? (

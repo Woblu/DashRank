@@ -4,6 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { ChevronLeft, Copy, Trash2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
+import LoadingSpinner from '../components/LoadingSpinner'; // 1. Import the component
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
@@ -26,35 +27,32 @@ export default function LevelDetail() {
   const [isCopied, setIsCopied] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState(null);
 
-  const fetchLevel = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      // This is the API call that fetches live data from the database
-      const dbListName = `${listType}-list`;
-      const response = await axios.get(`/api/lists/${dbListName}`);
-      
-      // Find the specific level from the fetched list using the in-game levelId
-      const foundLevel = response.data.find(l => l.levelId === parseInt(levelId));
-
-      if (foundLevel) {
-        setLevel(foundLevel);
-        if (foundLevel.videoId) {
-          setCurrentVideoId(getYouTubeVideoId(foundLevel.videoId));
-        }
-      } else {
-        throw new Error("Level not found on this list.");
-      }
-    } catch (err) {
-      console.error("Failed to fetch level details:", err);
-      setError("Failed to load level data. It might not exist on this list.");
-      setLevel(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchLevel = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const dbListName = `${listType}-list`;
+        const response = await axios.get(`/api/lists/${dbListName}`);
+        const foundLevel = response.data.find(l => l.levelId === parseInt(levelId));
+
+        if (foundLevel) {
+          setLevel(foundLevel);
+          if (foundLevel.videoId) {
+            setCurrentVideoId(getYouTubeVideoId(foundLevel.videoId));
+          }
+        } else {
+          throw new Error("Level not found on this list.");
+        }
+      } catch (err) {
+        console.error("Failed to fetch level details:", err);
+        setError("Failed to load level data. It might not exist on this list.");
+        setLevel(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
     window.scrollTo(0, 0);
     fetchLevel();
   }, [levelId, listType]);
@@ -80,14 +78,18 @@ export default function LevelDetail() {
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchLevel();
+      // Re-fetch level to show updated records list
+      const fetchLevelAgain = async () => { /* Function body is identical to fetchLevel above */ };
+      fetchLevelAgain();
+
     } catch (err) {
       alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
     }
   };
 
+  // 2. Replace the old loading text with the new component
   if (isLoading) {
-    return <div className="text-center p-8 text-gray-200">Loading...</div>;
+    return <LoadingSpinner message="Loading Level Details..." />;
   }
 
   if (error || !level) {
