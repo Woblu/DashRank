@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
   // --- PUBLIC ROUTES ---
   if ((path === '/api/auth' || path === '/api/register') && req.method === 'POST') {
-    const { action } = req.body || {}; // Default action if body is empty
+    const { action } = req.body || {};
     if (path === '/api/auth' && action === 'login') return authHandlers.loginUser(req, res);
     if (path === '/api/register' || (path === '/api/auth' && action === 'register')) return authHandlers.registerUser(req, res);
   } 
@@ -121,6 +121,11 @@ export default async function handler(req, res) {
     } 
     else if (path === '/api/chat/post' && req.method === 'POST') {
       return chatHandlers.postMessage(req, res, decodedToken);
+    }
+    // ** NEW ROUTE IS HERE **
+    else if (path.match(/^\/api\/levels\/[a-zA-Z0-9]+\/history$/) && req.method === 'GET') {
+        const levelId = path.split('/')[3];
+        return listManagementHandlers.getLevelHistory(req, res, levelId);
     }
     else if (path.startsWith('/api/admin/')) {
       if (!['ADMIN', 'MODERATOR'].includes(decodedToken.role)) {

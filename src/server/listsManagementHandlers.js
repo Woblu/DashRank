@@ -2,47 +2,37 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-/**
- * Adds a new level to a list, shifting others down and removing any that fall off.
- */
 export async function addLevelToList(req, res) {
   const { levelData, list, placement } = req.body;
-  // Updated validation to include the new required fields
   if (!levelData || !list || placement === undefined || !levelData.name || !levelData.creator || !levelData.verifier || !levelData.videoId || !levelData.levelId) {
-    return res.status(400).json({ message: 'All fields are required, including Level ID and Verifier.' });
+    return res.status(400).json({ message: 'All fields are required.' });
   }
 
   try {
     const newLevel = await prisma.$transaction(async (tx) => {
-      // 1. Shift all levels at or below the new placement down by one rank.
       await tx.level.updateMany({
         where: { list, placement: { gte: placement } },
         data: { placement: { increment: 1 } },
       });
 
-      // 2. Prepare the data for creation, ensuring levelId is a number.
       const dataToCreate = {
         ...levelData,
         levelId: parseInt(levelData.levelId, 10),
         placement: parseInt(placement, 10),
         list,
       };
+      const createdLevel = await tx.level.create({ data: dataToCreate });
 
-      // 3. Create the new level at the now-vacant placement.
-      const createdLevel = await tx.level.create({
-        data: dataToCreate,
-      });
-
-      // 4. Delete any levels that have been pushed off the list.
-      const limit = list === 'main-list' ? 150 : 75;
-      await tx.level.deleteMany({
-        where: {
-          list: list,
-          placement: {
-            gt: limit,
-          },
+      await tx.listChange.create({
+        data: {
+          type: 'ADD',
+          description: `${createdLevel.name} added to the ${list} at #${placement}`,
+          levelId: createdLevel.id,
         },
       });
+
+      const limit = list === 'main-list' ? 150 : 75;
+      await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
 
       return createdLevel;
     });
@@ -53,9 +43,6 @@ export async function addLevelToList(req, res) {
   }
 }
 
-/**
- * Removes a level from a list, shifting subsequent levels up to close the gap.
- */
 export async function removeLevelFromList(req, res) {
   const { levelId } = req.body;
   if (!levelId) {
@@ -66,6 +53,14 @@ export async function removeLevelFromList(req, res) {
     const result = await prisma.$transaction(async (tx) => {
       const levelToRemove = await tx.level.findUnique({ where: { id: levelId } });
       if (!levelToRemove) throw new Error('Level not found.');
+
+      await tx.listChange.create({
+        data: {
+          type: 'REMOVE',
+          description: `${levelToRemove.name} removed from the ${levelToRemove.list} (was #${levelToRemove.placement})`,
+          levelId: levelToRemove.id,
+        },
+      });
 
       await tx.level.delete({ where: { id: levelId } });
 
@@ -82,13 +77,10 @@ export async function removeLevelFromList(req, res) {
   }
 }
 
-/**
- * Moves a level to a new placement, re-shuffling and removing any that fall off.
- */
 export async function moveLevelInList(req, res) {
   const { levelId, newPlacement } = req.body;
   if (!levelId || newPlacement === undefined) {
-    return res.status(400).json({ message: 'Missing required fields: levelId or newPlacement.' });
+    return res.status(400).json({ message: 'Missing fields: levelId or newPlacement.' });
   }
 
   try {
@@ -118,15 +110,18 @@ export async function moveLevelInList(req, res) {
         data: { placement: newPlacement },
       });
 
-      const limit = list === 'main-list' ? 150 : 75;
-      await tx.level.deleteMany({
-        where: {
-          list: list,
-          placement: {
-            gt: limit,
+      if (oldPlacement !== newPlacement) {
+        await tx.listChange.create({
+          data: {
+            type: 'MOVE',
+            description: `${finalUpdatedLevel.name} moved from #${oldPlacement} to #${newPlacement}`,
+            levelId: finalUpdatedLevel.id,
           },
-        },
-      });
+        });
+      }
+
+      const limit = list === 'main-list' ? 150 : 75;
+      await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
 
       return finalUpdatedLevel;
     });
@@ -135,4 +130,48 @@ export async function moveLevelInList(req, res) {
     console.error("Failed to move level in list:", error);
     return res.status(500).json({ message: error.message || 'Failed to move level.' });
   }
+}
+
+export async function updateLevel(req, res) {
+  const { levelId, levelData } = req.body;
+  if (!levelId || !levelData) {
+    return res.status(400).json({ message: 'Level ID and level data are required.' });
+  }
+
+  try {
+    const updatedLevel = await prisma.level.update({
+      where: { id: levelId },
+      data: {
+        name: levelData.name,
+        creator: levelData.creator,
+        verifier: levelData.verifier,
+        videoId: levelData.videoId,
+        levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : null,
+      },
+    });
+    return res.status(200).json(updatedLevel);
+  } catch (error) {
+    console.error("Failed to update level:", error);
+    return res.status(500).json({ message: 'Failed to update level.' });
+  }
+}
+
+/**
+ * (NEW) Fetches the position history for a specific level.
+ */
+export async function getLevelHistory(req, res, levelId) {
+    if (!levelId) {
+        return res.status(400).json({ message: 'Level ID is required.' });
+    }
+
+    try {
+        const history = await prisma.listChange.findMany({
+            where: { levelId: levelId },
+            orderBy: { createdAt: 'desc' },
+        });
+        return res.status(200).json(history);
+    } catch (error) {
+        console.error("Failed to fetch level history:", error);
+        return res.status(500).json({ message: 'Failed to fetch level history.' });
+    }
 }
