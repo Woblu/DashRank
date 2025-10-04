@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft, Copy, Trash2 } from 'lucide-react';
+import { ChevronLeft, Copy, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
-import LoadingSpinner from '../components/LoadingSpinner'; // 1. Import the component
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
@@ -21,41 +21,50 @@ export default function LevelDetail() {
   const { user, token } = useAuth();
   
   const [level, setLevel] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
   const [isCopied, setIsCopied] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState(null);
 
-  useEffect(() => {
-    const fetchLevel = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const dbListName = `${listType}-list`;
-        const response = await axios.get(`/api/lists/${dbListName}`);
-        const foundLevel = response.data.find(l => l.levelId === parseInt(levelId));
+  const fetchLevelAndHistory = async () => {
+    setIsLoading(true);
+    setError(null);
+    setHistory([]);
+    try {
+      // Fetch the main level data
+      const dbListName = `${listType}-list`;
+      const listResponse = await axios.get(`/api/lists/${dbListName}`);
+      const foundLevel = listResponse.data.find(l => l.levelId === parseInt(levelId));
 
-        if (foundLevel) {
-          setLevel(foundLevel);
-          if (foundLevel.videoId) {
-            setCurrentVideoId(getYouTubeVideoId(foundLevel.videoId));
-          }
-        } else {
-          throw new Error("Level not found on this list.");
+      if (foundLevel) {
+        setLevel(foundLevel);
+        if (foundLevel.videoId) {
+          setCurrentVideoId(getYouTubeVideoId(foundLevel.videoId));
         }
-      } catch (err) {
-        console.error("Failed to fetch level details:", err);
-        setError("Failed to load level data. It might not exist on this list.");
-        setLevel(null);
-      } finally {
-        setIsLoading(false);
+        // If the level was found, fetch its history
+        const historyResponse = await axios.get(`/api/levels/${foundLevel.id}/history`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setHistory(historyResponse.data);
+      } else {
+        throw new Error("Level not found on this list.");
       }
-    };
-    
+    } catch (err) {
+      console.error("Failed to fetch level details or history:", err);
+      setError("Failed to load level data. It might not exist on this list.");
+      setLevel(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     window.scrollTo(0, 0);
-    fetchLevel();
-  }, [levelId, listType]);
+    fetchLevelAndHistory();
+  }, [levelId, listType, token]); // Added token dependency
 
   const handleCopyClick = () => {
     if (level?.levelId) {
@@ -78,16 +87,12 @@ export default function LevelDetail() {
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Re-fetch level to show updated records list
-      const fetchLevelAgain = async () => { /* Function body is identical to fetchLevel above */ };
-      fetchLevelAgain();
-
+      fetchLevelAndHistory(); // Re-fetch all data to ensure consistency
     } catch (err) {
       alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
     }
   };
 
-  // 2. Replace the old loading text with the new component
   if (isLoading) {
     return <LoadingSpinner message="Loading Level Details..." />;
   }
@@ -122,7 +127,7 @@ export default function LevelDetail() {
           </h1>
         </div>
 
-        <div className="flex justify-center text-center mb-4 gap-x-8">
+        <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2">
           <p className="text-lg text-gray-700 dark:text-gray-300">
             <span className="font-bold">Published by:</span> {level.creator}
           </p>
@@ -161,6 +166,32 @@ export default function LevelDetail() {
           </div>
         )}
       </div>
+
+      {history.length > 0 && (
+        <div className="mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-inner">
+          <button 
+            onClick={() => setIsHistoryOpen(!isHistoryOpen)}
+            className="w-full flex justify-between items-center p-4 text-xl font-bold text-cyan-600 dark:text-cyan-400"
+          >
+            <span>Position History</span>
+            {isHistoryOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+          </button>
+          {isHistoryOpen && (
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+              <ul className="space-y-2">
+                {history.map(change => (
+                  <li key={change.id} className="text-gray-700 dark:text-gray-300 flex justify-between items-center">
+                    <span>{change.description}</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      {new Date(change.createdAt).toLocaleDateString()}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-inner">
         <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">{t('records')}</h2>
