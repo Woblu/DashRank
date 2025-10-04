@@ -1,9 +1,7 @@
 import React from 'react';
 import { X, Info } from 'lucide-react';
 
-export default function InfoBox({ onClose }) { // Removed the 'isOpen' prop
-
-  // The 'if (!isOpen) return null;' line has been removed.
+export default function InfoBox({ onClose }) {
 
   return (
     <div
@@ -37,6 +35,12 @@ export default function InfoBox({ onClose }) { // Removed the 'isOpen' prop
               <li>Adding records to every level on every list.</li>
               <li>Adding detailed statistics for every player.</li>
             </ul>
+
+            {/* New Section */}
+            <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">List History</h3>
+            <p className="text-sm mb-4">
+              Please note: Automated position history tracking for all lists began on <strong>October 4, 2025</strong>. Changes made before this date are not reflected in a level's position history.
+            </p>
 
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">Public API</h3>
             <p className="text-sm mb-4">
