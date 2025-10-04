@@ -7,8 +7,9 @@ const prisma = new PrismaClient();
  */
 export async function addLevelToList(req, res) {
   const { levelData, list, placement } = req.body;
-  if (!levelData || !list || placement === undefined) {
-    return res.status(400).json({ message: 'Missing required fields: levelData, list, or placement.' });
+  // Updated validation to include the new required fields
+  if (!levelData || !list || placement === undefined || !levelData.name || !levelData.creator || !levelData.verifier || !levelData.videoId || !levelData.levelId) {
+    return res.status(400).json({ message: 'All fields are required, including Level ID and Verifier.' });
   }
 
   try {
@@ -19,10 +20,10 @@ export async function addLevelToList(req, res) {
         data: { placement: { increment: 1 } },
       });
 
-      // 2. Prepare the data for creation, ensuring levelId is a number or null.
+      // 2. Prepare the data for creation, ensuring levelId is a number.
       const dataToCreate = {
         ...levelData,
-        levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : null,
+        levelId: parseInt(levelData.levelId, 10),
         placement: parseInt(placement, 10),
         list,
       };

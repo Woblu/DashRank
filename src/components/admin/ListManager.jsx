@@ -7,7 +7,7 @@ const LIST_NAMES = ['main-list', 'extended-list', 'legacy-list', 'platformer-lis
 
 const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
     const { token } = useAuth();
-    const [levelData, setLevelData] = useState({ name: '', creator: '', videoId: '', levelId: '' });
+    const [levelData, setLevelData] = useState({ name: '', creator: '', verifier: '', videoId: '', levelId: '' });
     const [placement, setPlacement] = useState(1);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -45,8 +45,9 @@ const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     <input name="name" value={levelData.name} onChange={handleInputChange} placeholder="Level Name" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     <input name="creator" value={levelData.creator} onChange={handleInputChange} placeholder="Creator(s)" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
+                    <input name="verifier" value={levelData.verifier} onChange={handleInputChange} placeholder="Verifier" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     <input name="videoId" value={levelData.videoId} onChange={handleInputChange} placeholder="YouTube Video ID" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
-                    <input type="number" name="levelId" value={levelData.levelId} onChange={handleInputChange} placeholder="Level ID (Optional)" className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
+                    <input type="number" name="levelId" value={levelData.levelId} onChange={handleInputChange} placeholder="Level ID" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     <input type="number" value={placement} onChange={(e) => setPlacement(e.target.value)} placeholder="Placement" required min="1" className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
                     
                     {error && <p className="text-red-400">{error}</p>}
