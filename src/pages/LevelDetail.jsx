@@ -110,7 +110,7 @@ export default function LevelDetail() {
         </button>
 
         <div className="text-center mb-4 pt-8 sm:pt-0">
-          <h1 className="font-poppins text-5xl font-bold break-words text-gray-900 dark:text-white">
+          <h1 className="font-poppins text-5xl font-bold break-words text-cyan-600 dark:text-cyan-400">
             #{level.placement} - {level.name}
           </h1>
         </div>
@@ -189,11 +189,11 @@ export default function LevelDetail() {
       )}
 
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 backdrop-blur-sm p-6 rounded-lg shadow-inner">
-        <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">{t('records')}</h2>
+        <h2 className="text-3xl font-bold text-center mb-4 text-cyan-600 dark:text-cyan-400">{t('records')}</h2>
         
         <ul className="text-center space-y-2 text-lg">
           <li>
-            <button onClick={() => handleRecordClick(level.videoId)} className="text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-white transition-colors">
+            <button onClick={() => handleRecordClick(level.videoId)} className="text-gray-800 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
               <span className="font-bold">{level.verifier}</span>
               <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">{recordVerifierLabel}</span>
             </button>
@@ -202,7 +202,7 @@ export default function LevelDetail() {
           {level.records?.map((record, index) => (
             record.videoId && (
               <li key={index} className="flex items-center justify-center gap-2 group text-gray-800 dark:text-gray-200">
-                <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-indigo-600 dark:hover:text-white transition-colors">
+                <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
                   {record.username}
                   <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
                 </button>
