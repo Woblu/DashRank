@@ -165,12 +165,12 @@ export async function getHistoricList(req, res) {
   }
 
   try {
-    // Expecting date in format YYYY-MM-DD. Use end-of-day UTC to include same-day changes.
+    // Expecting date in format YYYY-MM-DD. Use start of day UTC to get changes from that date.
     const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!isoDatePattern.test(date)) {
       return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
     }
-    const targetDate = new Date(`${date}T23:59:59.999Z`);
+    const targetDate = new Date(`${date}T00:00:00.000Z`);
     if (isNaN(targetDate.getTime())) {
       return res.status(400).json({ message: 'Invalid date value.' });
     }
