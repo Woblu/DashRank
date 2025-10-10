@@ -9,6 +9,11 @@
 export const getVideoEmbedUrl = (url, hostname) => {
   if (!url) return null;
 
+  // Handle YouTube video IDs (11 characters, alphanumeric)
+  if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+    return { url: `https://www.youtube-nocookie.com/embed/${url}`, type: 'iframe' };
+  }
+
   try {
     const urlObject = new URL(url);
 

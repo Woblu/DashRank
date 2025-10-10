@@ -100,10 +100,10 @@ export default function LevelDetail() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
-      <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-gray-200 dark:border-accent/30 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
+      <div className="relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
         <button 
           onClick={() => navigate(-1)} 
-          className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-accent/50 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-accent/80 hover:scale-110 transition-all"
+          className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 hover:scale-110 transition-all"
           aria-label="Go back"
         >
           <ChevronLeft size={24} />
@@ -115,18 +115,18 @@ export default function LevelDetail() {
           </h1>
         </div>
 
-        <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-gray-600 dark:text-text-secondary">
+        <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-gray-600 dark:text-gray-300">
           <p><span className="font-bold text-gray-800 dark:text-white">Published by:</span> {level.creator}</p>
           <p><span className="font-bold text-gray-800 dark:text-white">{verifierLabel}</span> {level.verifier}</p>
         </div>
         
         {level.levelId && (
           <div className="text-center mb-6">
-            <p className="text-lg text-gray-600 dark:text-text-secondary">
+            <p className="text-lg text-gray-600 dark:text-gray-300">
               <span className="font-bold text-gray-800 dark:text-white">Level ID:</span>
               <button
                 onClick={handleCopyClick}
-                className="ml-2 px-3 py-1 rounded-md font-mono bg-gray-100 dark:bg-primary-bg border border-gray-300 dark:border-accent/30 hover:bg-gray-200 dark:hover:bg-ui-bg transition-colors text-gray-700 dark:text-gray-300"
+                className="ml-2 px-3 py-1 rounded-md font-mono bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-gray-700 dark:text-gray-300"
               >
                 {isCopied ? t('copied') : level.levelId}
               </button>
@@ -135,7 +135,7 @@ export default function LevelDetail() {
         )}
 
         {embedInfo && embedInfo.url ? (
-          <div className="aspect-video w-full border-2 border-gray-300 dark:border-accent/30 rounded-xl overflow-hidden bg-black">
+          <div className="aspect-video w-full border-2 border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden bg-black">
             {embedInfo.type === 'iframe' ? (
               <iframe
                 key={embedInfo.url}
@@ -158,23 +158,23 @@ export default function LevelDetail() {
             )}
           </div>
         ) : (
-          <div className="aspect-video w-full border-2 border-dashed border-gray-300 dark:border-accent/30 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-ui-bg/30">
-            <p className="text-gray-500 dark:text-text-secondary">No embeddable video found for this level.</p>
+          <div className="aspect-video w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+            <p className="text-gray-500 dark:text-gray-300">No embeddable video found for this level.</p>
           </div>
         )}
       </div>
 
       {history.length > 0 && (
-        <div className="bg-white dark:bg-ui-bg/60 border border-gray-200 dark:border-accent/30 backdrop-blur-sm rounded-lg shadow-inner">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 backdrop-blur-sm rounded-lg shadow-inner">
           <button 
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
-            className="w-full flex justify-between items-center p-4 text-xl font-bold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-accent/20 transition-colors"
+            className="w-full flex justify-between items-center p-4 text-xl font-bold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
             <span>Position History</span>
             {isHistoryOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
           </button>
           {isHistoryOpen && (
-            <div className="p-4 border-t border-gray-200 dark:border-accent/50">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-600">
               <ul className="space-y-2">
                 {history.map(change => (
                   <li key={change.id} className="text-gray-700 dark:text-gray-300 flex justify-between items-center text-sm">
@@ -188,7 +188,7 @@ export default function LevelDetail() {
         </div>
       )}
 
-      <div className="bg-white dark:bg-ui-bg/60 border border-gray-200 dark:border-accent/30 backdrop-blur-sm p-6 rounded-lg shadow-inner">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 backdrop-blur-sm p-6 rounded-lg shadow-inner">
         <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">{t('records')}</h2>
         
         <ul className="text-center space-y-2 text-lg">
