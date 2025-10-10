@@ -165,11 +165,20 @@ export async function getHistoricList(req, res) {
   }
 
   try {
-    const targetDate = new Date(date);
+    // Expecting date in format YYYY-MM-DD. Use end-of-day UTC to include same-day changes.
+    const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!isoDatePattern.test(date)) {
+      return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
+    }
+    const targetDate = new Date(`${date}T23:59:59.999Z`);
+    if (isNaN(targetDate.getTime())) {
+      return res.status(400).json({ message: 'Invalid date value.' });
+    }
 
     // 1. Start with the current state of the main list.
     const currentLevels = await prisma.level.findMany({
       where: { list: 'main-list' },
+      orderBy: { placement: 'asc' },
     });
     const levelsMap = new Map(currentLevels.map(level => [level.id, { ...level }]));
 
