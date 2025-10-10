@@ -236,6 +236,15 @@ export async function getHistoricList(req, res) {
 
   } catch (error) {
     console.error("Failed to get historic list:", error);
-    return res.status(500).json({ message: 'Failed to retrieve historic list data.' });
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      date: date,
+      targetDate: targetDate
+    });
+    return res.status(500).json({ 
+      message: 'Failed to retrieve historic list data.',
+      error: error.message 
+    });
   }
 }

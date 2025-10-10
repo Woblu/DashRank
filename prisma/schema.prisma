@@ -259,6 +259,7 @@ model ListChange {
   createdAt   DateTime   @default(now())
   type        ChangeType
   description String
+  list        String     // Track which list this change affects
   level       Level      @relation(fields: [levelId], references: [id], onDelete: Cascade)
   levelId     String     @db.ObjectId
 }
