@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import { BarChart2, Info, LogIn, UserPlus, BookMarked, Hammer } from "lucide-react";
+import { BarChart2, Info, LogIn, UserPlus, BookMarked, Hammer, Menu, X } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import StatsViewer from "./StatsViewer";
@@ -15,6 +15,7 @@ const statsButtonTitles = {
 export default function Tabs() {
   const { user } = useAuth();
   const location = useLocation();
+  const mobileMenuRef = useRef(null);
 
   const tabs = [
     { name: "Main List", path: "/main" }, 
@@ -28,6 +29,7 @@ export default function Tabs() {
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
   const [isInfoBoxOpen, setIsInfoBoxOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // 1. Initialize state from localStorage, defaulting to 'main'
   const [listType, setListType] = useState(() => {
@@ -44,6 +46,23 @@ export default function Tabs() {
       localStorage.setItem('lastViewedList', currentPathSegment);
     }
   }, [location.pathname]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   const AuthButtons = () => {
     if (user) {
@@ -74,7 +93,18 @@ export default function Tabs() {
               </div>
             </Link>
           </div>
-          <nav className="w-full md:flex-1 flex justify-center order-3 md:order-2">
+          {/* Mobile Menu Button */}
+          <div className="md:hidden order-2">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex md:flex-1 md:justify-center order-3 md:order-2">
             <div className="flex items-center gap-2 justify-center">
               
               <NavLink
@@ -106,6 +136,36 @@ export default function Tabs() {
           </div>
         </div>
       </header>
+
+      {/* Mobile Dropdown Menu */}
+      {isMobileMenuOpen && (
+        <div ref={mobileMenuRef} className="md:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-lg">
+          <div className="px-4 py-3 space-y-2">
+            <NavLink
+              to={user ? "/progression" : "/login"}
+              state={!user ? { from: { pathname: "/progression" } } : undefined}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={({ isActive }) => `block px-3 py-2 rounded-md font-semibold transition-colors text-sm flex items-center gap-2 ${isActive ? "bg-cyan-600 text-white" : "text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-700/50"}`}
+            >
+              <BookMarked className="w-4 h-4" />
+              Progression Tracker
+            </NavLink>
+
+            {tabs.map((tab) => (
+              <NavLink 
+                key={tab.name} 
+                to={tab.path} 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={({ isActive }) => `block px-3 py-2 rounded-md font-semibold transition-colors text-sm flex items-center gap-2 ${isActive ? "bg-cyan-600 text-white" : "text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-700/50"}`}
+              >
+                {tab.icon && <tab.icon className="w-4 h-4" />}
+                {tab.name}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
+
       {isStatsViewerOpen && <StatsViewer listType={listType} onClose={() => setIsStatsViewerOpen(false)} title={statsButtonTitles[listType]}/>}
       {isInfoBoxOpen && <InfoBox onClose={() => setIsInfoBoxOpen(false)} />}
     </>
