@@ -42,7 +42,12 @@ export default async function handler(req, res) {
   } 
   else if (path.match(/^\/api\/level\/\d+$/) && req.method === 'GET') {
     const levelId = parseInt(path.split('/')[3], 10);
-    const level = await prisma.level.findFirst({ where: { levelId } });
+    const listType = req.query.list;
+    
+    // Build where clause - if list parameter is provided, filter by it
+    const whereClause = listType ? { levelId, list: listType } : { levelId };
+    
+    const level = await prisma.level.findFirst({ where: whereClause });
     return level ? res.status(200).json(level) : res.status(404).json({ error: 'Level not found' });
   } 
   else if (path.match(/^\/api\/lists\/[a-zA-Z0-9_-]+$/) && req.method === 'GET') {
