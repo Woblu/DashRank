@@ -34,9 +34,6 @@ export default function LevelDetail() {
       if (levelResponse.data?.videoId) {
         const embed = getVideoDetails(levelResponse.data.videoId);
         setEmbedInfo(embed);
-
-      console.log('Problematic videoId from database:', levelResponse.data.videoId);
-
       }
       if (token && levelResponse.data?.id) {
         const historyResponse = await axios.get(`/api/levels/${levelResponse.data.id}/history`, {
@@ -44,7 +41,8 @@ export default function LevelDetail() {
         });
         setHistory(historyResponse.data);
       }
-    } catch (err) {
+    } catch (err)
+ {
       console.error("Failed to fetch level details:", err);
       setError("Failed to load level data. It might not exist on this list.");
       setLevel(null);
@@ -104,7 +102,6 @@ export default function LevelDetail() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
-      {/* [FIX] Changed border to border-cyan-400 */}
       <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-dotted border-cyan-400 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
         <button 
           onClick={() => navigate(-1)} 
@@ -120,7 +117,6 @@ export default function LevelDetail() {
           </h1>
         </div>
 
-        {/* [FIX] The text-secondary color is now cyan, from tailwind.config.js */}
         <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-gray-600 dark:text-text-secondary">
           <p><span className="font-bold text-gray-800 dark:text-white">Published by:</span> {level.creator}</p>
           <p><span className="font-bold text-gray-800 dark:text-white">{verifierLabel}</span> {level.verifier}</p>
@@ -144,7 +140,6 @@ export default function LevelDetail() {
         )}
 
         {embedInfo && embedInfo.embedUrl ? (
-          // [FIX] Changed border to border-cyan-400
           <div className="aspect-video w-full border-2 border-dotted border-cyan-400 rounded-xl overflow-hidden bg-black">
             {embedInfo.type === 'iframe' ? (
               <iframe
@@ -168,7 +163,6 @@ export default function LevelDetail() {
             )}
           </div>
         ) : (
-          // [FIX] Changed border to border-cyan-400
           <div className="aspect-video w-full border-2 border-dashed border-cyan-400 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-ui-bg/30">
             <p className="text-gray-500 dark:text-text-secondary">No embeddable video found for this level.</p>
           </div>
@@ -176,7 +170,6 @@ export default function LevelDetail() {
       </div>
 
       {history.length > 0 && (
-        // [FIX] Changed border to border-cyan-400
         <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm rounded-lg shadow-inner">
           <button 
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
@@ -200,7 +193,6 @@ export default function LevelDetail() {
         </div>
       )}
 
-      {/* [FIX] Changed border to border-cyan-400 */}
       <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm p-6 rounded-lg shadow-inner">
         <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">{t('records')}</h2>
         
