@@ -3,11 +3,12 @@
 /**
  * Transforms various video URLs into a usable embed URL.
  * @param {string} url The original video URL from any source.
- * @param {string} hostname The hostname of your website (e.g., 'dashrank.vercel.app').
  * @returns {{url: string, type: 'iframe' | 'video'} | null} An object with the embeddable URL and the type of player, or null if not embeddable.
  */
-export const getVideoEmbedUrl = (url, hostname) => {
+export const getVideoDetails = (url) => {
   if (!url) return null;
+
+  const hostname = window.location.hostname;
 
   // Handle YouTube video IDs (11 characters, alphanumeric)
   if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
@@ -67,6 +68,5 @@ export const getVideoEmbedUrl = (url, hostname) => {
     return null;
   }
 
-  // If no match, we can't embed it
   return null;
 };
