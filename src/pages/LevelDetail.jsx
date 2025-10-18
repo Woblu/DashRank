@@ -34,6 +34,9 @@ export default function LevelDetail() {
       if (levelResponse.data?.videoId) {
         const embed = getVideoDetails(levelResponse.data.videoId);
         setEmbedInfo(embed);
+
+      console.log('Problematic videoId from database:', levelResponse.data.videoId);
+
       }
       if (token && levelResponse.data?.id) {
         const historyResponse = await axios.get(`/api/levels/${levelResponse.data.id}/history`, {
