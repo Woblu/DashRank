@@ -6,8 +6,7 @@ import { ChevronLeft, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-// [FIX] Using the correct function name defined in your videoUtils.js
-import { getVideoEmbedUrl } from '../utils/videoUtils.js';
+import { getVideoDetails } from '../utils/videoUtils.js';
 
 export default function LevelDetail() {
   const { listType, levelId } = useParams();
@@ -33,8 +32,8 @@ export default function LevelDetail() {
       setLevel(levelResponse.data);
       
       if (levelResponse.data?.videoId) {
-        // [FIX] Using the correct function and passing the required 'hostname'
-        const embed = getVideoEmbedUrl(levelResponse.data.videoId, window.location.hostname);
+        // [FIX] This original call now works
+        const embed = getVideoDetails(levelResponse.data.videoId);
         setEmbedInfo(embed);
       }
       if (token && levelResponse.data?.id) {
@@ -67,8 +66,8 @@ export default function LevelDetail() {
   };
   
   const handleRecordClick = (videoId) => {
-    // [FIX] Using the correct function and passing the required 'hostname'
-    const embed = getVideoEmbedUrl(videoId, window.location.hostname);
+    // [FIX] This original call now works
+    const embed = getVideoDetails(videoId);
     setEmbedInfo(embed);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -102,7 +101,7 @@ export default function LevelDetail() {
   const verifierLabel = level.list === 'future-list' ? 'Verification Status:' : 'Verified by:';
   const recordVerifierLabel = level.list === 'future-list' ? '(Status)' : '(Verifier)';
 
-  // [STYLES UNCHANGED] All your original styling and JSX logic is preserved
+  // [STYLES RESTORED] All your original dark mode classes and styles are here
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
       <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-gray-200 dark:border-accent/30 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
@@ -142,7 +141,7 @@ export default function LevelDetail() {
           </div>
         )}
 
-        {/* [EMBED LOGIC UNCHANGED] This is your original code block for video embedding */}
+        {/* [STYLES RESTORED] This is your original embed logic */}
         {embedInfo && embedInfo.embedUrl ? (
           <div className="aspect-video w-full border-2 border-gray-300 dark:border-accent/30 rounded-xl overflow-hidden bg-black">
             {embedInfo.type === 'iframe' ? (
@@ -173,7 +172,6 @@ export default function LevelDetail() {
         )}
       </div>
 
-      {/* [STYLES UNCHANGED] All your original styling and JSX logic is preserved */}
       {history.length > 0 && (
         <div className="bg-white dark:bg-ui-bg/60 border border-gray-200 dark:border-accent/30 backdrop-blur-sm rounded-lg shadow-inner">
           <button 
@@ -198,7 +196,6 @@ export default function LevelDetail() {
         </div>
       )}
 
-      {/* [STYLES UNCHANGED] All your original styling and JSX logic is preserved */}
       <div className="bg-white dark:bg-ui-bg/60 border border-gray-200 dark:border-accent/30 backdrop-blur-sm p-6 rounded-lg shadow-inner">
         <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">{t('records')}</h2>
         
