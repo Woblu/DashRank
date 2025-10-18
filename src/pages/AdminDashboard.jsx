@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
-import { getVideoEmbedUrl } from '../utils/videoUtils.js';
+// [FIX] Import the correct function name
+import { getVideoDetails } from '../utils/videoUtils.js';
 import { Link } from 'react-router-dom';
-import ListManager from '../components/admin/ListManager'; // ** THE FIX IS HERE **
+import ListManager from '../components/admin/ListManager';
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
@@ -104,7 +105,8 @@ export default function AdminDashboard() {
     { status: 'REJECTED', label: 'Rejected', icon: ThumbsDown },
   ];
   
-  const hostname = window.location.hostname;
+  // [FIX] This variable is no longer needed, as getVideoDetails handles it.
+  // const hostname = window.location.hostname;
 
   return (
     <div className="text-white max-w-7xl mx-auto py-8 px-4">
@@ -139,7 +141,8 @@ export default function AdminDashboard() {
               <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
             ) : (
               submissions.map((sub) => {
-                const embedInfo = getVideoEmbedUrl(sub.videoId, hostname);
+                // [FIX] Use the correct function and remove the 'hostname' argument
+                const embedInfo = getVideoDetails(sub.videoId);
                 return (
                   <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
