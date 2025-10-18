@@ -53,31 +53,25 @@ export default function StatsViewer({ onClose, listType, title }) {
           </div>
         </div>
         <ul className="flex-grow overflow-y-auto custom-scrollbar space-y-2 p-4">
-          {filteredPlayers.map((player) => {
-            // Conditionally calculate score based on listType
-            const score = listType === 'main'
-              ? 500 * Math.pow(0.9801, player.demonlistRank - 1)
-              : player.demonlistScore;
-
-            return (
-              <li key={player.name} className="flex items-center p-2 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-sm">
-                <span className="font-bold text-lg text-cyan-700 dark:text-cyan-400 w-10 text-left">
-                  #{player.demonlistRank}
-                </span>
-                <Link
-                  to={`/players/${player.name.toLowerCase().replace(/\s/g, '-')}`}
-                  state={{ from: location.pathname }}
-                  className="flex-1 text-gray-900 dark:text-gray-100 font-semibold text-left hover:underline"
-                  onClick={onClose}
-                >
-                  {player.name}
-                </Link>
-                <span className="text-gray-700 dark:text-gray-300 font-mono text-right">
-                  {score.toFixed(2)}
-                </span>
-              </li>
-            );
-          })}
+          {filteredPlayers.map((player) => (
+            <li key={player.name} className="flex items-center p-2 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-sm">
+              <span className="font-bold text-lg text-cyan-700 dark:text-cyan-400 w-10 text-left">
+                #{player.demonlistRank}
+              </span>
+              <Link
+                to={`/players/${player.name.toLowerCase().replace(/\s/g, '-')}`}
+                state={{ from: location.pathname }}
+                className="flex-1 text-gray-900 dark:text-gray-100 font-semibold text-left hover:underline"
+                onClick={onClose}
+              >
+                {player.name}
+              </Link>
+              <span className="text-gray-700 dark:text-gray-300 font-mono text-right">
+                {/* [FIX] Reverted to show the pre-calculated total score from the JSON */}
+                {player.demonlistScore.toFixed(2)}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
