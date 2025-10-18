@@ -10,21 +10,22 @@ export const getVideoDetails = (url) => {
 
   const hostname = window.location.hostname;
 
-  // Handle YouTube video IDs (11 characters, alphanumeric)
+  // 1. Check for full YouTube URLs (like the logic in LevelCard.jsx)
+  const ytUrlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
+  const ytMatch = url.match(ytUrlRegex);
+  if (ytMatch && ytMatch[1]) {
+    const videoId = ytMatch[1].substring(0, 11);
+    return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
+  }
+
+  // 2. Check for raw 11-character YouTube ID
   if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
     return { url: `https://www.youtube-nocookie.com/embed/${url}`, type: 'iframe' };
   }
 
+  // 3. Try to parse as a URL for other services (Twitch, Drive, etc.)
   try {
     const urlObject = new URL(url);
-
-    // YouTube
-    if (urlObject.hostname.includes('youtube.com') || urlObject.hostname.includes('youtu.be')) {
-      const videoId = urlObject.searchParams.get('v') || urlObject.pathname.split('/').pop();
-      if (videoId) {
-        return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
-      }
-    }
 
     // Twitch
     if (urlObject.hostname.includes('twitch.tv')) {
@@ -32,11 +33,10 @@ export const getVideoDetails = (url) => {
       if (pathParts[0] === 'videos') { // VOD
         return { url: `https://player.twitch.tv/?video=${pathParts[1]}&parent=${hostname}&autoplay=false`, type: 'iframe' };
       }
-      if (pathParts.length === 2) { // Clip (e.g., twitch.tv/user/clip/ID)
-        return { url: `https://clips.twitch.tv/embed?clip=${pathParts[2]}&parent=${hostname}&autoplay=false`, type: 'iframe' };
-      }
-      if (pathParts[0].includes('clip')) { // Clip shorthand (e.g., clips.twitch.tv/ID)
-        return { url: `https://clips.twitch.tv/embed?clip=${pathParts[1]}&parent=${hostname}&autoplay=false`, type: 'iframe' };
+      // Check for clip URLs (e.g., twitch.tv/user/clip/ID or clips.twitch.tv/ID)
+      if (pathParts[0] === 'clip' || (pathParts.length > 1 && pathParts[1] === 'clip')) {
+         const clipId = pathParts[pathParts.length - 1];
+         return { url: `https://clips.twitch.tv/embed?clip=${clipId}&parent=${hostname}&autoplay=false`, type: 'iframe' };
       }
     }
 
@@ -64,9 +64,11 @@ export const getVideoDetails = (url) => {
     }
 
   } catch (error) {
-    console.error("Could not parse URL:", url, error);
+    // This will catch if the URL is invalid AND not a YouTube ID
+    console.error("Could not parse video URL:", url, error);
     return null;
   }
 
+  // 4. If no match at all
   return null;
 };
