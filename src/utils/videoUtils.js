@@ -8,6 +8,9 @@
 export const getVideoDetails = (url) => {
   if (!url) return null;
 
+  // [FIX] Trim whitespace to handle bad database data
+  url = url.trim();
+
   const hostname = window.location.hostname;
 
   // 1. Check for full YouTube URLs (like the logic in LevelCard.jsx)
