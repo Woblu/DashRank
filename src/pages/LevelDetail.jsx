@@ -101,8 +101,8 @@ export default function LevelDetail() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
-      {/* [FIX] Added border-dotted */}
-      <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-dotted border-gray-200 dark:border-accent/30 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
+      {/* [FIX] Changed border to border-cyan-400 */}
+      <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-dotted border-cyan-400 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
         <button 
           onClick={() => navigate(-1)} 
           className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-accent/50 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-accent/80 hover:scale-110 transition-all"
@@ -117,6 +117,7 @@ export default function LevelDetail() {
           </h1>
         </div>
 
+        {/* [FIX] The text-secondary color is now cyan, from tailwind.config.js */}
         <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-gray-600 dark:text-text-secondary">
           <p><span className="font-bold text-gray-800 dark:text-white">Published by:</span> {level.creator}</p>
           <p><span className="font-bold text-gray-800 dark:text-white">{verifierLabel}</span> {level.verifier}</p>
@@ -140,8 +141,8 @@ export default function LevelDetail() {
         )}
 
         {embedInfo && embedInfo.embedUrl ? (
-          // [FIX] Added border-dotted
-          <div className="aspect-video w-full border-2 border-dotted border-gray-300 dark:border-accent/30 rounded-xl overflow-hidden bg-black">
+          // [FIX] Changed border to border-cyan-400
+          <div className="aspect-video w-full border-2 border-dotted border-cyan-400 rounded-xl overflow-hidden bg-black">
             {embedInfo.type === 'iframe' ? (
               <iframe
                 key={embedInfo.embedUrl}
@@ -164,15 +165,16 @@ export default function LevelDetail() {
             )}
           </div>
         ) : (
-          <div className="aspect-video w-full border-2 border-dashed border-gray-300 dark:border-accent/30 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-ui-bg/30">
+          // [FIX] Changed border to border-cyan-400
+          <div className="aspect-video w-full border-2 border-dashed border-cyan-400 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-ui-bg/30">
             <p className="text-gray-500 dark:text-text-secondary">No embeddable video found for this level.</p>
           </div>
         )}
       </div>
 
       {history.length > 0 && (
-        // [FIX] Added border-dotted
-        <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-gray-200 dark:border-accent/30 backdrop-blur-sm rounded-lg shadow-inner">
+        // [FIX] Changed border to border-cyan-400
+        <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm rounded-lg shadow-inner">
           <button 
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
             className="w-full flex justify-between items-center p-4 text-xl font-bold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-accent/20 transition-colors"
@@ -195,8 +197,8 @@ export default function LevelDetail() {
         </div>
       )}
 
-      {/* [FIX] Added border-dotted */}
-      <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-gray-200 dark:border-accent/30 backdrop-blur-sm p-6 rounded-lg shadow-inner">
+      {/* [FIX] Changed border to border-cyan-400 */}
+      <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm p-6 rounded-lg shadow-inner">
         <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">{t('records')}</h2>
         
         <ul className="text-center space-y-2 text-lg">
