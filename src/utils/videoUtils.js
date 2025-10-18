@@ -3,6 +3,7 @@
 /**
  * Transforms various video URLs into a usable embed URL.
  * @param {string} url The original video URL from any source.
+ *GN_
  * @returns {{url: string, type: 'iframe' | 'video'} | null} An object with the embeddable URL and the type of player, or null if not embeddable.
  */
 export const getVideoDetails = (url) => {
@@ -11,15 +12,9 @@ export const getVideoDetails = (url) => {
   const trimmedUrl = url.trim();
   const hostname = window.location.hostname;
 
-  // [FIX] Re-ordered and improved logic.
+  // [FIX] Using the more forgiving logic from LevelCard.jsx
 
-  // 1. Check for raw 11-character YouTube ID FIRST.
-  // This is the most common case for your database.
-  if (/^[a-zA-Z0-9_-]{11}$/.test(trimmedUrl)) {
-    return { url: `https://www.youtube-nocookie.com/embed/${trimmedUrl}`, type: 'iframe' };
-  }
-
-  // 2. Check for full YouTube URLs.
+  // 1. Check for full YouTube URLs.
   const ytUrlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
   const ytMatch = trimmedUrl.match(ytUrlRegex);
   if (ytMatch && ytMatch[1]) {
@@ -27,8 +22,7 @@ export const getVideoDetails = (url) => {
     return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
   }
 
-  // 3. [NEW] Only try to parse as a URL if it's not a raw ID.
-  // This prevents the "new URL()" from failing on raw IDs.
+  // 2. Check for other parsable URLs (Twitch, Drive, etc.)
   if (trimmedUrl.startsWith('http')) {
     try {
       const urlObject = new URL(trimmedUrl);
@@ -69,12 +63,16 @@ export const getVideoDetails = (url) => {
       }
 
     } catch (error) {
-      // This will only catch errors for strings that *look* like URLs
       console.error("Could not parse video URL:", trimmedUrl, error);
-      return null;
     }
   }
 
-  // 4. If it's not a raw ID, not a YT URL, and not a parsable URL
+  // 3. Fallback: Assume it's a raw ID if it's at least 11 chars long
+  if (trimmedUrl.length >= 11) {
+    const videoId = trimmedUrl.substring(0, 11);
+    return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
+  }
+  
+  // 4. If all checks fail
   return null;
 };
