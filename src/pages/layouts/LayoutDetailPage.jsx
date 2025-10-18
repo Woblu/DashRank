@@ -1,8 +1,10 @@
+// src/pages/layouts/LayoutDetailPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronLeft, Music, User, Tag, BarChartHorizontal, ShieldAlert, Send } from 'lucide-react';
-import { getVideoEmbedUrl } from '../../utils/videoUtils.js';
+// [FIX] Import the correct function name
+import { getVideoDetails } from '../../utils/videoUtils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import LayoutManagement from '../../components/LayoutManagement';
 
@@ -157,7 +159,8 @@ export default function LayoutDetailPage() {
   if (!layout) return null;
 
   const isOwner = user?.username === layout.creator.username;
-  const embedInfo = getVideoEmbedUrl(layout.videoUrl, window.location.hostname);
+  // [FIX] Call the correct function and remove the 'hostname' argument
+  const embedInfo = getVideoDetails(layout.videoUrl);
 
   return (
     <>
@@ -242,7 +245,7 @@ export default function LayoutDetailPage() {
             </button>
           </div>
         </div>
-        {/* ** THE FIX IS HERE ** */}
+        
         {isOwner && <LayoutManagement layoutId={layout.id} layoutCreatorId={layout.creatorId} />}
       </div>
     </>
