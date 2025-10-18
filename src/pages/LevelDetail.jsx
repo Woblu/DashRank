@@ -1,3 +1,4 @@
+// src/pages/LevelDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
@@ -5,7 +6,8 @@ import { ChevronLeft, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getVideoDetails } from '../utils/videoUtils.js';
+// [FIX] Import the correct function name
+import { getVideoEmbedUrl } from '../utils/videoUtils.js';
 
 export default function LevelDetail() {
   const { listType, levelId } = useParams();
@@ -31,7 +33,8 @@ export default function LevelDetail() {
       setLevel(levelResponse.data);
       
       if (levelResponse.data?.videoId) {
-        const embed = getVideoDetails(levelResponse.data.videoId);
+        // [FIX] Use the correct function name and pass the hostname
+        const embed = getVideoEmbedUrl(levelResponse.data.videoId, window.location.hostname);
         setEmbedInfo(embed);
       }
       if (token && levelResponse.data?.id) {
@@ -64,7 +67,8 @@ export default function LevelDetail() {
   };
   
   const handleRecordClick = (videoId) => {
-    const embed = getVideoDetails(videoId);
+    // [FIX] Use the correct function name and pass the hostname
+    const embed = getVideoEmbedUrl(videoId, window.location.hostname);
     setEmbedInfo(embed);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
