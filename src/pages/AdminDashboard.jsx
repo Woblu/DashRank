@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
-// [FIX] Import the correct function name
-import { getVideoDetails } from '../utils/videoUtils.js';
+// [FIX] Updated import path and function name
+import { getYoutubeEmbed } from '../utils/embedUtils.js';
 import { Link } from 'react-router-dom';
 import ListManager from '../components/admin/ListManager';
 
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
 
   const handleUpdateSubmission = async (submissionId, newStatus) => {
     try {
-      await axios.post('/api/admin/update-submission', 
+      await axios.post('/api/admin/update-submission',
         { submissionId, newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
   const handleRemoveLayout = async (layoutId) => {
     if (!window.confirm('Are you sure you want to permanently delete this layout? This action cannot be undone.')) return;
     try {
-      await axios.delete('/api/admin/layouts', { 
+      await axios.delete('/api/admin/layouts', {
           headers: { Authorization: `Bearer ${token}` },
           data: { layoutId }
         }
@@ -104,14 +104,11 @@ export default function AdminDashboard() {
     { status: 'APPROVED', label: 'Approved', icon: ThumbsUp },
     { status: 'REJECTED', label: 'Rejected', icon: ThumbsDown },
   ];
-  
-  // [FIX] This variable is no longer needed, as getVideoDetails handles it.
-  // const hostname = window.location.hostname;
 
   return (
     <div className="text-white max-w-7xl mx-auto py-8 px-4">
       <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
-      
+
       <div className="flex border-b border-gray-700 mb-6 overflow-x-auto">
         {tabs.map(tab => (
           <button
@@ -128,7 +125,7 @@ export default function AdminDashboard() {
           </button>
         ))}
       </div>
-      
+
       {loading && <div className="text-center py-10 animate-pulse">Loading...</div>}
       {error && <div className="text-red-400 text-center py-10">{error}</div>}
 
@@ -141,8 +138,8 @@ export default function AdminDashboard() {
               <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
             ) : (
               submissions.map((sub) => {
-                // [FIX] Use the correct function and remove the 'hostname' argument
-                const embedInfo = getVideoDetails(sub.videoId);
+                // [FIX] Call the renamed function
+                const embedInfo = getYoutubeEmbed(sub.videoId);
                 return (
                   <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="relative w-full" style={{ paddingTop: '56.25%' }}>

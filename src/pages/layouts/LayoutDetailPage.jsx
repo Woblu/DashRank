@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronLeft, Music, User, Tag, BarChartHorizontal, ShieldAlert, Send } from 'lucide-react';
-// [FIX] Import the correct function name
-import { getVideoDetails } from '../../utils/videoUtils.js';
+// [FIX] Updated import path and function name (relative path adjusted)
+import { getYoutubeEmbed } from '../../utils/embedUtils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import LayoutManagement from '../../components/LayoutManagement';
 
@@ -120,7 +120,7 @@ export default function LayoutDetailPage() {
       return;
     }
     try {
-      await axios.post('/api/layout-reports', 
+      await axios.post('/api/layout-reports',
         { layoutId: layout.id, reason: reportReason },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -134,7 +134,7 @@ export default function LayoutDetailPage() {
       setReportError(err.response?.data?.message || 'Failed to submit report.');
     }
   };
-  
+
   const handleApplySubmit = async (e) => {
     e.preventDefault();
     setApplyError('');
@@ -159,13 +159,13 @@ export default function LayoutDetailPage() {
   if (!layout) return null;
 
   const isOwner = user?.username === layout.creator.username;
-  // [FIX] Call the correct function and remove the 'hostname' argument
-  const embedInfo = getVideoDetails(layout.videoUrl);
+  // [FIX] Call the renamed function
+  const embedInfo = getYoutubeEmbed(layout.videoUrl);
 
   return (
     <>
       {isReportModalOpen && (
-        <ReportModal 
+        <ReportModal
           layout={layout}
           onClose={() => setIsReportModalOpen(false)}
           reportReason={reportReason}
@@ -176,7 +176,7 @@ export default function LayoutDetailPage() {
         />
       )}
       {isApplyModalOpen && (
-        <ApplyModal 
+        <ApplyModal
             layout={layout}
             onClose={() => setIsApplyModalOpen(false)}
             applicationMessage={applicationMessage}
@@ -215,7 +215,7 @@ export default function LayoutDetailPage() {
               ) : <div className="w-full h-full rounded-xl bg-gray-900 flex items-center justify-center"><p>Video preview not available.</p></div>}
             </div>
           </div>
-          
+
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
               <h2 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Details</h2>
@@ -233,7 +233,7 @@ export default function LayoutDetailPage() {
                 )) : <p className="text-sm text-gray-500">No tags provided.</p>}
               </div>
             </div>
-            <button 
+            <button
               onClick={() => setIsApplyModalOpen(true)}
               disabled={isOwner}
               className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg shadow-cyan-500/20 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:shadow-none"
@@ -245,7 +245,7 @@ export default function LayoutDetailPage() {
             </button>
           </div>
         </div>
-        
+
         {isOwner && <LayoutManagement layoutId={layout.id} layoutCreatorId={layout.creatorId} />}
       </div>
     </>

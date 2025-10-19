@@ -6,20 +6,21 @@ import { ChevronLeft, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getVideoDetails } from '../utils/videoUtils.js';
+// [FIX] Updated import path and function name
+import { getYoutubeEmbed } from '../utils/embedUtils.js';
 
 export default function LevelDetail() {
   const { listType, levelId } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { user, token } = useAuth();
-  
+
   const [level, setLevel] = useState(null);
   const [history, setHistory] = useState([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const [isCopied, setIsCopied] = useState(false);
   const [embedInfo, setEmbedInfo] = useState(null);
 
@@ -30,10 +31,10 @@ export default function LevelDetail() {
     try {
       const levelResponse = await axios.get(`/api/level/${levelId}?list=${listType}-list`);
       setLevel(levelResponse.data);
-      
+
       if (levelResponse.data?.videoId) {
-        // [FIX] Pass a new argument to force a cache break
-        const embed = getVideoDetails(levelResponse.data.videoId, true);
+        // [FIX] Call the renamed function
+        const embed = getYoutubeEmbed(levelResponse.data.videoId);
         setEmbedInfo(embed);
       }
       if (token && levelResponse.data?.id) {
@@ -64,10 +65,10 @@ export default function LevelDetail() {
       });
     }
   };
-  
+
   const handleRecordClick = (videoId) => {
-    // [FIX] Pass a new argument to force a cache break
-    const embed = getVideoDetails(videoId, true);
+    // [FIX] Call the renamed function
+    const embed = getYoutubeEmbed(videoId);
     setEmbedInfo(embed);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -75,7 +76,7 @@ export default function LevelDetail() {
   const handleRemoveRecord = async (recordVideoId) => {
     if (!window.confirm('Are you sure you want to permanently remove this record?')) return;
     try {
-      await axios.post('/api/admin/remove-record', 
+      await axios.post('/api/admin/remove-record',
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -97,15 +98,15 @@ export default function LevelDetail() {
       </div>
     );
   }
-  
+
   const verifierLabel = level.list === 'future-list' ? 'Verification Status:' : 'Verified by:';
   const recordVerifierLabel = level.list === 'future-list' ? '(Status)' : '(Verifier)';
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
       <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-dotted border-cyan-400 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
-        <button 
-          onClick={() => navigate(-1)} 
+        <button
+          onClick={() => navigate(-1)}
           className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-accent/50 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-accent/80 hover:scale-110 transition-all"
           aria-label="Go back"
         >
@@ -125,7 +126,7 @@ export default function LevelDetail() {
             <p><span className="font-bold text-gray-800 dark:text-white">Attempts:</span> {level.attempts.toLocaleString()}</p>
           )}
         </div>
-        
+
         {level.levelId && (
           <div className="text-center mb-6">
             <p className="text-lg text-gray-600 dark:text-text-secondary">
@@ -172,7 +173,7 @@ export default function LevelDetail() {
 
       {history.length > 0 && (
         <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm rounded-lg shadow-inner">
-          <button 
+          <button
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
             className="w-full flex justify-between items-center p-4 text-xl font-bold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-accent/20 transition-colors"
           >
@@ -196,7 +197,7 @@ export default function LevelDetail() {
 
       <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm p-6 rounded-lg shadow-inner">
         <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">{t('records')}</h2>
-        
+
         <ul className="text-center space-y-2 text-lg">
           <li>
             <button onClick={() => handleRecordClick(level.videoId)} className="text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-white transition-colors">
@@ -225,7 +226,7 @@ export default function LevelDetail() {
             )
           ))}
         </ul>
-        
+
         {!level.records?.length && (
           <p className="text-center text-gray-500 dark:text-gray-400 mt-4">{t('no_records_yet')}</p>
         )}

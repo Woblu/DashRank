@@ -4,8 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import { ChevronLeft, Film, Link as LinkIcon, Pencil, Trash2 } from 'lucide-react';
-// [FIX] Import the correct function name
-import { getVideoDetails } from '../utils/videoUtils.js';
+// [FIX] Updated import path and function name
+import { getYoutubeEmbed } from '../utils/embedUtils.js';
 
 export default function PersonalRecordDetail() {
   const { recordId } = useParams();
@@ -65,22 +65,20 @@ export default function PersonalRecordDetail() {
     );
   }
 
-  // [FIX] Removed 'hostname' as it's no longer needed
-  // const hostname = window.location.hostname;
-  // [FIX] Call the correct function
-  const embedInfo = getVideoDetails(record.videoUrl);
+  // [FIX] Call the renamed function
+  const embedInfo = getYoutubeEmbed(record.videoUrl);
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
       <div className="relative bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg mb-6">
-        <button 
-          onClick={() => navigate('/progression')} 
+        <button
+          onClick={() => navigate('/progression')}
           className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           aria-label="Go back to list"
         >
           <ChevronLeft size={24} />
         </button>
-        
+
         <div className="absolute top-4 right-4 z-10 flex gap-2">
           <button
             onClick={() => navigate('/progression', { state: { editRecordId: record.id } })}
@@ -90,7 +88,7 @@ export default function PersonalRecordDetail() {
           >
             <Pencil size={20} />
           </button>
-          
+
           <button
             onClick={handleDelete}
             className="w-10 h-10 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
@@ -106,7 +104,7 @@ export default function PersonalRecordDetail() {
             #{record.placement} - {record.levelName}
           </h1>
         </div>
-        
+
         <div className="flex justify-center text-center mb-4 gap-x-8">
           <p className="text-lg text-gray-700 dark:text-gray-300">
             <span className="font-bold">Difficulty:</span> {record.difficulty.charAt(0) + record.difficulty.slice(1).toLowerCase()} Demon
@@ -132,7 +130,7 @@ export default function PersonalRecordDetail() {
               ></iframe>
             ) : (
               <video
-                width="1to-cyan-4000%" height="100%"
+                width="100%" height="100%"
                 controls
                 src={embedInfo.url}
                 className="rounded-xl shadow-lg"
@@ -150,7 +148,7 @@ export default function PersonalRecordDetail() {
           )}
         </div>
       </div>
-      
+
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-inner">
         <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">Record Details</h2>
         <div className="flex items-center justify-center gap-6 mt-2">
