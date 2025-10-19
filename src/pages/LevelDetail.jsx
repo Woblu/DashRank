@@ -32,7 +32,8 @@ export default function LevelDetail() {
       setLevel(levelResponse.data);
       
       if (levelResponse.data?.videoId) {
-        const embed = getVideoDetails(levelResponse.data.videoId);
+        // [FIX] Pass a new argument to force a cache break
+        const embed = getVideoDetails(levelResponse.data.videoId, true);
         setEmbedInfo(embed);
       }
       if (token && levelResponse.data?.id) {
@@ -41,8 +42,7 @@ export default function LevelDetail() {
         });
         setHistory(historyResponse.data);
       }
-    } catch (err)
- {
+    } catch (err) {
       console.error("Failed to fetch level details:", err);
       setError("Failed to load level data. It might not exist on this list.");
       setLevel(null);
@@ -66,7 +66,8 @@ export default function LevelDetail() {
   };
   
   const handleRecordClick = (videoId) => {
-    const embed = getVideoDetails(videoId);
+    // [FIX] Pass a new argument to force a cache break
+    const embed = getVideoDetails(videoId, true);
     setEmbedInfo(embed);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
