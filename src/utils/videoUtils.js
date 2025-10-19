@@ -2,8 +2,7 @@
 
 /**
  * Transforms various video URLs into a usable embed URL.
- * @param {string} url The original video URL from any source.
- *GN_
+ * @param {string} url The original video URL or ID from any source.
  * @returns {{url: string, type: 'iframe' | 'video'} | null} An object with the embeddable URL and the type of player, or null if not embeddable.
  */
 export const getVideoDetails = (url) => {
@@ -12,9 +11,7 @@ export const getVideoDetails = (url) => {
   const trimmedUrl = url.trim();
   const hostname = window.location.hostname;
 
-  // [FIX] Using the more forgiving logic from LevelCard.jsx
-
-  // 1. Check for full YouTube URLs.
+  // 1. Check for full YouTube URLs first.
   const ytUrlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
   const ytMatch = trimmedUrl.match(ytUrlRegex);
   if (ytMatch && ytMatch[1]) {
@@ -22,7 +19,15 @@ export const getVideoDetails = (url) => {
     return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
   }
 
-  // 2. Check for other parsable URLs (Twitch, Drive, etc.)
+  // 2. [NEW FIX] Check for a raw YouTube ID *anywhere* in the string.
+  // This is much more forgiving than the previous logic.
+  const rawIdMatch = trimmedUrl.match(/([a-zA-Z0-9_-]{11})/);
+  if (rawIdMatch && rawIdMatch[1]) {
+    const videoId = rawIdMatch[1];
+    return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
+  }
+  
+  // 3. Check for other parsable URLs (Twitch, Drive, etc.)
   if (trimmedUrl.startsWith('http')) {
     try {
       const urlObject = new URL(trimmedUrl);
@@ -64,15 +69,10 @@ export const getVideoDetails = (url) => {
 
     } catch (error) {
       console.error("Could not parse video URL:", trimmedUrl, error);
+      return null;
     }
   }
 
-  // 3. Fallback: Assume it's a raw ID if it's at least 11 chars long
-  if (trimmedUrl.length >= 11) {
-    const videoId = trimmedUrl.substring(0, 11);
-    return { url: `https://www.youtube-nocookie.com/embed/${videoId}`, type: 'iframe' };
-  }
-  
   // 4. If all checks fail
   return null;
 };
