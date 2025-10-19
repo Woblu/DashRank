@@ -6,7 +6,7 @@ import { ChevronLeft, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-// [FIX] Updated import path and function name
+// Use the renamed util
 import { getYoutubeEmbed } from '../utils/embedUtils.js';
 
 export default function LevelDetail() {
@@ -22,21 +22,23 @@ export default function LevelDetail() {
   const [error, setError] = useState(null);
 
   const [isCopied, setIsCopied] = useState(false);
-  const [embedInfo, setEmbedInfo] = useState(null);
+  const [embedInfo, setEmbedInfo] = useState(null); // Initial state is null
 
   const fetchLevelAndHistory = async () => {
     setIsLoading(true);
     setError(null);
     setHistory([]);
+    setEmbedInfo(null); // Reset embed info on fetch
     try {
       const levelResponse = await axios.get(`/api/level/${levelId}?list=${listType}-list`);
       setLevel(levelResponse.data);
 
       if (levelResponse.data?.videoId) {
-        // [FIX] Call the renamed function
-        const embed = getYoutubeEmbed(levelResponse.data.videoId);
-        setEmbedInfo(embed);
+         // Call the function and directly set state
+        const embedResult = getYoutubeEmbed(levelResponse.data.videoId);
+        setEmbedInfo(embedResult); // This will be the object {url, type} or null
       }
+
       if (token && levelResponse.data?.id) {
         const historyResponse = await axios.get(`/api/levels/${levelResponse.data.id}/history`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -67,13 +69,12 @@ export default function LevelDetail() {
   };
 
   const handleRecordClick = (videoId) => {
-    // [FIX] Call the renamed function
-    const embed = getYoutubeEmbed(videoId);
-    setEmbedInfo(embed);
+    const embedResult = getYoutubeEmbed(videoId);
+    setEmbedInfo(embedResult);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleRemoveRecord = async (recordVideoId) => {
+    const handleRemoveRecord = async (recordVideoId) => {
     if (!window.confirm('Are you sure you want to permanently remove this record?')) return;
     try {
       await axios.post('/api/admin/remove-record',
@@ -102,10 +103,14 @@ export default function LevelDetail() {
   const verifierLabel = level.list === 'future-list' ? 'Verification Status:' : 'Verified by:';
   const recordVerifierLabel = level.list === 'future-list' ? '(Status)' : '(Verifier)';
 
+
+  // [DEBUG] Log the state value right before render
+  console.log("Rendering LevelDetail, embedInfo state:", embedInfo);
+
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
       <div className="relative bg-white dark:bg-ui-bg/70 border-2 border-dotted border-cyan-400 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
-        <button
+         <button
           onClick={() => navigate(-1)}
           className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-accent/50 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-accent/80 hover:scale-110 transition-all"
           aria-label="Go back"
@@ -141,25 +146,27 @@ export default function LevelDetail() {
           </div>
         )}
 
-        {embedInfo && embedInfo.embedUrl ? (
+        {/* Updated condition check slightly for clarity */}
+        {embedInfo && embedInfo.url ? (
           <div className="aspect-video w-full border-2 border-dotted border-cyan-400 rounded-xl overflow-hidden bg-black">
             {embedInfo.type === 'iframe' ? (
               <iframe
-                key={embedInfo.embedUrl}
+                key={embedInfo.url} // Use url as key
                 width="100%"
                 height="100%"
-                src={embedInfo.embedUrl}
+                src={embedInfo.url}
                 title="Video Player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
             ) : (
+              // Video tag logic remains, just in case
               <video
-                key={embedInfo.embedUrl}
+                key={embedInfo.url} // Use url as key
                 width="100%"
                 height="100%"
-                src={embedInfo.embedUrl}
+                src={embedInfo.url}
                 controls
               ></video>
             )}
@@ -171,7 +178,7 @@ export default function LevelDetail() {
         )}
       </div>
 
-      {history.length > 0 && (
+       {history.length > 0 && (
         <div className="bg-white dark:bg-ui-bg/60 border border-dotted border-cyan-400 backdrop-blur-sm rounded-lg shadow-inner">
           <button
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
