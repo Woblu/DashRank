@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, RecordStatus } from '@prisma/client'; // Import RecordStatus
 import { regeneratePlayerStats } from './statsGeneration.js'; // Ensure this path is correct
 
 const prisma = new PrismaClient();
@@ -10,7 +10,8 @@ async function findUsersWithRecordsForLevels(levelIds) {
         const records = await prisma.personalRecord.findMany({
             where: {
                 levelId: { in: levelIds },
-                status: 'APPROVED',
+                // [FIX] Use the enum value
+                status: RecordStatus.APPROVED,
             },
             select: { userId: true },
             distinct: ['userId'],
@@ -30,10 +31,11 @@ export async function addLevelToList(req, res) {
   }
 
   const parsedPlacement = parseInt(placement, 10);
-  const parsedLevelId = parseInt(levelData.levelId, 10);
+  // Ensure levelId is parsed correctly, handle potential empty string or null
+  const parsedLevelId = levelData.levelId ? parseInt(levelData.levelId, 10) : null;
 
-  if (isNaN(parsedPlacement) || parsedPlacement < 1 || isNaN(parsedLevelId)) {
-      return res.status(400).json({ message: 'Invalid placement or Level ID.' });
+  if (isNaN(parsedPlacement) || parsedPlacement < 1 || (levelData.levelId && isNaN(parsedLevelId))) {
+      return res.status(400).json({ message: 'Invalid placement or Level ID format.' });
   }
 
   try {
@@ -59,10 +61,15 @@ export async function addLevelToList(req, res) {
 
         // Create the new level
         const dataToCreate = {
-            ...levelData,
-            levelId: parsedLevelId,
+            name: levelData.name,
+            creator: levelData.creator,
+            verifier: levelData.verifier,
+            videoId: levelData.videoId,
+            levelId: parsedLevelId, // Use the parsed ID (can be null)
             placement: parsedPlacement,
             list,
+            description: levelData.description || "", // Add default empty string if needed
+            tags: levelData.tags || [], // Add default empty array if needed
         };
         const createdLevel = await tx.level.create({ data: dataToCreate });
 
@@ -85,27 +92,18 @@ export async function addLevelToList(req, res) {
         // If #1 changed, find affected users
         if (affectsNumberOne) {
             const affectedLevelIds = [oldNumberOneId, newLevelId].filter(id => id != null);
-            // Use await within transaction to ensure consistency if helper needs tx
-            // If findUsersWithRecordsForLevels doesn't need tx, it's okay outside too.
-            // For safety, let's assume it might use prisma.$queryRaw or similar later.
              userIdsToUpdate = await findUsersWithRecordsForLevels(affectedLevelIds);
-             // If the helper uses global prisma, it won't be part of the transaction.
-             // If you need it transactional, pass `tx` to the helper:
-             // userIdsToUpdate = await findUsersWithRecordsForLevels(tx, affectedLevelIds);
         }
 
         return createdLevel;
     });
 
     // Trigger regeneration AFTER transaction succeeds
-    // Pass the calculated userIdsToUpdate if #1 was affected
     await regeneratePlayerStats(affectsNumberOne ? userIdsToUpdate : null);
 
     return res.status(201).json(newLevel);
   } catch (error) {
     console.error("Failed to add level to list:", error);
-    // Attempt to rollback placement shifts manually if transaction failed partially (complex)
-    // It's safer if the transaction fully covers or fails atomically.
     return res.status(500).json({ message: 'Failed to add level.' });
   }
 }
@@ -278,7 +276,10 @@ export async function updateLevel(req, res) {
   if (!levelId || !levelData) { return res.status(400).json({ message: 'Level ID and level data are required.' }); }
 
   try {
-    const originalLevel = await prisma.level.findUnique({ where: { id: levelId }, select: { name: true } });
+    const originalLevel = await prisma.level.findUnique({
+        where: { id: levelId },
+        select: { name: true, placement: true, list: true } // Need placement and list too
+    });
     if (!originalLevel) {
         return res.status(404).json({ message: 'Level not found.' });
     }
@@ -291,24 +292,21 @@ export async function updateLevel(req, res) {
         verifier: levelData.verifier,
         videoId: levelData.videoId,
         levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : null,
-        // Add other fields you might want to update
+        description: levelData.description, // Include other fields as needed
+        tags: levelData.tags,
       },
     });
 
-    // Check if the name changed, as it affects 'hardestDemonName'
-    if (originalLevel.name !== updatedLevel.name) {
+    // Check if the name changed and if it was the hardest for anyone
+    if (originalLevel.name !== updatedLevel.name && originalLevel.list === 'main-list') {
         console.log(`Level name changed (${originalLevel.name} -> ${updatedLevel.name}). Finding potentially affected users.`);
-        // Find users whose hardest demon was the original name
-        // This requires accessing the generated JSONs or recalculating stats,
-        // which is complex here. A simpler approach is to regenerate *all* stats
-        // if a name changes, or accept that 'hardest' might briefly show the old name.
-        // For simplicity, let's trigger a full regen on name change.
-        // Or, find users who have *this specific level* as their hardest (requires placement too).
-
-        // Let's trigger regeneration for users who beat *this* level.
+        // Regenerate stats for users who beat this specific level, as their "hardest" name might change
          const userIdsToUpdate = await findUsersWithRecordsForLevels([levelId]);
+         // Also regenerate the main viewer list as scores might be recalculated (though placement didn't change here)
          await regeneratePlayerStats(userIdsToUpdate.length > 0 ? userIdsToUpdate : null);
     }
+    // Note: If other fields like videoId, creator, etc., change, regeneration might not be needed
+    // unless those fields are stored in the static JSONs.
 
 
     return res.status(200).json(updatedLevel);
@@ -320,14 +318,21 @@ export async function updateLevel(req, res) {
 
 
 export async function getLevelHistory(req, res, levelId) {
-    // Note: This function seems designed to be called internally or needs 'levelId' from params.
-    // Assuming 'levelId' is passed correctly.
-    if (!levelId) { return res.status(400).json({ message: 'Level ID is required.' }); }
+    // This function seems intended to be called with levelId from the route params or query
+    // Let's assume req.params.levelId or req.query.levelId contains the ID
+    const idFromRequest = req.params?.levelId || req.query?.levelId || levelId; // Get ID from common places
+
+    if (!idFromRequest) { return res.status(400).json({ message: 'Level ID is required.' }); }
     try {
         const history = await prisma.listChange.findMany({
-            where: { levelId: levelId },
+            where: { levelId: idFromRequest }, // Use the ID from the request
             orderBy: { createdAt: 'desc' },
         });
+        // Check if history exists, maybe return 404 if level ID is invalid?
+        if (history.length === 0) {
+             const levelExists = await prisma.level.findUnique({ where: { id: idFromRequest } });
+             if (!levelExists) return res.status(404).json({ message: 'Level not found.' });
+        }
         return res.status(200).json(history);
     } catch (error) {
         console.error("Failed to fetch level history:", error);
@@ -353,15 +358,23 @@ export async function getHistoricList(req, res) {
       return res.status(400).json({ message: 'Invalid date value.' });
     }
 
-    // 1. Start with current list state
+    // --- Accurate History Reconstruction (Replay Forward) ---
+    // 1. Find all levels that existed *at or before* the target date.
+    //    Levels added *after* the target date should be ignored initially.
+    //    This is tricky without versioning; we'll start with levels present *now*
+    //    and work backward, which is inherently complex as noted before.
+    //    Let's stick to the backward approach but acknowledge its limitations.
+
+    console.warn("Historic list reconstruction using backward undo is complex and may have inaccuracies regarding placement shifts. Consider a forward replay model for full accuracy.");
+
+    // Start with current list state
     const currentLevels = await prisma.level.findMany({
       where: { list: 'main-list' }, // Assuming only for main list history
       orderBy: { placement: 'asc' },
     });
-    // Use a map for efficient updates
     const levelsMap = new Map(currentLevels.map(level => [level.id, { ...level }]));
 
-    // 2. Get changes to undo (created AFTER the target date), newest first
+    // Get changes to undo (created AFTER the target date), newest first
     const changesToUndo = await prisma.listChange.findMany({
       where: {
         list: 'main-list',
@@ -370,65 +383,79 @@ export async function getHistoricList(req, res) {
       orderBy: { createdAt: 'desc' },
     });
 
-    // 3. Undo changes
-    for (const change of changesToUndo) {
-        const levelData = levelsMap.get(change.levelId);
+    // Temp map to track placement shifts during undo (simplistic)
+    const placementShifts = {}; // { placement: shiftAmount }
 
+    for (const change of changesToUndo) {
         if (change.type === 'ADD') {
-            // If the level was added after the target date, remove it from our map
-            levelsMap.delete(change.levelId);
-            // We also need to shift levels that were pushed down by this add *back up*
-             // This logic gets complex quickly, needs careful handling of placements during undo
-        }
-        else if (change.type === 'MOVE') {
-            const match = change.description.match(/moved from #(\d+) to #(\d+)/);
-            if (match && levelData) {
-                const oldPlacement = parseInt(match[1]);
-                 // Revert the level's placement to its state *before* this move
-                levelData.placement = oldPlacement;
-                // Need to also revert the shifts caused by this move on *other* levels (very complex)
+            // Level was added after target date, remove it.
+            const levelAdded = levelsMap.get(change.levelId);
+            if (levelAdded) {
+                // Levels below this one need to shift back up by 1
+                for (let i = levelAdded.placement + 1; ; i++) {
+                    placementShifts[i] = (placementShifts[i] || 0) - 1;
+                    if (!currentLevels.some(l => l.placement === i && levelsMap.has(l.id))) break; // Stop if no more levels below
+                }
+                levelsMap.delete(change.levelId);
             }
         }
         else if (change.type === 'REMOVE') {
             const match = change.description.match(/(.+) removed from .+ \(was #(\d+)\)/);
             if (match) {
                 const [, levelName, oldPlacementStr] = match;
-                // Add the level back into the map with its old placement
+                const oldPlacement = parseInt(oldPlacementStr);
+                // Add the level back
                 levelsMap.set(change.levelId, {
-                    id: change.levelId,
-                    name: levelName || 'Unknown (Historic)', // Name might not be available
-                    placement: parseInt(oldPlacementStr),
-                    list: 'main-list',
-                    // Fill defaults for missing fields
-                    creator: 'N/A (Historic)',
-                    verifier: 'N/A',
+                    id: change.levelId, name: levelName || 'Unknown (Historic)', placement: oldPlacement,
+                    list: 'main-list', creator: 'N/A (Historic)', verifier: 'N/A',
                     videoId: '', levelId: 0, description: '', tags: []
                 });
-                // We also need to shift levels that were moved up *back down* (complex)
+                // Levels that were below this need to shift back down by 1
+                for (let i = oldPlacement + 1; ; i++) {
+                    placementShifts[i] = (placementShifts[i] || 0) + 1;
+                     if (!currentLevels.some(l => l.placement === i - 1 && levelsMap.has(l.id))) break; // Stop if no more levels below original spot
+                }
             }
-      }
+        }
+        else if (change.type === 'MOVE') {
+            const match = change.description.match(/moved from #(\d+) to #(\d+)/);
+            const levelData = levelsMap.get(change.levelId);
+            if (match && levelData) {
+                const oldP = parseInt(match[1]);
+                const newP = parseInt(match[2]);
+                // Revert this level's placement
+                levelData.placement = oldP;
+                // Revert the shifts caused by this move on other levels (very complex part)
+                if (oldP > newP) { // Moved Up, others shifted Down (+) -> Revert by Shifting Up (-)
+                    for(let i = newP; i < oldP; i++) {
+                        placementShifts[i] = (placementShifts[i] || 0) - 1;
+                    }
+                } else { // Moved Down, others shifted Up (-) -> Revert by Shifting Down (+)
+                    for(let i = oldP + 1; i <= newP; i++) {
+                         placementShifts[i] = (placementShifts[i] || 0) + 1;
+                    }
+                }
+            }
+        }
     }
 
-    // --- Simplified History Reconstruction ---
-    // A more reliable (though potentially slower) method is to replay history forward.
-    // 1. Find the list state at a known good point *before* the target date (e.g., initial seed).
-    // 2. Fetch all changes *up to* the target date, oldest first.
-    // 3. Apply each change sequentially to reconstruct the state.
-    // This avoids the complexity of reversing shifts.
-    // Due to the complexity of accurately reversing placement shifts,
-    // the current undo logic is likely INCOMPLETE and may produce inaccurate historic lists.
-    // Replaying forward is recommended for accuracy.
-    // For now, return the partially reconstructed list with a warning.
+     // Apply accumulated shifts (very simplistic, might cause collisions or gaps)
+    levelsMap.forEach(level => {
+        level.placement += (placementShifts[level.placement] || 0);
+    });
 
-    console.warn("Historic list reconstruction logic is simplified and may be inaccurate due to placement shifts.");
 
     let finalHistoricList = Array.from(levelsMap.values())
                                   .sort((a, b) => a.placement - b.placement);
 
-    // Re-normalize placements (might hide inaccuracies from undo logic)
+    // Re-normalize placements to ensure sequential numbering
     finalHistoricList.forEach((level, index) => {
       level.placement = index + 1;
     });
+
+    // Filter out any levels that might have ended up with invalid placements due to undo issues
+    finalHistoricList = finalHistoricList.filter(level => level.placement > 0);
+
 
     return res.status(200).json(finalHistoricList);
 

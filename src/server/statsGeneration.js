@@ -1,5 +1,5 @@
 // src/server/statsGeneration.js
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, RecordStatus } from '@prisma/client'; // Import RecordStatus
 import fs from 'fs';
 import path from 'path';
 
@@ -28,17 +28,24 @@ export async function regeneratePlayerStats(targetUserIds = null) {
 
 
     // 2. Fetch users to update
-    // [FIX] Build the query based on targetUserIds
+    // Build the query based on targetUserIds
     const userQuery = {
       where: {
         // If targetUserIds is provided, filter by those IDs
         ...(targetUserIds && { id: { in: targetUserIds } }),
         // Always ensure users have records
-        personalRecords: { some: { status: 'APPROVED' } },
+        personalRecords: { some: {
+            // [FIX] Use the enum value
+            status: RecordStatus.APPROVED
+            }
+        },
       },
       include: {
         personalRecords: {
-          where: { status: 'APPROVED' },
+          where: {
+              // [FIX] Use the enum value
+              status: RecordStatus.APPROVED
+          },
           select: { levelId: true, percent: true },
         },
       },
@@ -51,7 +58,6 @@ export async function regeneratePlayerStats(targetUserIds = null) {
         // Still need to regenerate the main viewer list even if no individuals were updated
     } else {
         console.log(`Recalculating stats for ${usersToUpdate.length} users.`);
-        // [FIX] Only update the files for the targeted users
         const outputDir = path.resolve(process.cwd(), 'src/data/playerstats');
         if (!fs.existsSync(outputDir)) {
           fs.mkdirSync(outputDir, { recursive: true });
@@ -108,7 +114,7 @@ export async function regeneratePlayerStats(targetUserIds = null) {
                 hardest: hardestDemon.placement === Infinity ? 'N/A' : hardestDemon.name,
                 hardestPlacement: hardestDemon.placement === Infinity ? null : hardestDemon.placement,
                 demonlistScore: totalScore,
-                demonlistRank: null, // Placeholder, will be set during viewer list generation
+                demonlistRank: null, // Placeholder, will be set later
                 records: [], // Populate if needed by fetching detailed records
             };
 
@@ -128,11 +134,19 @@ export async function regeneratePlayerStats(targetUserIds = null) {
     // 5. Fetch ALL users again, this time just for ranking purposes
      const allRankedUsers = await prisma.user.findMany({
        where: {
-         personalRecords: { some: { status: 'APPROVED' } },
+         personalRecords: { some: {
+             // [FIX] Use the enum value
+             status: RecordStatus.APPROVED
+            }
+         },
        },
        include: {
          personalRecords: {
-           where: { status: 'APPROVED', percent: 100 }, // Only 100% records count for score
+           where: {
+               // [FIX] Use the enum value
+               status: RecordStatus.APPROVED,
+               percent: 100 // Only 100% records count for score
+            },
            select: { levelId: true },
          },
        },
