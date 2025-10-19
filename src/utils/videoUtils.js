@@ -3,9 +3,10 @@
 /**
  * Transforms a YouTube URL or ID into a usable embed URL.
  * @param {string} urlOrId The original video URL or ID.
+ * @param {any} [_cacheBust=null] This parameter is unused. It exists to force Vercel to break its build cache.
  * @returns {{url: string, type: 'iframe'} | null} An object with the embeddable URL, or null if not embeddable.
  */
-export const getVideoDetails = (urlOrId) => {
+export const getVideoDetails = (urlOrId, _cacheBust = null) => {
   if (!urlOrId) return null;
 
   const trimmedInput = urlOrId.trim();
