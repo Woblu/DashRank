@@ -2,26 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-// Import lists for linking, but not for hardest calculation
+// Import all static lists
 import mainList from '../data/main-list.json';
 import unratedList from '../data/unrated-list.json';
 import platformerList from '../data/platformer-list.json';
 import challengeList from '../data/challenge-list.json';
 import futureList from '../data/future-list.json';
-import mainStats from '../data/main-statsviewer.json'; // Still needed for Rank/Score
+import mainStats from '../data/main-statsviewer.json'; // For rank/score
 
 const allLists = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList };
 const listTitles = { main: "Main List", unrated: "Unrated List", platformer: "Platformer List", challenge: "Challenge List", future: "Future List" };
 
-// Helper to find level details for linking
-const findLevelDetails = (levelName) => {
+// Helper to find level details in any list by name (case-insensitive)
+const findLevelDetailsByName = (levelName) => {
+    if (!levelName || levelName === 'N/A') return null;
     for (const listType of Object.keys(allLists)) {
         const level = allLists[listType].find(l => l.name.toLowerCase() === levelName.toLowerCase());
         if (level) {
-            return { ...level, listType, levelName: level.name };
+            return { ...level, listType, levelName: level.name }; // Return full level details + listType
         }
     }
-    return null; // Return null if not found in any list
+    return null; // Return null if not found
 };
 
 
@@ -32,7 +33,8 @@ export default function PlayerProfile() {
   const [playerData, setPlayerData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fromPath = location.state?.from || '/'; // Default to home if no path
+  // Default back path if none provided in state
+  const fromPath = location.state?.from || '/';
 
   useEffect(() => {
     const fetchPlayerData = async () => {
@@ -43,74 +45,90 @@ export default function PlayerProfile() {
 
       setLoading(true);
       try {
-        // Dynamically import the specific player's stats JSON
-        const specificPlayer = await import(`../data/playerstats/${playerName.toLowerCase().replace(/\s/g, '-')}-stats.json`);
+        // Format name for file import and stats lookup
+        const formattedFileName = playerName.toLowerCase().replace(/\s/g, '-');
+        const formattedStatsName = playerName.toLowerCase(); // Assuming mainStats uses lowercase names without dashes
 
-        // Find overall rank/score from mainStats viewer data
-        const formattedPlayerName = playerName.toLowerCase().replace(/\s/g, '-');
-        const playerStats = mainStats.find(p => p.name.toLowerCase().replace(/\s/g, '-') === formattedPlayerName);
+        // 1. Load the specific player's generated stats file
+        const specificPlayerStats = await import(`../data/playerstats/${formattedFileName}-stats.json`);
+        const statsJson = specificPlayerStats.default; // Access the actual data
 
-        // --- Simplified Data Processing ---
-        // Get beaten demons (assuming the JSON has a `records` or similar array)
-        const beatenDemons = specificPlayer.default.records?.map(record => record.name || record.levelName).filter(Boolean) || [];
-        // Or if it's `demonsCompleted`
-        // const beatenDemons = specificPlayer.default.demonsCompleted || [];
+        // 2. Get Rank/Score from main-statsviewer
+        const playerRankScore = mainStats.find(p => p.name.toLowerCase() === formattedStatsName);
 
-        // Group beaten levels by list type (for display sections)
+        // 3. [FIX] Get Hardest Demon from the generated stats file
+        let hardestDemonDetails = null;
+        if (statsJson.hardest && statsJson.hardest !== 'N/A') {
+            // Find the full level details using the name from the stats file
+             hardestDemonDetails = findLevelDetailsByName(statsJson.hardest);
+             // Add the placement from the stats file if found
+             if (hardestDemonDetails && statsJson.hardestPlacement) {
+                 hardestDemonDetails.placement = statsJson.hardestPlacement;
+             }
+        }
+
+
+        // 4. Restore original logic for finding beaten/verified demons from static lists
+
+        // Find beaten demons using the 'demonsCompleted' array if it exists in the JSON
         const beatenByList = {};
-        beatenDemons.forEach(demonName => {
-            const levelDetails = findLevelDetails(demonName);
+        const demonsCompletedList = statsJson.demonsCompleted || statsJson.records?.map(r => r.name || r.levelName).filter(Boolean) || [];
+
+        demonsCompletedList.forEach(demonName => {
+            const levelDetails = findLevelDetailsByName(demonName);
             if (levelDetails) {
-                if (!beatenByList[levelDetails.listType]) beatenByList[levelDetails.listType] = [];
-                beatenByList[levelDetails.listType].push(levelDetails);
+                 if (!beatenByList[levelDetails.listType]) beatenByList[levelDetails.listType] = [];
+                 // Avoid duplicates if a level is verified AND beaten
+                 if (!beatenByList[levelDetails.listType].some(l => l.name === levelDetails.name)) {
+                    beatenByList[levelDetails.listType].push(levelDetails);
+                 }
             }
         });
 
-        // Find verified levels (this still needs to check all lists)
+
+        // Find verified demons by checking the 'verifier' field in static lists
          const verifiedByList = {};
          Object.keys(allLists)
-             .filter(listType => listType !== 'future') // Exclude future list from verified
+             .filter(listType => listType !== 'future') // Exclude future list
              .forEach(listType => {
                  const verifiedLevels = allLists[listType].filter(level =>
-                     level.verifier?.toLowerCase().replace(/\s/g, '-') === formattedPlayerName
+                     level.verifier?.toLowerCase() === formattedStatsName // Compare with lowercase name
                  );
                  if (verifiedLevels.length > 0) {
                      verifiedByList[listType] = verifiedLevels.map(level => ({...level, listType, levelName: level.name}));
+
+                     // Add verified levels to beatenByList if not already present
+                     if (!beatenByList[listType]) beatenByList[listType] = [];
+                     verifiedLevels.forEach(verifiedLevel => {
+                         if (!beatenByList[listType].some(l => l.name === verifiedLevel.name)) {
+                             beatenByList[listType].push({...verifiedLevel, listType, levelName: verifiedLevel.name});
+                         }
+                     });
                  }
              });
 
 
-        // [FIX] Directly use hardest demon info from the player's JSON file
-        const hardestDemonName = specificPlayer.default.hardest;
-        let hardestDemonDetails = null;
-        if (hardestDemonName && hardestDemonName !== 'N/A') {
-            hardestDemonDetails = findLevelDetails(hardestDemonName); // Find details for linking
-        }
-
-
         setPlayerData({
-          name: specificPlayer.default.name,
-          stats: { main: playerStats }, // Use stats from main-statsviewer
-          beatenByList,
-          verifiedByList,
-          // [FIX] Store the pre-calculated hardest demon details
-          hardestDemon: hardestDemonDetails,
+          name: statsJson.name, // Use name from the specific file
+          stats: { main: playerRankScore }, // Rank/Score from viewer file
+          beatenByList, // Populated using original logic
+          verifiedByList, // Populated using original logic
+          hardestDemon: hardestDemonDetails, // Use the processed hardest demon details
         });
 
       } catch (error) {
         console.error("Failed to load player data:", error);
-        // Handle specific error for file not found
-        if (error.message.includes('Failed to fetch dynamically imported module')) {
+         if (error.message.includes('Failed to fetch dynamically imported module')) {
             console.error(`Player stats file not found for: ${playerName}`);
         }
-        setPlayerData(null);
+        setPlayerData(null); // Set to null on error
       } finally {
         setLoading(false);
       }
     };
 
     fetchPlayerData();
-  }, [playerName]); // Rerun only when playerName changes
+  }, [playerName]); // Re-run only if playerName changes
 
   if (loading) {
     return <div className="text-center p-8 text-gray-800 dark:text-gray-200">{t('loading_data')}</div>;
@@ -127,7 +145,7 @@ export default function PlayerProfile() {
     );
   }
 
-  // Use the data structure set in state
+  // Destructure state after check
   const { name, stats, beatenByList, verifiedByList, hardestDemon } = playerData;
 
   return (
@@ -138,13 +156,13 @@ export default function PlayerProfile() {
       </Link>
 
       <div className="space-y-6">
+        {/* Main Info Box */}
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-
           <h1 className="font-poppins text-4xl font-bold text-cyan-600 dark:text-cyan-400 mb-4 text-center">
             {name}
           </h1>
 
-          {/* Display Rank/Score from main-statsviewer */}
+          {/* Rank/Score */}
           {stats.main ? (
             <div className="text-center mb-4 text-gray-800 dark:text-gray-200">
               <p><span className="font-semibold">{t('demonlist_rank')}:</span> #{stats.main.demonlistRank || t('na')}</p>
@@ -156,27 +174,25 @@ export default function PlayerProfile() {
              </div>
           )}
 
-
+          {/* Stats Summary */}
           <div className="text-center border-t border-gray-300 dark:border-gray-600 pt-4 space-y-2 text-gray-800 dark:text-gray-200">
-            {/* [FIX] Display the hardestDemon from state */}
+            {/* [FIX] Display Hardest Demon from state, including placement */}
             {hardestDemon ? (
               <p>
                 <span className="font-semibold">{t('hardest_demon')}:</span>{' '}
-                {/* Ensure levelId exists before creating link */}
-                {hardestDemon.levelId ? (
-                     <Link to={`/level/${hardestDemon.listType}/${hardestDemon.levelId}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
-                       {hardestDemon.levelName} (#{hardestDemon.placement}) {/* Optionally show placement */}
+                {hardestDemon.levelId || hardestDemon.id ? ( // Check if linkable
+                     <Link to={`/level/${hardestDemon.listType}/${hardestDemon.levelId || hardestDemon.id}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
+                       {hardestDemon.levelName} (#{hardestDemon.placement}) {/* Show placement */}
                      </Link>
                 ) : (
-                    // Handle case where level details might be missing temporarily
-                    <span>{hardestDemon.levelName || 'Unknown'}</span>
+                    <span>{hardestDemon.levelName} (#{hardestDemon.placement || '?'})</span> // Show name/placement even if not linkable
                 )}
               </p>
             ) : (
               <p><span className="font-semibold">{t('hardest_demon')}:</span> {t('na')}</p>
             )}
 
-            {/* Display counts */}
+            {/* Counts from restored logic */}
             {Object.entries(beatenByList).map(([listType, levels]) => (
                 levels.length > 0 && (
                     <p key={`beaten-${listType}`}>
@@ -194,7 +210,7 @@ export default function PlayerProfile() {
           </div>
         </div>
 
-        {/* Sections for Beaten/Verified (remain largely the same, using grouped data) */}
+        {/* Beaten Demons Sections (Restored) */}
         {Object.entries(beatenByList).map(([listType, levels]) => (
           levels.length > 0 && (
             <div key={`beaten-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
@@ -202,14 +218,16 @@ export default function PlayerProfile() {
                 {listTitles[listType]} {t('completed_demons')}
               </h2>
               <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
-                {levels.sort((a,b) => (a.placement || Infinity) - (b.placement || Infinity)).map((level, index) => ( // Sort for better display
-                  <React.Fragment key={`${level.levelId || level.name}-${index}`}>
-                    {level.levelId ? (
-                         <Link to={`/level/${level.listType}/${level.levelId}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
+                {/* Sort levels by placement for display */}
+                {levels.sort((a,b) => (a.placement || Infinity) - (b.placement || Infinity)).map((level, index) => (
+                  <React.Fragment key={`${level.id || level.name}-${index}`}>
+                    {/* Link only if levelId or id exists */}
+                    {(level.levelId || level.id) ? (
+                         <Link to={`/level/${level.listType}/${level.levelId || level.id}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                            {level.levelName}
                          </Link>
                     ) : (
-                         <span>{level.levelName}</span> // No link if ID missing
+                         <span>{level.levelName}</span>
                     )}
                     {index < levels.length - 1 && ' - '}
                   </React.Fragment>
@@ -219,6 +237,7 @@ export default function PlayerProfile() {
           )
         ))}
 
+        {/* Verified Demons Sections (Restored) */}
         {Object.entries(verifiedByList).map(([listType, levels]) => (
           levels.length > 0 && (
             <div key={`verified-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
@@ -226,14 +245,15 @@ export default function PlayerProfile() {
                 {listTitles[listType]} {t('verified_demons')}
               </h2>
               <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
-                {levels.sort((a,b) => (a.placement || Infinity) - (b.placement || Infinity)).map((level, index) => ( // Sort for better display
-                  <React.Fragment key={`${level.levelId || level.name}-${index}`}>
-                     {level.levelId ? (
-                         <Link to={`/level/${level.listType}/${level.levelId}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
+                 {/* Sort levels by placement for display */}
+                {levels.sort((a,b) => (a.placement || Infinity) - (b.placement || Infinity)).map((level, index) => (
+                  <React.Fragment key={`${level.id || level.name}-${index}`}>
+                     {(level.levelId || level.id) ? (
+                         <Link to={`/level/${level.listType}/${level.levelId || level.id}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                             {level.levelName}
                          </Link>
                      ) : (
-                          <span>{level.levelName}</span> // No link if ID missing
+                          <span>{level.levelName}</span>
                      )}
                     {index < levels.length - 1 && ' - '}
                   </React.Fragment>
