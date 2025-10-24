@@ -1,8 +1,45 @@
 // src/server/statsGeneration.js
-import { PrismaClient, RecordStatus } from '@prisma/client'; // Import RecordStatus if needed elsewhere, not strictly needed for queries here
-import path from 'path'; // path is no longer needed for file writing
+import prismaClientPkg from '@prisma/client'; // Default import
+const { PrismaClient, RecordStatus } = prismaClientPkg; // Destructure needed parts
+import fs from 'fs'; // Import the 'fs' module
+import path from 'path'; // Import the 'path' module
 
 const prisma = new PrismaClient();
+
+// --- Function to load static list data ---
+let staticListsCache = null; // Cache the loaded data
+
+function loadStaticLists() {
+    // If cache exists, return it
+    if (staticListsCache) {
+        return staticListsCache;
+    }
+    console.log('[StatsGen] Loading static list JSON files...'); // Changed log prefix
+    try {
+        const dataDir = path.resolve(process.cwd(), 'src/data'); // Get absolute path to data directory
+
+        const mainList = JSON.parse(fs.readFileSync(path.join(dataDir, 'main-list.json'), 'utf8'));
+        const unratedList = JSON.parse(fs.readFileSync(path.join(dataDir, 'unrated-list.json'), 'utf8'));
+        const platformerList = JSON.parse(fs.readFileSync(path.join(dataDir, 'platformer-list.json'), 'utf8'));
+        const challengeList = JSON.parse(fs.readFileSync(path.join(dataDir, 'challenge-list.json'), 'utf8'));
+        const futureList = JSON.parse(fs.readFileSync(path.join(dataDir, 'future-list.json'), 'utf8'));
+
+        staticListsCache = { // Store in cache
+            main: mainList,
+            unrated: unratedList,
+            platformer: platformerList,
+            challenge: challengeList,
+            future: futureList
+        };
+        console.log('[StatsGen] Successfully loaded static lists.');
+        return staticListsCache;
+    } catch (error) {
+        console.error('[StatsGen] CRITICAL ERROR: Failed to load static list JSON files:', error);
+        return {};
+    }
+}
+// --- End loading function ---
+
 
 // Helper function to calculate points for a main list level
 function calculatePoints(rank) {
@@ -12,7 +49,7 @@ function calculatePoints(rank) {
 
 // Function to regenerate stats and store in DB
 export async function regeneratePlayerStats(targetUserIds = null) {
-  console.log(`Starting DB player stats regeneration... ${targetUserIds ? `Targeting ${targetUserIds.length} users.` : 'Targeting all users.'}`);
+  console.log(`[StatsGen] Starting DB player stats regeneration... ${targetUserIds ? `Targeting ${targetUserIds.length} users.` : 'Targeting all users.'}`);
   try {
     // 1. Fetch all levels with current placements
     const allLevels = await prisma.level.findMany({
@@ -21,19 +58,17 @@ export async function regeneratePlayerStats(targetUserIds = null) {
     });
     const levelMap = new Map(allLevels.map(lvl => [lvl.id, lvl]));
 
-    console.log('[StatsGen] Level Map Snippet:', Array.from(levelMap.values()).filter(l => l.list === 'main-list').slice(0, 5)); // Log only main list
+    console.log('[StatsGen] Level Map Snippet:', Array.from(levelMap.values()).filter(l => l.list === 'main-list').slice(0, 5));
 
     // 2. Determine which users to process
     const userQuery = {
       where: {
         ...(targetUserIds && { id: { in: targetUserIds } }),
-        // Fetch users who have *any* relevant record (even non-main list)
-        // because we might need to reset stats if they no longer have main list completions.
-        personalRecords: { some: { status: 'COMPLETED' } }, // Using your enum name
+        personalRecords: { some: { status: 'COMPLETED' } }, // Use your enum name string here
       },
       include: {
         personalRecords: {
-          where: { status: 'COMPLETED' }, // Using your enum name
+          where: { status: 'COMPLETED' }, // Use your enum name string here
           select: { levelId: true, percent: true },
         },
       },
@@ -45,20 +80,21 @@ export async function regeneratePlayerStats(targetUserIds = null) {
       console.log('[StatsGen] No relevant users found to update.');
     } else {
       console.log(`[StatsGen] Calculating stats for ${usersToUpdate.length} users.`);
-      const statsToUpsert = []; // Collect stats data to upsert
+      const statsToUpsert = [];
 
       // 3. Calculate stats for each user
       for (const user of usersToUpdate) {
-        let hardestDemon = { name: null, placement: Infinity }; // Use null for name initially
+        let hardestDemon = { name: null, placement: Infinity };
         let totalScore = 0;
 
         for (const record of user.personalRecords) {
           const level = levelMap.get(record.levelId);
-          if (!level || level.list !== 'main-list') continue; // Only consider main list levels
+          // Ensure level exists and is on the main list for stats calculation
+          if (!level || level.list !== 'main-list') continue;
 
           // Update hardest demon (use level placement directly)
           if (level.placement < hardestDemon.placement) {
-             if (user.username.toLowerCase() === 'zoink') { // Keep debug log for Zoink
+             if (user.username.toLowerCase() === 'zoink') {
                 console.log(`  [Zoink Debug] New Hardest: ${level.name} (#${level.placement}) replacing ${hardestDemon.name} (#${hardestDemon.placement})`);
              }
             hardestDemon = { name: level.name, placement: level.placement };
@@ -70,41 +106,38 @@ export async function regeneratePlayerStats(targetUserIds = null) {
           }
         }
 
-         if (user.username.toLowerCase() === 'zoink') { // Keep debug log for Zoink
+         if (user.username.toLowerCase() === 'zoink') {
             console.log(`  [Zoink Debug] Final Hardest Calculated: ${hardestDemon.name} (#${hardestDemon.placement}) Score: ${totalScore.toFixed(2)}`);
          }
-
 
         // Prepare data for upsert
         statsToUpsert.push({
           userId: user.id,
           demonlistScore: totalScore,
-          hardestDemonName: hardestDemon.placement === Infinity ? null : hardestDemon.name, // Use null if no hardest
-          hardestDemonPlacement: hardestDemon.placement === Infinity ? null : hardestDemon.placement, // Use null if no hardest
-          // Rank is handled separately below
+          hardestDemonName: hardestDemon.placement === Infinity ? null : hardestDemon.name,
+          hardestDemonPlacement: hardestDemon.placement === Infinity ? null : hardestDemon.placement,
         });
       }
 
       // 4. Upsert calculated stats (excluding rank)
       console.log(`[StatsGen] Upserting stats for ${statsToUpsert.length} users...`);
-      for (const statData of statsToUpsert) {
-        await prisma.playerStat.upsert({
+      // Use Promise.all for potentially faster upserts if many users
+      await Promise.all(statsToUpsert.map(statData =>
+        prisma.playerStat.upsert({
           where: { userId: statData.userId },
           update: {
             demonlistScore: statData.demonlistScore,
             hardestDemonName: statData.hardestDemonName,
             hardestDemonPlacement: statData.hardestDemonPlacement,
-            // Rank will be updated in the next step
           },
           create: {
             userId: statData.userId,
             demonlistScore: statData.demonlistScore,
             hardestDemonName: statData.hardestDemonName,
             hardestDemonPlacement: statData.hardestDemonPlacement,
-            // Rank will be updated in the next step
           },
-        });
-      }
+        })
+      ));
        console.log(`[StatsGen] Finished upserting base stats.`);
     }
 
@@ -112,20 +145,17 @@ export async function regeneratePlayerStats(targetUserIds = null) {
     console.log('[StatsGen] Recalculating all player ranks...');
     // 5. Fetch all player stats ordered by score
     const allPlayerStats = await prisma.playerStat.findMany({
-      orderBy: [
-        { demonlistScore: 'desc' },
-        { updatedAt: 'asc' }, // Secondary sort for stable ranking on ties
-      ],
-      select: { id: true, userId: true, demonlistScore: true }, // Select only needed fields
+      orderBy: [ { demonlistScore: 'desc' }, { updatedAt: 'asc' }, ],
+      select: { id: true, userId: true, demonlistScore: true },
     });
 
-    // 6. Update ranks in batches
+    // 6. Update ranks in batches using Prisma $transaction
     const rankUpdates = [];
     let currentRank = 1;
     for (let i = 0; i < allPlayerStats.length; i++) {
         const stat = allPlayerStats[i];
-        // Only assign rank if score > 0
         const rankToAssign = stat.demonlistScore > 0 ? currentRank++ : null;
+        // Prepare the update operation; don't execute yet
         rankUpdates.push(
             prisma.playerStat.update({
                 where: { id: stat.id },
@@ -134,7 +164,7 @@ export async function regeneratePlayerStats(targetUserIds = null) {
         );
     }
 
-     // Also update stats for anyone not in allPlayerStats (score is 0 or less) to have null rank
+    // Also prepare update for those with score <= 0
     rankUpdates.push(
         prisma.playerStat.updateMany({
             where: { demonlistScore: { lte: 0 } },
@@ -142,9 +172,8 @@ export async function regeneratePlayerStats(targetUserIds = null) {
         })
     );
 
-
-    console.log(`[StatsGen] Applying ${rankUpdates.length} rank updates...`);
-    // Execute all rank updates in a transaction
+    console.log(`[StatsGen] Applying ${rankUpdates.length} rank updates in transaction...`);
+    // Execute all updates atomically
     await prisma.$transaction(rankUpdates);
     console.log('[StatsGen] Finished updating ranks.');
     // --- End Rank Update ---
@@ -153,11 +182,6 @@ export async function regeneratePlayerStats(targetUserIds = null) {
 
   } catch (error) {
     console.error('[StatsGen] Error regenerating player stats in DB:', error);
-    // Re-throw the error if you want the calling function (list management) to know it failed
-    // throw error;
+    // throw error; // Re-throw if the calling function needs to handle failure
   }
 }
-
-// Example of how to call:
-// regeneratePlayerStats(); // Regenerate all
-// regeneratePlayerStats(['userId1', 'userId2']); // Regenerate specific users + all ranks
