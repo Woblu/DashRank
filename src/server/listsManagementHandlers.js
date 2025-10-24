@@ -1,51 +1,84 @@
 // src/server/listsManagementHandlers.js
-import prismaClientPkg from '@prisma/client'; // Default import
-const { PrismaClient, RecordStatus } = prismaClientPkg; // Destructure needed parts
+import prismaClientPkg from '@prisma/client';
+// Ensure you import the correct enum for record status from YOUR schema
+// Using PersonalRecordProgressStatus based on your schema
+const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
 import { regeneratePlayerStats } from './statsGeneration.js'; // Ensure this path is correct
 
 const prisma = new PrismaClient();
 
-// Helper to find users who beat specific levels
-async function findUsersWithRecordsForLevels(levelIds) {
-    if (!levelIds || levelIds.length === 0) return [];
+// Helper to find player names involved with specific levels (verifier or in records)
+async function findPlayersInvolvedWithLevels(levelIds) {
+    // Return early if no valid IDs are provided
+    if (!levelIds || !Array.isArray(levelIds) || levelIds.length === 0) {
+        console.log("[Helper] findPlayersInvolvedWithLevels received no valid level IDs.");
+        return [];
+    }
     try {
-        const records = await prisma.personalRecord.findMany({
+        console.log(`[Helper] Finding players involved with level IDs: ${levelIds.join(', ')}`);
+        const levels = await prisma.level.findMany({
             where: {
-                levelId: { in: levelIds },
-                // Use the enum value
-                status: RecordStatus.APPROVED, // Assuming your enum is RecordStatus.APPROVED
-                // If your enum was PersonalRecordProgressStatus.COMPLETED, use that instead:
-                // status: PersonalRecordProgressStatus.COMPLETED,
+                id: { in: levelIds },
+                list: 'main-list' // Only consider main list levels for stat impact
             },
-            select: { userId: true },
-            distinct: ['userId'],
+            select: {
+                verifier: true,
+                records: { // Select records array which contains { username, percent, videoId }
+                    select: {
+                        username: true,
+                        percent: true
+                    }
+                }
+            },
         });
-        return records.map(r => r.userId);
+
+        const playerNames = new Set();
+        levels.forEach(level => {
+            if (level.verifier) {
+                playerNames.add(level.verifier);
+                // console.log(`[Helper] Added verifier: ${level.verifier}`);
+            }
+            if (Array.isArray(level.records)) {
+                level.records.forEach(record => {
+                    // Check if record has a username and completion is 100%
+                    if (record.username && record.percent === 100) {
+                        playerNames.add(record.username);
+                        // console.log(`[Helper] Added record holder: ${record.username}`);
+                    }
+                });
+            }
+        });
+
+        const namesArray = Array.from(playerNames);
+        console.log(`[Helper] Found involved players: ${namesArray.join(', ') || 'None'}`);
+        return namesArray;
     } catch (error) {
-        console.error("Error finding users with records for levels:", levelIds, error);
-        return []; // Return empty array on error to avoid breaking the main flow
+        console.error("[Helper] Error finding players involved with levels:", levelIds, error);
+        return []; // Return empty array on error
     }
 }
 
 
 export async function addLevelToList(req, res) {
   const { levelData, list, placement } = req.body;
-  if (!levelData || !list || placement === undefined || !levelData.name || !levelData.creator || !levelData.verifier || !levelData.videoId || !levelData.levelId) {
-    return res.status(400).json({ message: 'All fields are required.' });
+  // Basic validation
+  if (!levelData || !list || placement === undefined || !levelData.name || !levelData.creator || !levelData.verifier || !levelData.videoId ) {
+    return res.status(400).json({ message: 'Missing required fields for levelData (name, creator, verifier, videoId) or list/placement.' });
   }
 
   const parsedPlacement = parseInt(placement, 10);
-  // Ensure levelId is parsed correctly, handle potential empty string or null
-  const parsedLevelId = levelData.levelId ? parseInt(levelData.levelId, 10) : null;
+  // Allow levelId to be optional or potentially null/empty string
+  const parsedLevelId = (levelData.levelId && String(levelData.levelId).trim() !== '') ? parseInt(levelData.levelId, 10) : null;
 
-  if (isNaN(parsedPlacement) || parsedPlacement < 1 || (levelData.levelId && isNaN(parsedLevelId))) {
-      return res.status(400).json({ message: 'Invalid placement or Level ID format.' });
+  if (isNaN(parsedPlacement) || parsedPlacement < 1 || (levelData.levelId && String(levelData.levelId).trim() !== '' && isNaN(parsedLevelId))) {
+      return res.status(400).json({ message: 'Invalid placement number or Level ID format (must be a number if provided).' });
   }
+
 
   try {
     let newLevelId = null;
     let affectsNumberOne = (parsedPlacement === 1 && list === 'main-list');
-    let userIdsToUpdate = [];
+    let playerNamesToUpdate = []; // Store names now
 
     const newLevel = await prisma.$transaction(async (tx) => {
         let oldNumberOneId = null;
@@ -55,15 +88,17 @@ export async function addLevelToList(req, res) {
                 select: { id: true }
             });
             oldNumberOneId = oldNumberOne?.id;
+            console.log(`[AddLevel] #1 is affected. Old #1 ID: ${oldNumberOneId}`);
         }
 
         // Shift existing levels down
+        console.log(`[AddLevel] Shifting levels down from placement ${parsedPlacement} in list ${list}`);
         await tx.level.updateMany({
             where: { list, placement: { gte: parsedPlacement } },
             data: { placement: { increment: 1 } },
         });
 
-        // Create the new level
+        // Create the new level data object
         const dataToCreate = {
             name: levelData.name,
             creator: levelData.creator,
@@ -72,10 +107,14 @@ export async function addLevelToList(req, res) {
             levelId: parsedLevelId, // Use the parsed ID (can be null)
             placement: parsedPlacement,
             list,
-            description: levelData.description || "", // Add default empty string if needed
-            tags: levelData.tags || [], // Add default empty array if needed
+            description: levelData.description || "",
+            records: levelData.records || [], // Initialize records if needed
+            tags: levelData.tags || [],
         };
+
+        console.log(`[AddLevel] Creating new level: ${dataToCreate.name} at #${parsedPlacement}`);
         const createdLevel = await tx.level.create({ data: dataToCreate });
+        newLevelId = createdLevel.id; // Store the new level's ID
 
         // Log the change
         await tx.listChange.create({
@@ -86,29 +125,37 @@ export async function addLevelToList(req, res) {
               list: list,
             },
         });
+        console.log(`[AddLevel] Logged addition of ${createdLevel.name}`);
+
 
         // Enforce list limit
         const limit = list === 'main-list' ? 150 : 75; // Adjust limits as needed
-        await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
-
-        newLevelId = createdLevel.id;
-
-        // If #1 changed, find affected users
-        if (affectsNumberOne) {
-            const affectedLevelIds = [oldNumberOneId, newLevelId].filter(id => id != null);
-             userIdsToUpdate = await findUsersWithRecordsForLevels(affectedLevelIds);
+        console.log(`[AddLevel] Enforcing list limit (${limit}) for ${list}`);
+        const deletedLevels = await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
+        if(deletedLevels.count > 0) {
+            console.log(`[AddLevel] Removed ${deletedLevels.count} levels exceeding limit.`);
         }
 
-        return createdLevel;
+
+        // If #1 changed, find affected player NAMES
+        if (affectsNumberOne) {
+            const affectedLevelIds = [oldNumberOneId, newLevelId].filter(id => id != null);
+            console.log(`[AddLevel] Finding players involved with affected #1 levels: ${affectedLevelIds.join(', ')}`);
+            // This helper uses the global prisma instance, not the transaction 'tx'
+            playerNamesToUpdate = await findPlayersInvolvedWithLevels(affectedLevelIds);
+        }
+
+        return createdLevel; // Return the created level from transaction
     });
 
     // Trigger regeneration AFTER transaction succeeds
-    await regeneratePlayerStats(affectsNumberOne ? userIdsToUpdate : null);
+    console.log(`[AddLevel] Transaction successful. Triggering stats regeneration.`);
+    await regeneratePlayerStats(affectsNumberOne ? playerNamesToUpdate : null); // Pass player NAMES
 
     return res.status(201).json(newLevel);
   } catch (error) {
-    console.error("Failed to add level to list:", error);
-    return res.status(500).json({ message: 'Failed to add level.' });
+    console.error("[AddLevel] Failed to add level to list:", error);
+    return res.status(500).json({ message: 'Failed to add level. ' + (error.message || '') });
   }
 }
 
@@ -118,37 +165,45 @@ export async function removeLevelFromList(req, res) {
   try {
     let success = false;
     let affectsNumberOne = false;
-    let oldNumberOneId = null;
-    let userIdsToUpdate = [];
+    let levelBeingRemovedId = null;
+    let levelBeingRemovedInfo = null; // Store verifier/records before deleting
+    let playerNamesToUpdate = [];
 
     const result = await prisma.$transaction(async (tx) => {
-      const levelToRemove = await tx.level.findUnique({
+      // Fetch level info *before* deleting
+      levelBeingRemovedInfo = await tx.level.findUnique({
           where: { id: levelId },
-          select: {id: true, name: true, placement: true, list: true}
+          // Select all fields needed for finding players later AND for logging
+          select: {id: true, name: true, placement: true, list: true, verifier: true, records: true} // Fetch full records array
       });
-      if (!levelToRemove) throw new Error('Level not found.');
+      if (!levelBeingRemovedInfo) throw new Error('Level not found.');
 
-      affectsNumberOne = (levelToRemove.placement === 1 && levelToRemove.list === 'main-list');
-      if (affectsNumberOne) {
-          oldNumberOneId = levelToRemove.id; // Store the ID of the level being removed
-      }
+      affectsNumberOne = (levelBeingRemovedInfo.placement === 1 && levelBeingRemovedInfo.list === 'main-list');
+      levelBeingRemovedId = levelBeingRemovedInfo.id;
+      console.log(`[RemoveLevel] Attempting to remove: ${levelBeingRemovedInfo.name} (#${levelBeingRemovedInfo.placement}) from ${levelBeingRemovedInfo.list}. Affects #1: ${affectsNumberOne}`);
+
 
       // Log the change before deleting
       await tx.listChange.create({
         data: {
           type: 'REMOVE',
-          description: `${levelToRemove.name} removed from ${levelToRemove.list} (was #${levelToRemove.placement})`,
-          levelId: levelToRemove.id,
-          list: levelToRemove.list,
+          description: `${levelBeingRemovedInfo.name} removed from ${levelBeingRemovedInfo.list} (was #${levelBeingRemovedInfo.placement})`,
+          levelId: levelBeingRemovedInfo.id,
+          list: levelBeingRemovedInfo.list,
         },
       });
+      console.log(`[RemoveLevel] Logged removal of ${levelBeingRemovedInfo.name}`);
+
 
       // Delete the level
       await tx.level.delete({ where: { id: levelId } });
+      console.log(`[RemoveLevel] Deleted level ${levelId}`);
+
 
       // Shift remaining levels up
+      console.log(`[RemoveLevel] Shifting levels up from placement ${levelBeingRemovedInfo.placement + 1} in ${levelBeingRemovedInfo.list}`);
       await tx.level.updateMany({
-        where: { list: levelToRemove.list, placement: { gt: levelToRemove.placement } },
+        where: { list: levelBeingRemovedInfo.list, placement: { gt: levelBeingRemovedInfo.placement } },
         data: { placement: { decrement: 1 } },
       });
 
@@ -158,22 +213,40 @@ export async function removeLevelFromList(req, res) {
               where: { list: 'main-list', placement: 1 }, // Find the level that shifted into #1
               select: { id: true }
           });
-          const affectedLevelIds = [oldNumberOneId, newNumberOne?.id].filter(id => id != null);
-          userIdsToUpdate = await findUsersWithRecordsForLevels(affectedLevelIds);
+          const affectedLevelIds = [levelBeingRemovedId, newNumberOne?.id].filter(id => id != null);
+          console.log(`[RemoveLevel] #1 affected. Finding players involved with new #1 (${newNumberOne?.id}) and removed #1 (${levelBeingRemovedId})`);
+
+
+          // Get names involved with the *new* #1 (if one exists)
+          playerNamesToUpdate = await findPlayersInvolvedWithLevels(newNumberOne?.id ? [newNumberOne.id] : []);
+
+          // Also add names involved with the *removed* #1 (using saved info)
+          const removedLevelPlayers = new Set();
+          if (levelBeingRemovedInfo.verifier) removedLevelPlayers.add(levelBeingRemovedInfo.verifier);
+          if (Array.isArray(levelBeingRemovedInfo.records)) {
+              levelBeingRemovedInfo.records.forEach(r => {
+                  if (r.username && r.percent === 100) removedLevelPlayers.add(r.username);
+              });
+          }
+          removedLevelPlayers.forEach(name => playerNamesToUpdate.push(name));
+          playerNamesToUpdate = [...new Set(playerNamesToUpdate)]; // Ensure uniqueness
+          console.log(`[RemoveLevel] Players to update stats for: ${playerNamesToUpdate.join(', ')}`);
+
       }
 
-      success = true;
-      return { message: `${levelToRemove.name} removed successfully.` };
+      success = true; // Mark transaction as successful
+      return { message: `${levelBeingRemovedInfo.name} removed successfully.` };
     });
 
     // Trigger regeneration AFTER transaction succeeds
     if (success) {
-      await regeneratePlayerStats(affectsNumberOne ? userIdsToUpdate : null);
+      console.log(`[RemoveLevel] Transaction successful. Triggering stats regeneration.`);
+      await regeneratePlayerStats(affectsNumberOne ? playerNamesToUpdate : null); // Pass NAMES
     }
 
     return res.status(200).json(result);
   } catch (error) {
-    console.error("Failed to remove level from list:", error);
+    console.error("[RemoveLevel] Failed to remove level from list:", error);
     return res.status(500).json({ message: error.message || 'Failed to remove level.' });
   }
 }
@@ -189,87 +262,111 @@ export async function moveLevelInList(req, res) {
   try {
     let success = false;
     let affectsNumberOne = false;
-    let oldNumberOneId = null;
-    let newNumberOneId = null;
-    let userIdsToUpdate = [];
+    let originalNumberOneId = null; // ID of level that was #1 before the move
+    let finalNumberOneId = null; // ID of level that is #1 after the move
+    let playerNamesToUpdate = [];
 
     const updatedLevel = await prisma.$transaction(async (tx) => {
-      const levelToMove = await tx.level.findUnique({ where: { id: levelId } });
+      // Find the level being moved
+      const levelToMove = await tx.level.findUnique({
+          where: { id: levelId },
+          select: { id: true, name: true, placement: true, list: true } // Select necessary fields
+      });
       if (!levelToMove) throw new Error('Level not found');
 
       const oldPlacement = levelToMove.placement;
       const { list } = levelToMove;
+      console.log(`[MoveLevel] Attempting to move ${levelToMove.name} from #${oldPlacement} to #${parsedNewPlacement} in ${list}`);
 
-      // Determine if #1 is involved *before* making changes
+
+      // If placement isn't changing, do nothing
+      if (oldPlacement === parsedNewPlacement) {
+          console.log("[MoveLevel] Old and new placement are the same. No move needed.");
+          success = true; // Mark as success to potentially trigger rank update if needed? Or just return.
+          // Decide if rank regen is needed even if placement is same (e.g., forced refresh)
+          // For now, assume no regen needed if placement is identical.
+          // await regeneratePlayerStats(null); // Force rank update?
+          return levelToMove; // Return the unchanged level
+      }
+
+
+      // Determine if #1 is involved and get the ID of the current #1
       if (list === 'main-list' && (oldPlacement === 1 || parsedNewPlacement === 1)) {
           affectsNumberOne = true;
-          // Identify the level currently at #1
           const currentNumberOne = await tx.level.findFirst({ where: { list: 'main-list', placement: 1 }, select: {id: true}});
-          oldNumberOneId = currentNumberOne?.id; // This is the ID of the level *currently* at #1
+          originalNumberOneId = currentNumberOne?.id;
+           console.log(`[MoveLevel] #1 is affected. Level currently at #1: ${originalNumberOneId}`);
       }
 
-      // Perform the move logic
-      if (oldPlacement !== parsedNewPlacement) {
-        if (oldPlacement > parsedNewPlacement) {
-          // Moving Up: Increment levels between newPlacement and oldPlacement(exclusive)
-          await tx.level.updateMany({
-            where: { list, placement: { gte: parsedNewPlacement, lt: oldPlacement } },
-            data: { placement: { increment: 1 } },
-          });
-        } else {
-          // Moving Down: Decrement levels between oldPlacement(exclusive) and newPlacement
-          await tx.level.updateMany({
-            where: { list, placement: { gt: oldPlacement, lte: parsedNewPlacement } },
-            data: { placement: { decrement: 1 } },
-          });
-        }
+      // --- Perform the move logic ---
+      if (oldPlacement > parsedNewPlacement) {
+        // Moving Up: Increment levels between newPlacement and oldPlacement(exclusive)
+        console.log(`[MoveLevel] Shifting levels UP between #${parsedNewPlacement} and #${oldPlacement}`);
+        await tx.level.updateMany({
+          where: { list, placement: { gte: parsedNewPlacement, lt: oldPlacement } },
+          data: { placement: { increment: 1 } },
+        });
+      } else {
+        // Moving Down: Decrement levels between oldPlacement(exclusive) and newPlacement
+        console.log(`[MoveLevel] Shifting levels DOWN between #${oldPlacement + 1} and #${parsedNewPlacement}`);
+        await tx.level.updateMany({
+          where: { list, placement: { gt: oldPlacement, lte: parsedNewPlacement } },
+          data: { placement: { decrement: 1 } },
+        });
       }
+      // --- End shift logic ---
 
       // Update the moved level's placement
+      console.log(`[MoveLevel] Updating ${levelToMove.name} to placement #${parsedNewPlacement}`);
       const finalUpdatedLevel = await tx.level.update({
         where: { id: levelId },
         data: { placement: parsedNewPlacement },
       });
 
-      // Log the change if placement actually changed
-      if (oldPlacement !== parsedNewPlacement) {
-        await tx.listChange.create({
-          data: {
-            type: 'MOVE',
-            description: `${finalUpdatedLevel.name} moved from #${oldPlacement} to #${parsedNewPlacement}`,
-            levelId: finalUpdatedLevel.id,
-            list: list,
-          },
-        });
-      }
+      // Log the change
+      console.log(`[MoveLevel] Logging move of ${finalUpdatedLevel.name}`);
+      await tx.listChange.create({
+        data: {
+          type: 'MOVE',
+          description: `${finalUpdatedLevel.name} moved from #${oldPlacement} to #${parsedNewPlacement}`,
+          levelId: finalUpdatedLevel.id,
+          list: list,
+        },
+      });
 
-      // Enforce list limit
-      const limit = list === 'main-list' ? 150 : 75; // Adjust limits
+      // Enforce list limit (redundant if move is within limits, but safe)
+      const limit = list === 'main-list' ? 150 : 75;
       await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
 
-      // If #1 affected, find the final ID at #1 and affected users
+      // If #1 affected, find the final ID at #1 and affected player NAMES
       if (affectsNumberOne) {
           // Find the level that ended up at #1 *after* all shifts
           const actualNewNumberOne = await tx.level.findFirst({ where: { list: 'main-list', placement: 1}, select: {id: true}});
-          newNumberOneId = actualNewNumberOne?.id;
+          finalNumberOneId = actualNewNumberOne?.id;
+          console.log(`[MoveLevel] Level finally at #1: ${finalNumberOneId}`);
 
-          // Collect unique IDs of the level originally at #1 and the level finally at #1
-          const affectedLevelIds = [...new Set([oldNumberOneId, newNumberOneId])].filter(id => id != null);
-          userIdsToUpdate = await findUsersWithRecordsForLevels(affectedLevelIds);
+
+          // Collect unique IDs involved and get associated player names
+          const affectedLevelIds = [...new Set([originalNumberOneId, finalNumberOneId])].filter(id => id != null);
+          console.log(`[MoveLevel] Finding players involved with affected #1 levels: ${affectedLevelIds.join(', ')}`);
+          playerNamesToUpdate = await findPlayersInvolvedWithLevels(affectedLevelIds);
+          console.log(`[MoveLevel] Players to update stats for: ${playerNamesToUpdate.join(', ')}`);
+
       }
 
-      success = true;
-      return finalUpdatedLevel;
+      success = true; // Mark transaction successful
+      return finalUpdatedLevel; // Return the updated level
     });
 
     // Trigger regeneration AFTER transaction succeeds
     if (success) {
-      await regeneratePlayerStats(affectsNumberOne ? userIdsToUpdate : null);
+      console.log(`[MoveLevel] Transaction successful. Triggering stats regeneration.`);
+      await regeneratePlayerStats(affectsNumberOne ? playerNamesToUpdate : null); // Pass NAMES
     }
 
     return res.status(200).json(updatedLevel);
   } catch (error) {
-    console.error("Failed to move level in list:", error);
+    console.error("[MoveLevel] Failed to move level in list:", error);
     return res.status(500).json({ message: error.message || 'Failed to move level.' });
   }
 }
@@ -280,14 +377,18 @@ export async function updateLevel(req, res) {
   if (!levelId || !levelData) { return res.status(400).json({ message: 'Level ID and level data are required.' }); }
 
   try {
+    // Fetch original level data needed for comparisons
     const originalLevel = await prisma.level.findUnique({
         where: { id: levelId },
-        select: { name: true, placement: true, list: true } // Need placement and list too
+        select: { name: true, verifier: true, records: true, list: true, placement: true }
     });
     if (!originalLevel) {
         return res.status(404).json({ message: 'Level not found.' });
     }
+    console.log(`[UpdateLevel] Updating level: ${originalLevel.name} (ID: ${levelId})`);
 
+
+    // Perform the update
     const updatedLevel = await prisma.level.update({
       where: { id: levelId },
       data: {
@@ -295,22 +396,63 @@ export async function updateLevel(req, res) {
         creator: levelData.creator,
         verifier: levelData.verifier,
         videoId: levelData.videoId,
-        levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : null,
-        description: levelData.description, // Include other fields as needed
+        levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : originalLevel.levelId, // Keep old if not provided or invalid
+        description: levelData.description,
         tags: levelData.tags,
+        // IMPORTANT: Do NOT update placement or list here. Use moveLevelInList for that.
+        // records: levelData.records // Be careful updating records this way, might need specific endpoints
       },
+       select: { name: true, verifier: true, records: true, list: true, placement: true } // Select updated data
     });
 
-    // Check if the name changed and if it was the hardest for anyone
+    let playerNamesToUpdate = [];
+    let needsRegen = false;
+
+    // Check if name changed (only matters if it affects hardest display)
     if (originalLevel.name !== updatedLevel.name && originalLevel.list === 'main-list') {
-        console.log(`Level name changed (${originalLevel.name} -> ${updatedLevel.name}). Finding potentially affected users.`);
-         const userIdsToUpdate = await findUsersWithRecordsForLevels([levelId]);
-         await regeneratePlayerStats(userIdsToUpdate.length > 0 ? userIdsToUpdate : null);
+        needsRegen = true;
+        // Find players whose hardest might have been this level (using old name)
+        const playersWithOldHardest = await prisma.playerstats.findMany({
+            where: { list: 'main-list', hardestDemonName: originalLevel.name },
+            select: { name: true }
+        });
+        playersWithOldHardest.forEach(p => playerNamesToUpdate.push(p.name));
+         console.log(`[UpdateLevel] Name changed. Players potentially affected (old hardest): ${playersWithOldHardest.map(p=>p.name).join(', ')}`);
     }
 
-    return res.status(200).json(updatedLevel);
+    // Check if verifier changed (affects score/hardest of old and new verifier)
+    if (originalLevel.verifier !== updatedLevel.verifier && originalLevel.list === 'main-list') {
+         needsRegen = true;
+         if (originalLevel.verifier) playerNamesToUpdate.push(originalLevel.verifier);
+         if (updatedLevel.verifier) playerNamesToUpdate.push(updatedLevel.verifier);
+          console.log(`[UpdateLevel] Verifier changed. Adding ${originalLevel.verifier} and ${updatedLevel.verifier} to regen list.`);
+
+    }
+
+    // Check if records changed significantly (affects score/hardest of involved players)
+    // A more robust check might involve comparing user sets and percentages
+    const oldUsernames100 = new Set(originalLevel.records?.filter(r => r.percent === 100).map(r => r.username).filter(Boolean));
+    const newUsernames100 = new Set(updatedLevel.records?.filter(r => r.percent === 100).map(r => r.username).filter(Boolean));
+    if (oldUsernames100.size !== newUsernames100.size || ![...oldUsernames100].every(name => newUsernames100.has(name))) {
+        if (originalLevel.list === 'main-list') {
+            needsRegen = true;
+            oldUsernames100.forEach(name => playerNamesToUpdate.push(name));
+            newUsernames100.forEach(name => playerNamesToUpdate.push(name));
+             console.log(`[UpdateLevel] 100% records changed. Adding involved players to regen list.`);
+        }
+    }
+
+    if (needsRegen) {
+        playerNamesToUpdate = [...new Set(playerNamesToUpdate)]; // Ensure unique names
+        console.log(`[UpdateLevel] Triggering stats regeneration for: ${playerNamesToUpdate.join(', ') || 'potentially all ranks'}`);
+        await regeneratePlayerStats(playerNamesToUpdate.length > 0 ? playerNamesToUpdate : null);
+    } else {
+        console.log("[UpdateLevel] No changes detected that require stats regeneration.");
+    }
+
+    return res.status(200).json(updatedLevel); // Return the updated level data
   } catch (error) {
-    console.error("Failed to update level:", error);
+    console.error("[UpdateLevel] Failed to update level:", error);
     return res.status(500).json({ message: 'Failed to update level.' });
   }
 }
@@ -324,14 +466,17 @@ export async function getLevelHistory(req, res, levelId) {
         const history = await prisma.listChange.findMany({
             where: { levelId: idFromRequest },
             orderBy: { createdAt: 'desc' },
+            // Optionally include related level data if needed
+            // include: { level: { select: { name: true }} }
         });
+        // Check if level exists even if history is empty
         if (history.length === 0) {
-             const levelExists = await prisma.level.findUnique({ where: { id: idFromRequest } });
+             const levelExists = await prisma.level.findUnique({ where: { id: idFromRequest }, select: { id: true } });
              if (!levelExists) return res.status(404).json({ message: 'Level not found.' });
         }
         return res.status(200).json(history);
     } catch (error) {
-        console.error("Failed to fetch level history:", error);
+        console.error("Failed to fetch level history for ID:", idFromRequest, error);
         return res.status(500).json({ message: 'Failed to fetch level history.' });
     }
 }
@@ -344,97 +489,76 @@ export async function getHistoricList(req, res) {
   }
 
   try {
+    // Validate date format
     const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!isoDatePattern.test(date)) {
       return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
     }
+    // Use end of day for comparison
     const targetDate = new Date(`${date}T23:59:59.999Z`);
     if (isNaN(targetDate.getTime())) {
       return res.status(400).json({ message: 'Invalid date value.' });
     }
 
-    console.warn("Historic list reconstruction using backward undo is complex and may have inaccuracies regarding placement shifts. Consider a forward replay model for full accuracy.");
+    console.warn("[HistoricList] Reconstruction uses simplified backward undo and may be inaccurate.");
 
+    // Start with current list state
     const currentLevels = await prisma.level.findMany({
       where: { list: 'main-list' },
       orderBy: { placement: 'asc' },
     });
     const levelsMap = new Map(currentLevels.map(level => [level.id, { ...level }]));
 
+    // Get changes to undo (created AFTER target date), newest first
     const changesToUndo = await prisma.listChange.findMany({
-      where: {
-        list: 'main-list',
-        createdAt: { gt: targetDate },
-      },
+      where: { list: 'main-list', createdAt: { gt: targetDate } },
       orderBy: { createdAt: 'desc' },
     });
 
-    const placementShifts = {};
-
+    // --- Apply Undo Logic (Simplified) ---
+    // This logic is complex and prone to errors when reversing shifts.
+    // A forward-replay approach is generally more robust for accuracy.
     for (const change of changesToUndo) {
-        // ... (Simplified undo logic from previous step - acknowledge potential inaccuracies) ...
-         if (change.type === 'ADD') {
-            const levelAdded = levelsMap.get(change.levelId);
-            if (levelAdded) {
-                for (let i = levelAdded.placement + 1; ; i++) {
-                    placementShifts[i] = (placementShifts[i] || 0) - 1;
-                    if (!currentLevels.some(l => l.placement === i && levelsMap.has(l.id))) break;
-                }
-                levelsMap.delete(change.levelId);
-            }
+        if (change.type === 'ADD') {
+            levelsMap.delete(change.levelId);
         }
         else if (change.type === 'REMOVE') {
             const match = change.description.match(/(.+) removed from .+ \(was #(\d+)\)/);
             if (match) {
                 const [, levelName, oldPlacementStr] = match;
-                const oldPlacement = parseInt(oldPlacementStr);
                 levelsMap.set(change.levelId, {
-                    id: change.levelId, name: levelName || 'Unknown (Historic)', placement: oldPlacement,
-                    list: 'main-list', creator: 'N/A (Historic)', verifier: 'N/A',
+                    id: change.levelId, name: levelName || 'Unknown', placement: parseInt(oldPlacementStr),
+                    list: 'main-list', creator: 'N/A', verifier: 'N/A',
                     videoId: '', levelId: 0, description: '', tags: []
                 });
-                for (let i = oldPlacement + 1; ; i++) {
-                    placementShifts[i] = (placementShifts[i] || 0) + 1;
-                     if (!currentLevels.some(l => l.placement === i - 1 && levelsMap.has(l.id))) break;
-                }
             }
         }
         else if (change.type === 'MOVE') {
             const match = change.description.match(/moved from #(\d+) to #(\d+)/);
             const levelData = levelsMap.get(change.levelId);
             if (match && levelData) {
-                const oldP = parseInt(match[1]);
-                const newP = parseInt(match[2]);
-                levelData.placement = oldP;
-                if (oldP > newP) {
-                    for(let i = newP; i < oldP; i++) {
-                        placementShifts[i] = (placementShifts[i] || 0) - 1;
-                    }
-                } else {
-                    for(let i = oldP + 1; i <= newP; i++) {
-                         placementShifts[i] = (placementShifts[i] || 0) + 1;
-                    }
-                }
+                levelData.placement = parseInt(match[1]); // Revert to old placement
             }
         }
     }
+    // --- End Simplified Undo ---
 
-    levelsMap.forEach(level => {
-        level.placement += (placementShifts[level.placement] || 0);
-    });
-
+    // Convert map to array, sort by potentially inaccurate placement
     let finalHistoricList = Array.from(levelsMap.values())
                                   .sort((a, b) => a.placement - b.placement);
 
+    // Re-normalize placements to ensure 1, 2, 3... sequence
     finalHistoricList.forEach((level, index) => {
       level.placement = index + 1;
     });
+
+    // Filter out invalid placements potentially caused by undo issues
     finalHistoricList = finalHistoricList.filter(level => level.placement > 0);
 
     return res.status(200).json(finalHistoricList);
 
   } catch (error) {
-    console.error("Failed to get historic list:", error);
+    console.error("[HistoricList] Failed to get historic list:", error);
     return res.status(500).json({ message: 'Failed to retrieve historic list data.' });
   }
 }
