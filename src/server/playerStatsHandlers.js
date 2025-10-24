@@ -1,13 +1,13 @@
 // src/server/playerStatsHandlers.js
 import prismaClientPkg from '@prisma/client';
-// No need for specific enums here unless used for filtering Levels
-const { PrismaClient } = prismaClientPkg;
-import fs from 'fs'; // Still needed for loading static lists for linking details
-import path from 'path'; // Still needed for loading static lists
+// Destructure PrismaClient and the correct enum name for your record status
+const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
+import fs from 'fs';
+import path from 'path';
 
 const prisma = new PrismaClient();
 
-// --- Static List Loading (remains the same - needed for findLevelDetailsByName) ---
+// --- Static List Loading (remains the same) ---
 let staticListsCache = null;
 function loadStaticLists() {
     if (staticListsCache) return staticListsCache;
@@ -27,7 +27,6 @@ function loadStaticLists() {
         return {};
     }
 }
-// Helper using loaded static lists (still potentially useful for frontend linking)
 const findLevelDetailsByName = (levelName) => {
     const allLists = loadStaticLists();
     if (!levelName || levelName === 'N/A' || Object.keys(allLists).length === 0) return null;
@@ -35,107 +34,118 @@ const findLevelDetailsByName = (levelName) => {
         const listData = allLists[listType];
         if (Array.isArray(listData)) {
             const level = listData.find(l => l.name?.toLowerCase() === levelName.toLowerCase());
-            if (level) {
-                return { ...level, listType, levelName: level.name };
-            }
-        } else {
-             console.warn(`[PlayerStatsHandler] Static list data for "${listType}" is not an array.`);
-        }
+            if (level) { return { ...level, listType, levelName: level.name }; }
+        } else { console.warn(`[PlayerStatsHandler] Static list data for "${listType}" is not an array.`); }
     }
     return null;
 };
 
-
-// Main handler function - No User model involved
+// Main handler function
 export async function getPlayerStats(req, res) {
   const { playerName } = req.params;
   if (!playerName || typeof playerName !== 'string') {
-      return res.status(400).json({ message: 'Player name parameter is required.' });
-  }
+     return res.status(400).json({ message: 'Player name parameter is required.' });
+   }
 
   const decodedPlayerName = decodeURIComponent(playerName);
-  console.log(`[PlayerStatsHandler] Fetching data for player: ${decodedPlayerName}`);
+  console.log(`[PlayerStatsHandler DEBUG] Fetching stats for: ${decodedPlayerName}`);
+
+  let playerStatsData = null;
+  let userData = null; // We still might have User accounts separate from Playerstats
+  let verifiedLevels = [];
+  let completedLevels = [];
+  let actualPlayerName = decodedPlayerName; // Default to requested name
 
   try {
-    // 1. Fetch the stats document from the 'Playerstats' collection (case-insensitive)
-    const playerStatsData = await prisma.playerstats.findFirst({
-        where: {
-            name: {
-                equals: decodedPlayerName,
-                mode: 'insensitive'
+    // --- 1. Fetch Playerstats (Case-Insensitive) ---
+    console.log(`[PlayerStatsHandler DEBUG] Querying Playerstats for name: ${decodedPlayerName} (insensitive), list: main-list`);
+    try {
+        playerStatsData = await prisma.playerstats.findFirst({
+            where: {
+                name: { equals: decodedPlayerName, mode: 'insensitive' },
+                list: 'main-list'
             },
-            // Assuming we primarily care about the main list stats entry for the profile header
-            list: 'main-list' // Fetch the main list entry specifically
-        },
-        select: {
-            id: true, demonlistScore: true, demonlistRank: true,
-            hardestDemonName: true, hardestDemonPlacement: true,
-            name: true, // Get actual casing
-            clan: true, list: true, updatedAt: true,
+            select: { id: true, demonlistScore: true, demonlistRank: true, hardestDemonName: true, hardestDemonPlacement: true, name: true, clan: true, list: true, updatedAt: true }
+        });
+        if (playerStatsData) {
+            actualPlayerName = playerStatsData.name; // Use exact casing from DB
+            console.log(`[PlayerStatsHandler DEBUG] Found Playerstats data. Actual name: ${actualPlayerName}`);
+        } else {
+            console.log(`[PlayerStatsHandler DEBUG] No Playerstats entry found.`);
         }
-    });
-
-    // Determine the actual name casing to use for further queries
-    // Use the name from Playerstats if found, otherwise use the decoded name
-    const actualPlayerName = playerStatsData?.name || decodedPlayerName;
-    console.log(`[PlayerStatsHandler] Using actual name for queries: ${actualPlayerName}`);
+    } catch (e) {
+        console.error(`[PlayerStatsHandler DEBUG] Error querying Playerstats:`, e);
+    }
 
 
-    // 2. Fetch levels verified by this player (case-sensitive using actualPlayerName)
-    const verifiedLevels = await prisma.level.findMany({
-        where: {
-            verifier: actualPlayerName, // Exact match using found/provided name
-            list: { not: 'future-list' }
-        },
-        select: { id: true, name: true, placement: true, list: true, levelId: true, },
-        orderBy: { placement: 'asc' }
-    });
-    console.log(`[PlayerStatsHandler] Found ${verifiedLevels.length} levels verified by ${actualPlayerName}.`);
-
-
-    // 3. Fetch levels completed (100% record) by this player (case-sensitive)
-    // This query looks inside the 'records' array on Level documents.
-    // Prisma needs specific syntax for array contains queries with objects.
-    // We'll filter for levels containing a record matching the username and 100%.
-    const completedLevels = await prisma.level.findMany({
-        where: {
-            // Filter for levels where the 'records' array contains at least one element
-            // that matches the condition { username: actualPlayerName, percent: 100 }
-            records: {
-                // Using 'some' checks if at least one element in the array matches
-                 some: {
-                     username: actualPlayerName,
-                     percent: 100
-                 }
-            }
-            // Optionally add list filter: list: 'main-list' if needed
-        },
-        select: { id: true, name: true, placement: true, list: true, levelId: true, },
-        orderBy: { placement: 'asc' } // Order completions logically
-    });
-     console.log(`[PlayerStatsHandler] Found ${completedLevels.length} levels completed (100%) by ${actualPlayerName}.`);
-
-
-    // 4. Check if we found any data at all
-     if (!playerStatsData && verifiedLevels.length === 0 && completedLevels.length === 0) {
-         console.log(`[PlayerStatsHandler] No Playerstats, verified, or completed levels found for ${decodedPlayerName}. Returning 404.`);
-         return res.status(404).json({ message: `Player "${decodedPlayerName}" not found or has no associated data.` });
+    // --- 2. Fetch User (Case-Insensitive) - Still useful if they have an account ---
+     console.log(`[PlayerStatsHandler DEBUG] Querying User for username: ${decodedPlayerName} (insensitive)`);
+     try {
+        userData = await prisma.user.findFirst({
+          where: { username: { equals: decodedPlayerName, mode: 'insensitive' }},
+          select: { id: true, username: true, personalRecords: {
+              where: { status: PersonalRecordProgressStatus.COMPLETED }, // Use correct enum
+              select: { levelId: true, levelName: true, },
+          }},
+        });
+        if (userData) {
+            // If we didn't get a name from Playerstats, use the User's name casing
+            if (!playerStatsData) actualPlayerName = userData.username;
+            console.log(`[PlayerStatsHandler DEBUG] Found User data. Actual name: ${actualPlayerName}`);
+        } else {
+             console.log(`[PlayerStatsHandler DEBUG] No User account found.`);
+        }
+     } catch (e) {
+         console.error(`[PlayerStatsHandler DEBUG] Error querying User:`, e);
      }
 
 
-    // 5. Construct the response object
-    const responseData = {
-      // playerStat might be null if the player isn't ranked on the main list but has completions/verifications elsewhere
-      playerStat: playerStatsData,
-      // Pass the lists of level objects directly
-      verifiedLevels: verifiedLevels,
-      completedLevels: completedLevels, // Add the completed levels list
-    };
+    // --- 3. Fetch Verified Levels (Using actualPlayerName with correct casing) ---
+    console.log(`[PlayerStatsHandler DEBUG] Querying Levels verified by: ${actualPlayerName} (exact match)`);
+     try {
+        verifiedLevels = await prisma.level.findMany({
+            where: { verifier: actualPlayerName, list: { not: 'future-list' } },
+            select: { id: true, name: true, placement: true, list: true, levelId: true },
+            orderBy: { placement: 'asc' }
+        });
+        console.log(`[PlayerStatsHandler DEBUG] Found ${verifiedLevels.length} verified levels.`);
+     } catch(e) {
+         console.error(`[PlayerStatsHandler DEBUG] Error querying verified levels:`, e);
+     }
 
+
+    // --- 4. Fetch Completed Levels (Using actualPlayerName with correct casing) ---
+     console.log(`[PlayerStatsHandler DEBUG] Querying Levels completed by: ${actualPlayerName} (exact match in records)`);
+     try {
+        completedLevels = await prisma.level.findMany({
+            where: { records: { some: { username: actualPlayerName, percent: 100 }}},
+            select: { id: true, name: true, placement: true, list: true, levelId: true },
+            orderBy: { placement: 'asc' }
+        });
+         console.log(`[PlayerStatsHandler DEBUG] Found ${completedLevels.length} completed levels.`);
+     } catch (e) {
+          console.error(`[PlayerStatsHandler DEBUG] Error querying completed levels:`, e);
+     }
+
+
+    // --- 5. Check if ANY data was found ---
+     if (!playerStatsData && !userData && verifiedLevels.length === 0 && completedLevels.length === 0) {
+         console.log(`[PlayerStatsHandler DEBUG] FINAL CHECK: No data found for ${decodedPlayerName}. Returning 404.`);
+         return res.status(404).json({ message: `Player "${decodedPlayerName}" not found or has no associated data.` });
+     }
+
+    // --- 6. Construct Response ---
+    const responseData = {
+      user: userData ? { id: userData.id, username: userData.username, personalRecords: userData.personalRecords } : null,
+      playerStat: playerStatsData,
+      verifiedLevels: verifiedLevels,
+      completedLevels: completedLevels,
+    };
+    console.log(`[PlayerStatsHandler DEBUG] Sending successful response for ${actualPlayerName}.`);
     return res.status(200).json(responseData);
 
-  } catch (error) {
-    console.error(`[PlayerStatsHandler] Error fetching data for ${decodedPlayerName}:`, error);
+  } catch (error) { // Catch unexpected errors during the process
+    console.error(`[PlayerStatsHandler DEBUG] UNEXPECTED error fetching data for ${decodedPlayerName}:`, error);
     return res.status(500).json({ message: 'Internal server error while fetching player stats.' });
   }
 }
