@@ -1,55 +1,45 @@
 // src/server/playerStatsHandlers.js
-import { PrismaClient, RecordStatus } from '@prisma/client';
-import fs from 'fs'; // Import the 'fs' module
-import path from 'path'; // Import the 'path' module
+import prismaClientPkg from '@prisma/client'; // Default import
+// Destructure PrismaClient and the correct enum name for your record status
+// **Important:** Check your schema.prisma for the exact enum name. It might be 'PersonalRecordProgressStatus' based on your schema.
+const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
+import fs from 'fs';
+import path from 'path';
 
 const prisma = new PrismaClient();
 
 // --- Function to load static list data ---
-let staticListsCache = null; // Cache the loaded data
+let staticListsCache = null;
 
 function loadStaticLists() {
-    // If cache exists, return it
     if (staticListsCache) {
         return staticListsCache;
     }
     console.log('[PlayerStatsHandler] Loading static list JSON files...');
     try {
-        const dataDir = path.resolve(process.cwd(), 'src/data'); // Get absolute path to data directory
-
+        const dataDir = path.resolve(process.cwd(), 'src/data');
         const mainList = JSON.parse(fs.readFileSync(path.join(dataDir, 'main-list.json'), 'utf8'));
         const unratedList = JSON.parse(fs.readFileSync(path.join(dataDir, 'unrated-list.json'), 'utf8'));
         const platformerList = JSON.parse(fs.readFileSync(path.join(dataDir, 'platformer-list.json'), 'utf8'));
         const challengeList = JSON.parse(fs.readFileSync(path.join(dataDir, 'challenge-list.json'), 'utf8'));
         const futureList = JSON.parse(fs.readFileSync(path.join(dataDir, 'future-list.json'), 'utf8'));
 
-        staticListsCache = { // Store in cache
-            main: mainList,
-            unrated: unratedList,
-            platformer: platformerList,
-            challenge: challengeList,
-            future: futureList
-        };
+        staticListsCache = { main, unrated, platformer, challenge, future };
         console.log('[PlayerStatsHandler] Successfully loaded static lists.');
         return staticListsCache;
     } catch (error) {
         console.error('[PlayerStatsHandler] CRITICAL ERROR: Failed to load static list JSON files:', error);
-        // If lists fail to load, the helper function won't work.
-        // Decide how to handle this - maybe return an empty object or throw?
-        // Returning empty object for now to avoid crashing, but lookups will fail.
-        return {};
+        return {}; // Return empty to avoid crash, lookups will fail
     }
 }
 // --- End loading function ---
 
-// Helper to find level details using the loaded static lists
+// Helper using loaded static lists
 const findLevelDetailsByName = (levelName) => {
-    const allLists = loadStaticLists(); // Load lists (uses cache after first call)
+    const allLists = loadStaticLists();
     if (!levelName || levelName === 'N/A' || Object.keys(allLists).length === 0) return null;
-
     for (const listType of Object.keys(allLists)) {
         const listData = allLists[listType];
-        // Ensure listData is an array before trying to find
         if (Array.isArray(listData)) {
             const level = listData.find(l => l.name?.toLowerCase() === levelName.toLowerCase());
             if (level) {
@@ -59,14 +49,11 @@ const findLevelDetailsByName = (levelName) => {
              console.warn(`[PlayerStatsHandler] Static list data for "${listType}" is not an array.`);
         }
     }
-    // console.warn(`[PlayerStatsHandler] Static level details not found for name: "${levelName}"`);
     return null;
 };
 
-
-// The actual handler function to be called by api/index.js
+// Main handler function
 export async function getPlayerStats(req, res) {
-  // Get player name from the request parameters
   const { playerName } = req.params;
 
   if (!playerName || typeof playerName !== 'string') {
@@ -84,11 +71,11 @@ export async function getPlayerStats(req, res) {
         id: true,
         username: true,
         personalRecords: {
-          where: { status: 'COMPLETED' }, // Use your enum name
-          select: {
-            levelId: true,
-            levelName: true, // Use name stored on record
+          where: {
+            // [FIX] Use the CORRECT destrutured enum value from YOUR schema
+            status: PersonalRecordProgressStatus.COMPLETED,
           },
+          select: { levelId: true, levelName: true, },
         },
         playerStat: {
           select: {
@@ -113,19 +100,14 @@ export async function getPlayerStats(req, res) {
 
     console.log(`[PlayerStatsHandler] Found user: ${user.username}, Verified levels count: ${verifiedLevels.length}`);
 
-    // 3. Construct the response object
-    // Note: The frontend PlayerProfile will need the findLevelDetailsByName helper
-    //       or this API needs to return the processed lists (beatenByList, verifiedByList)
-    //       Let's return the raw data and let the frontend process it using its own helper.
+    // 3. Construct response
     const responseData = {
       user: {
         id: user.id,
         username: user.username,
-        // Send raw records; frontend can use findLevelDetailsByName
         personalRecords: user.personalRecords,
       },
       playerStat: user.playerStat,
-      // Send raw verified levels; frontend can use findLevelDetailsByName
       verifiedLevels: verifiedLevels,
     };
 
@@ -133,6 +115,10 @@ export async function getPlayerStats(req, res) {
 
   } catch (error) {
     console.error(`[PlayerStatsHandler] Error fetching data for ${decodedPlayerName}:`, error);
+    // Check if the error is specifically about the enum value again
+    if (error.message?.includes('Expected PersonalRecordProgressStatus')) {
+        console.error(">>> Double-check the enum name 'PersonalRecordProgressStatus' matches schema.prisma exactly! <<<");
+    }
     return res.status(500).json({ message: 'Internal server error while fetching player stats.' });
   }
 }
