@@ -1,3 +1,4 @@
+// Datasource definition (uncommented)
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -5,9 +6,10 @@ datasource db {
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+  binaryTargets = ["native", "rhel-openssl-1.0.x"] // Keep your specific binary targets
 }
 
+// --- Your Types and Enums ---
 type Record {
   username String
   percent  Int
@@ -34,7 +36,8 @@ enum DemonDifficulty {
   EXTREME
 }
 
-enum RecordStatus {
+// Renamed to avoid conflicts
+enum PersonalRecordProgressStatus {
   IN_PROGRESS
   COMPLETED
 }
@@ -86,17 +89,18 @@ enum PartStatus {
   COMPLETED
 }
 
-// New Enum for the Changelog
 enum ChangeType {
   ADD
   REMOVE
   MOVE
 }
 
+// --- Your Models ---
+
 model Level {
   id          String           @id @default(auto()) @map("_id") @db.ObjectId
   placement   Int
-  name        String
+  name        String // Fixed
   creator     String
   verifier    String?
   levelId     Int?
@@ -106,13 +110,13 @@ model Level {
   records     Record[]
   tags        GameplayTag[]
   completions PersonalRecord[]
-  changes     ListChange[] // New relation to the changelog
+  changes     ListChange[]
   @@map("levels")
 }
 
 model User {
   id                     String                 @id @default(auto()) @map("_id") @db.ObjectId
-  email                  String                 @unique
+  email                  String                 @unique // Fixed
   username               String                 @unique
   password               String
   role                   Role                   @default(USER)
@@ -120,24 +124,42 @@ model User {
   isWorkshopBanned       Boolean                @default(false)
   submissions            Submission[]
   personalRecords        PersonalRecord[]
-  pinnedRecordId         String?                @db.ObjectId
+  pinnedRecordId         String?                @db.ObjectId // Fixed
   friendshipsAsRequester Friendship[]           @relation("Requester")
   friendshipsAsReceiver  Friendship[]           @relation("Receiver")
   layoutsCreated         Layout[]
   reportsFiled           LayoutReport[]
   collaborationRequests  CollaborationRequest[]
   assignedParts          LevelPart[]
-  conversations          Conversation[]         @relation(fields: [conversationIds], references: [id])
+  conversations          Conversation[]         @relation(fields: [conversationIds], references: [id]) // Fixed
   conversationIds        String[]               @db.ObjectId
   messagesSent           Message[]
+
+  // Relation to PlayerStat (added earlier)
+  playerStat             PlayerStat?
 }
+
+// New Model (added earlier)
+model PlayerStat {
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId                String    @unique @db.ObjectId
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  demonlistScore        Float     @default(0)
+  demonlistRank         Int?
+  hardestDemonName      String?
+  hardestDemonPlacement Int?
+  updatedAt             DateTime  @updatedAt
+
+  @@map("playerstats")
+}
+
 
 model Submission {
   id            String           @id @default(auto()) @map("_id") @db.ObjectId
   levelName     String
   player        String
   percent       Int
-  videoId       String
+  videoId       String // Fixed
   notes         String?
   status        SubmissionStatus @default(PENDING)
   createdAt     DateTime         @default(now())
@@ -147,20 +169,20 @@ model Submission {
 }
 
 model PersonalRecord {
-  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  id           String                       @id @default(auto()) @map("_id") @db.ObjectId
   placement    Int
   levelName    String
   difficulty   DemonDifficulty
   attempts     Int?
   videoUrl     String
   thumbnailUrl String?
-  createdAt    DateTime        @default(now())
-  status       RecordStatus    @default(COMPLETED)
+  createdAt    DateTime                     @default(now())
+  status       PersonalRecordProgressStatus @default(COMPLETED) // Use renamed Enum
   percent      Int?
-  user         User            @relation(fields: [userId], references: [id])
-  userId       String          @db.ObjectId
-  level        Level?          @relation(fields: [levelId], references: [id], onDelete: SetNull)
-  levelId      String?         @db.ObjectId
+  user         User                         @relation(fields: [userId], references: [id])
+  userId       String                       @db.ObjectId
+  level        Level?                       @relation(fields: [levelId], references: [id], onDelete: SetNull)
+  levelId      String?                      @db.ObjectId
 }
 
 model Friendship {
@@ -170,7 +192,7 @@ model Friendship {
   updatedAt   DateTime     @updatedAt
   requester   User         @relation("Requester", fields: [requesterId], references: [id])
   requesterId String       @db.ObjectId
-  receiver    User         @relation("Receiver", fields: [receiverId], references: [id])
+  receiver    User         @relation("Receiver", fields: [receiverId], references: [id]) // Fixed
   receiverId  String       @db.ObjectId
   @@unique([requesterId, receiverId])
 }
@@ -196,13 +218,14 @@ model Layout {
   conversation Conversation?
 }
 
+// Corrected model definition start
 model LayoutReport {
   id               String       @id @default(auto()) @map("_id") @db.ObjectId
   reason           String
   status           ReportStatus @default(PENDING)
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
-  reportedLayout   Layout       @relation(fields: [reportedLayoutId], references: [id])
+  reportedLayout   Layout       @relation(fields: [reportedLayoutId], references: [id]) // Fixed
   reportedLayoutId String       @db.ObjectId
   reporter         User         @relation(fields: [reporterId], references: [id])
   reporterId       String       @db.ObjectId
@@ -222,7 +245,7 @@ model CollaborationRequest {
 }
 
 model LevelPart {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId // Fixed
   startPercent Int
   endPercent   Int
   description  String?
@@ -253,13 +276,12 @@ model Message {
   authorId       String       @db.ObjectId
 }
 
-// New Model for the Changelog
 model ListChange {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId // Fixed
   createdAt   DateTime   @default(now())
   type        ChangeType
   description String
-  list        String     // Track which list this change affects
+  list        String
   level       Level      @relation(fields: [levelId], references: [id], onDelete: Cascade)
   levelId     String     @db.ObjectId
 }
