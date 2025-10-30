@@ -1,284 +1,285 @@
-// Datasource definition
+[cite_start]// Datasource definition [cite: 1]
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
+  [cite_start]provider = "mongodb" // [cite: 1]
+  [cite_start]url      = env("DATABASE_URL") // [cite: 1]
+[cite_start]} // [cite: 1]
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
-}
+  [cite_start]provider      = "prisma-client-js" // [cite: 1]
+  [cite_start]binaryTargets = ["native", "rhel-openssl-1.0.x"] // [cite: 1]
+[cite_start]} // [cite: 1]
 
 // --- Your Types and Enums (Corrected Formatting) ---
 type Record {
-  username String
-  percent  Int
-  videoId  String
-}
+  [cite_start]username String // [cite: 1]
+  [cite_start]percent  Int // [cite: 1]
+  [cite_start]videoId  String // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum Role {
-  USER
-  MODERATOR
-  ADMIN
-}
+  [cite_start]USER // [cite: 1]
+  [cite_start]MODERATOR // [cite: 1]
+  [cite_start]ADMIN // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum SubmissionStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
+  [cite_start]PENDING // [cite: 1]
+  [cite_start]APPROVED // [cite: 1]
+  [cite_start]REJECTED // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum DemonDifficulty {
-  EASY
-  MEDIUM
-  HARD
-  INSANE
-  EXTREME
-}
+  [cite_start]EASY // [cite: 1]
+  [cite_start]MEDIUM // [cite: 1]
+  [cite_start]HARD // [cite: 1]
+  [cite_start]INSANE // [cite: 1]
+  [cite_start]EXTREME // [cite: 1]
+[cite_start]} // [cite: 1]
 
-enum PersonalRecordProgressStatus { // Renamed from RecordStatus
-  IN_PROGRESS
-  COMPLETED
-}
+[cite_start]enum PersonalRecordProgressStatus { // Renamed from RecordStatus [cite: 1]
+  [cite_start]IN_PROGRESS // [cite: 1]
+  [cite_start]COMPLETED // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum FriendStatus {
-  PENDING
-  ACCEPTED
-  DECLINED
-  BLOCKED
-}
+  [cite_start]PENDING // [cite: 1]
+  [cite_start]ACCEPTED // [cite: 1]
+  [cite_start]DECLINED // [cite: 1, 2]
+  [cite_start]BLOCKED // [cite: 1, 2]
+[cite_start]} // [cite: 1]
 
 enum LayoutStatus {
-  OPEN
-  IN_PROGRESS
-  COMPLETED
-}
+  [cite_start]OPEN // [cite: 1]
+  [cite_start]IN_PROGRESS // [cite: 1]
+  [cite_start]COMPLETED // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum GameplayTag {
-  WAVE
-  SHIP
-  TIMING
-  MEMORY
-  STRAIGHT_FLY
-  SPAM
-  DUAL
-  UFO
-  BALL
-  ROBOT
-  SPIDER
-  SWING
-  PLATFORMER
-}
+  [cite_start]WAVE // [cite: 1]
+  [cite_start]SHIP // [cite: 1]
+  [cite_start]TIMING // [cite: 1]
+  [cite_start]MEMORY // [cite: 1]
+  [cite_start]STRAIGHT_FLY // [cite: 1]
+  [cite_start]SPAM // [cite: 1]
+  [cite_start]DUAL // [cite: 1]
+  [cite_start]UFO // [cite: 1]
+  [cite_start]BALL // [cite: 1]
+  [cite_start]ROBOT // [cite: 1]
+  [cite_start]SPIDER // [cite: 1]
+  [cite_start]SWING // [cite: 1]
+  [cite_start]PLATFORMER // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum ReportStatus {
-  PENDING
-  REVIEWED
-  RESOLVED
-}
+  [cite_start]PENDING // [cite: 1]
+  [cite_start]REVIEWED // [cite: 1]
+  [cite_start]RESOLVED // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum RequestStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
-}
+  [cite_start]PENDING // [cite: 1]
+  [cite_start]ACCEPTED // [cite: 1]
+  [cite_start]REJECTED // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum PartStatus {
-  OPEN
-  ASSIGNED
-  COMPLETED
-}
+  [cite_start]OPEN // [cite: 1]
+  [cite_start]ASSIGNED // [cite: 1]
+  [cite_start]COMPLETED // [cite: 1]
+[cite_start]} // [cite: 1]
 
 enum ChangeType {
-  ADD
-  REMOVE
-  MOVE
-}
+  [cite_start]ADD // [cite: 1]
+  [cite_start]REMOVE // [cite: 1]
+  [cite_start]MOVE // [cite: 1]
+[cite_start]} // [cite: 1]
 
 // --- Your Models (Corrected Formatting) ---
 
 model Level {
-  id          String           @id @default(auto()) @map("_id") @db.ObjectId
-  placement   Int
-  name        String
-  creator     String
-  verifier    String?
-  levelId     Int? // GD Level ID
-  videoId     String
-  description String?
-  list        String
-  records     Record[]
-  tags        GameplayTag[]
-  completions PersonalRecord[]
-  changes     ListChange[]
-  @@map("levels")
-}
+  [cite_start]id          String           @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1, 3]
+  [cite_start]placement   Int // [cite: 1]
+  [cite_start]name        String // [cite: 1]
+  [cite_start]creator     String // [cite: 1]
+  verifier    String? [cite_start]// [cite: 1]
+  levelId     Int? [cite_start]// GD Level ID [cite: 1, 4]
+  [cite_start]videoId     String // [cite: 1]
+  description String? [cite_start]// [cite: 1]
+  [cite_start]list        String // [cite: 1, 5]
+  [cite_start]records     Record[] // [cite: 1]
+  [cite_start]tags        GameplayTag[] // [cite: 1]
+  [cite_start]completions PersonalRecord[] // [cite: 1]
+  [cite_start]changes     ListChange[] // [cite: 1]
+  [cite_start]@@map("levels") // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model User {
-  id                     String                 @id @default(auto()) @map("_id") @db.ObjectId
-  email                  String                 @unique
-  username               String                 @unique
-  password               String
-  role                   Role                   @default(USER)
-  createdAt              DateTime               @default(now())
-  isWorkshopBanned       Boolean                @default(false)
-  submissions            Submission[]
-  personalRecords        PersonalRecord[]
-  pinnedRecordId         String?                @db.ObjectId
-  friendshipsAsRequester Friendship[]           @relation("Requester")
-  friendshipsAsReceiver  Friendship[]           @relation("Receiver")
-  layoutsCreated         Layout[]
-  reportsFiled           LayoutReport[]
-  collaborationRequests  CollaborationRequest[]
-  assignedParts          LevelPart[]
-  conversations          Conversation[]         @relation(fields: [conversationIds], references: [id])
-  conversationIds        String[]               @db.ObjectId
-  messagesSent           Message[]
-  // No playerStat relation
-}
+  [cite_start]id                     String                 @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  [cite_start]email                  String                 @unique // [cite: 1, 6]
+  [cite_start]username               String                 @unique // [cite: 1]
+  [cite_start]password               String // [cite: 1]
+  [cite_start]role                   Role                   @default(USER) // [cite: 1, 7]
+  [cite_start]createdAt              DateTime               @default(now()) // [cite: 1]
+  [cite_start]isWorkshopBanned       Boolean                @default(false) // [cite: 1]
+  [cite_start]submissions            Submission[] // [cite: 1]
+  [cite_start]personalRecords        PersonalRecord[] // [cite: 1]
+  pinnedRecordId         String?                [cite_start]@db.ObjectId // [cite: 1, 8]
+  [cite_start]friendshipsAsRequester Friendship[]           @relation("Requester") // [cite: 1]
+  [cite_start]friendshipsAsReceiver  Friendship[]           @relation("Receiver") // [cite: 1]
+  [cite_start]layoutsCreated         Layout[] // [cite: 1]
+  [cite_start]reportsFiled           LayoutReport[] // [cite: 1]
+  [cite_start]collaborationRequests  CollaborationRequest[] // [cite: 1]
+  [cite_start]assignedParts          LevelPart[] // [cite: 1]
+  [cite_start]conversations          Conversation[]         @relation(fields: [conversationIds], references: [id]) // [cite: 1]
+  [cite_start]conversationIds        String[]               @db.ObjectId // [cite: 1, 9]
+  [cite_start]messagesSent           Message[] // [cite: 1]
+  [cite_start]// No playerStat relation [cite: 1]
+[cite_start]} // [cite: 1]
 
 model Submission {
-  id            String           @id @default(auto()) @map("_id") @db.ObjectId
-  levelName     String
-  player        String
-  percent       Int
-  videoId       String
-  notes         String?
-  status        SubmissionStatus @default(PENDING)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  submittedBy   User             @relation(fields: [submittedById], references: [id])
-  submittedById String           @db.ObjectId
-}
+  [cite_start]id            String           @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  [cite_start]levelName     String // [cite: 1]
+  [cite_start]player        String // [cite: 1]
+  [cite_start]percent       Int // [cite: 1]
+  [cite_start]videoId       String // [cite: 1, 10]
+  notes         String? [cite_start]// [cite: 1]
+  [cite_start]status        SubmissionStatus @default(PENDING) // [cite: 1, 11]
+  [cite_start]createdAt     DateTime         @default(now()) // [cite: 1]
+  [cite_start]updatedAt     DateTime         @updatedAt // [cite: 1]
+  [cite_start]submittedBy   User             @relation(fields: [submittedById], references: [id]) // [cite: 1]
+  [cite_start]submittedById String           @db.ObjectId // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model PersonalRecord {
-  id           String                       @id @default(auto()) @map("_id") @db.ObjectId
-  placement    Int
-  levelName    String
-  difficulty   DemonDifficulty
-  attempts     Int?
-  videoUrl     String
-  thumbnailUrl String?
-  createdAt    DateTime                     @default(now())
-  status       PersonalRecordProgressStatus @default(COMPLETED) // Use renamed Enum
-  percent      Int?
-  user         User                         @relation(fields: [userId], references: [id])
-  userId       String                       @db.ObjectId
-  level        Level?                       @relation(fields: [levelId], references: [id], onDelete: SetNull)
-  levelId      String?                      @db.ObjectId
-}
+  [cite_start]id           String                       @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1, 12]
+  [cite_start]placement    Int // [cite: 1]
+  [cite_start]levelName    String // [cite: 1]
+  [cite_start]difficulty   DemonDifficulty // [cite: 1]
+  attempts     Int? [cite_start]// [cite: 1]
+  [cite_start]videoUrl     String // [cite: 1, 13]
+  thumbnailUrl String? [cite_start]// [cite: 1]
+  [cite_start]createdAt    DateTime                     @default(now()) // [cite: 1]
+  [cite_start]status       PersonalRecordProgressStatus @default(COMPLETED) // Use renamed Enum [cite: 1]
+  percent      Int? [cite_start]// [cite: 1]
+  [cite_start]user         User                         @relation(fields: [userId], references: [id]) // [cite: 1, 14]
+  [cite_start]userId       String                       @db.ObjectId // [cite: 1]
+  level        Level?                       [cite_start]@relation(fields: [levelId], references: [id], onDelete: SetNull) // [cite: 1, 15]
+  levelId      String?                      [cite_start]@db.ObjectId // [cite: 1, 16]
+[cite_start]} // [cite: 1]
 
 model Friendship {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  status      FriendStatus @default(PENDING)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  requester   User         @relation("Requester", fields: [requesterId], references: [id])
-  requesterId String       @db.ObjectId
-  receiver    User         @relation("Receiver", fields: [receiverId], references: [id])
-  receiverId  String       @db.ObjectId
-  @@unique([requesterId, receiverId])
-}
+  [cite_start]id          String       @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  [cite_start]status      FriendStatus @default(PENDING) // [cite: 1]
+  [cite_start]createdAt   DateTime     @default(now()) // [cite: 1]
+  [cite_start]updatedAt   DateTime     @updatedAt // [cite: 1]
+  [cite_start]requester   User         @relation("Requester", fields: [requesterId], references: [id]) // [cite: 1]
+  [cite_start]requesterId String       @db.ObjectId // [cite: 1]
+  [cite_start]receiver    User         @relation("Receiver", fields: [receiverId], references: [id]) // [cite: 1, 17]
+  [cite_start]receiverId  String       @db.ObjectId // [cite: 1]
+  [cite_start]@@unique([requesterId, receiverId]) // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model Layout {
-  id           String                 @id @default(auto()) @map("_id") @db.ObjectId
-  levelName    String
-  description  String?
-  status       LayoutStatus           @default(OPEN)
-  songName     String?
-  songId       String?
-  videoUrl     String
-  thumbnailUrl String?
-  difficulty   DemonDifficulty
-  tags         GameplayTag[]
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
-  creator      User                   @relation(fields: [creatorId], references: [id])
-  creatorId    String                 @db.ObjectId
-  reports      LayoutReport[]
-  applicants   CollaborationRequest[]
-  parts        LevelPart[]
-  conversation Conversation?
-}
+  [cite_start]id           String                 @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  [cite_start]levelName    String // [cite: 1]
+  description  String? [cite_start]// [cite: 1]
+  [cite_start]status       LayoutStatus           @default(OPEN) // [cite: 1, 18]
+  songName     String? [cite_start]// [cite: 1]
+  songId       String? [cite_start]// [cite: 1, 19]
+  [cite_start]videoUrl     String // [cite: 1]
+  thumbnailUrl String? [cite_start]// [cite: 1]
+  [cite_start]difficulty   DemonDifficulty // [cite: 1, 20]
+  [cite_start]tags         GameplayTag[] // [cite: 1]
+  [cite_start]createdAt    DateTime               @default(now()) // [cite: 1]
+  [cite_start]updatedAt    DateTime               @updatedAt // [cite: 1]
+  [cite_start]creator      User                   @relation(fields: [creatorId], references: [id]) // [cite: 1]
+  [cite_start]creatorId    String                 @db.ObjectId // [cite: 1, 21]
+  [cite_start]reports      LayoutReport[] // [cite: 1]
+  [cite_start]applicants   CollaborationRequest[] // [cite: 1]
+  [cite_start]parts        LevelPart[] // [cite: 1]
+  conversation Conversation? [cite_start]// [cite: 1, 22]
+[cite_start]} // [cite: 1, 22]
 
 model LayoutReport {
-  id               String       @id @default(auto()) @map("_id") @db.ObjectId
-  reason           String
-  status           ReportStatus @default(PENDING)
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-  reportedLayout   Layout       @relation(fields: [reportedLayoutId], references: [id])
-  reportedLayoutId String       @db.ObjectId
-  reporter         User         @relation(fields: [reporterId], references: [id])
-  reporterId       String       @db.ObjectId
-}
+  [cite_start]id               String       @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  [cite_start]reason           String // [cite: 1]
+  [cite_start]status           ReportStatus @default(PENDING) // [cite: 1]
+  [cite_start]createdAt        DateTime     @default(now()) // [cite: 1]
+  [cite_start]updatedAt        DateTime     @updatedAt // [cite: 1]
+  [cite_start]reportedLayout   Layout       @relation(fields: [reportedLayoutId], references: [id]) // [cite: 1, 23]
+  [cite_start]reportedLayoutId String       @db.ObjectId // [cite: 1]
+  [cite_start]reporter         User         @relation(fields: [reporterId], references: [id]) // [cite: 1]
+  [cite_start]reporterId       String       @db.ObjectId // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model CollaborationRequest {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  message     String?
-  status      RequestStatus @default(PENDING)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  applicant   User          @relation(fields: [applicantId], references: [id])
-  applicantId String        @db.ObjectId
-  layout      Layout        @relation(fields: [layoutId], references: [id])
-  layoutId    String        @db.ObjectId
-  @@unique([applicantId, layoutId])
-}
+  [cite_start]id          String        @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  message     String? [cite_start]// [cite: 1]
+  [cite_start]status      RequestStatus @default(PENDING) // [cite: 1, 24]
+  [cite_start]createdAt   DateTime      @default(now()) // [cite: 1]
+  [cite_start]updatedAt   DateTime      @updatedAt // [cite: 1]
+  [cite_start]applicant   User          @relation(fields: [applicantId], references: [id]) // [cite: 1]
+  [cite_start]applicantId String        @db.ObjectId // [cite: 1]
+  [cite_start]layout      Layout        @relation(fields: [layoutId], references: [id]) // [cite: 1]
+  [cite_start]layoutId    String        @db.ObjectId // [cite: 1]
+  [cite_start]@@unique([applicantId, layoutId]) // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model LevelPart {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  startPercent Int
-  endPercent   Int
-  description  String?
-  status       PartStatus @default(OPEN)
-  layout       Layout     @relation(fields: [layoutId], references: [id])
-  layoutId     String     @db.ObjectId
-  assignee     User?      @relation(fields: [assigneeId], references: [id])
-  assigneeId   String?    @db.ObjectId
-}
+  [cite_start]id           String     @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1, 25]
+  [cite_start]startPercent Int // [cite: 1]
+  [cite_start]endPercent   Int // [cite: 1]
+  description  String? [cite_start]// [cite: 1]
+  [cite_start]status       PartStatus @default(OPEN) // [cite: 1, 26]
+  [cite_start]layout       Layout     @relation(fields: [layoutId], references: [id]) // [cite: 1]
+  [cite_start]layoutId     String     @db.ObjectId // [cite: 1]
+  assignee     User?      [cite_start]@relation(fields: [assigneeId], references: [id]) // [cite: 1, 27]
+  assigneeId   String?    [cite_start]@db.ObjectId // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model Conversation {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime  @default(now())
-  layout    Layout    @relation(fields: [layoutId], references: [id])
-  layoutId  String    @unique @db.ObjectId
-  members   User[]    @relation(fields: [memberIds], references: [id])
-  memberIds String[]  @db.ObjectId
-  messages  Message[]
-}
+  [cite_start]id        String    @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1]
+  [cite_start]createdAt DateTime  @default(now()) // [cite: 1]
+  [cite_start]layout    Layout    @relation(fields: [layoutId], references: [id]) // [cite: 1]
+  [cite_start]layoutId  String    @unique @db.ObjectId // [cite: 1]
+  [cite_start]members   User[]    @relation(fields: [memberIds], references: [id]) // [cite: 1]
+  [cite_start]memberIds String[]  @db.ObjectId // [cite: 1]
+  [cite_start]messages  Message[] // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model Message {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  content        String
-  createdAt      DateTime     @default(now())
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
-  conversationId String       @db.ObjectId
-  author         User         @relation(fields: [authorId], references: [id])
-  authorId       String       @db.ObjectId
-}
+  [cite_start]id             String       @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1, 28]
+  [cite_start]content        String // [cite: 1]
+  [cite_start]createdAt      DateTime     @default(now()) // [cite: 1]
+  [cite_start]conversation   Conversation @relation(fields: [conversationId], references: [id]) // [cite: 1]
+  [cite_start]conversationId String       @db.ObjectId // [cite: 1]
+  [cite_start]author         User         @relation(fields: [authorId], references: [id]) // [cite: 1]
+  [cite_start]authorId       String       @db.ObjectId // [cite: 1]
+[cite_start]} // [cite: 1]
 
 model ListChange {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime   @default(now())
-  type        ChangeType
-  description String
-  list        String
-  level       Level      @relation(fields: [levelId], references: [id], onDelete: Cascade)
-  levelId     String     @db.ObjectId
-}
+  [cite_start]id          String     @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1, 29]
+  [cite_start]createdAt   DateTime   @default(now()) // [cite: 1]
+  [cite_start]type        ChangeType // [cite: 1]
+  [cite_start]description String // [cite: 1]
+  [cite_start]list        String // [cite: 1]
+  [cite_start]level       Level      @relation(fields: [levelId], references: [id], onDelete: Cascade) // [cite: 1]
+  [cite_start]levelId     String     @db.ObjectId // [cite: 1]
+[cite_start]} // [cite: 1]
 
 // Map the existing playerstats collection
 model Playerstats {
-  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
-  demonlistRank         Int?
-  name                  String
-  clan                  String?
-  demonlistScore        Float?
-  list                  String
-  // __v                Int? // Omit unless needed for Mongoose compatibility
-  hardestDemonName      String?
-  hardestDemonPlacement Int?
-  updatedAt             DateTime? @updatedAt
+  [cite_start]id                    String    @id @default(auto()) @map("_id") @db.ObjectId // [cite: 1, 30]
+  demonlistRank         Int? [cite_start]// [cite: 1]
+  [cite_start]name                  String // [cite: 1, 31]
+  clan                  String? [cite_start]// [cite: 1]
+  demonlistScore        Float? [cite_start]// [cite: 1, 32]
+  [cite_start]list                  String // [cite: 1]
+  // __v                Int? [cite_start]// Omit unless needed for Mongoose compatibility [cite: 1, 33]
+  hardestDemonName      String? [cite_start]// [cite: 1]
+  hardestDemonPlacement Int? [cite_start]// [cite: 1]
+  updatedAt             DateTime? [cite_start]@updatedAt // [cite: 1, 34]
 
-  @@map("playerstats")
-}
+  [cite_start]@@map("playerstats") // [cite: 1]
+  @@unique([name, list]) // Ensure name+list combination is unique
+[cite_start]} // [cite: 1]
