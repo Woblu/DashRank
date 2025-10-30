@@ -3,195 +3,212 @@ import { useParams, Link, useLocation } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
 import axios from 'axios';
-import LoadingSpinner from '../components/LoadingSpinner'; // Assuming you have this
+import LoadingSpinner from '../components/LoadingSpinner';
 
-// Import static lists only for getting list titles and maybe details for linking if needed
-// We rely on the API for the actual lists of completed/verified levels
+// Import ALL static lists needed to find completions and verifications
 import mainList from '../data/main-list.json';
 import unratedList from '../data/unrated-list.json';
 import platformerList from '../data/platformer-list.json';
 import challengeList from '../data/challenge-list.json';
-// futureList might not be needed if not displaying completions/verifications from it
+// Import future list if verifications/completions from there should be shown
 // import futureList from '../data/future-list.json';
 
-// Keep list titles for display
+// Combine static lists for easier iteration
+const allStaticLists = {
+    main: mainList,
+    unrated: unratedList,
+    platformer: platformerList,
+    challenge: challengeList,
+    // future: futureList // Add if needed
+};
 const listTitles = { main: "Main List", unrated: "Unrated List", platformer: "Platformer List", challenge: "Challenge List", future: "Future List" };
 
 // Helper to find level details in static lists by name (case-insensitive)
-// Needed for linking completed/verified levels fetched from API
-const allStaticLists = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList }; // Exclude future if not needed
-
+// Still useful for linking the hardest demon
 const findLevelDetailsByName = (levelName) => {
     if (!levelName || levelName === 'N/A') return null;
     for (const listType of Object.keys(allStaticLists)) {
         const listData = allStaticLists[listType];
-        // Ensure listData is an array before trying to find
         if (Array.isArray(listData)) {
             const level = listData.find(l => l.name?.toLowerCase() === levelName.toLowerCase());
             if (level) {
-                // Return details including listType and ensuring levelName is correct case
+                // Return details needed for linking
                 return { ...level, listType, levelName: level.name };
             }
         }
     }
-    // Keep this warning commented unless actively debugging missing levels
-    // console.warn(`[PlayerProfile] Level details not found for name: "${levelName}" in static lists.`);
+    console.warn(`[PlayerProfile Helper] Level details not found for name: "${levelName}" in static lists.`);
     return null;
 };
 
 
 export default function PlayerProfile() {
-  const { playerName } = useParams(); // Get player name from URL parameter
+  const { playerName } = useParams();
   const { t } = useLanguage();
   const location = useLocation();
-  const [playerData, setPlayerData] = useState(null); // Will store combined data { name, stats, beatenByList, verifiedByList, hardestDemon }
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // State for API errors
+  // State holds data combined from API (stats) and static files (lists)
+  const [profileData, setProfileData] = useState({
+      name: playerName, // Default to param name
+      stats: null,
+      beatenByList: {},
+      verifiedByList: {},
+      hardestDemon: null,
+      loading: true,
+      error: null,
+  });
 
-  const fromPath = location.state?.from || '/'; // Default back path
+  const fromPath = location.state?.from || '/';
 
   useEffect(() => {
-    const fetchPlayerData = async () => {
+    const fetchAndProcessData = async () => {
       if (!playerName) {
-        setError("Player name not provided.");
-        setLoading(false);
+        setProfileData(prev => ({ ...prev, error: "Player name missing.", loading: false }));
         return;
       }
 
-      setLoading(true);
-      setError(null); // Clear previous errors
-      setPlayerData(null); // Clear previous data
+      setProfileData(prev => ({ // Reset state for new load
+          name: playerName, stats: null, beatenByList: {}, verifiedByList: {},
+          hardestDemon: null, loading: true, error: null
+      }));
 
+      let apiStats = null;
+      let apiError = null;
+
+      // --- 1. Fetch Core Stats from API ---
       try {
-        console.log(`[PlayerProfile] Fetching stats via API for: ${playerName}`);
-        // Fetch data from the API endpoint
+        console.log(`[PlayerProfile] Fetching core stats via API for: ${playerName}`);
         const response = await axios.get(`/api/player-stats/${encodeURIComponent(playerName)}`);
-        const apiData = response.data; // Expected: { playerStat, verifiedLevels, completedLevels }
-        console.log("[PlayerProfile] Received API data:", apiData);
-
-        // Check if essential data is missing, indicating player not found or no relevant data
-        if (!apiData.playerStat && apiData.verifiedLevels?.length === 0 && apiData.completedLevels?.length === 0) {
-            throw new Error(`Player "${playerName}" not found or has no stats/levels.`); // Trigger catch block
+        // We only care about playerStat from the API response now
+        apiStats = response.data.playerStat; // { name, demonlistRank, demonlistScore, hardestDemonName, hardestDemonPlacement, ... }
+        console.log("[PlayerProfile] Received API stats data:", apiStats);
+        if (!apiStats) {
+             console.log("[PlayerProfile] API returned no playerStat data for main list.");
+             // Don't set error yet, player might still have completions/verifications
         }
-
-        // --- Process data received from API ---
-
-        // Player Name and Stats (Rank, Score, Hardest Name/Placement)
-        const stats = apiData.playerStat; // Can be null or an object from Playerstats collection
-        const displayName = stats?.name || playerName; // Use name from stats if available, fallback to URL param
-
-        // Process Hardest Demon Details for Linking (using info from stats)
-        let hardestDemonDetails = null;
-        if (stats?.hardestDemonName) {
-            // Attempt to find full details (like levelId, listType) using static lists for linking
-             hardestDemonDetails = findLevelDetailsByName(stats.hardestDemonName);
-             if (hardestDemonDetails) {
-                 // Use the accurate placement from the stats object
-                 hardestDemonDetails.placement = stats.hardestDemonPlacement ?? hardestDemonDetails.placement; // Prioritize placement from stats
-                 console.log("[PlayerProfile] Found full details for hardest demon:", hardestDemonDetails);
-             } else {
-                 // If not found in static lists, create a placeholder for display
-                 console.warn(`[PlayerProfile] Could not find static details for hardest demon "${stats.hardestDemonName}". Creating placeholder.`);
-                 hardestDemonDetails = {
-                     levelName: stats.hardestDemonName,
-                     placement: stats.hardestDemonPlacement || '?',
-                     listType: 'main', // Assume main list if details missing
-                     id: null, // Indicate details are incomplete
-                     levelId: null
-                 };
-             }
-        } else {
-             console.log("[PlayerProfile] No Hardest Demon info provided by API.");
-        }
-
-
-        // Group Completed Levels by List
-        const beatenByList = {};
-        const uniqueBeatenIdsOrNames = new Set(); // Use Set for efficient duplicate checking based on ID or name
-
-        apiData.completedLevels?.forEach(level => {
-            const levelIdentifier = level.id || level.name?.toLowerCase(); // Use ID if available, else name
-            if (!levelIdentifier || uniqueBeatenIdsOrNames.has(levelIdentifier)) return; // Skip if no identifier or duplicate
-
-            const listType = level.list || 'unknown'; // Use list field from level data
-            if (!beatenByList[listType]) beatenByList[listType] = [];
-
-            // Attempt to enrich with static data if needed (e.g., for levelId if missing)
-             const staticDetails = findLevelDetailsByName(level.name);
-             const displayLevel = {
-                 ...staticDetails, // Include static details first (like levelId)
-                 ...level, // Override with potentially more accurate DB data (like placement, name casing)
-                 levelName: level.name, // Ensure levelName exists
-                 listType: listType,
-             };
-
-            beatenByList[listType].push(displayLevel);
-            uniqueBeatenIdsOrNames.add(levelIdentifier);
-        });
-        // Sort levels within each list by placement
-        Object.values(beatenByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
-        console.log("[PlayerProfile] Grouped Completed Levels:", beatenByList);
-
-
-        // Group Verified Levels by List
-        const verifiedByList = {};
-        const uniqueVerifiedIdsOrNames = new Set();
-        apiData.verifiedLevels?.forEach(level => {
-             const levelIdentifier = level.id || level.name?.toLowerCase();
-             if (!levelIdentifier || uniqueVerifiedIdsOrNames.has(levelIdentifier)) return;
-
-            const listType = level.list || 'unknown';
-            if (!verifiedByList[listType]) verifiedByList[listType] = [];
-
-            // Enrich with static data if needed
-             const staticDetails = findLevelDetailsByName(level.name);
-             const displayLevel = {
-                 ...staticDetails,
-                 ...level,
-                 levelName: level.name,
-                 listType: listType,
-             };
-
-            verifiedByList[listType].push(displayLevel);
-            uniqueVerifiedIdsOrNames.add(levelIdentifier);
-        });
-         // Sort levels within each list by placement
-        Object.values(verifiedByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
-        console.log("[PlayerProfile] Grouped Verified Levels:", verifiedByList);
-
-
-        // Set the final state object used for rendering
-        setPlayerData({
-          name: displayName,
-          stats: stats, // Store the whole stats object (rank, score, hardest info from DB)
-          beatenByList, // Grouped and sorted completed levels
-          verifiedByList, // Grouped and sorted verified levels
-          hardestDemon: hardestDemonDetails, // Store processed hardest demon details for display
-        });
-
       } catch (err) {
-        console.error("Failed to load player data:", err);
-        // Use error message from API (e.g., 404) or catch block
-        setError(err.response?.data?.message || err.message || "An error occurred fetching player data.");
-        setPlayerData(null); // Ensure data is null on error
-      } finally {
-        setLoading(false);
+        console.error("Failed to load player stats from API:", err);
+        // If API returns 404, it's okay if we find completions/verifications in static files
+        if (err.response?.status !== 404) {
+            apiError = err.response?.data?.message || err.message || "Error fetching core stats.";
+        } else {
+             console.log("[PlayerProfile] API returned 404 for player stats (expected if not ranked).");
+        }
+        apiStats = null; // Ensure stats are null on error/404
       }
-    };
 
-    fetchPlayerData();
-  }, [playerName]); // Re-run effect only if playerName in URL changes
+      // Determine the canonical player name (prefer API result for correct casing)
+      const canonicalName = apiStats?.name || playerName;
+      const canonicalNameLower = canonicalName.toLowerCase();
+      console.log(`[PlayerProfile] Using canonical name: ${canonicalName}`);
+
+
+      // --- 2. Process Static JSONs for Completed/Verified Lists ---
+      const beatenByList = {};
+      const verifiedByList = {};
+      const uniqueBeatenOrVerifiedNames = new Set(); // Track unique level names processed
+
+      console.log("[PlayerProfile] Processing static lists for completions/verifications...");
+      for (const listType in allStaticLists) {
+          const staticLevels = allStaticLists[listType];
+          if (!Array.isArray(staticLevels)) continue;
+
+          for (const level of staticLevels) {
+              const levelNameLower = level.name?.toLowerCase();
+              if (!levelNameLower) continue; // Skip levels without names
+
+              let isVerified = false;
+              let isCompleted = false;
+
+              // Check verification (case-insensitive)
+              if (level.verifier?.toLowerCase() === canonicalNameLower) {
+                  isVerified = true;
+                   console.log(` -> Found verified: ${level.name} (${listType})`);
+                  if (!verifiedByList[listType]) verifiedByList[listType] = [];
+                  // Add only if not already added (handles potential duplicates in source)
+                  if (!verifiedByList[listType].some(l => l.name?.toLowerCase() === levelNameLower)) {
+                      verifiedByList[listType].push({ ...level, listType, levelName: level.name });
+                  }
+              }
+
+              // Check completions from records array (case-insensitive)
+              if (Array.isArray(level.records)) {
+                    if(level.records.some(r => r.username?.toLowerCase() === canonicalNameLower && r.percent === 100)) {
+                        isCompleted = true;
+                    }
+              }
+
+              // Add to completed list if completed OR verified (ensures verified levels appear)
+              // and if not already processed
+              if ((isCompleted || isVerified) && !uniqueBeatenOrVerifiedNames.has(levelNameLower)) {
+                   console.log(` -> Found completed/verified: ${level.name} (${listType})`);
+                  if (!beatenByList[listType]) beatenByList[listType] = [];
+                  beatenByList[listType].push({ ...level, listType, levelName: level.name });
+                  uniqueBeatenOrVerifiedNames.add(levelNameLower);
+              }
+          }
+      }
+      // Sort levels within each list by placement
+      Object.values(beatenByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
+      Object.values(verifiedByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
+      console.log("[PlayerProfile] Grouped Completed Levels (from static):", beatenByList);
+      console.log("[PlayerProfile] Grouped Verified Levels (from static):", verifiedByList);
+
+      // --- 3. Process Hardest Demon ---
+      // Use the name/placement from the API stats if available
+      let hardestDemonDetails = null;
+      if (apiStats?.hardestDemonName) {
+           console.log(`[PlayerProfile] Using hardest demon from API: ${apiStats.hardestDemonName} (#${apiStats.hardestDemonPlacement})`);
+           // Find details for linking using the helper
+           hardestDemonDetails = findLevelDetailsByName(apiStats.hardestDemonName);
+           if (hardestDemonDetails) {
+                // Ensure placement matches the reliable API data
+                hardestDemonDetails.placement = apiStats.hardestDemonPlacement ?? hardestDemonDetails.placement;
+           } else {
+                // Fallback if details lookup fails
+                hardestDemonDetails = { levelName: apiStats.hardestDemonName, placement: apiStats.hardestDemonPlacement || '?', listType: 'main', id: null, levelId: null };
+           }
+      } else {
+           console.log("[PlayerProfile] No hardest demon info from API.");
+           // Optional: Calculate hardest dynamically ONLY IF API fails? (Adds complexity back)
+           // For now, if API says null, we show N/A.
+      }
+       console.log("[PlayerProfile] Final Hardest Demon for display:", hardestDemonDetails);
+
+
+      // --- 4. Final Check and Set State ---
+       // Check if we found *any* data (stats OR completions OR verifications)
+       if (!apiStats && Object.keys(beatenByList).length === 0 && Object.keys(verifiedByList).length === 0) {
+           // If API failed AND we found nothing in static files, then player not found
+           setError(`Player "${playerName}" not found or has no associated data.`);
+           setProfileData(prev => ({ ...prev, loading: false }));
+       } else {
+           // Set the final state with combined data
+           setProfileData({
+               name: canonicalName,
+               stats: apiStats, // Store the stats object from API (can be null)
+               beatenByList: beatenByList, // From static JSONs
+               verifiedByList: verifiedByList, // From static JSONs
+               hardestDemon: hardestDemonDetails, // From API stats, processed for linking
+               loading: false,
+               error: apiError, // Store potential API error, but still show static data
+           });
+       }
+
+    }; // End fetchAndProcessData
+
+    fetchAndProcessData();
+  }, [playerName]); // Re-run effect if playerName in URL changes
 
   // Render Loading state
-  if (loading) {
+  if (profileData.loading) {
     return <LoadingSpinner message={t('loading_data')} />;
   }
 
-  // Render Error or Not Found state
-  if (error || !playerData) {
+  // Render Error state (only show full error if we have NO data at all)
+  if (profileData.error && !profileData.stats && Object.keys(profileData.beatenByList).length === 0 && Object.keys(profileData.verifiedByList).length === 0) {
     return (
       <div className="text-center p-8">
-        <h1 className="text-2xl font-bold text-red-500">{error || t('player_not_found')}</h1>
+        <h1 className="text-2xl font-bold text-red-500">{profileData.error}</h1>
         <Link to={fromPath} className="mt-4 inline-flex items-center text-cyan-600 dark:text-cyan-400 hover:underline">
           <ChevronLeft size={16} /> {t('back_to_home')}
         </Link>
@@ -199,8 +216,8 @@ export default function PlayerProfile() {
     );
   }
 
-  // Destructure data for easier access in JSX, stats might be null
-  const { name, stats, beatenByList, verifiedByList, hardestDemon } = playerData;
+  // Destructure data for easier access in JSX
+  const { name, stats, beatenByList, verifiedByList, hardestDemon } = profileData;
 
   // Calculate total counts for summary display
   const totalCompleted = Object.values(beatenByList).reduce((sum, list) => sum + list.length, 0);
@@ -215,6 +232,12 @@ export default function PlayerProfile() {
         {t('back_to_home')}
       </Link>
 
+      {/* Display API error as a warning if we still have static data to show */}
+       {profileData.error && <div className="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
+          <span className="font-medium">Warning!</span> Could not fetch latest rank/score from server: {profileData.error} Displaying static data.
+        </div>}
+
+
       <div className="space-y-6">
         {/* Main Info Box */}
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
@@ -224,18 +247,10 @@ export default function PlayerProfile() {
           </h1>
 
           {/* Rank/Score */}
-          {stats ? ( // Check if stats object from DB exists
+          {stats ? ( // Check if stats object from API exists
             <div className="text-center mb-4 text-gray-800 dark:text-gray-200">
-              <p>
-                  <span className="font-semibold">{t('demonlist_rank')}:</span>{' '}
-                  {/* Display rank from stats, fallback to N/A */}
-                  {stats.demonlistRank !== null ? `#${stats.demonlistRank}` : t('na')}
-              </p>
-              <p>
-                  <span className="font-semibold">{t('demonlist_score')}:</span>{' '}
-                  {/* Display score from stats, fallback to N/A */}
-                  {stats.demonlistScore !== null ? stats.demonlistScore.toFixed(2) : t('na')}
-              </p>
+              <p><span className="font-semibold">{t('demonlist_rank')}:</span> {stats.demonlistRank !== null ? `#${stats.demonlistRank}` : t('na')}</p>
+              <p><span className="font-semibold">{t('demonlist_score')}:</span> {stats.demonlistScore !== null ? stats.demonlistScore.toFixed(2) : t('na')}</p>
             </div>
           ) : (
              <div className="text-center mb-4 text-gray-500 dark:text-gray-400">
@@ -245,45 +260,31 @@ export default function PlayerProfile() {
 
           {/* Stats Summary Section */}
           <div className="text-center border-t border-gray-300 dark:border-gray-600 pt-4 space-y-2 text-gray-800 dark:text-gray-200">
-            {/* Hardest Demon Display */}
-            {hardestDemon && hardestDemon.levelName ? ( // Check if hardestDemon object has a name
+            {/* Hardest Demon Display - Uses hardestDemon state derived from API stats */}
+            {hardestDemon && hardestDemon.levelName ? (
               <p>
                 <span className="font-semibold">{t('hardest_demon')}:</span>{' '}
-                {/* Use levelId (GD ID) or id (Prisma ID) for link if available */}
                 {(hardestDemon.levelId || hardestDemon.id) ? (
                      <Link to={`/level/${hardestDemon.listType}/${hardestDemon.levelId || hardestDemon.id}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                        {hardestDemon.levelName} (#{hardestDemon.placement})
                      </Link>
-                ) : (
-                    // Display name and placement even if not linkable
-                    <span>{hardestDemon.levelName} (#{hardestDemon.placement || '?'})</span>
-                )}
+                ) : ( <span>{hardestDemon.levelName} (#{hardestDemon.placement || '?'})</span> )}
               </p>
-            ) : (
-              // Show N/A only if hardestDemon calculation failed or no main list completions
-              <p><span className="font-semibold">{t('hardest_demon')}:</span> {t('na')}</p>
-            )}
+            ) : ( <p><span className="font-semibold">{t('hardest_demon')}:</span> {t('na')}</p> )}
 
-            {/* Total Counts */}
+            {/* Counts - Calculated from static JSON processing */}
              {totalCompleted > 0 && (
-                <p>
-                    <span className="font-semibold">{t('total_completed')}:</span> {totalCompleted}
-                </p>
+                <p><span className="font-semibold">{t('total_completed')}:</span> {totalCompleted}</p>
              )}
              {totalVerified > 0 && (
-                <p>
-                    <span className="font-semibold">{t('total_verified')}:</span> {totalVerified}
-                </p>
+                <p><span className="font-semibold">{t('total_verified')}:</span> {totalVerified}</p>
              )}
-              {/* You can add counts per list here if desired, iterating over beatenByList/verifiedByList */}
           </div>
         </div>
 
         {/* --- Completed Demons Sections --- */}
-        {/* Sort sections by a predefined order or alphabetically */}
         {Object.entries(beatenByList).sort(([listA], [listB]) => (listTitles[listA] || listA).localeCompare(listTitles[listB] || listB))
             .map(([listType, levels]) => (
-            // Only render section if there are levels in this list
             levels.length > 0 && (
                 <div key={`beaten-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
                     <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">
@@ -293,15 +294,11 @@ export default function PlayerProfile() {
                         {/* Levels are pre-sorted by placement */}
                         {levels.map((level, index) => (
                         <React.Fragment key={`${level.id || level.name}-beaten-${index}`}>
-                            {/* Use levelId (GD ID) or id (Prisma ID) for link */}
                             {(level.levelId || level.id) ? (
                                 <Link to={`/level/${listType}/${level.levelId || level.id}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                                 {level.levelName}
                                 </Link>
-                            ) : (
-                                // Fallback if no ID available
-                                <span>{level.levelName}</span>
-                            )}
+                            ) : ( <span>{level.levelName}</span> )}
                             {index < levels.length - 1 && ' - '}
                         </React.Fragment>
                         ))}
@@ -311,25 +308,21 @@ export default function PlayerProfile() {
         ))}
 
         {/* --- Verified Demons Sections --- */}
-        {Object.entries(verifiedByList).sort(([listA], [listB]) => (listTitles[listA] || listA).localeCompare(listTitles[listB] || listB)) // Sort sections
+        {Object.entries(verifiedByList).sort(([listA], [listB]) => (listTitles[listA] || listA).localeCompare(listTitles[listB] || listB))
             .map(([listType, levels]) => (
-            // Only render section if there are levels in this list
             levels.length > 0 && (
                 <div key={`verified-section-${listType}`} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
                     <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">
                         {listTitles[listType] || listType} {t('verified_demons')}
                     </h2>
                     <div className="text-center text-gray-700 dark:text-gray-300 leading-relaxed break-words">
-                         {/* Levels are pre-sorted by placement */}
-                        {levels.map((level, index) => (
+                         {levels.map((level, index) => (
                             <React.Fragment key={`${level.id || level.name}-verified-${index}`}>
                                 {(level.levelId || level.id) ? (
                                     <Link to={`/level/${listType}/${level.levelId || level.id}`} className="text-cyan-600 dark:text-cyan-400 hover:underline">
                                         {level.levelName}
                                     </Link>
-                                ) : (
-                                    <span>{level.levelName}</span>
-                                )}
+                                ) : ( <span>{level.levelName}</span> )}
                                 {index < levels.length - 1 && ' - '}
                             </React.Fragment>
                         ))}
@@ -341,6 +334,3 @@ export default function PlayerProfile() {
     </div>
   );
 }
-
-// Minimal LoadingSpinner component (ensure this exists or is imported correctly)
-// const LoadingSpinner = ({ message }) => <div className="text-center p-8 text-gray-800 dark:text-gray-200">{message || 'Loading...'}</div>;
