@@ -1,47 +1,12 @@
 // src/server/playerStatsHandlers.js
 import prismaClientPkg from '@prisma/client';
 // Destructure PrismaClient and the correct enum name for your record status
-const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
-import fs from 'fs';
-import path from 'path';
-// Import helpers (assuming path is correct: src/server/utils/listHelpers.js)
-import { loadStaticLists, findLevelDetailsByName } from './utils/listHelpers.js';
+const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg; // Adjust enum name if needed
+
+// [FIX] Import helpers from the central utils file
+import { loadStaticLists, findLevelDetailsByName } from './utils/listHelpers.js'; // Adjust path if needed
 
 const prisma = new PrismaClient();
-
-// --- Static List Loading (remains the same) ---
-let staticListsCache = null;
-function loadStaticLists() {
-    if (staticListsCache) return staticListsCache;
-    console.log('[PlayerStatsHandler] Loading static list JSON files...');
-    try {
-        const dataDir = path.resolve(process.cwd(), 'src/data');
-        const mainList = JSON.parse(fs.readFileSync(path.join(dataDir, 'main-list.json'), 'utf8'));
-        const unratedList = JSON.parse(fs.readFileSync(path.join(dataDir, 'unrated-list.json'), 'utf8'));
-        const platformerList = JSON.parse(fs.readFileSync(path.join(dataDir, 'platformer-list.json'), 'utf8'));
-        const challengeList = JSON.parse(fs.readFileSync(path.join(dataDir, 'challenge-list.json'), 'utf8'));
-        const futureList = JSON.parse(fs.readFileSync(path.join(dataDir, 'future-list.json'), 'utf8'));
-        staticListsCache = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList };
-        console.log('[PlayerStatsHandler] Successfully loaded static lists.');
-        return staticListsCache;
-    } catch (error) {
-        console.error('[PlayerStatsHandler] CRITICAL ERROR: Failed to load static list JSON files:', error);
-        return {};
-    }
-}
-const findLevelDetailsByName = (levelName) => {
-    const allLists = loadStaticLists();
-    if (!levelName || levelName === 'N/A' || Object.keys(allLists).length === 0) return null;
-    for (const listType of Object.keys(allLists)) {
-        const listData = allLists[listType];
-        if (Array.isArray(listData)) {
-            const level = listData.find(l => l.name?.toLowerCase() === levelName.toLowerCase());
-            if (level) { return { ...level, listType, levelName: level.name }; }
-        } else { console.warn(`[PlayerStatsHandler] Static list data for "${listType}" is not an array.`); }
-    }
-    return null;
-};
-
 
 // Main handler function
 export async function getPlayerStats(req, res) {
@@ -51,7 +16,7 @@ export async function getPlayerStats(req, res) {
     }
 
     const decodedPlayerName = decodeURIComponent(playerName);
-    console.log(`[PlayerStatsHandler v8 DEBUG] ========= START Request for: ${decodedPlayerName} =========`);
+    console.log(`[PlayerStatsHandler v9] ========= START Request for: ${decodedPlayerName} =========`);
 
     let playerStatsData = null;
     let verifiedLevels = [];
@@ -61,7 +26,7 @@ export async function getPlayerStats(req, res) {
     try {
         // --- 1. Fetch Playerstats (Case-Insensitive, list: 'main') ---
         const playerStatsWhere = { name: { equals: decodedPlayerName, mode: 'insensitive' }, list: 'main' };
-        console.log(`[PlayerStatsHandler v8 DEBUG] 1. Querying Playerstats with WHERE:`, JSON.stringify(playerStatsWhere));
+        console.log(`[PlayerStatsHandler v9] 1. Querying Playerstats with WHERE:`, JSON.stringify(playerStatsWhere));
         try {
             playerStatsData = await prisma.playerstats.findFirst({
                 where: playerStatsWhere,
@@ -69,45 +34,51 @@ export async function getPlayerStats(req, res) {
             });
             if (playerStatsData) {
                 actualPlayerName = playerStatsData.name;
-                console.log(`[PlayerStatsHandler v8 DEBUG]   SUCCESS: Found Playerstats. Actual name: ${actualPlayerName}. Hardest in DB: ${playerStatsData.hardestDemonName}`);
+                console.log(`[PlayerStatsHandler v9]   SUCCESS: Found Playerstats. Actual name: ${actualPlayerName}. Hardest in DB: ${playerStatsData.hardestDemonName}`);
             } else {
-                console.log(`[PlayerStatsHandler v8 DEBUG]   INFO: No Playerstats entry found.`);
-                 // Explicit "Zoink" check can remain if needed for debugging specific case issues
-                if (decodedPlayerName.toLowerCase() === 'zoink') { /* ... Zoink exact match retry ... */ }
+                console.log(`[PlayerStatsHandler v9]   INFO: No Playerstats entry found.`);
+                 // Explicit "Zoink" check
+                if (decodedPlayerName.toLowerCase() === 'zoink') {
+                    console.log(`[PlayerStatsHandler v9]   Retrying Playerstats query with EXACT name "Zoink" and list 'main'`);
+                    const exactMatchStats = await prisma.playerstats.findFirst({ where: { name: "Zoink", list: 'main'}, select: { name: true, id: true } });
+                    if (exactMatchStats) {
+                         console.log(`[PlayerStatsHandler v9]   SUCCESS (Exact Match): Found Playerstats for "Zoink".`);
+                         actualPlayerName = "Zoink";
+                         playerStatsData = await prisma.playerstats.findFirst({ where: { name: "Zoink", list: 'main' }, select: { id: true, demonlistScore: true, demonlistRank: true, hardestDemonName: true, hardestDemonPlacement: true, name: true, clan: true, list: true, updatedAt: true } });
+                    } else { console.log(`[PlayerStatsHandler v9]   INFO (Exact Match): Still no Playerstats found for "Zoink" with list 'main'.`); }
+                }
             }
-        } catch (e) { console.error(`[PlayerStatsHandler v8 DEBUG]   ERROR querying Playerstats:`, e); }
+        } catch (e) { console.error(`[PlayerStatsHandler v9]   ERROR querying Playerstats:`, e); }
 
         // --- 2. Query Verified Levels (Using actualPlayerName) ---
         const verifiedWhere = { verifier: actualPlayerName };
-        console.log(`[PlayerStatsHandler v8 DEBUG] 2. Querying Verified Levels with WHERE:`, JSON.stringify(verifiedWhere));
+        console.log(`[PlayerStatsHandler v9] 2. Querying Verified Levels with WHERE:`, JSON.stringify(verifiedWhere));
         try {
             verifiedLevels = await prisma.level.findMany({
                 where: verifiedWhere,
                 select: { id: true, name: true, placement: true, list: true, levelId: true, verifier: true },
-                // [FIX] Correct orderBy syntax using an array
-                orderBy: [ { list: 'asc' }, { placement: 'asc' } ]
+                orderBy: [ { list: 'asc' }, { placement: 'asc' } ] // Correct orderBy
             });
-             verifiedLevels = verifiedLevels.filter(l => l.list !== 'future-list'); // Filter future list
-            console.log(`[PlayerStatsHandler v8 DEBUG]   SUCCESS: Found ${verifiedLevels.length} verified levels (excluding future).`);
-        } catch(e) { console.error(`[PlayerStatsHandler v8 DEBUG]   ERROR querying verified levels:`, e); }
+             verifiedLevels = verifiedLevels.filter(l => l.list !== 'future-list');
+            console.log(`[PlayerStatsHandler v9]   SUCCESS: Found ${verifiedLevels.length} verified levels (excluding future).`);
+        } catch(e) { console.error(`[PlayerStatsHandler v9]   ERROR querying verified levels:`, e); }
 
         // --- 3. Query Completed Levels (Using actualPlayerName) ---
          const completedWhere = { records: { some: { username: actualPlayerName, percent: 100 }}};
-         console.log(`[PlayerStatsHandler v8 DEBUG] 3. Querying Completed Levels with WHERE:`, JSON.stringify(completedWhere));
+         console.log(`[PlayerStatsHandler v9] 3. Querying Completed Levels with WHERE:`, JSON.stringify(completedWhere));
         try {
             completedLevels = await prisma.level.findMany({
                 where: completedWhere,
                 select: { id: true, name: true, placement: true, list: true, levelId: true },
-                 // [FIX] Correct orderBy syntax using an array
-                orderBy: [ { list: 'asc' }, { placement: 'asc' } ]
+                orderBy: [ { list: 'asc' }, { placement: 'asc' } ] // Correct orderBy
             });
-            console.log(`[PlayerStatsHandler v8 DEBUG]   SUCCESS: Found ${completedLevels.length} completed levels.`);
-        } catch (e) { console.error(`[PlayerStatsHandler v8 DEBUG]   ERROR querying completed levels:`, e); }
+            console.log(`[PlayerStatsHandler v9]   SUCCESS: Found ${completedLevels.length} completed levels.`);
+        } catch (e) { console.error(`[PlayerStatsHandler v9]   ERROR querying completed levels:`, e); }
 
 
         // --- 4. Final Check & Response ---
          if (!playerStatsData && verifiedLevels.length === 0 && completedLevels.length === 0) {
-             console.log(`[PlayerStatsHandler v8 DEBUG] FINAL CHECK: No data found for ${decodedPlayerName}. Returning 404.`);
+             console.log(`[PlayerStatsHandler v9] FINAL CHECK: No data found for ${decodedPlayerName}. Returning 404.`);
              return res.status(404).json({ message: `Player "${decodedPlayerName}" not found or has no associated data.` });
          }
 
@@ -124,7 +95,7 @@ export async function getPlayerStats(req, res) {
                 hardestDemonForResponse = level;
              }
         });
-        console.log(`[PlayerStatsHandler v8 DEBUG] Calculated hardest demon: ${hardestDemonForResponse?.name || 'None'}`);
+        console.log(`[PlayerStatsHandler v9] Calculated hardest demon: ${hardestDemonForResponse?.name || 'None'}`);
 
         // --- 6. Construct Response ---
         const responseData = {
@@ -141,16 +112,14 @@ export async function getPlayerStats(req, res) {
         responseData.playerStat.hardestDemonName = hardestDemonForResponse?.name ?? null;
         responseData.playerStat.hardestDemonPlacement = hardestDemonForResponse?.placement ?? null;
 
-        console.log(`[PlayerStatsHandler v8 DEBUG] Sending successful response for ${actualPlayerName}.`);
+        console.log(`[PlayerStatsHandler v9] Sending successful response for ${actualPlayerName}.`);
         return res.status(200).json(responseData);
 
     } catch (error) { // Catch unexpected errors
-        console.error(`[PlayerStatsHandler v8 DEBUG] UNEXPECTED GLOBAL error fetching data for ${decodedPlayerName}:`, error);
+        console.error(`[PlayerStatsHandler v9] UNEXPECTED GLOBAL error fetching data for ${decodedPlayerName}:`, error);
         return res.status(500).json({ message: 'Internal server error while fetching player stats.' });
     }
 }
 
-
-// --- Helper Functions (Imported via listHelpers.js) ---
-// function loadStaticLists() { ... }
-// const findLevelDetailsByName = (levelName) => { ... };
+// --- Helper Functions REMOVED ---
+// loadStaticLists and findLevelDetailsByName are now imported from './utils/listHelpers.js'
