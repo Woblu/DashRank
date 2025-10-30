@@ -1,7 +1,7 @@
 // src/server/playerStatsHandlers.js
 import prismaClientPkg from '@prisma/client';
 // Destructure PrismaClient and the correct enum name for your record status
-const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg; // Adjust enum name if needed
+const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
 
 // [FIX] Import helpers from the central utils file
 import { loadStaticLists, findLevelDetailsByName } from './utils/listHelpers.js'; // Adjust path if needed
@@ -57,7 +57,8 @@ export async function getPlayerStats(req, res) {
             verifiedLevels = await prisma.level.findMany({
                 where: verifiedWhere,
                 select: { id: true, name: true, placement: true, list: true, levelId: true, verifier: true },
-                orderBy: [ { list: 'asc' }, { placement: 'asc' } ] // Correct orderBy
+                // [FIX] Correct orderBy syntax using an array
+                orderBy: [ { list: 'asc' }, { placement: 'asc' } ]
             });
              verifiedLevels = verifiedLevels.filter(l => l.list !== 'future-list');
             console.log(`[PlayerStatsHandler v9]   SUCCESS: Found ${verifiedLevels.length} verified levels (excluding future).`);
@@ -70,7 +71,8 @@ export async function getPlayerStats(req, res) {
             completedLevels = await prisma.level.findMany({
                 where: completedWhere,
                 select: { id: true, name: true, placement: true, list: true, levelId: true },
-                orderBy: [ { list: 'asc' }, { placement: 'asc' } ] // Correct orderBy
+                 // [FIX] Correct orderBy syntax using an array
+                orderBy: [ { list: 'asc' }, { placement: 'asc' } ]
             });
             console.log(`[PlayerStatsHandler v9]   SUCCESS: Found ${completedLevels.length} completed levels.`);
         } catch (e) { console.error(`[PlayerStatsHandler v9]   ERROR querying completed levels:`, e); }
@@ -120,6 +122,3 @@ export async function getPlayerStats(req, res) {
         return res.status(500).json({ message: 'Internal server error while fetching player stats.' });
     }
 }
-
-// --- Helper Functions REMOVED ---
-// loadStaticLists and findLevelDetailsByName are now imported from './utils/listHelpers.js'
