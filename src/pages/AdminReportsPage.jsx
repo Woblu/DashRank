@@ -78,8 +78,6 @@ export default function AdminReportsPage() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert('User has been banned from the workshop.');
-      // Optionally, you could also auto-dismiss reports from this user here.
-      // For now, we'll just refresh the list.
       fetchReports();
     } catch (err) {
       alert('Failed to ban user.');
