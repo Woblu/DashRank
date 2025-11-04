@@ -3,8 +3,8 @@ import prismaClientPkg from '@prisma/client';
 // Destructure PrismaClient and the correct enum name for your record status
 const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
 
-// [FIX] Import helpers from the central utils file
-import { loadStaticLists, findLevelDetailsByName } from './utils/listHelpers.js'; // Adjust path if needed
+// [FIX] Removed the unused imports for listHelpers, which was causing the crash
+// import { loadStaticLists, findLevelDetailsByName } from './utils/listHelpers.js'; 
 
 // [NEW] Import the scoring utility
 import { calculateScore } from '../utils/scoring.js';
@@ -50,7 +50,7 @@ export async function getPlayerStats(req, res) {
                          actualPlayerName = "Zoink";
                          // [FIX] Re-fetch the full data for Zoink
                          playerStatsData = await prisma.playerstats.findFirst({ where: { name: "Zoink", list: 'main' }, select: { id: true, demonlistScore: true, demonlistRank: true, hardestDemonName: true, hardestDemonPlacement: true, name: true, clan: true, list: true, updatedAt: true } });
-                    } else { console.log(`[PlayerStatsHandler v11]   INFO (Exact Match): Still no Playerstats found for "Zoink" with list 'main'.`); }
+                    } else { console.log(`[PlayerStatsHandler v1J]   INFO (Exact Match): Still no Playerstats found for "Zoink" with list 'main'.`); }
                 }
             }
         } catch (e) { console.error(`[PlayerStatsHandler v11]   ERROR querying Playerstats:`, e); }
