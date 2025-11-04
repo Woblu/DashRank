@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
 // [FIX] Updated import path and function name
-import { getYoutubeEmbed } from '../utils/embedUtils.js';
+import { getEmbedUrl } from '../utils/embedUtils.js';
 import { Link } from 'react-router-dom';
 import ListManager from '../components/admin/ListManager';
 
