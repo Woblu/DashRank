@@ -45,7 +45,7 @@ export default function LayoutCard({ layout }) {
             src={thumbnailUrl}
             alt={`${layout.levelName} thumbnail`}
             className="w-full h-full object-cover"
-            // [FIX] Add an error handler to prevent broken images
+            // [FIX] Add an error handler to prevent broken images from 404s
             onError={(e) => { e.currentTarget.src = 'https://placehold.co/320x180/1e293b/ffffff?text=No+Preview'; }}
           />
         </div>
