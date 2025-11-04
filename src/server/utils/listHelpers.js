@@ -1,42 +1,78 @@
 // src/server/utils/listHelpers.js
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-// --- Static List Loading ---
-let staticListsCache = null;
+// Helper to get directory name in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-export function loadStaticLists() { // Export the function
-    if (staticListsCache) {
-        return staticListsCache;
-    }
-    console.log('[ListHelpers] Loading static list JSON files...');
-    try {
-        const dataDir = path.resolve(process.cwd(), 'src/data');
-        const mainList = JSON.parse(fs.readFileSync(path.join(dataDir, 'main-list.json'), 'utf8'));
-        const unratedList = JSON.parse(fs.readFileSync(path.join(dataDir, 'unrated-list.json'), 'utf8'));
-        const platformerList = JSON.parse(fs.readFileSync(path.join(dataDir, 'platformer-list.json'), 'utf8'));
-        const challengeList = JSON.parse(fs.readFileSync(path.join(dataDir, 'challenge-list.json'), 'utf8'));
-        const futureList = JSON.parse(fs.readFileSync(path.join(dataDir, 'future-list.json'), 'utf8'));
-
-        staticListsCache = { main: mainList, unrated: unratedList, platformer: platformerList, challenge: challengeList, future: futureList };
-        console.log('[ListHelpers] Successfully loaded static lists.');
-        return staticListsCache;
-    } catch (error) {
-        console.error('[ListHelpers] CRITICAL ERROR: Failed to load static list JSON files:', error);
-        return {}; // Return empty to avoid crash
-    }
+/**
+ * Reads and parses a JSON file from the data directory.
+ * @param {string} filename - The name of the JSON file (e.g., 'main-list.json').
+ * @returns {object} The parsed JSON data.
+ */
+function loadJson(filename) {
+  // Path from src/server/utils -> src/server -> src -> data
+  const fullPath = path.join(__dirname, '..', '..', 'data', filename);
+  try {
+    const fileContent = fs.readFileSync(fullPath, 'utf-8');
+    return JSON.parse(fileContent);
+  } catch (e) {
+    console.error(`Failed to load JSON file: ${filename}`, e);
+    throw new Error(`Could not load list data for ${filename}.`);
+  }
 }
 
-// Helper using loaded static lists
-export const findLevelDetailsByName = (levelName) => { // Export the function
-    const allLists = loadStaticLists(); // Uses the function above
-    if (!levelName || levelName === 'N/A' || Object.keys(allLists).length === 0) return null;
-    for (const listType of Object.keys(allLists)) {
-        const listData = allLists[listType];
-        if (Array.isArray(listData)) {
-            const level = listData.find(l => l.name?.toLowerCase() === levelName.toLowerCase());
-            if (level) { return { ...level, listType, levelName: level.name }; }
-        } else { console.warn(`[ListHelpers] Static list data for "${listType}" is not an array.`); }
+// Load all lists
+const mainList = loadJson('main-list.json');
+const unratedList = loadJson('unrated-list.json');
+const platformerList = loadJson('platformer-list.json');
+const challengeList = loadJson('challenge-list.json');
+const speedhackList = loadJson('speedhack-list.json');
+
+const allLists = {
+  'main-list': mainList,
+  'unrated-list': unratedList,
+  'platformer-list': platformerList,
+  'challenge-list': challengeList,
+  'speedhack-list': speedhackList,
+};
+
+/**
+ * Loads the static data for a specific list.
+ * @param {string} listName - The name of the list (e.g., 'main-list').
+ * @returns {Array} The array of level data.
+ */
+export function loadStaticList(listName) {
+  return allLists[listName] || [];
+}
+
+/**
+ * Loads all static lists.
+ * @returns {object} An object containing all list data.
+ */
+export function loadAllStaticLists() {
+    return {
+        mainList,
+        unratedList,
+        platformerList,
+        challengeList,
+        speedhackList,
+    };
+}
+
+/**
+ * Finds a level's details by its name from all static lists.
+ * @param {string} levelName - The name of the level to find.
+ * @returns {object | null} The level object or null if not found.
+ */
+export function findLevelDetailsByName(levelName) {
+    if (!levelName) return null;
+    const nameLower = levelName.toLowerCase();
+    for (const list of Object.values(allLists)) {
+        const level = list.find(l => l.name?.toLowerCase() === nameLower);
+        if (level) return level;
     }
     return null;
-};
+}

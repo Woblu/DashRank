@@ -4,13 +4,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// [FIX] Import all required lists
-import mainList from '../data/main-list.json' assert { type: 'json' };
-import unratedList from '../data/unrated-list.json' assert { type: 'json' };
-import platformerList from '../data/platformer-list.json' assert { type: 'json' };
-import challengeList from '../data/challenge-list.json' assert { type: 'json' };
-import speedhackList from '../data/speedhack-list.json' assert { type: 'json' };
-
+// [FIX] Import the new helper to load lists
+import { loadAllStaticLists } from './utils/listHelpers.js';
 // Import our utilities
 import { calculateScore, cleanUsername } from '../utils/scoring.js';
 
@@ -64,7 +59,7 @@ function updateClan(profile, rawUsername) {
 }
 
 /**
- * [NEW] Processes a single list and updates the database and static files.
+ * Processes a single list and updates the database and static files.
  * @param {object} listConfig - Configuration object for the list.
  * @param {string} listConfig.listName - The name of the list (e.g., 'main').
  * @param {Array} listConfig.listData - The imported JSON data for the list.
@@ -114,7 +109,7 @@ async function generateStatsForList({ listName, listData, statsViewerFile }) {
               profile.completed.push(level.name);
 
               if (level.placement && level.placement < profile.hardest.placement) {
-                  profile.hardest = { placement: level.placement, name: level.name, id: level.id, levelId: levelId };
+                  profile.hardest = { placement: level.placement, name: level.name, id: level.id, levelId: level.levelId };
               }
           }
         }
@@ -145,7 +140,7 @@ async function generateStatsForList({ listName, listData, statsViewerFile }) {
   await fs.writeFile(leaderboardPath, JSON.stringify(leaderboardData, null, 2));
   console.log(`Successfully wrote ${leaderboardPath}`);
 
-  // B. [FIX] Write individual [player]-stats.json files ONLY for the main list
+  // B. Write individual [player]-stats.json files ONLY for the main list
   if (listName === 'main') {
     console.log(`Writing ${allPlayers.length} individual player stat files for 'main' list...`);
     await fs.rm(playerStatsDir, { recursive: true, force: true }); // Clear old files
@@ -213,12 +208,20 @@ async function generateStatsForList({ listName, listData, statsViewerFile }) {
 }
 
 /**
- * [NEW] Main function to run stats generation for all lists.
+ * Main function to run stats generation for all lists.
  */
 async function generateAllStats() {
   console.log('===== STARTING FULL STATS GENERATION =====');
   
-  // Define all list processing jobs
+  // [FIX] Load lists from the helper function
+  const {
+    mainList,
+    unratedList,
+    platformerList,
+    challengeList,
+    speedhackList
+  } = loadAllStaticLists();
+
   const listJobs = [
     { listName: 'main', listData: mainList, statsViewerFile: 'main-statsviewer.json' },
     { listName: 'unrated', listData: unratedList, statsViewerFile: 'unrated-statsviewer.json' },
