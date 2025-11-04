@@ -1,6 +1,6 @@
 // src/components/YouTubeThumbnail.jsx
 import React, { useState, useEffect } from 'react';
-import { Play } from 'lucide-react'; // Assuming you have lucide-react from other files
+import { Play } from 'lucide-react'; // Make sure you have lucide-react installed
 
 // An ordered list of thumbnail qualities to try, from best to worst.
 const thumbnailQualities = [
@@ -12,7 +12,7 @@ const thumbnailQualities = [
 ];
 
 /**
- * [FIX] Extracts the video ID *only* from a YouTube URL.
+ * Extracts the video ID *only* from a YouTube URL.
  * Returns null if the URL is not a valid YouTube link.
  */
 function getYouTubeId(url) {
@@ -20,7 +20,12 @@ function getYouTubeId(url) {
   
   // Check for YouTube domains
   if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
-    return null;
+    // [FIX] Also check if it's just a raw ID
+    const ytIdRegex = /^[a-zA-Z0-9_-]{11}$/;
+    if (ytIdRegex.test(url)) {
+      return url; // It's already an ID
+    }
+    return null; // It's a non-YouTube URL
   }
   
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -56,7 +61,7 @@ export default function YouTubeThumbnail({ videoUrl, altText, className }) {
   
   const handleError = () => {
     // Only try next quality if it's a YouTube video
-    if (isYouTube) {
+    if (isYouTube && videoId) {
       const nextQualityIndex = currentQualityIndex + 1;
       if (nextQualityIndex < thumbnailQualities.length) {
         setCurrentQualityIndex(nextQualityIndex);
@@ -65,12 +70,14 @@ export default function YouTubeThumbnail({ videoUrl, altText, className }) {
         // If all qualities have failed, show a final placeholder.
         setImgSrc('https://placehold.co/160x90/1e293b/ffffff?text=Invalid');
       }
+    } else {
+       // Non-youtube link failed, set to placeholder
+       setImgSrc('https://placehold.co/160x90/1e293b/ffffff?text=No+Thumb');
     }
-    // If not YouTube, erroring will just lead to the final placeholder
   };
 
-  if (!isYouTube || !imgSrc) {
-    // Fallback for non-YouTube links (Google Drive, etc.) or if videoId is missing
+  if (!isYouTube) {
+    // Fallback for non-YouTube links (Google Drive, etc.)
     return (
         <div className={`aspect-video w-full bg-gray-900 rounded-lg overflow-hidden relative group flex items-center justify-center ${className || ''}`}>
           <Play size={48} className="text-gray-600" />
@@ -78,9 +85,10 @@ export default function YouTubeThumbnail({ videoUrl, altText, className }) {
     );
   }
 
+  // This will render if it's a YouTube link
   return (
     <img
-      src={imgSrc}
+      src={imgSrc || 'https://placehold.co/160x90/1e293b/ffffff?text=Loading'} // Show loading placeholder if src is null
       alt={altText}
       className={className}
       onError={handleError}

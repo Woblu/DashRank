@@ -43,7 +43,7 @@ function getMedalClipId(url) {
 
 /**
  * Main function to get an embed URL object from any supported video link.
- * @param {string} url - The original video URL.
+ * @param {string} url - The original video URL or ID.
  * @returns {{url: string, type: 'iframe' | 'video'}|null} The embeddable URL object or null if unsupported.
  */
 export function getEmbedUrl(url) {
@@ -51,13 +51,16 @@ export function getEmbedUrl(url) {
     return null;
   }
 
-  // This is required for Twitch embeds
   const parentDomain = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
 
   try {
+    // This is the main check.
+    // Try to parse the input as a full URL.
     const { host, pathname, searchParams } = new URL(url);
 
-    // 1. YouTube (NoCookie)
+    // --- IF IT IS A FULL URL, The existing logic runs ---
+
+    // 1. YouTube
     if (host.includes('youtube.com') || host.includes('youtu.be')) {
       const videoId = getYouTubeId(url);
       return videoId ? { url: getYouTubeEmbedUrl(videoId), type: 'iframe' } : null;
@@ -85,35 +88,41 @@ export function getEmbedUrl(url) {
       return clipId ? { url: `https://medal.tv/clip/embed/${clipId}`, type: 'iframe' } : null;
     }
 
-    // 5. Twitch (Clips and VODs)
+    // 5. Twitch
     if (host.includes('twitch.tv')) {
-      // Handle Clips
       const clipMatch = url.match(/clips\.twitch\.tv\/([a-zA-Z0-9_-]+)|twitch\.tv\/[^\/]+\/clip\/([a-zA-Z0-9_-]+)|twitch\.tv\/clips\/([a-zA-Z0-9_-]+)/);
       if (clipMatch) {
         const clipId = clipMatch[1] || clipMatch[2] || clipMatch[3];
         return { url: `https://clips.twitch.tv/embed?clip=${clipId}&parent=${parentDomain}`, type: 'iframe' };
       }
-
-      // Handle VODs
       const videoMatch = url.match(/twitch\.tv\/videos\/(\d+)/);
       if (videoMatch) {
         const videoId = videoMatch[1];
         return { url: `https://player.twitch.tv/?video=${videoId}&parent=${parentDomain}`, type: 'iframe' };
       }
     }
-
-    // Add other video formats (mp4, etc.) as 'video' type if needed
+    
+    // 6. Direct Video Files
     if (url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.ogg')) {
         return { url: url, type: 'video' };
     }
 
-
   } catch (error) {
-    console.error("Invalid URL for embedding:", url, error);
+    // --- IF IT IS NOT A FULL URL, It fails and lands here. ---
+    
+    // [FIX] Check if it looks like a YouTube ID (11 chars, no slashes or spaces)
+    const ytIdRegex = /^[a-zA-Z0-9_-]{11}$/;
+    if (ytIdRegex.test(url)) {
+      // It's a YouTube ID.
+      return { url: getYouTubeEmbedUrl(url), type: 'iframe' };
+    }
+    
+    // It's not a URL and not a YouTube ID.
+    console.error(`Invalid URL or ID for embedding: ${url}`, error);
     return null;
   }
 
-  // Return null if no provider matched
+  // Return null if it was a valid URL but no provider matched
   console.warn("Unsupported video URL:", url);
   return null;
 }
