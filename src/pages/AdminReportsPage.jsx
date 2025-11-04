@@ -107,7 +107,11 @@ export default function AdminReportsPage() {
                 {/* Report Details */}
                 <div className="md:col-span-2 space-y-2">
                   <h3 className="text-xl font-bold text-red-400 flex items-center gap-2">
-                    <ShieldAlert /> Report for: <Link to={`/layouts/${report.reportedLayout.id}`} className="text-cyan-400 hover:underline">{report.reportedLayout.levelName}</Link>
+                    <ShieldAlert /> Report for: 
+                    {/* [FIX] Pass the layout ID, not the whole object */}
+                    <Link to={`/layouts/${report.reportedLayout.id}`} className="text-cyan-400 hover:underline">
+                      {report.reportedLayout.levelName}
+                    </Link>
                   </h3>
                   <p className="text-gray-300 bg-gray-900/50 p-3 rounded-md"><strong>Reason:</strong> {report.reason}</p>
                   <div className="text-xs text-gray-500 pt-2">
