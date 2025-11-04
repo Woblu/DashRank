@@ -138,8 +138,8 @@ export default function AdminDashboard() {
               <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
             ) : (
               submissions.map((sub) => {
-                // [FIX] Call the renamed function
-                const embedInfo = getYoutubeEmbed(sub.videoId);
+                // [FIX] Call the renamed function getEmbedUrl
+                const embedInfo = getEmbedUrl(sub.videoId);
                 return (
                   <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
@@ -187,7 +187,11 @@ export default function AdminDashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="md:col-span-2 space-y-2">
                       <h3 className="text-xl font-bold text-red-400 flex items-center gap-2">
-                        <ShieldAlert /> Report for: <Link to={`/layouts/${report.reportedLayout.id}`} className="text-cyan-400 hover:underline">{report.reportedLayout.levelName}</Link>
+                        <ShieldAlert /> Report for: 
+                        {/* [FIX] Pass the layout ID, not the whole object */}
+                        <Link to={`/layouts/${report.reportedLayout.id}`} className="text-cyan-400 hover:underline">
+                          {report.reportedLayout.levelName}
+                        </Link>
                       </h3>
                       <p className="text-gray-300 bg-gray-900/50 p-3 rounded-md"><strong>Reason:</strong> {report.reason}</p>
                       <div className="text-xs text-gray-500 pt-2">
