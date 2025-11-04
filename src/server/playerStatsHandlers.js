@@ -1,170 +1,168 @@
 // src/server/playerStatsHandlers.js
-import {
-  loadAllStaticLists,
-  loadStatsViewer,
-} from './utils/listHelpers.js';
+import prismaClientPkg from '@prisma/client';
+const { PrismaClient } = prismaClientPkg;
 import { cleanUsername } from '../utils/scoring.js';
+import { loadAllStaticLists } from './utils/listHelpers.js';
 
-// Load all list data ONCE when the server starts
-const allLists = loadAllStaticLists();
-const mainList = allLists.mainList;
-const allPlayersStats = loadStatsViewer('main'); // Load the main leaderboard
+const prisma = new PrismaClient();
 
-// Create a Map for fast lookups by clean player name
-const playerStatsMap = new Map();
-allPlayersStats.forEach(player => {
-    // Use the *cleaned* name as the key
-    playerStatsMap.set(cleanUsername(player.name), player);
-});
-console.log(`[PlayerStatsHandler v12] Pre-loaded ${playerStatsMap.size} player stats from main-statsviewer.json`);
-
-/**
- * Finds all completions and verifications for a player from static lists.
- * @param {string} cleanPlayerNameLower - The cleaned, lowercase player name.
- * @returns {object} - { verifiedLevels, completedLevels, hardestDemon }
- */
-function getPlayerCompletions(cleanPlayerNameLower) {
-  let verifiedLevels = [];
-  let completedLevels = [];
-  let hardestDemon = { placement: Infinity, name: null };
-  const verifiedLevelNames = new Set(); // To prevent duplicates
-
-  // --- 1. Find Verifications (from main list only) ---
-  for (const level of mainList) {
-    if (cleanUsername(level.verifier) === cleanPlayerNameLower) {
-      const levelData = {
-        id: level.id,
-        name: level.name,
-        placement: level.placement,
-        list: 'main',
-        levelId: level.levelId,
-        verifier: level.verifier,
-      };
-      verifiedLevels.push(levelData);
-      verifiedLevelNames.add(level.name.toLowerCase());
-
-      // Check if this is the hardest demon
-      if (level.placement < hardestDemon.placement) {
-        hardestDemon = { placement: level.placement, name: level.name };
-      }
-    }
-  }
-
-  // --- 2. Find Completions (from main list only) ---
-  for (const level of mainList) {
-    if (level.records && Array.isArray(level.records)) {
-      const isCompleted = level.records.some(
-        record =>
-          record.percent === 100 &&
-          cleanUsername(record.username) === cleanPlayerNameLower
-      );
-
-      // Add if completed AND not already verified by this player
-      if (isCompleted && !verifiedLevelNames.has(level.name.toLowerCase())) {
-        completedLevels.push({
-          id: level.id,
-          name: level.name,
-          placement: level.placement,
-          list: 'main',
-          levelId: level.levelId,
-        });
-
-        // Check if this is the hardest demon
-        if (level.placement < hardestDemon.placement) {
-          hardestDemon = { placement: level.placement, name: level.name };
-        }
-      }
-    }
-  }
-
-  // Sort by placement
-  verifiedLevels.sort((a, b) => a.placement - b.placement);
-  completedLevels.sort((a, b) => a.placement - b.placement);
-  
-  return {
-    verifiedLevels,
-    completedLevels,
-    hardestDemon: hardestDemon.placement === Infinity ? null : hardestDemon,
-  };
-}
+// Load all static lists (for records/verifiers) ONCE
+const allStaticLists = loadAllStaticLists();
+const allListsData = {
+    main: allStaticLists.mainList,
+    unrated: allStaticLists.unratedList,
+    platformer: allStaticLists.platformerList,
+    challenge: allStaticLists.challengeList,
+};
 
 /**
  * [REWRITTEN] Main handler function
- * This now reads from the static JSON files, bypassing the stale database.
+ * This now uses the hybrid model:
+ * 1. Gets Rank/Score from DB (`playerstats`)
+ * 2. Gets Completions/Verifications from Static JSONs
+ * 3. Gets correct placements from DB (`level`)
+ * 4. Calculates hardest demon and returns all data.
  */
 export async function getPlayerStats(req, res) {
-  const { playerName } = req.params;
-  if (!playerName || typeof playerName !== 'string') {
-    return res.status(400).json({ message: 'Player name parameter is required.' });
-  }
-
-  // Clean the input name (e.g., "[67]-zoink" -> "zoink")
-  const decodedPlayerName = decodeURIComponent(playerName);
-  const cleanName = cleanUsername(decodedPlayerName.replace(/-/g, ' '));
-  
-  console.log(`[PlayerStatsHandler v12] ========= START Request for: ${decodedPlayerName} (Cleaned: ${cleanName}) =========`);
-
-  try {
-    // --- 1. Get Rank and Score from the stats viewer map ---
-    const statsFromViewer = playerStatsMap.get(cleanName);
-
-    // --- 2. Get Completions and Hardest Demon from static lists ---
-    const { verifiedLevels, completedLevels, hardestDemon } =
-      getPlayerCompletions(cleanName);
-
-    // --- 3. Final Check & Response ---
-    if (!statsFromViewer && verifiedLevels.length === 0 && completedLevels.length === 0) {
-      console.log(`[PlayerStatsHandler v12] FINAL CHECK: No data found for ${cleanName}. Returning 404.`);
-      return res.status(404).json({ message: `Player "${cleanName}" not found or has no associated data.` });
+    const { playerName } = req.params;
+    if (!playerName || typeof playerName !== 'string') {
+        return res.status(400).json({ message: 'Player name parameter is required.' });
     }
 
-    // --- 4. Construct Response ---
-    let playerStat;
-    if (statsFromViewer) {
-      // Player is ranked, use data from stats viewer
-      playerStat = {
-        name: statsFromViewer.name, // Use the proper-cased name
-        demonlistScore: statsFromViewer.demonlistScore,
-        demonlistRank: statsFromViewer.demonlistRank,
-        hardestDemonName: hardestDemon?.name ?? null,
-        hardestDemonPlacement: hardestDemon?.placement ?? null,
-        clan: null, // You can add this back if you parse it from statsFromViewer.name
-        list: 'main',
-        updatedAt: new Date().toISOString(), // Data is live
-      };
-    } else {
-      // Player is not ranked but has completions
-      playerStat = {
-        name: decodedPlayerName, // Fallback to the requested name
-        demonlistScore: 0,
-        demonlistRank: null,
-        hardestDemonName: hardestDemon?.name ?? null,
-        hardestDemonPlacement: hardestDemon?.placement ?? null,
-        clan: null,
-        list: 'main',
-        updatedAt: new Date().toISOString(),
-      };
-    }
+    const decodedPlayerName = decodeURIComponent(playerName);
+    const cleanName = cleanUsername(decodedPlayerName.replace(/-/g, ' '));
     
-    // [FIX] Ensure the *hardest demon calculation* is always used,
-    // as the stats viewer might be stale if `generate-stats` hasn't run.
-    // This provides the most accurate "hardest" placement.
-    if (hardestDemon) {
-        playerStat.hardestDemonName = hardestDemon.name;
-        playerStat.hardestDemonPlacement = hardestDemon.placement;
+    console.log(`[PlayerStatsHandler v14] ========= START Request for: ${decodedPlayerName} (Cleaned: ${cleanName}) =========`);
+
+    try {
+        // --- 1. Get Core Rank/Score from DB ---
+        // We find the player by their CLEAN name.
+        const playerCoreStats = await prisma.playerstats.findFirst({
+            where: {
+                name: { equals: cleanName, mode: 'insensitive' },
+                list: 'main'
+            },
+            select: { name: true, demonlistRank: true, demonlistScore: true, clan: true }
+        });
+        
+        if (playerCoreStats) {
+             console.log(`[PlayerStatsHandler v14] Found core stats in DB: Rank #${playerCoreStats.demonlistRank}`);
+        } else {
+             console.log(`[PlayerStatsHandler v14] No core stats found in DB for ${cleanName}.`);
+        }
+        
+        // --- 2. Get Correct Placements from DB ---
+        const dbLevels = await prisma.level.findMany({
+            where: { placement: { not: null } },
+            select: { name: true, placement: true, list: true, id: true, levelId: true }
+        });
+        
+        // Create a map for fast lookup: "level name lower" -> { placement, id, levelId }
+        const dbLevelMap = new Map();
+        for (const level of dbLevels) {
+            dbLevelMap.set(level.name.toLowerCase(), level);
+        }
+        console.log(`[PlayerStatsHandler v14] Loaded ${dbLevelMap.size} level placements from DB.`);
+
+        // --- 3. Scan Static JSONs for Completions & Verifications ---
+        const tempVerifiedByList = {};
+        const tempBeatenByList = {};
+        const verifiedLevelNames = new Set();
+        let hardestDemon = { placement: Infinity, name: null, levelId: null, id: null, listType: null };
+
+        console.log(`[PlayerStatsHandler v14] Scanning static JSONs for '${cleanName}'...`);
+        
+        for (const listType in allListsData) {
+            const staticLevels = allListsData[listType];
+            if (!Array.isArray(staticLevels)) continue;
+
+            for (const level of staticLevels) {
+                const levelNameLower = level.name.toLowerCase();
+                
+                // Get correct placement from DB
+                const dbLevelInfo = dbLevelMap.get(levelNameLower);
+                const currentPlacement = dbLevelInfo?.placement || level.placement; // Fallback to JSON placement
+                const currentLevelId = dbLevelInfo?.levelId || level.levelId;
+                const currentDbId = dbLevelInfo?.id || level.id;
+
+                const levelData = {
+                  name: level.name,
+                  id: currentDbId,
+                  levelId: currentLevelId,
+                  placement: currentPlacement,
+                  listType: listType,
+                  levelName: level.name
+                };
+
+                // Check Verifications
+                if (cleanUsername(level.verifier) === cleanName) {
+                    if (!tempVerifiedByList[listType]) tempVerifiedByList[listType] = [];
+                    tempVerifiedByList[listType].push(levelData);
+                    verifiedLevelNames.add(levelNameLower);
+                    
+                    // Check hardest (only for main list)
+                    if (listType === 'main' && currentPlacement < hardestDemon.placement) {
+                        hardestDemon = levelData;
+                    }
+                }
+                // Check Completions
+                else if (level.records && Array.isArray(level.records)) {
+                    const isCompleted = level.records.some(
+                        r => r.percent === 100 && cleanUsername(r.username) === cleanName
+                    );
+                    
+                    if (isCompleted && !verifiedLevelNames.has(levelNameLower)) {
+                        if (!tempBeatenByList[listType]) tempBeatenByList[listType] = [];
+                        tempBeatenByList[listType].push(levelData);
+
+                        // Check hardest (only for main list)
+                        if (listType === 'main' && currentPlacement < hardestDemon.placement) {
+                            hardestDemon = levelData;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Sort all lists by placement
+        Object.values(tempBeatenByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
+        Object.values(tempVerifiedByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
+
+        console.log(`[PlayerStatsHandler v14] Found ${Object.keys(tempBeatenByList).length} completed lists.`);
+        console.log(`[PlayerStatsHandler v14] Found ${Object.keys(tempVerifiedByList).length} verified lists.`);
+        console.log(`[PlayerStatsHandler v14] Calculated hardest demon: ${hardestDemon.name || 'None'} (#${hardestDemon.placement || 'N/A'})`);
+
+        // --- 4. Final Check ---
+        if (!playerCoreStats && Object.keys(tempBeatenByList).length === 0 && Object.keys(tempVerifiedByList).length === 0) {
+            console.log(`[PlayerStatsHandler v14] FINAL CHECK: No data found for ${cleanName}. Returning 404.`);
+            return res.status(404).json({ message: `Player "${cleanName}" not found or has no associated data.` });
+        }
+
+        // --- 5. Construct Response ---
+        const playerStat = {
+            name: playerCoreStats?.name || decodedPlayerName, // Use proper cased name from DB if available
+            demonlistScore: playerCoreStats?.demonlistScore || 0,
+            demonlistRank: playerCoreStats?.demonlistRank || null,
+            hardestDemonName: hardestDemon.name,
+            hardestDemonPlacement: hardestDemon.placement === Infinity ? null : hardestDemon.placement,
+            clan: playerCoreStats?.clan || null,
+            list: 'main',
+            updatedAt: new Date().toISOString(),
+        };
+
+        const responseData = {
+            playerStat,
+            beatenByList: tempBeatenByList,
+            verifiedByList: tempVerifiedByList,
+            // [NEW] Send the calculated hardest demon object for display
+            hardestDemonDisplay: hardestDemon.placement === Infinity ? null : hardestDemon
+        };
+
+        console.log(`[PlayerStatsHandler v14] Sending successful response for ${cleanName}.`);
+        return res.status(200).json(responseData);
+
+    } catch (error) {
+        console.error(`[PlayerStatsHandler v14] UNEXPECTED GLOBAL error fetching data for ${cleanName}:`, error);
+        return res.status(500).json({ message: 'Internal server error while fetching player stats.' });
     }
-
-    const responseData = {
-      playerStat,
-      verifiedLevels,
-      completedLevels,
-    };
-
-    console.log(`[PlayerStatsHandler v12] Sending successful response for ${cleanName}.`);
-    return res.status(200).json(responseData);
-
-  } catch (error) {
-    console.error(`[PlayerStatsHandler v12] UNEXPECTED GLOBAL error fetching data for ${cleanName}:`, error);
-    return res.status(500).json({ message: 'Internal server error while fetching player stats.' });
-  }
 }
