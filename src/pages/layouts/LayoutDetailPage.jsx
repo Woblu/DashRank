@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronLeft, Music, User, Tag, BarChartHorizontal, ShieldAlert, Send } from 'lucide-react';
-// [FIX] Corrected import path from ../ to ../../
 import { getEmbedUrl } from '../../utils/embedUtils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import LayoutManagement from '../../components/LayoutManagement';
@@ -159,8 +158,7 @@ export default function LayoutDetailPage() {
   if (!layout) return null;
 
   const isOwner = user?.username === layout.creator.username;
-  // [FIX] Call the renamed function getEmbedUrl
-  const embedUrl = getEmbedUrl(layout.videoUrl);
+  const embedInfo = getEmbedUrl(layout.videoUrl); // embedInfo is an object { url, type }
 
   return (
     <>
@@ -202,17 +200,28 @@ export default function LayoutDetailPage() {
                <p className="text-gray-400">{layout.description || "No description provided."}</p>
             </div>
             <div className="aspect-video w-full bg-black rounded-xl">
-              {/* [FIX] Use the embedUrl variable */}
-              {embedUrl ? (
-                <iframe
-                  width="100%" height="100%"
-                  src={embedUrl}
-                  title="Layout Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="rounded-xl shadow-lg"
-                ></iframe>
+              {/* [FIX] Use embedInfo.url and check embedInfo.type */}
+              {embedInfo && embedInfo.url ? (
+                embedInfo.type === 'iframe' ? (
+                  <iframe
+                    width="100%" height="100%"
+                    src={embedInfo.url}
+                    title="Layout Video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="rounded-xl shadow-lg"
+                  ></iframe>
+                ) : (
+                  <video
+                    width="100%" height="100%"
+                    src={embedInfo.url}
+                    controls
+                    className="rounded-xl shadow-lg"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                )
               ) : <div className="w-full h-full rounded-xl bg-gray-900 flex items-center justify-center"><p>Video preview not available.</p></div>}
             </div>
           </div>
