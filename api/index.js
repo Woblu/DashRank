@@ -43,7 +43,7 @@ const authenticateToken = (req, res, next) => {
 const isModeratorOrAdmin = (req, res, next) => {
      if (req.user && (req.user.role === 'ADMIN' || req.user.role === 'MODERATOR')) {
         next();
-    } else { res.status(403).json({ message: 'Forbidden: Requires Moderator or Admin role' }); }
+    } else { res.status(4GE).json({ message: 'Forbidden: Requires Moderator or Admin role' }); }
 };
 // Add isAdmin if needed
 
@@ -212,6 +212,12 @@ export default async function handler(req, res) {
                 if (path.startsWith('/api/admin/')) {
                     isModeratorOrAdmin(req, res, async () => { // Apply Mod/Admin check
                         console.log(`[API Router] Admin route check passed for ${req.method} ${path}. Routing...`);
+                        
+                        // [NEW] Add the new route for adding a record
+                        if (req.method === 'POST' && path === '/api/admin/add-record') {
+                            return await listManagementHandlers.addRecordToList(req, res);
+                        }
+                        
                         if (req.method === 'POST' && path === '/api/admin/add-level') return await listManagementHandlers.addLevelToList(req, res);
                         if (req.method === 'PUT' && path === '/api/admin/move-level') return await listManagementHandlers.moveLevelInList(req, res);
                         if (req.method === 'DELETE' && path === '/api/admin/remove-level') return await listManagementHandlers.removeLevelFromList(req, res);

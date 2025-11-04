@@ -8,6 +8,69 @@ const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
 
 const prisma = new PrismaClient();
 
+// [NEW] Function to add a record to a level by an admin
+export async function addRecordToList(req, res) {
+  const { levelId, username, percent, videoId } = req.body;
+
+  if (!levelId || !username || !percent || !videoId) {
+    return res.status(400).json({ message: 'Missing required fields: levelId, username, percent, videoId.' });
+  }
+
+  const parsedPercent = parseInt(percent, 10);
+  if (isNaN(parsedPercent) || parsedPercent < 1 || parsedPercent > 100) {
+    return res.status(400).json({ message: 'Percent must be a number between 1 and 100.' });
+  }
+
+  try {
+    const level = await prisma.level.findUnique({ where: { id: levelId } });
+    if (!level) {
+      return res.status(404).json({ message: 'Level not found.' });
+    }
+
+    // Check if this exact record already exists to prevent duplicates
+    // Note: This check is case-sensitive for username
+    const recordExists = level.records.some(
+      record => record.username === username && record.percent === parsedPercent
+    );
+
+    if (recordExists) {
+      return res.status(409).json({ message: 'This exact record (player and percent) already exists on this level.' });
+    }
+
+    // Add the new record using Prisma's push for MongoDB
+    await prisma.level.update({
+      where: { id: levelId },
+      data: {
+        records: {
+          push: {
+            username,
+            percent: parsedPercent,
+            videoId
+          }
+        }
+      }
+    });
+
+    console.log(`[Admin AddRecord] Added record for ${username} (${parsedPercent}%) on level ${levelId}`);
+    // Also log this as a list change
+    await prisma.listChange.create({
+        data: {
+          type: 'MOVE', // Using 'MOVE' as a generic "modification" type
+          description: `Admin added record: ${username} (${parsedPercent}%)`,
+          levelId: levelId,
+          list: level.list,
+        },
+    });
+    
+    return res.status(200).json({ message: 'Record added successfully.' });
+
+  } catch (error) {
+    console.error("[Admin AddRecord] Failed to add record:", error);
+    return res.status(500).json({ message: 'Failed to add record.' });
+  }
+}
+
+
 // Helper to find player names involved with specific levels (verifier or in records)
 async function findPlayersInvolvedWithLevels(levelIds) {
     // Return early if no valid IDs are provided
@@ -350,7 +413,7 @@ export async function moveLevelInList(req, res) {
 
       }
 
-      success = true; // Mark transaction successful
+      success = true; // Mark transaction as successful
       return finalUpdatedLevel; // Return the updated level
     });
 
