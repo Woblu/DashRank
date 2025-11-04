@@ -1,4 +1,3 @@
-// src/components/PlayerProfile.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
@@ -298,7 +297,11 @@ export default function PlayerProfile() {
           {stats ? ( // Check if stats object from API exists
             <div className="text-center mb-4 text-gray-800 dark:text-gray-200">
               <p><span className="font-semibold">{t('demonlist_rank')}:</span> {stats.demonlistRank !== null ? `#${stats.demonlistRank}` : t('na')}</p>
-              <p><span className="font-semibold">{t('demonlist_score')}:</span> {stats.demonlistScore !== null ? stats.demonlistScore.toFixed(2) : t('na')}</pre>
+              {/* ---
+                [FIX] Corrected </pre> to </p>
+                ---
+              */}
+              <p><span className="font-semibold">{t('demonlist_score')}:</span> {stats.demonlistScore !== null ? stats.demonlistScore.toFixed(2) : t('na')}</p>
             </div>
           ) : (
              <div className="text-center mb-4 text-gray-500 dark:text-gray-400">
