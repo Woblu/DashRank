@@ -1,10 +1,11 @@
 // src/utils/embedUtils.js
 
 /**
- * Extracts the video ID from a YouTube URL.
+ * [FIX] Extracts the video ID from a YouTube URL, now including /live/ and /shorts/ links.
  */
 function getYouTubeId(url) {
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  // Regex updated to include /live/ and /shorts/ paths
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\/live\/|\/shorts\/)([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
 }
@@ -62,7 +63,7 @@ export function getEmbedUrl(url) {
 
     // 1. YouTube
     if (host.includes('youtube.com') || host.includes('youtu.be')) {
-      const videoId = getYouTubeId(url);
+      const videoId = getYouTubeId(url); // This function is now fixed
       return videoId ? { url: getYouTubeEmbedUrl(videoId), type: 'iframe' } : null;
     }
 
@@ -110,7 +111,7 @@ export function getEmbedUrl(url) {
   } catch (error) {
     // --- IF IT IS NOT A FULL URL, It fails and lands here. ---
     
-    // [FIX] Check if it looks like a YouTube ID (11 chars, no slashes or spaces)
+    // Check if it looks like a YouTube ID (11 chars, no slashes or spaces)
     const ytIdRegex = /^[a-zA-Z0-9_-]{11}$/;
     if (ytIdRegex.test(url)) {
       // It's a YouTube ID.

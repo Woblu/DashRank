@@ -41,7 +41,6 @@ const authenticateToken = (req, res, next) => {
 };
 
 const isModeratorOrAdmin = (req, res, next) => {
-    // [FIX] Removed the extra "GE" from the status code
      if (req.user && (req.user.role === 'ADMIN' || req.user.role === 'MODERATOR')) {
         next();
     } else { res.status(403).json({ message: 'Forbidden: Requires Moderator or Admin role' }); }
