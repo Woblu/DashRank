@@ -1,9 +1,13 @@
+// src/pages/PlayerProfile.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner'; // Assuming you have this component
+
+// [FIX] Import the cleanUsername utility
+import { cleanUsername } from '../utils/scoring.js'; 
 
 // Import ALL static lists needed to find completions and verifications
 import mainList from '../data/main-list.json';
@@ -23,13 +27,6 @@ const allStaticLists = {
 };
 // Keep list titles for display
 const listTitles = { main: "Main List", unrated: "Unrated List", platformer: "Platformer List", challenge: "Challenge List", future: "Future List" };
-
-// Helper to strip clan tags for comparison
-const cleanUsername = (username) => {
-    if (!username) return "";
-    // Removes [TAG] prefix and trims whitespace
-    return username.replace(/\[.*?\]\s*/, "").toLowerCase();
-};
 
 // Helper to find level details in static lists by name (case-insensitive)
 // Needed for linking the hardest demon and potentially enriching list displays
@@ -59,12 +56,15 @@ const findLevelDetailsByName = (levelName) => {
 
 
 export default function PlayerProfile() {
-  const { playerName } = useParams();
+  const { playerName } = useParams(); // This is the "dirty" param, e.g., "[67]-zoink"
   const { t } = useLanguage();
   const location = useLocation();
-  // State holds data combined from API (stats) and static files (lists)
+  
+  // [NEW] Clean the playerName param immediately
+  const cleanPlayerName = cleanUsername(playerName.replace(/-/g, ' ')); // "zoink"
+
   const [profileData, setProfileData] = useState({
-      name: playerName, // Default to param name
+      name: cleanPlayerName, // Default to the clean name
       stats: null, // Will hold { name, rank, score, hardestName, hardestPlacement } from API
       beatenByList: {}, // Will hold levels completed but not verified, grouped by list
       verifiedByList: {}, // Will hold levels verified, grouped by list
@@ -77,15 +77,15 @@ export default function PlayerProfile() {
 
   useEffect(() => {
     const fetchAndProcessData = async () => {
-      // Ensure playerName is provided
-      if (!playerName) {
+      // Ensure we have a clean name to search for
+      if (!cleanPlayerName) {
         setProfileData(prev => ({ ...prev, error: "Player name missing.", loading: false }));
         return;
       }
 
       // Reset state for a new player load
       setProfileData(prev => ({
-          name: playerName, stats: null, beatenByList: {}, verifiedByList: {},
+          name: cleanPlayerName, stats: null, beatenByList: {}, verifiedByList: {},
           hardestDemonDisplay: null, loading: true, error: null
       }));
 
@@ -94,27 +94,28 @@ export default function PlayerProfile() {
 
       // --- 1. Fetch Core Stats (Rank, Score, Hardest) from API ---
       try {
-        console.log(`[PlayerProfile v5] Fetching core stats via API for: ${playerName}`);
-        const response = await axios.get(`/api/player-stats/${encodeURIComponent(playerName)}`);
+        // [FIX] Use the cleanPlayerName for the API request
+        console.log(`[PlayerProfile v6] Fetching core stats via API for: ${cleanPlayerName}`);
+        const response = await axios.get(`/api/player-stats/${encodeURIComponent(cleanPlayerName)}`);
         apiStats = response.data.playerStat; // Expected: { name, demonlistRank, demonlistScore, hardestDemonName, hardestDemonPlacement, ... }
-        console.log("[PlayerProfile v5] Received API stats data:", apiStats);
+        console.log("[PlayerProfile v6] Received API stats data:", apiStats);
         if (!apiStats) {
-             console.log("[PlayerProfile v5] API returned no playerStat data (player might not be ranked).");
+             console.log("[PlayerProfile v6] API returned no playerStat data (player might not be ranked).");
         }
       } catch (err) {
         console.error("Failed to load player stats from API:", err);
         if (err.response?.status !== 404) { // Ignore 404 if we might find static data
             apiError = err.response?.data?.message || err.message || "Error fetching core stats.";
         } else {
-             console.log("[PlayerProfile v5] API returned 404 for player stats (expected if not ranked).");
+             console.log(`[PlayerProfile v6] API returned 404 for player stats (player: ${cleanPlayerName}).`);
         }
         apiStats = null; // Ensure stats are null on error/404
       }
 
-      // Determine the canonical player name (prefer API result for correct casing)
-      const canonicalName = apiStats?.name || playerName;
+      // Determine the canonical player name (prefer API result for correct casing, fallback to clean name)
+      const canonicalName = apiStats?.name || cleanPlayerName;
       const canonicalNameLower = canonicalName.toLowerCase();
-      console.log(`[PlayerProfile v5] Using canonical name: ${canonicalName}`);
+      console.log(`[PlayerProfile v6] Using canonical name: ${canonicalName}`);
 
 
       // --- 2. Process Static JSONs Separately for Verified and Completed Lists ---
@@ -122,7 +123,7 @@ export default function PlayerProfile() {
       const tempBeatenByList = {};
       const verifiedLevelNames = new Set(); // Keep track of verified level names to avoid duplication
 
-      console.log("[PlayerProfile v5] Processing static lists for VERIFIED levels...");
+      console.log("[PlayerProfile v6] Processing static lists for VERIFIED levels...");
       for (const listType in allStaticLists) {
           const staticLevels = allStaticLists[listType];
           if (!Array.isArray(staticLevels)) continue; // Skip if data is not an array
@@ -151,7 +152,7 @@ export default function PlayerProfile() {
           }
       }
 
-      console.log("[PlayerProfile v5] Processing static lists for COMPLETED levels...");
+      console.log("[PlayerProfile v6] Processing static lists for COMPLETED levels...");
        for (const listType in allStaticLists) {
           const staticLevels = allStaticLists[listType];
           if (!Array.isArray(staticLevels)) continue;
@@ -163,9 +164,7 @@ export default function PlayerProfile() {
                // Check completions from records array (case-insensitive)
                let isCompleted = false;
                if (Array.isArray(level.records)) {
-                    // ---
-                    // [FIX] Use the cleanUsername helper for comparison
-                    // ---
+                    // [FIX] Use the cleanUsername helper for comparison against the canonical name
                     if(level.records.some(r => cleanUsername(r.username) === canonicalNameLower && r.percent === 100)) {
                         isCompleted = true;
                     }
@@ -193,14 +192,14 @@ export default function PlayerProfile() {
       // Sort levels within each list by placement (using placement from static JSON)
       Object.values(tempBeatenByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
       Object.values(tempVerifiedByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
-      console.log("[PlayerProfile v5] Grouped Completed Levels:", tempBeatenByList);
-      console.log("[PlayerProfile v5] Grouped Verified Levels:", tempVerifiedByList);
+      console.log("[PlayerProfile v6] Grouped Completed Levels:", tempBeatenByList);
+      console.log("[PlayerProfile v6] Grouped Verified Levels:", tempVerifiedByList);
 
       // --- 3. Process Hardest Demon for Display ---
       // Use the name/placement primarily from the API stats object
       let hardestDemonDisplayData = null;
       if (apiStats?.hardestDemonName) {
-           console.log(`[PlayerProfile v5] Using hardest demon from API: ${apiStats.hardestDemonName} (#${apiStats.hardestDemonPlacement})`);
+           console.log(`[PlayerProfile v6] Using hardest demon from API: ${apiStats.hardestDemonName} (#${apiStats.hardestDemonPlacement})`);
            // Find details (like levelId, listType) using the static files helper for linking
            const detailsFromStatic = findLevelDetailsByName(apiStats.hardestDemonName);
 
@@ -212,10 +211,10 @@ export default function PlayerProfile() {
                 id: detailsFromStatic?.id || null,
                 levelId: detailsFromStatic?.levelId || null,
            };
-           console.log("[PlayerProfile v5] Final hardest demon details for display:", hardestDemonDisplayData);
+           console.log("[PlayerProfile v6] Final hardest demon details for display:", hardestDemonDisplayData);
 
       } else {
-           console.log("[PlayerProfile v5] No Hardest Demon info from API.");
+           console.log("[PlayerProfile v6] No Hardest Demon info from API.");
            // Optional Fallback: Calculate from static lists ONLY if API fails?
            // let calculatedHardest = null; /* ... find hardest from tempBeaten/tempVerified ... */
            // if (calculatedHardest) hardestDemonDisplayData = calculatedHardest;
@@ -225,8 +224,7 @@ export default function PlayerProfile() {
       // --- 4. Final Check and Set State ---
        // Check if we found *any* data (stats OR completions OR verifications)
        if (!apiStats && Object.keys(tempBeatenByList).length === 0 && Object.keys(tempVerifiedByList).length === 0) {
-           // setError(`Player "${playerName}" not found or has no associated data.`); // This was a local var, not state
-           setProfileData(prev => ({ ...prev, loading: false, error: `Player "${playerName}" not found or has no associated data.` })); // Set error in state
+           setProfileData(prev => ({ ...prev, loading: false, error: `Player "${cleanPlayerName}" not found or has no associated data.` })); // Set error in state
        } else {
            // Set the final state
            setProfileData({
@@ -243,7 +241,7 @@ export default function PlayerProfile() {
     }; // End fetchAndProcessData
 
     fetchAndProcessData();
-  }, [playerName, t]); // Re-run effect if playerName or language changes
+  }, [cleanPlayerName, t]); // [FIX] Re-run effect if the cleanPlayerName changes
 
   // --- Render Logic ---
   if (profileData.loading) {
@@ -297,10 +295,6 @@ export default function PlayerProfile() {
           {stats ? ( // Check if stats object from API exists
             <div className="text-center mb-4 text-gray-800 dark:text-gray-200">
               <p><span className="font-semibold">{t('demonlist_rank')}:</span> {stats.demonlistRank !== null ? `#${stats.demonlistRank}` : t('na')}</p>
-              {/* ---
-                [FIX] Corrected </pre> to </p>
-                ---
-              */}
               <p><span className="font-semibold">{t('demonlist_score')}:</span> {stats.demonlistScore !== null ? stats.demonlistScore.toFixed(2) : t('na')}</p>
             </div>
           ) : (
