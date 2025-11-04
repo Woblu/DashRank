@@ -4,15 +4,24 @@ import { Tag, User } from 'lucide-react';
 
 const getYouTubeVideoId = (urlOrId) => {
   if (!urlOrId) return null;
-  const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
-  const urlMatch = urlOrId.match(urlRegex);
-  if (urlMatch && urlMatch[1]) {
-    return urlMatch[1].substring(0, 11);
+
+  // [FIX] Check for YouTube domains FIRST
+  if (urlOrId.includes('youtube.com') || urlOrId.includes('youtu.be')) {
+    const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^?&\n]+)/;
+    const urlMatch = urlOrId.match(urlRegex);
+    if (urlMatch && urlMatch[1]) {
+      return urlMatch[1].substring(0, 11);
+    }
   }
-  if (typeof urlOrId === 'string' && urlOrId.length >= 11) {
-     return urlOrId.substring(0, 11);
+  
+  // [FIX] Only check for a raw ID if it's NOT a URL and looks like an ID
+  const ytIdRegex = /^[a-zA-Z0-9_-]{11}$/;
+  if (ytIdRegex.test(urlOrId)) {
+    return urlOrId;
   }
-  return null;
+  
+  // It's a non-YouTube URL (Google Drive, etc.)
+  return null; 
 };
 
 const difficultyColors = {
@@ -25,6 +34,7 @@ const difficultyColors = {
 
 export default function LayoutCard({ layout }) {
   const videoId = getYouTubeVideoId(layout.videoUrl);
+  // [FIX] Use a placeholder if the videoId is null (e.g., for Google Drive links)
   const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/0.jpg` : 'https://placehold.co/320x180/1e293b/ffffff?text=No+Preview';
 
   return (
@@ -35,6 +45,8 @@ export default function LayoutCard({ layout }) {
             src={thumbnailUrl}
             alt={`${layout.levelName} thumbnail`}
             className="w-full h-full object-cover"
+            // [FIX] Add an error handler to prevent broken images
+            onError={(e) => { e.currentTarget.src = 'https://placehold.co/320x180/1e293b/ffffff?text=No+Preview'; }}
           />
         </div>
         {/* Added `min-w-0` to this container to prevent cropping */}
