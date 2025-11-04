@@ -1,3 +1,5 @@
+// src/utils/embedUtils.js
+
 /**
  * Extracts the video ID from a YouTube URL.
  */
@@ -8,9 +10,7 @@ function getYouTubeId(url) {
 }
 
 /**
- * [FIX] Generates a privacy-enhanced (nocookie) embeddable URL for a YouTube video.
- * @param {string} videoId - The YouTube video ID.
- * @returns {string} The embeddable URL.
+ * Generates a privacy-enhanced (nocookie) embeddable URL for a YouTube video.
  */
 function getYouTubeEmbedUrl(videoId) {
   return `https://www.youtube-nocookie.com/embed/${videoId}`;
@@ -27,8 +27,6 @@ function getGoogleDriveId(url) {
 
 /**
  * Generates an embeddable URL for a Google Drive video.
- * @param {string} fileId - The Google Drive file ID.
- * @returns {string} The embeddable URL.
  */
 function getGoogleDriveEmbedUrl(fileId) {
   return `https://drive.google.com/file/d/${fileId}/preview`;
@@ -38,16 +36,15 @@ function getGoogleDriveEmbedUrl(fileId) {
  * Extracts the clip ID from a Medal.tv URL.
  */
 function getMedalClipId(url) {
-  // Matches .../clips/CLIP_ID/... or /clip/embed/CLIP_ID
   const regExp = /medal\.tv\/(?:games\/[^\/]+\/clips|clip\/embed)\/([a-zA-Z0-9_-]+)/;
   const match = url.match(regExp);
   return (match && match[1]) ? match[1] : null;
 }
 
 /**
- * Main function to get an embed URL from any supported video link.
+ * Main function to get an embed URL object from any supported video link.
  * @param {string} url - The original video URL.
- * @returns {string|null} The embeddable URL or null if unsupported.
+ * @returns {{url: string, type: 'iframe' | 'video'}|null} The embeddable URL object or null if unsupported.
  */
 export function getEmbedUrl(url) {
   if (!url || typeof url !== 'string') {
@@ -63,13 +60,13 @@ export function getEmbedUrl(url) {
     // 1. YouTube (NoCookie)
     if (host.includes('youtube.com') || host.includes('youtu.be')) {
       const videoId = getYouTubeId(url);
-      return videoId ? getYouTubeEmbedUrl(videoId) : null;
+      return videoId ? { url: getYouTubeEmbedUrl(videoId), type: 'iframe' } : null;
     }
 
     // 2. Google Drive
     if (host.includes('drive.google.com')) {
       const fileId = getGoogleDriveId(url);
-      return fileId ? getGoogleDriveEmbedUrl(fileId) : null;
+      return fileId ? { url: getGoogleDriveEmbedUrl(fileId), type: 'iframe' } : null;
     }
     
     // 3. OneDrive
@@ -77,37 +74,39 @@ export function getEmbedUrl(url) {
       const resid = searchParams.get('resid');
       const authkey = searchParams.get('authkey');
       if (resid && authkey) {
-        // If it's already an embed link, use it directly
-        if (pathname.includes('/embed')) {
-            return url; 
-        }
-        // Otherwise, construct the embed link
-        return `https://onedrive.live.com/embed?resid=${resid}&authkey=${authkey}`;
+        const embedUrl = pathname.includes('/embed') ? url : `https://onedrive.live.com/embed?resid=${resid}&authkey=${authkey}`;
+        return { url: embedUrl, type: 'iframe' };
       }
     }
 
     // 4. Medal.tv
     if (host.includes('medal.tv')) {
       const clipId = getMedalClipId(url);
-      return clipId ? `https://medal.tv/clip/embed/${clipId}` : null;
+      return clipId ? { url: `https://medal.tv/clip/embed/${clipId}`, type: 'iframe' } : null;
     }
 
     // 5. Twitch (Clips and VODs)
     if (host.includes('twitch.tv')) {
-      // Handle Clips: clips.twitch.tv/ID or twitch.tv/USER/clip/ID
+      // Handle Clips
       const clipMatch = url.match(/clips\.twitch\.tv\/([a-zA-Z0-9_-]+)|twitch\.tv\/[^\/]+\/clip\/([a-zA-Z0-9_-]+)|twitch\.tv\/clips\/([a-zA-Z0-9_-]+)/);
       if (clipMatch) {
         const clipId = clipMatch[1] || clipMatch[2] || clipMatch[3];
-        return `https://clips.twitch.tv/embed?clip=${clipId}&parent=${parentDomain}`;
+        return { url: `https://clips.twitch.tv/embed?clip=${clipId}&parent=${parentDomain}`, type: 'iframe' };
       }
 
-      // Handle VODs: twitch.tv/videos/ID
+      // Handle VODs
       const videoMatch = url.match(/twitch\.tv\/videos\/(\d+)/);
       if (videoMatch) {
         const videoId = videoMatch[1];
-        return `https://player.twitch.tv/?video=${videoId}&parent=${parentDomain}`;
+        return { url: `https://player.twitch.tv/?video=${videoId}&parent=${parentDomain}`, type: 'iframe' };
       }
     }
+
+    // Add other video formats (mp4, etc.) as 'video' type if needed
+    if (url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.ogg')) {
+        return { url: url, type: 'video' };
+    }
+
 
   } catch (error) {
     console.error("Invalid URL for embedding:", url, error);

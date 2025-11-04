@@ -35,7 +35,8 @@ export default function LevelDetail() {
       setLevel(levelResponse.data);
 
       if (levelResponse.data?.videoId) {
-        const embedResult = getYoutubeEmbed(levelResponse.data.videoId);
+        // [FIX] Corrected function call
+        const embedResult = getEmbedUrl(levelResponse.data.videoId);
         setEmbedInfo(embedResult);
       }
 
@@ -81,7 +82,8 @@ export default function LevelDetail() {
   };
 
   const handleRecordClick = (videoId) => {
-    const embedResult = getYoutubeEmbed(videoId);
+    // [FIX] Corrected function call
+    const embedResult = getEmbedUrl(videoId);
     setEmbedInfo(embedResult);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

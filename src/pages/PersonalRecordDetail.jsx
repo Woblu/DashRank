@@ -66,7 +66,7 @@ export default function PersonalRecordDetail() {
   }
 
   // [FIX] Call the renamed function
-  const embedInfo = getYoutubeEmbed(record.videoUrl);
+  const embedInfo = getEmbedUrl(record.videoUrl);
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
