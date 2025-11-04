@@ -3,7 +3,8 @@ import prismaClientPkg from '@prisma/client';
 // Ensure you import the correct enum for record status from YOUR schema
 // Using PersonalRecordProgressStatus based on your schema
 const { PrismaClient, PersonalRecordProgressStatus } = prismaClientPkg;
-import { regeneratePlayerStats } from './statsGeneration.js'; // Ensure this path is correct
+// [FIX] Removed the broken import below, as statsGeneration.js is a standalone script
+// import { regeneratePlayerStats } from './statsGeneration.js'; // Ensure this path is correct
 
 const prisma = new PrismaClient();
 
@@ -137,20 +138,19 @@ export async function addLevelToList(req, res) {
         }
 
 
-        // If #1 changed, find affected player NAMES
+        // [FIX] This helper is fine to run, as it just queries the DB
         if (affectsNumberOne) {
             const affectedLevelIds = [oldNumberOneId, newLevelId].filter(id => id != null);
             console.log(`[AddLevel] Finding players involved with affected #1 levels: ${affectedLevelIds.join(', ')}`);
-            // This helper uses the global prisma instance, not the transaction 'tx'
             playerNamesToUpdate = await findPlayersInvolvedWithLevels(affectedLevelIds);
         }
 
         return createdLevel; // Return the created level from transaction
     });
 
-    // Trigger regeneration AFTER transaction succeeds
-    console.log(`[AddLevel] Transaction successful. Triggering stats regeneration.`);
-    await regeneratePlayerStats(affectsNumberOne ? playerNamesToUpdate : null); // Pass player NAMES
+    // [FIX] Removed the call to regeneratePlayerStats.
+    // The admin should run the 'npm run generate-stats' script manually after making changes.
+    console.log(`[AddLevel] Transaction successful.`);
 
     return res.status(201).json(newLevel);
   } catch (error) {
@@ -238,10 +238,9 @@ export async function removeLevelFromList(req, res) {
       return { message: `${levelBeingRemovedInfo.name} removed successfully.` };
     });
 
-    // Trigger regeneration AFTER transaction succeeds
+    // [FIX] Removed the call to regeneratePlayerStats.
     if (success) {
-      console.log(`[RemoveLevel] Transaction successful. Triggering stats regeneration.`);
-      await regeneratePlayerStats(affectsNumberOne ? playerNamesToUpdate : null); // Pass NAMES
+      console.log(`[RemoveLevel] Transaction successful.`);
     }
 
     return res.status(200).json(result);
@@ -282,10 +281,7 @@ export async function moveLevelInList(req, res) {
       // If placement isn't changing, do nothing
       if (oldPlacement === parsedNewPlacement) {
           console.log("[MoveLevel] Old and new placement are the same. No move needed.");
-          success = true; // Mark as success to potentially trigger rank update if needed? Or just return.
-          // Decide if rank regen is needed even if placement is same (e.g., forced refresh)
-          // For now, assume no regen needed if placement is identical.
-          // await regeneratePlayerStats(null); // Force rank update?
+          success = true; 
           return levelToMove; // Return the unchanged level
       }
 
@@ -358,10 +354,9 @@ export async function moveLevelInList(req, res) {
       return finalUpdatedLevel; // Return the updated level
     });
 
-    // Trigger regeneration AFTER transaction succeeds
+    // [FIX] Removed the call to regeneratePlayerStats.
     if (success) {
-      console.log(`[MoveLevel] Transaction successful. Triggering stats regeneration.`);
-      await regeneratePlayerStats(affectsNumberOne ? playerNamesToUpdate : null); // Pass NAMES
+      console.log(`[MoveLevel] Transaction successful.`);
     }
 
     return res.status(200).json(updatedLevel);
@@ -442,10 +437,10 @@ export async function updateLevel(req, res) {
         }
     }
 
+    // [FIX] Removed the call to regeneratePlayerStats.
     if (needsRegen) {
         playerNamesToUpdate = [...new Set(playerNamesToUpdate)]; // Ensure unique names
-        console.log(`[UpdateLevel] Triggering stats regeneration for: ${playerNamesToUpdate.join(', ') || 'potentially all ranks'}`);
-        await regeneratePlayerStats(playerNamesToUpdate.length > 0 ? playerNamesToUpdate : null);
+        console.log(`[UpdateLevel] Changes detected that require stats regeneration. Run 'npm run generate-stats' to update scores.`);
     } else {
         console.log("[UpdateLevel] No changes detected that require stats regeneration.");
     }
@@ -522,7 +517,7 @@ export async function getHistoricList(req, res) {
         if (change.type === 'ADD') {
             levelsMap.delete(change.levelId);
         }
-        else if (change.type === 'REMOVE') {
+        else if (change.Type === 'REMOVE') {
             const match = change.description.match(/(.+) removed from .+ \(was #(\d+)\)/);
             if (match) {
                 const [, levelName, oldPlacementStr] = match;
