@@ -1,231 +1,245 @@
 // src/server/statsGeneration.js
 import prismaClientPkg from '@prisma/client';
-const { PrismaClient } = prismaClientPkg;
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-// [FIX] Import the helper function from your utils file
-import { loadStaticLists } from './utils/listHelpers.js'; // Adjust path if needed
+// [FIX] Import all required lists
+import mainList from '../data/main-list.json' assert { type: 'json' };
+import unratedList from '../data/unrated-list.json' assert { type: 'json' };
+import platformerList from '../data/platformer-list.json' assert { type: 'json' };
+import challengeList from '../data/challenge-list.json' assert { type: 'json' };
+import speedhackList from '../data/speedhack-list.json' assert { type: 'json' };
 
+// Import our utilities
+import { calculateScore, cleanUsername } from '../utils/scoring.js';
+
+const { PrismaClient } = prismaClientPkg;
 const prisma = new PrismaClient();
 
-// Helper function to calculate points (remains the same)
-function calculatePoints(rank) {
-  if (rank <= 0 || rank > 150) return 0;
-  return 500 * Math.pow(0.9801, rank - 1);
+// Helper to get paths correct
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dataDir = path.join(__dirname, '..', 'data');
+const playerStatsDir = path.join(dataDir, 'playerstats');
+
+/**
+ * Gets or creates a blank player profile from the map.
+ * @param {Map} map - The player profiles map.
+ * @param {string} name - The clean, lowercase player name.
+ * @param {string} originalName - The name with original casing.
+ * @returns {object} The player's profile object.
+ */
+function getProfile(map, name, originalName) {
+  if (!map.has(name)) {
+    map.set(name, {
+      name: originalName, // Store the first-seen cased name
+      clan: null,
+      score: 0,
+      rank: 0,
+      hardest: { placement: Infinity, name: null, id: null, levelId: null },
+      verified: [],
+      completed: [],
+    });
+  }
+  // Update casing if a non-tagged name is found
+  if (!map.get(name).name.includes('[')) {
+      map.get(name).name = originalName;
+  }
+  return map.get(name);
 }
 
-// --- Function to load static main-list.json (REMOVED) ---
-// We now import loadStaticLists from listHelpers.js
+/**
+ * Extracts clan tag and updates profile.
+ * @param {object} profile - The player's profile object.
+ * @param {string} rawUsername - The username with potential tag (e.g., "[67] Zoink").
+ */
+function updateClan(profile, rawUsername) {
+    if (profile.clan) return; // Already set
+    const match = rawUsername.match(/\[(.*?)\]/);
+    if (match && match[1]) {
+        profile.clan = match[1];
+        profile.name = rawUsername.replace(/\[.*?\]\s*/, ""); // Store clean name
+    }
+}
 
-// --- Main Regeneration Function ---
-export async function regeneratePlayerStats(targetPlayerNames = null) {
-  console.log(`[StatsGen DB+JSON v2] Starting DB player stats regeneration... Target: ${targetPlayerNames ? targetPlayerNames.join(', ') : 'All Relevant Players'}`);
+/**
+ * [NEW] Processes a single list and updates the database and static files.
+ * @param {object} listConfig - Configuration object for the list.
+ * @param {string} listConfig.listName - The name of the list (e.g., 'main').
+ * @param {Array} listConfig.listData - The imported JSON data for the list.
+ * @param {string} listConfig.statsViewerFile - The output filename (e.g., 'main-statsviewer.json').
+ */
+async function generateStatsForList({ listName, listData, statsViewerFile }) {
+  console.log(`\n--- Starting stats generation for: ${listName} ---`);
+  const playerProfiles = new Map();
+
+  // --- 1. Iterate all levels and aggregate player data ---
+  console.log(`Processing ${listData.length} levels from ${listName}-list.json...`);
+
+  for (const level of listData) {
+    // Score is only awarded for levels 1-150 that have a placement
+    const levelScore = (level.placement && level.placement > 0 && level.placement <= 150) 
+      ? calculateScore(level.placement) 
+      : 0;
+    
+    // --- Process Verifier ---
+    if (level.verifier) {
+        const cleanVerifierName = cleanUsername(level.verifier);
+        const profile = getProfile(playerProfiles, cleanVerifierName, level.verifier);
+        updateClan(profile, level.verifier);
+
+        if (levelScore > 0) profile.score += levelScore;
+        profile.verified.push(level.name);
+
+        if (level.placement && level.placement < profile.hardest.placement) {
+            profile.hardest = { placement: level.placement, name: level.name, id: level.id, levelId: level.levelId };
+        }
+    }
+
+    // --- Process Records ---
+    if (level.records) {
+      const verifierName = cleanUsername(level.verifier);
+      for (const record of level.records) {
+        if (record.percent === 100) {
+          const cleanRecordName = cleanUsername(record.username);
+          
+          if (cleanRecordName === verifierName) continue; 
+
+          const profile = getProfile(playerProfiles, cleanRecordName, record.username);
+          updateClan(profile, record.username);
+
+          if (!profile.completed.includes(level.name)) {
+              if (levelScore > 0) profile.score += levelScore;
+              profile.completed.push(level.name);
+
+              if (level.placement && level.placement < profile.hardest.placement) {
+                  profile.hardest = { placement: level.placement, name: level.name, id: level.id, levelId: levelId };
+              }
+          }
+        }
+      }
+    }
+  }
+  console.log(`Found ${playerProfiles.size} unique players for ${listName}.`);
+
+  // --- 2. Sort, Rank, and Format Data ---
+  const allPlayers = Array.from(playerProfiles.values())
+    .filter(p => p.score > 0) // Only rank players with score
+    .sort((a, b) => b.score - a.score)
+    .map((player, index) => {
+      player.rank = index + 1;
+      return player;
+    });
+
+  // --- 3. Write Static JSON Files ---
+
+  // A. Write [list]-statsviewer.json (for the leaderboard)
+  const leaderboardData = allPlayers.map(p => ({
+    demonlistRank: p.rank,
+    name: p.name,
+    demonlistScore: p.score
+  }));
+  
+  const leaderboardPath = path.join(dataDir, statsViewerFile);
+  await fs.writeFile(leaderboardPath, JSON.stringify(leaderboardData, null, 2));
+  console.log(`Successfully wrote ${leaderboardPath}`);
+
+  // B. [FIX] Write individual [player]-stats.json files ONLY for the main list
+  if (listName === 'main') {
+    console.log(`Writing ${allPlayers.length} individual player stat files for 'main' list...`);
+    await fs.rm(playerStatsDir, { recursive: true, force: true }); // Clear old files
+    await fs.mkdir(playerStatsDir, { recursive: true });
+
+    for (const player of allPlayers) {
+      const playerStatFile = {
+        name: player.name,
+        demonlistRank: player.rank,
+        demonlistScore: player.score,
+        demonlistStats: {
+          main: player.completed.length + player.verified.length,
+          extended: 0, // You can enhance this later
+          legacy: 0
+        },
+        hardestDemon: player.hardest.name,
+        demonsCompleted: [...player.verified, ...player.completed].sort(), // Combine and sort
+        demonsVerified: player.verified.sort(),
+        records: []
+      };
+
+      const fileName = `${player.name.toLowerCase().replace(/\s/g, '-')}-stats.json`;
+      const filePath = path.join(playerStatsDir, fileName);
+      await fs.writeFile(filePath, JSON.stringify(playerStatFile, null, 2));
+    }
+    console.log(`Finished writing individual player files to ${playerStatsDir}`);
+  }
+
+
+  // --- 4. Update Prisma Database ---
+  console.log(`Updating Prisma database for ${listName}...`);
+  
+  const prismaData = allPlayers.map(p => ({
+    name: p.name,
+    clan: p.clan,
+    demonlistRank: p.rank,
+    demonlistScore: p.score,
+    hardestDemonName: p.hardest.name,
+    hardestDemonPlacement: p.hardest.placement,
+    list: listName, // Use the parameterized list name
+  }));
 
   try {
-    // 1. Fetch CURRENT level placements and IDs from the DATABASE
-    const currentDbLevels = await prisma.level.findMany({
-      where: { list: 'main-list' }, // Fetch only main list levels from DB
-      select: {
-        name: true,     // Name (for matching with static JSON)
-        placement: true // CURRENT placement
-      },
-      orderBy: { placement: 'asc' }
-    });
-
-    if (currentDbLevels.length === 0) {
-        console.log("[StatsGen DB+JSON v2] No levels found in DB for main-list. Skipping regeneration.");
-        return;
-    }
-    // Create a map for quick lookup of CURRENT placement by level name (case-insensitive)
-    const currentPlacementMap = new Map(currentDbLevels.map(lvl => [lvl.name.toLowerCase(), lvl.placement]));
-    console.log('[StatsGen DB+JSON v2] Current Placements Map Snippet (First 5):', Array.from(currentPlacementMap.entries()).slice(0, 5));
-
-
-    // 2. Load the STATIC main-list.json to get completion data (verifier, records)
-    // [FIX] Call the imported helper and get the 'main' list
-    const staticLists = loadStaticLists();
-    const staticMainListData = staticLists.main; // Get the main list from the helper
-    
-    if (!staticMainListData || staticMainListData.length === 0) {
-        console.error("[StatsGen DB+JSON v2] Static main-list.json is empty or failed to load. Cannot determine completions.");
-        return; // Stop if we can't get completion data
-    }
-
-    // 3. Identify all unique player names from the STATIC JSON completions/verifications
-    const playerNames = new Set();
-    staticMainListData.forEach(level => {
-      if (level.verifier) {
-        playerNames.add(level.verifier);
-      }
-      if (Array.isArray(level.records)) {
-          level.records.forEach(record => {
-            if (record.username && record.percent === 100) {
-                playerNames.add(record.username);
-            }
-          });
+    await prisma.$transaction(async (tx) => {
+      // Nuke the old stats for this specific list
+      await tx.playerstats.deleteMany({
+        where: { list: listName }
+      });
+      
+      // Create the new stats for this list
+      if (prismaData.length > 0) {
+        await tx.playerstats.createMany({
+          data: prismaData
+        });
+        console.log(`Successfully inserted ${prismaData.length} player stats into database for ${listName}.`);
+      } else {
+        console.log(`No players with score > 0 for ${listName}. Database not updated.`);
       }
     });
-
-    let playersToProcess = Array.from(playerNames);
-    console.log(`[StatsGen DB+JSON v2] Found ${playersToProcess.length} unique player names in static main-list completions/verifications.`);
-
-    // Filter list if specific targets were provided
-    if (targetPlayerNames && Array.isArray(targetPlayerNames) && targetPlayerNames.length > 0) {
-      const targetSet = new Set(targetPlayerNames.map(name => name.toLowerCase())); // Use lowercase for comparison
-      playersToProcess = playersToProcess.filter(name => targetSet.has(name.toLowerCase()));
-      console.log(`[StatsGen DB+JSON v2] Filtered down to ${playersToProcess.length} target players.`);
-    }
-
-    if (playersToProcess.length === 0) {
-        console.log("[StatsGen DB+JSON v2] No players to process after filtering (or none found).");
-    } else {
-        console.log(`[StatsGen DB+JSON v2] Calculating stats for ${playersToProcess.length} players...`);
-        const statsToUpsert = [];
-
-        // 4. Calculate stats for each player
-        for (const playerName of playersToProcess) {
-          let hardestDemon = { name: null, placement: Infinity };
-          let totalScore = 0;
-          let completedLevelNames = new Set(); // Track completed level *names*
-
-          for (const staticLevel of staticMainListData) {
-            let isCompletion = false;
-            const levelNameLower = staticLevel.name?.toLowerCase();
-            if (!levelNameLower) continue;
-
-            if (staticLevel.verifier?.toLowerCase() === playerName.toLowerCase()) {
-                isCompletion = true;
-            }
-            else if (Array.isArray(staticLevel.records) && staticLevel.records.some(r => r.username?.toLowerCase() === playerName.toLowerCase() && r.percent === 100)) {
-                isCompletion = true;
-            }
-
-            if (isCompletion && !completedLevelNames.has(levelNameLower)) {
-                completedLevelNames.add(levelNameLower);
-                const currentPlacement = currentPlacementMap.get(levelNameLower);
-                if (currentPlacement !== undefined && currentPlacement !== null && typeof currentPlacement === 'number') {
-                    totalScore += calculatePoints(currentPlacement);
-                    if (currentPlacement < hardestDemon.placement) {
-                        hardestDemon = { name: staticLevel.name, placement: currentPlacement };
-                    }
-                } else {
-                    console.warn(`[StatsGen DB+JSON v2] Could not find current placement in DB for completed level from static JSON: ${staticLevel.name}. Skipping score/hardest update for this level.`);
-                }
-            }
-          } // End static level loop
-
-          console.log(`[StatsGen DB+JSON v2] PRE-UPSERT for ${playerName}: Score=${totalScore.toFixed(2)}, Hardest=${hardestDemon.name || 'None'} (#${hardestDemon.placement === Infinity ? 'N/A' : hardestDemon.placement})`);
-
-          statsToUpsert.push({
-            name: playerName,
-            list: 'main', // Use 'main' to match collection data
-            demonlistScore: totalScore,
-            hardestDemonName: hardestDemon.placement === Infinity ? null : hardestDemon.name,
-            hardestDemonPlacement: hardestDemon.placement === Infinity ? null : hardestDemon.placement,
-          });
-
-        } // End player loop
-
-        // 5. Upsert calculated stats into Playerstats DB collection
-        console.log(`[StatsGen DB+JSON v2] Upserting base stats for ${statsToUpsert.length} players into 'Playerstats' collection...`);
-        
-        const upsertOperations = statsToUpsert.map(statData =>
-            prisma.playerstats.upsert({
-                where: {
-                    name_list: { name: statData.name, list: statData.list }
-                },
-                update: {
-                    demonlistScore: statData.demonlistScore,
-                    hardestDemonName: statData.hardestDemonName,
-                    hardestDemonPlacement: statData.hardestDemonPlacement,
-                    updatedAt: new Date(),
-                },
-                create: {
-                    name: statData.name,
-                    list: statData.list,
-                    demonlistScore: statData.demonlistScore,
-                    hardestDemonName: statData.hardestDemonName,
-                    hardestDemonPlacement: statData.hardestDemonPlacement,
-                    clan: null,
-                    demonlistRank: null,
-                },
-            })
-        );
-
-        try {
-            await prisma.$transaction(upsertOperations);
-            console.log(`[StatsGen DB+JSON v2] Finished upserting base stats.`);
-        } catch (upsertError) {
-             console.error(`[StatsGen DB+JSON v2] ERROR during upsert transaction:`, upsertError);
-             // Fallback loop if upsert fails
-             console.log("[StatsGen DB+JSON v2] Retrying with find/update/create loop...");
-             for (const statData of statsToUpsert) {
-                  try {
-                      const existing = await prisma.playerstats.findFirst({ where: { name: statData.name, list: statData.list } });
-                      if (existing) {
-                          await prisma.playerstats.update({
-                              where: { id: existing.id },
-                              data: {
-                                  demonlistScore: statData.demonlistScore,
-                                  hardestDemonName: statData.hardestDemonName,
-                                  hardestDemonPlacement: statData.hardestDemonPlacement,
-                                  updatedAt: new Date(),
-                              }
-                          });
-                      } else {
-                           await prisma.playerstats.create({
-                               data: {
-                                   name: statData.name, list: statData.list,
-                                   demonlistScore: statData.demonlistScore,
-                                   hardestDemonName: statData.hardestDemonName,
-                                   hardestDemonPlacement: statData.hardestDemonPlacement,
-                                   clan: null, demonlistRank: null,
-                               }
-                           });
-                      }
-                  } catch (loopError) {
-                       console.error(`[StatsGen DB+JSON v2] Error during fallback update/create for ${statData.name}:`, loopError);
-                  }
-             }
-              console.log(`[StatsGen DB+JSON v2] Finished fallback loop.`);
-        }
-    } // End if playersToProcess > 0
-
-    // --- Always Recalculate and Update Ranks for Main List in DB ---
-    console.log('[StatsGen DB+JSON v2] Recalculating all main-list player ranks...');
-    const allMainListStats = await prisma.playerstats.findMany({
-      where: { list: 'main' },
-      orderBy: [ { demonlistScore: 'desc' }, { name: 'asc' } ],
-      select: { id: true, demonlistScore: true },
-    });
-
-    const rankUpdates = [];
-    let currentRank = 1;
-    for (let i = 0; i < allMainListStats.length; i++) {
-        const stat = allMainListStats[i];
-        const rankToAssign = (stat.demonlistScore && stat.demonlistScore > 0) ? currentRank++ : null;
-        rankUpdates.push(
-            prisma.playerstats.update({
-                where: { id: stat.id },
-                data: { demonlistRank: rankToAssign },
-            })
-        );
-    }
-    rankUpdates.push(
-        prisma.playerstats.updateMany({
-            where: { list: 'main', demonlistScore: { lte: 0 } },
-            data: { demonlistRank: null },
-        })
-    );
-
-    console.log(`[StatsGen DB+JSON v2] Applying ${rankUpdates.length} rank updates in transaction...`);
-    await prisma.$transaction(rankUpdates);
-    console.log('[StatsGen DB+JSON v2] Finished updating ranks.');
-
-    console.log('[StatsGen DB+JSON v2] Player stats DB regeneration finished.');
-
-  } catch (error) {
-    console.error('[StatsGen DB+JSON v2] Error regenerating player stats:', error);
+  } catch (e) {
+    console.error(`Failed to update database for ${listName}:`, e);
   }
+
+  console.log(`--- Finished processing ${listName} ---`);
 }
+
+/**
+ * [NEW] Main function to run stats generation for all lists.
+ */
+async function generateAllStats() {
+  console.log('===== STARTING FULL STATS GENERATION =====');
+  
+  // Define all list processing jobs
+  const listJobs = [
+    { listName: 'main', listData: mainList, statsViewerFile: 'main-statsviewer.json' },
+    { listName: 'unrated', listData: unratedList, statsViewerFile: 'unrated-statsviewer.json' },
+    { listName: 'platformer', listData: platformerList, statsViewerFile: 'platformer-statsviewer.json' },
+    { listName: 'challenge', listData: challengeList, statsViewerFile: 'challenge-statsviewer.json' },
+    { listName: 'speedhack', listData: speedhackList, statsViewerFile: 'speedhack-statsviewer.json' }
+  ];
+
+  for (const job of listJobs) {
+    await generateStatsForList(job);
+  }
+
+  console.log('\n===== FULL STATS GENERATION COMPLETE =====');
+}
+
+// --- Run the script ---
+generateAllStats()
+  .catch((e) => {
+    console.error('An unexpected error occurred:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
