@@ -15,13 +15,96 @@ const allListsData = {
     challenge: allStaticLists.challengeList,
 };
 
+// [NEW] Helper to get all main list levels from the DB
+async function getMainListFromDB() {
+  return prisma.level.findMany({
+    where: { 
+      list: 'main-list', 
+      // [FIX] Changed `{ not: null }` to `{ gt: 0 }` to avoid Prisma validation error
+      placement: { gt: 0 } 
+    },
+    select: { id: true, name: true, placement: true, levelId: true },
+    orderBy: { placement: 'asc' },
+  });
+}
+
+// [NEW] Helper to get all ranked players and their scores from the DB
+// This replaces reading from main-statsviewer.json
+async function getAllPlayerStatsFromDB(mainList) {
+  const mainListMap = new Map(mainList.map(l => [l.id, l.placement]));
+  const playerProfiles = new Map();
+
+  const allLevels = await prisma.level.findMany({
+    where: { list: 'main-list', placement: { lte: 150 } },
+    select: { id: true, verifier: true, records: { select: { username: true, percent: true } } }
+  });
+
+  for (const level of allLevels) {
+    const placement = mainListMap.get(level.id);
+    if (!placement) continue;
+    
+    const levelScore = calculateScore(placement);
+    
+    // Process Verifier
+    if (level.verifier) {
+      const cleanVerifierName = cleanUsername(level.verifier);
+      const profile = getProfile(playerProfiles, cleanVerifierName, level.verifier);
+      profile.score += levelScore;
+    }
+
+    // Process Records
+    if (level.records) {
+      const verifierName = cleanUsername(level.verifier);
+      for (const record of level.records) {
+        if (record.percent === 100) {
+          const cleanRecordName = cleanUsername(record.username);
+          if (cleanRecordName === verifierName) continue; 
+
+          const profile = getProfile(playerProfiles, cleanRecordName, record.username);
+          if (!profile.completedLevelIds.has(level.id)) {
+            profile.score += levelScore;
+            profile.completedLevelIds.add(level.id); // Track completion
+          }
+        }
+      }
+    }
+  }
+
+  // Sort, Rank, and Format Data
+  const allPlayers = Array.from(playerProfiles.values())
+    .filter(p => p.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map((player, index) => {
+      player.rank = index + 1;
+      return player;
+    });
+
+  // Create a map for fast lookup by clean name
+  return new Map(allPlayers.map(p => [cleanUsername(p.name), p]));
+}
+
+
+// [NEW] Helper to get or create a profile in the map
+function getProfile(map, name, originalName) {
+  if (!map.has(name)) {
+    map.set(name, {
+      name: originalName,
+      score: 0,
+      rank: 0,
+      completedLevelIds: new Set(),
+    });
+  }
+  // Update casing if a non-tagged name is found
+  if (!map.get(name).name.includes('[')) {
+      map.get(name).name = originalName;
+  }
+  return map.get(name);
+}
+
+
 /**
  * [REWRITTEN] Main handler function
- * This now uses the hybrid model:
- * 1. Gets Rank/Score from DB (`playerstats`)
- * 2. Gets Completions/Verifications from Static JSONs
- * 3. Gets correct placements from DB (`level`)
- * 4. Calculates hardest demon and returns all data.
+ * This now reads from the database in real-time.
  */
 export async function getPlayerStats(req, res) {
     const { playerName } = req.params;
@@ -35,127 +118,102 @@ export async function getPlayerStats(req, res) {
     console.log(`[PlayerStatsHandler v14] ========= START Request for: ${decodedPlayerName} (Cleaned: ${cleanName}) =========`);
 
     try {
-        // --- 1. Get Core Rank/Score from DB ---
-        // We find the player by their CLEAN name.
-        const playerCoreStats = await prisma.playerstats.findFirst({
-            where: {
-                name: { equals: cleanName, mode: 'insensitive' },
-                list: 'main'
+        // --- 1. Fetch all data from the database ---
+        // Get the current main list placements
+        const mainList = await getMainListFromDB();
+        // Get all player ranks and scores, calculated live
+        const allPlayerRanksMap = await getAllPlayerStatsFromDB(mainList);
+
+        // --- 2. Find the requested player's stats ---
+        const playerRankedStats = allPlayerRanksMap.get(cleanName);
+        
+        // --- 3. Find this player's verified levels ---
+        // [FIX] Check against the *raw* verifier field in the DB, not the clean name
+        const verifiedLevels = await prisma.level.findMany({
+            where: { 
+                verifier: { equals: playerRankedStats?.name || cleanName, mode: 'insensitive' } 
             },
-            select: { name: true, demonlistRank: true, demonlistScore: true, clan: true }
+            select: { id: true, name: true, placement: true, list: true, levelId: true, verifier: true },
+            orderBy: [ { list: 'asc' }, { placement: 'asc' } ]
         });
-        
-        if (playerCoreStats) {
-             console.log(`[PlayerStatsHandler v14] Found core stats in DB: Rank #${playerCoreStats.demonlistRank}`);
-        } else {
-             console.log(`[PlayerStatsHandler v14] No core stats found in DB for ${cleanName}.`);
-        }
-        
-        // --- 2. Get Correct Placements from DB ---
-        const dbLevels = await prisma.level.findMany({
-            where: { placement: { not: null } },
-            select: { name: true, placement: true, list: true, id: true, levelId: true }
-        });
-        
-        // Create a map for fast lookup: "level name lower" -> { placement, id, levelId }
-        const dbLevelMap = new Map();
-        for (const level of dbLevels) {
-            dbLevelMap.set(level.name.toLowerCase(), level);
-        }
-        console.log(`[PlayerStatsHandler v14] Loaded ${dbLevelMap.size} level placements from DB.`);
 
-        // --- 3. Scan Static JSONs for Completions & Verifications ---
-        const tempVerifiedByList = {};
-        const tempBeatenByList = {};
-        const verifiedLevelNames = new Set();
-        let hardestDemon = { placement: Infinity, name: null, levelId: null, id: null, listType: null };
-
-        console.log(`[PlayerStatsHandler v14] Scanning static JSONs for '${cleanName}'...`);
-        
-        for (const listType in allListsData) {
-            const staticLevels = allListsData[listType];
-            if (!Array.isArray(staticLevels)) continue;
-
-            for (const level of staticLevels) {
-                const levelNameLower = level.name.toLowerCase();
-                
-                // Get correct placement from DB
-                const dbLevelInfo = dbLevelMap.get(levelNameLower);
-                const currentPlacement = dbLevelInfo?.placement || level.placement; // Fallback to JSON placement
-                const currentLevelId = dbLevelInfo?.levelId || level.levelId;
-                const currentDbId = dbLevelInfo?.id || level.id;
-
-                const levelData = {
-                  name: level.name,
-                  id: currentDbId,
-                  levelId: currentLevelId,
-                  placement: currentPlacement,
-                  listType: listType,
-                  levelName: level.name
-                };
-
-                // Check Verifications
-                if (cleanUsername(level.verifier) === cleanName) {
-                    if (!tempVerifiedByList[listType]) tempVerifiedByList[listType] = [];
-                    tempVerifiedByList[listType].push(levelData);
-                    verifiedLevelNames.add(levelNameLower);
-                    
-                    // Check hardest (only for main list)
-                    if (listType === 'main' && currentPlacement < hardestDemon.placement) {
-                        hardestDemon = levelData;
+        // --- 4. Find this player's completed levels ---
+        // [FIX] Use the *ranked name* (with tag) if available, otherwise the clean name
+        const nameForRecordSearch = playerRankedStats?.name || cleanName;
+        const completedLevels = await prisma.level.findMany({
+            where: {
+                records: {
+                    some: {
+                        percent: 100,
+                        OR: [
+                            { username: { equals: nameForRecordSearch, mode: 'insensitive' } },
+                            { username: { endsWith: ` ${nameForRecordSearch}`, mode: 'insensitive' } }
+                        ]
                     }
                 }
-                // Check Completions
-                else if (level.records && Array.isArray(level.records)) {
-                    const isCompleted = level.records.some(
-                        r => r.percent === 100 && cleanUsername(r.username) === cleanName
-                    );
-                    
-                    if (isCompleted && !verifiedLevelNames.has(levelNameLower)) {
-                        if (!tempBeatenByList[listType]) tempBeatenByList[listType] = [];
-                        tempBeatenByList[listType].push(levelData);
+            },
+            select: { id: true, name: true, placement: true, list: true, levelId: true },
+            orderBy: [ { list: 'asc' }, { placement: 'asc' } ]
+        });
 
-                        // Check hardest (only for main list)
-                        if (listType === 'main' && currentPlacement < hardestDemon.placement) {
-                            hardestDemon = levelData;
-                        }
-                    }
-                }
-            }
-        }
-        
-        // Sort all lists by placement
-        Object.values(tempBeatenByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
-        Object.values(tempVerifiedByList).forEach(list => list.sort((a, b) => (a.placement || Infinity) - (b.placement || Infinity)));
-
-        console.log(`[PlayerStatsHandler v14] Found ${Object.keys(tempBeatenByList).length} completed lists.`);
-        console.log(`[PlayerStatsHandler v14] Found ${Object.keys(tempVerifiedByList).length} verified lists.`);
-        console.log(`[PlayerStatsHandler v14] Calculated hardest demon: ${hardestDemon.name || 'None'} (#${hardestDemon.placement || 'N/A'})`);
-
-        // --- 4. Final Check ---
-        if (!playerCoreStats && Object.keys(tempBeatenByList).length === 0 && Object.keys(tempVerifiedByList).length === 0) {
+        // --- 5. Final Check ---
+        if (!playerRankedStats && verifiedLevels.length === 0 && completedLevels.length === 0) {
             console.log(`[PlayerStatsHandler v14] FINAL CHECK: No data found for ${cleanName}. Returning 404.`);
             return res.status(404).json({ message: `Player "${cleanName}" not found or has no associated data.` });
         }
 
-        // --- 5. Construct Response ---
-        const playerStat = {
-            name: playerCoreStats?.name || decodedPlayerName, // Use proper cased name from DB if available
-            demonlistScore: playerCoreStats?.demonlistScore || 0,
-            demonlistRank: playerCoreStats?.demonlistRank || null,
-            hardestDemonName: hardestDemon.name,
-            hardestDemonPlacement: hardestDemon.placement === Infinity ? null : hardestDemon.placement,
-            clan: playerCoreStats?.clan || null,
-            list: 'main',
-            updatedAt: new Date().toISOString(),
-        };
+        // --- 6. Calculate Hardest Demon from DB data ---
+        let hardestDemon = { placement: Infinity, name: null };
+        const combinedLevels = new Map();
+
+        // Add completions
+        completedLevels.forEach(level => {
+            if (level.list === 'main-list') combinedLevels.set(level.id, level);
+        });
+        // Add verifications (will overwrite completions)
+        verifiedLevels.forEach(level => {
+            if (level.list === 'main-list') combinedLevels.set(level.id, level);
+        });
+
+        combinedLevels.forEach(level => {
+            if (level.placement < hardestDemon.placement) {
+                hardestDemon = { placement: level.placement, name: level.name };
+            }
+        });
+        
+        // --- 7. Construct Response ---
+        let playerStat;
+        if (playerRankedStats) {
+            // Player is ranked
+            playerStat = {
+                name: playerRankedStats.name, // Use the proper-cased name
+                demonlistScore: playerRankedStats.score,
+                demonlistRank: playerRankedStats.rank,
+                hardestDemonName: hardestDemon.name,
+                hardestDemonPlacement: hardestDemon.placement,
+                clan: null, // Clan logic can be re-added if needed
+                list: 'main',
+                updatedAt: new Date().toISOString(),
+            };
+        } else {
+            // Player is not ranked but has completions
+            playerStat = {
+                name: (verifiedLevels[0]?.verifier || decodedPlayerName), // Best guess at a cased name
+                demonlistScore: 0,
+                demonlistRank: null,
+                hardestDemonName: hardestDemon.name,
+                hardestDemonPlacement: hardestDemon.placement,
+                clan: null,
+                list: 'main',
+                updatedAt: new Date().toISOString(),
+            };
+        }
 
         const responseData = {
             playerStat,
-            beatenByList: tempBeatenByList,
-            verifiedByList: tempVerifiedByList,
-            // [NEW] Send the calculated hardest demon object for display
-            hardestDemonDisplay: hardestDemon.placement === Infinity ? null : hardestDemon
+            verifiedLevels, // [FIX] Pass the DB-queried verified levels
+            completedLevels, // [FIX] Pass the DB-queried completed levels
+            hardestDemonDisplay: hardestDemon.placement === Infinity ? null : hardestDemon // Pass the calculated hardest
         };
 
         console.log(`[PlayerStatsHandler v14] Sending successful response for ${cleanName}.`);
