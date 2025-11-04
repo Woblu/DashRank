@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// [FIX] Import the new helper to load lists
+// Import the new helper to load lists
 import { loadAllStaticLists } from './utils/listHelpers.js';
 // Import our utilities
 import { calculateScore, cleanUsername } from '../utils/scoring.js';
@@ -162,7 +162,12 @@ async function generateStatsForList({ listName, listData, statsViewerFile }) {
         records: []
       };
 
-      const fileName = `${player.name.toLowerCase().replace(/\s/g, '-')}-stats.json`;
+      // [FIX] Sanitize filename to remove invalid characters like '?'
+      const safeName = player.name.toLowerCase()
+        .replace(/\s/g, '-')         // Replace spaces with hyphens
+        .replace(/[^a-z0-9_-]/g, ''); // Remove all non-alphanumeric/hyphen/underscore chars
+        
+      const fileName = `${safeName}-stats.json`;
       const filePath = path.join(playerStatsDir, fileName);
       await fs.writeFile(filePath, JSON.stringify(playerStatFile, null, 2));
     }
@@ -213,7 +218,7 @@ async function generateStatsForList({ listName, listData, statsViewerFile }) {
 async function generateAllStats() {
   console.log('===== STARTING FULL STATS GENERATION =====');
   
-  // [FIX] Load lists from the helper function
+  // Load lists from the helper function
   const {
     mainList,
     unratedList,

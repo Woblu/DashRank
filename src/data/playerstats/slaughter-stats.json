@@ -1,25 +1,27 @@
 {
   "name": "Slaughter",
-  "clan": null,
-  "demonlistRank": 51,
-  "demonlistScore": 1781.87,
+  "demonlistRank": 116,
+  "demonlistScore": 1347.5502357872226,
+  "demonlistStats": {
+    "main": 12,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Sevvend Clubstep",
   "demonsCompleted": [
-    "Slaughterhouse",
-    "Saul Goodman",
-    "The Yangire",
-    "Midnight",
-    "arcturus",
+    "ATOMIC CANNON Mk III",
+    "Axiom Asterism",
     "Climax",
-    "Sonic Wave Infinity",
     "Coalescence",
-    "Tartarus",
-    "UNKNOWN",
-    "Oblivion",
-    "The Golden",
-    "Natural Disaster",
-    "Verdant Landscape",
-    "Shukketsu",
-    "Terminal Rampancy"
+    "Crackhead Circles",
+    "Destruction 19",
+    "Gloxinia",
+    "ORDINARY",
+    "Rigel",
+    "Sevvend Clubstep",
+    "Terminal Rampancy",
+    "Trotil"
   ],
-  "demonsVerified": []
+  "demonsVerified": [],
+  "records": []
 }

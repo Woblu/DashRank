@@ -1,0 +1,22 @@
+{
+  "name": "rose;",
+  "demonlistRank": 412,
+  "demonlistScore": 357.5307273521203,
+  "demonlistStats": {
+    "main": 5,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Delta",
+  "demonsCompleted": [
+    "Akashic Records",
+    "Delta",
+    "Esfera",
+    "Gloxinia",
+    "Sky Shredder"
+  ],
+  "demonsVerified": [
+    "Gloxinia"
+  ],
+  "records": []
+}

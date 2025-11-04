@@ -1,452 +1,6737 @@
 [
   {
     "demonlistRank": 1,
-    "name": "Zoink",
-    "clan": "67",
-    "demonlistScore": 7486.07
+    "name": "[67] Zoink",
+    "demonlistScore": 19093.95430037
   },
   {
     "demonlistRank": 2,
-    "name": "wPopoff",
-    "clan": "WBT",
-    "demonlistScore": 6467.17
+    "name": "[TCD] Trick",
+    "demonlistScore": 14700.126480657183
   },
   {
     "demonlistRank": 3,
-    "name": "Trick",
-    "clan": "TCD",
-    "demonlistScore": 6437.01
+    "name": "[WBT] wPopoff",
+    "demonlistScore": 12020.472341966048
   },
   {
     "demonlistRank": 4,
-    "name": "Netermind",
-    "clan": "SARK",
-    "demonlistScore": 4734.98
+    "name": "[SARK] Netermind",
+    "demonlistScore": 10114.73941131338
   },
   {
     "demonlistRank": 5,
-    "name": "Thnnder",
-    "clan": "THNDR",
-    "demonlistScore": 4207.00
+    "name": "[THNDR] Thnnder",
+    "demonlistScore": 9850.424355650312
   },
   {
     "demonlistRank": 6,
-    "name": "zLevii",
-    "clan": "MEALY",
-    "demonlistScore": 3762.34
+    "name": "[WBT] Taiago",
+    "demonlistScore": 7349.069198754908
   },
   {
     "demonlistRank": 7,
-    "name": "Taiago",
-    "clan": "WBT",
-    "demonlistScore": 3635.63
+    "name": "[EZ] kloone",
+    "demonlistScore": 6533.443700713029
   },
   {
     "demonlistRank": 8,
-    "name": "eastshark",
-    "clan": null,
-    "demonlistScore": 3292.83
+    "name": "[MEALY] zLevii",
+    "demonlistScore": 6310.145615099429
   },
   {
     "demonlistRank": 9,
-    "name": "Alexander Saraf",
-    "clan": "IQB7",
-    "demonlistScore": 3265.46
+    "name": "[IQB7] Alexander Saraf",
+    "demonlistScore": 6292.901459570355
   },
   {
     "demonlistRank": 10,
-    "name": "kloone",
-    "clan": "EZ",
-    "demonlistScore": 3225.66
+    "name": "[SSS] Vorten",
+    "demonlistScore": 6073.570460323884
   },
   {
     "demonlistRank": 11,
-    "name": "Vorten",
-    "clan": "SSS",
-    "demonlistScore": 3166.87
+    "name": "Laniakea",
+    "demonlistScore": 5618.384266820236
   },
   {
     "demonlistRank": 12,
-    "name": "iIiLaSeRiIi",
-    "clan": null,
-    "demonlistScore": 3117.48
+    "name": "Superjavicon",
+    "demonlistScore": 5536.163881418838
   },
   {
     "demonlistRank": 13,
-    "name": "Superjavicon",
-    "clan": null,
-    "demonlistScore": 2889.42
+    "name": "eastshark",
+    "demonlistScore": 5300.968069110196
   },
   {
     "demonlistRank": 14,
-    "name": "Whizkid05",
-    "clan": "IQB7",
-    "demonlistScore": 2829.60
+    "name": "SnowBallerr",
+    "demonlistScore": 5206.553142759978
   },
   {
     "demonlistRank": 15,
-    "name": "Laniakea",
-    "clan": null,
-    "demonlistScore": 2693.79
+    "name": "[FAXE] moliklee",
+    "demonlistScore": 5033.612691144656
   },
   {
     "demonlistRank": 16,
-    "name": "Kaza",
-    "clan": null,
-    "demonlistScore": 2636.67
+    "name": "[910] Stefan Boss",
+    "demonlistScore": 5004.930275746155
   },
   {
     "demonlistRank": 17,
-    "name": "SerVax",
-    "clan": "SSS",
-    "demonlistScore": 2632.15
+    "name": "[IQB7] Whizkid05",
+    "demonlistScore": 4936.510279671396
   },
   {
     "demonlistRank": 18,
-    "name": "Stefan Boss",
-    "clan": "910",
-    "demonlistScore": 2597.87
+    "name": "[TCD] Doggie",
+    "demonlistScore": 4822.1107928111305
   },
   {
     "demonlistRank": 19,
-    "name": "moliklee",
-    "clan": "FAXE",
-    "demonlistScore": 2550.14
+    "name": "[JOB] ViperVenom95",
+    "demonlistScore": 4736.890512065288
   },
   {
     "demonlistRank": 20,
-    "name": "ViperVenom95",
-    "clan": "JOB",
-    "demonlistScore": 2461.13
+    "name": "[KIRB] Nexel",
+    "demonlistScore": 4639.045889161173
   },
   {
     "demonlistRank": 21,
-    "name": "Doggie",
-    "clan": "TCD",
-    "demonlistScore": 2452.29
+    "name": "skzyl",
+    "demonlistScore": 4551.268894633838
   },
   {
     "demonlistRank": 22,
-    "name": "skzyl",
-    "clan": null,
-    "demonlistScore": 2413.13
+    "name": "iIiLaSeRiIi",
+    "demonlistScore": 4526.488101006455
   },
   {
     "demonlistRank": 23,
-    "name": "Hqmy",
-    "clan": "FOWL",
-    "demonlistScore": 2375.45
+    "name": "[FOWL] Hqmy",
+    "demonlistScore": 4342.549528199407
   },
   {
     "demonlistRank": 24,
-    "name": "DibiiziCookie",
-    "clan": null,
-    "demonlistScore": 2375.19
+    "name": "[WBT] Mizukii",
+    "demonlistScore": 4335.180209878054
   },
   {
     "demonlistRank": 25,
-    "name": "SnowBallerr",
-    "clan": null,
-    "demonlistScore": 2374.31
+    "name": "Kaza",
+    "demonlistScore": 4218.128352416734
   },
   {
     "demonlistRank": 26,
-    "name": "ROZE",
-    "clan": "4MO",
-    "demonlistScore": 2330.70
+    "name": "[TCD] Cursed",
+    "demonlistScore": 4057.232627813084
   },
   {
     "demonlistRank": 27,
-    "name": "w3rty",
-    "clan": "SSS",
-    "demonlistScore": 2303.19
+    "name": "[FAXE] teraaa",
+    "demonlistScore": 4041.940564876368
   },
   {
     "demonlistRank": 28,
-    "name": "Cursed",
-    "clan": "TCD",
-    "demonlistScore": 2281.61
+    "name": "[EVIL] Arshadow",
+    "demonlistScore": 4026.940936920216
   },
   {
     "demonlistRank": 29,
-    "name": "JesseGamingGD",
-    "clan": null,
-    "demonlistScore": 2271.87
+    "name": "[SSS] SerVax",
+    "demonlistScore": 4024.6625163089884
   },
   {
     "demonlistRank": 30,
-    "name": "teraaa",
-    "clan": "FAXE",
-    "demonlistScore": 2246.79
+    "name": "[SSS] w3rty",
+    "demonlistScore": 4022.010878321987
   },
   {
     "demonlistRank": 31,
-    "name": "Mizukii",
-    "clan": "WBT",
-    "demonlistScore": 2240.51
+    "name": "DibiiziCookie",
+    "demonlistScore": 3966.62101612209
   },
   {
     "demonlistRank": 32,
-    "name": "Nexel",
-    "clan": "KIRB",
-    "demonlistScore": 2210.94
+    "name": "cobrablitz",
+    "demonlistScore": 3823.230212463636
   },
   {
     "demonlistRank": 33,
-    "name": "Serpentical GMD",
-    "clan": "FICKÓ",
-    "demonlistScore": 2158.10
+    "name": "[FAX] Hover",
+    "demonlistScore": 3815.342596949033
   },
   {
     "demonlistRank": 34,
-    "name": "cobrablitz",
-    "clan": null,
-    "demonlistScore": 2143.31
+    "name": "[400] CuatrocientosYT",
+    "demonlistScore": 3787.563836719008
   },
   {
     "demonlistRank": 35,
-    "name": "Andrey Kapninskii",
-    "clan": "WBT",
-    "demonlistScore": 2120.57
+    "name": "[4MO] ROZE",
+    "demonlistScore": 3641.9411661096547
   },
   {
     "demonlistRank": 36,
-    "name": "Finley",
-    "clan": "smd",
-    "demonlistScore": 2081.56
+    "name": "[RF] Johnlikediamond",
+    "demonlistScore": 3564.799727584823
   },
   {
     "demonlistRank": 37,
-    "name": "Perrix47",
-    "clan": "CHAT",
-    "demonlistScore": 2072.37
+    "name": "[PRIME] Bigthunder556",
+    "demonlistScore": 3494.2022325789653
   },
   {
     "demonlistRank": 38,
-    "name": "Hover",
-    "clan": "FAX",
-    "demonlistScore": 2065.18
+    "name": "[CHAT] Perrix47",
+    "demonlistScore": 3333.6325161002896
   },
   {
     "demonlistRank": 39,
-    "name": "Sharkified",
-    "clan": "RF",
-    "demonlistScore": 2058.17
+    "name": "[WBT] Andrey Kapninskii",
+    "demonlistScore": 3321.3065443527325
   },
   {
     "demonlistRank": 40,
-    "name": "WaterBottle317",
-    "clan": null,
-    "demonlistScore": 2052.81
+    "name": "PersonHuman42",
+    "demonlistScore": 3269.2470690943064
   },
   {
     "demonlistRank": 41,
-    "name": "Cookie",
-    "clan": "BHO",
-    "demonlistScore": 2033.56
+    "name": "theworldofme",
+    "demonlistScore": 3224.2839039798205
   },
   {
     "demonlistRank": 42,
-    "name": "PoCle",
-    "clan": "YAHO",
-    "demonlistScore": 1981.45
+    "name": "[YAHO] Seturan",
+    "demonlistScore": 3193.778552227458
   },
   {
     "demonlistRank": 43,
-    "name": "LAMINGTON",
-    "clan": "MEALY",
-    "demonlistScore": 1968.39
+    "name": "Axinity",
+    "demonlistScore": 2890.995925349991
   },
   {
     "demonlistRank": 44,
-    "name": "Arshadow",
-    "clan": "EVIL",
-    "demonlistScore": 1957.19
+    "name": "[TRIGO] takma",
+    "demonlistScore": 2806.7920635043465
   },
   {
     "demonlistRank": 45,
-    "name": "Jerpaa",
-    "clan": "EZ",
-    "demonlistScore": 1924.63
+    "name": "Tunax",
+    "demonlistScore": 2803.036925257424
   },
   {
     "demonlistRank": 46,
-    "name": "turtle",
-    "clan": "RF",
-    "demonlistScore": 1904.05
+    "name": "Franzy",
+    "demonlistScore": 2745.77180755819
   },
   {
     "demonlistRank": 47,
-    "name": "Plkil",
-    "clan": "YAHO",
-    "demonlistScore": 1879.00
+    "name": "[USSR] BONN GD",
+    "demonlistScore": 2701.5002343549572
   },
   {
     "demonlistRank": 48,
-    "name": "Slaughter",
-    "clan": null,
-    "demonlistScore": 1865.70
+    "name": "[RF] NordstromUSA",
+    "demonlistScore": 2659.8923391798776
   },
   {
     "demonlistRank": 49,
-    "name": "Tunax",
-    "clan": null,
-    "demonlistScore": 1854.93
+    "name": "RG",
+    "demonlistScore": 2637.183640707392
   },
   {
     "demonlistRank": 50,
-    "name": "MeQ8cNv43s6A",
-    "clan": null,
-    "demonlistScore": 1808.41
+    "name": "[AUF] Modlini",
+    "demonlistScore": 2512.966238759819
   },
   {
     "demonlistRank": 51,
-    "name": "manu",
-    "clan": null,
-    "demonlistScore": 1795.79
+    "name": "[EZ] Jerpaa",
+    "demonlistScore": 2512.4707138850927
   },
   {
     "demonlistRank": 52,
-    "name": "Johnlikediamond",
-    "clan": "RF",
-    "demonlistScore": 1795.51
+    "name": "[CAFE] GuillExprex52",
+    "demonlistScore": 2479.9118204696674
   },
   {
     "demonlistRank": 53,
-    "name": "PersonHuman42",
-    "clan": null,
-    "demonlistScore": 1785.22
+    "name": "[YAHO] PoCle",
+    "demonlistScore": 2474.6003542146414
   },
   {
     "demonlistRank": 54,
-    "name": "Breakcore",
-    "clan": "IQB7",
-    "demonlistScore": 1769.69
+    "name": "[CHAT] Abdieldevil",
+    "demonlistScore": 2471.546691599408
   },
   {
     "demonlistRank": 55,
-    "name": "Albert",
-    "clan": "st",
-    "demonlistScore": 1739.75
+    "name": "[BHO] fusion425",
+    "demonlistScore": 2469.774386658005
   },
   {
     "demonlistRank": 56,
-    "name": "CuatrocientosYT",
-    "clan": "400",
-    "demonlistScore": 1720.04
+    "name": "[TACSO] Serpentical",
+    "demonlistScore": 2459.601979742354
   },
   {
     "demonlistRank": 57,
-    "name": "theworldofme",
-    "clan": null,
-    "demonlistScore": 1701.09
+    "name": "[YAHO] Rediio",
+    "demonlistScore": 2426.113790319
   },
   {
     "demonlistRank": 58,
-    "name": "Kopre",
-    "clan": "RF",
-    "demonlistScore": 1684.39
+    "name": "Zeronium",
+    "demonlistScore": 2378.22052775541
   },
   {
     "demonlistRank": 59,
-    "name": "Paliermu",
-    "clan": "SPQR",
-    "demonlistScore": 1678.19
+    "name": "[BHO] Cookie",
+    "demonlistScore": 2370.8965037888106
   },
   {
     "demonlistRank": 60,
-    "name": "Franzy",
-    "clan": null,
-    "demonlistScore": 1647.76
+    "name": "[WEED] Hipo",
+    "demonlistScore": 2362.024948959882
   },
   {
     "demonlistRank": 61,
-    "name": "Seturan",
-    "clan": "YAHO",
-    "demonlistScore": 1617.67
+    "name": "WaterBottle317",
+    "demonlistScore": 2316.0209526920926
   },
   {
     "demonlistRank": 62,
-    "name": "ColossalOrange",
-    "clan": null,
-    "demonlistScore": 1614.45
+    "name": "[MTM] lus",
+    "demonlistScore": 2235.2016762121143
   },
   {
     "demonlistRank": 63,
-    "name": "fusion425",
-    "clan": "BHO",
-    "demonlistScore": 1594.55
+    "name": "[EZ] GGonop",
+    "demonlistScore": 2228.6572967527763
   },
   {
     "demonlistRank": 64,
-    "name": "Abdieldevil",
-    "clan": "CHAT",
-    "demonlistScore": 1572.98
+    "name": "[smd] Finley",
+    "demonlistScore": 2227.8502015431886
   },
   {
     "demonlistRank": 65,
-    "name": "Axinity",
-    "clan": null,
-    "demonlistScore": 1548.90
+    "name": "[MTM] gotsmile",
+    "demonlistScore": 2190.4385644272725
   },
   {
     "demonlistRank": 66,
-    "name": "Kole",
-    "clan": "103",
-    "demonlistScore": 1530.49
+    "name": "[QOG] Brumik",
+    "demonlistScore": 2126.9904747711416
   },
   {
     "demonlistRank": 67,
-    "name": "cudby",
-    "clan": "BLKHL",
-    "demonlistScore": 1518.72
+    "name": "[SPQR] Paliermu",
+    "demonlistScore": 2105.526148751671
   },
   {
     "demonlistRank": 68,
-    "name": "takma",
-    "clan": "TRIGO",
-    "demonlistScore": 1502.88
+    "name": "[st] Albert",
+    "demonlistScore": 2104.667011175449
   },
   {
     "demonlistRank": 69,
-    "name": "NordstromUSA",
-    "clan": "MTM",
-    "demonlistScore": 1493.21
+    "name": "[IQB7] Breakcore",
+    "demonlistScore": 2100.8236640176738
   },
   {
     "demonlistRank": 70,
-    "name": "Vikings",
-    "clan": "ZEL",
-    "demonlistScore": 1489.71
+    "name": "[RF] Kopre",
+    "demonlistScore": 2099.095662395207
   },
   {
     "demonlistRank": 71,
-    "name": "Hipo",
-    "clan": "WEED",
-    "demonlistScore": 1474.79
+    "name": "TFIBB",
+    "demonlistScore": 2091.260597567571
   },
   {
     "demonlistRank": 72,
-    "name": "Bigthunder556",
-    "clan": "PRIME",
-    "demonlistScore": 1460.45
+    "name": "DJ1482",
+    "demonlistScore": 2079.830286749055
   },
   {
     "demonlistRank": 73,
-    "name": "DJ1482",
-    "clan": null,
-    "demonlistScore": 1457.58
+    "name": "MeQ8cNv43s6A",
+    "demonlistScore": 2072.2264527845605
   },
   {
     "demonlistRank": 74,
-    "name": "Modlini",
-    "clan": "AUF",
-    "demonlistScore": 1453.77
+    "name": "JesseGamingGD",
+    "demonlistScore": 2065.9890368598262
   },
   {
     "demonlistRank": 75,
-    "name": "miguel6456",
-    "clan": null,
-    "demonlistScore": 1421.01
+    "name": "[BLOOM] zThund3r",
+    "demonlistScore": 2063.457098013226
+  },
+  {
+    "demonlistRank": 76,
+    "name": "[ZEL] Vikings",
+    "demonlistScore": 2062.105475328672
+  },
+  {
+    "demonlistRank": 77,
+    "name": "[Ñ] Donei GD",
+    "demonlistScore": 2022.9587810613425
+  },
+  {
+    "demonlistRank": 78,
+    "name": "[PRIME] exsii",
+    "demonlistScore": 2019.828962330654
+  },
+  {
+    "demonlistRank": 79,
+    "name": "[4MO] fallen",
+    "demonlistScore": 2005.8344271662943
+  },
+  {
+    "demonlistRank": 80,
+    "name": "[HOLA] TheTerrBonnie",
+    "demonlistScore": 1982.7616974035038
+  },
+  {
+    "demonlistRank": 81,
+    "name": "[smd] dice88",
+    "demonlistScore": 1980.9134034674207
+  },
+  {
+    "demonlistRank": 82,
+    "name": "[DLTP] Komet01",
+    "demonlistScore": 1970.9819151528689
+  },
+  {
+    "demonlistRank": 83,
+    "name": "[KIRB] iamfinley",
+    "demonlistScore": 1943.4706942839932
+  },
+  {
+    "demonlistRank": 84,
+    "name": "Gokill",
+    "demonlistScore": 1918.6658243330508
+  },
+  {
+    "demonlistRank": 85,
+    "name": "l1nxxd",
+    "demonlistScore": 1917.6196707481422
+  },
+  {
+    "demonlistRank": 86,
+    "name": "DiamondSplash",
+    "demonlistScore": 1912.5818534394039
+  },
+  {
+    "demonlistRank": 87,
+    "name": "[Ñ] RaeveZ",
+    "demonlistScore": 1899.2755960202303
+  },
+  {
+    "demonlistRank": 88,
+    "name": "[USSR] Light",
+    "demonlistScore": 1882.8978895660846
+  },
+  {
+    "demonlistRank": 89,
+    "name": "[YAHO] Baeru",
+    "demonlistScore": 1847.4320418491156
+  },
+  {
+    "demonlistRank": 90,
+    "name": "manu",
+    "demonlistScore": 1792.8329924831305
+  },
+  {
+    "demonlistRank": 91,
+    "name": "Scotchtape",
+    "demonlistScore": 1792.1888849906597
+  },
+  {
+    "demonlistRank": 92,
+    "name": "[103] Kole",
+    "demonlistScore": 1787.9085130654241
+  },
+  {
+    "demonlistRank": 93,
+    "name": "[HOLA] weyolll3",
+    "demonlistScore": 1782.337155951731
+  },
+  {
+    "demonlistRank": 94,
+    "name": "DoSh7t",
+    "demonlistScore": 1773.3200045478934
+  },
+  {
+    "demonlistRank": 95,
+    "name": "[YSTA] Cryonix6000",
+    "demonlistScore": 1770.8423756225334
+  },
+  {
+    "demonlistRank": 96,
+    "name": "[DL] zoe",
+    "demonlistScore": 1766.1221478507696
+  },
+  {
+    "demonlistRank": 97,
+    "name": "Scep!",
+    "demonlistScore": 1763.5609320807687
+  },
+  {
+    "demonlistRank": 98,
+    "name": "Jori",
+    "demonlistScore": 1760.668785685643
+  },
+  {
+    "demonlistRank": 99,
+    "name": "[TCD] Denni",
+    "demonlistScore": 1744.1944280628868
+  },
+  {
+    "demonlistRank": 100,
+    "name": "Lobster",
+    "demonlistScore": 1682.8548783578537
+  },
+  {
+    "demonlistRank": 101,
+    "name": "Crisis",
+    "demonlistScore": 1670.3373410787672
+  },
+  {
+    "demonlistRank": 102,
+    "name": "[TCD] Diamond",
+    "demonlistScore": 1658.3051904259116
+  },
+  {
+    "demonlistRank": 103,
+    "name": "Zeroxy",
+    "demonlistScore": 1657.471498973676
+  },
+  {
+    "demonlistRank": 104,
+    "name": "[REME] miguel6456",
+    "demonlistScore": 1574.6356411271395
+  },
+  {
+    "demonlistRank": 105,
+    "name": "[MEALY] LAMINGTON",
+    "demonlistScore": 1552.6633023902475
+  },
+  {
+    "demonlistRank": 106,
+    "name": "Goanga",
+    "demonlistScore": 1488.6369609204178
+  },
+  {
+    "demonlistRank": 107,
+    "name": "[st] Technical",
+    "demonlistScore": 1488.105271532472
+  },
+  {
+    "demonlistRank": 108,
+    "name": "[RF] turtle",
+    "demonlistScore": 1486.2209385965816
+  },
+  {
+    "demonlistRank": 109,
+    "name": "maxer",
+    "demonlistScore": 1481.7588913526629
+  },
+  {
+    "demonlistRank": 110,
+    "name": "[67] Sharkified",
+    "demonlistScore": 1443.9651191487105
+  },
+  {
+    "demonlistRank": 111,
+    "name": "[JOB] stillsouless",
+    "demonlistScore": 1423.9534439138276
+  },
+  {
+    "demonlistRank": 112,
+    "name": "whfyre",
+    "demonlistScore": 1421.2726086997623
+  },
+  {
+    "demonlistRank": 113,
+    "name": "ColossalOrange",
+    "demonlistScore": 1395.5359776121272
+  },
+  {
+    "demonlistRank": 114,
+    "name": "[ROAR] Flavyola64",
+    "demonlistScore": 1365.24017805077
+  },
+  {
+    "demonlistRank": 115,
+    "name": "[YAHO] IcaroX",
+    "demonlistScore": 1349.528164474292
+  },
+  {
+    "demonlistRank": 116,
+    "name": "Slaughter",
+    "demonlistScore": 1347.5502357872226
+  },
+  {
+    "demonlistRank": 117,
+    "name": "[ARMED] notd4n1",
+    "demonlistScore": 1347.2259557803527
+  },
+  {
+    "demonlistRank": 118,
+    "name": "[EAGLE] Kopyedz",
+    "demonlistScore": 1344.1085323323887
+  },
+  {
+    "demonlistRank": 119,
+    "name": "[SOS] Mikhail Krotov",
+    "demonlistScore": 1335.5382639844397
+  },
+  {
+    "demonlistRank": 120,
+    "name": "MIxselPL",
+    "demonlistScore": 1327.3941197403387
+  },
+  {
+    "demonlistRank": 121,
+    "name": "Wolvez",
+    "demonlistScore": 1324.7431418423728
+  },
+  {
+    "demonlistRank": 122,
+    "name": "[WBT] mariner",
+    "demonlistScore": 1311.45566761683
+  },
+  {
+    "demonlistRank": 123,
+    "name": "[MEALY] Tyson",
+    "demonlistScore": 1306.2574662961326
+  },
+  {
+    "demonlistRank": 124,
+    "name": "[MDT] Swooker",
+    "demonlistScore": 1303.3276900164499
+  },
+  {
+    "demonlistRank": 125,
+    "name": "[RCDM] Karma.",
+    "demonlistScore": 1293.8984039478312
+  },
+  {
+    "demonlistRank": 126,
+    "name": "Lukie",
+    "demonlistScore": 1257.609263023462
+  },
+  {
+    "demonlistRank": 127,
+    "name": "[SPQR] brite",
+    "demonlistScore": 1257.5078164184088
+  },
+  {
+    "demonlistRank": 128,
+    "name": "RicoLP",
+    "demonlistScore": 1244.491951193904
+  },
+  {
+    "demonlistRank": 129,
+    "name": "wwdonut",
+    "demonlistScore": 1230.8442399509704
+  },
+  {
+    "demonlistRank": 130,
+    "name": "[Ñ] Emiliano56",
+    "demonlistScore": 1227.755760741744
+  },
+  {
+    "demonlistRank": 131,
+    "name": "corzeals1324",
+    "demonlistScore": 1220.0553722864854
+  },
+  {
+    "demonlistRank": 132,
+    "name": "LuckyL4",
+    "demonlistScore": 1193.3204999583552
+  },
+  {
+    "demonlistRank": 133,
+    "name": "[MYS] za1lx",
+    "demonlistScore": 1190.4666499070674
+  },
+  {
+    "demonlistRank": 134,
+    "name": "[DLTP] rain",
+    "demonlistScore": 1177.9081277833038
+  },
+  {
+    "demonlistRank": 135,
+    "name": "[BUNNY] Nocturina",
+    "demonlistScore": 1176.71631203081
+  },
+  {
+    "demonlistRank": 136,
+    "name": "АБУБУБАБУДЖАК",
+    "demonlistScore": 1167.3622966007508
+  },
+  {
+    "demonlistRank": 137,
+    "name": "[DLTP] BarGames",
+    "demonlistScore": 1157.943299596773
+  },
+  {
+    "demonlistRank": 138,
+    "name": "[QOG] Silpet",
+    "demonlistScore": 1149.3232771888902
+  },
+  {
+    "demonlistRank": 139,
+    "name": "[4MO] Abstract",
+    "demonlistScore": 1147.7359324118822
+  },
+  {
+    "demonlistRank": 140,
+    "name": "JannisTE",
+    "demonlistScore": 1143.843781558664
+  },
+  {
+    "demonlistRank": 141,
+    "name": "ezvie",
+    "demonlistScore": 1143.8238973201933
+  },
+  {
+    "demonlistRank": 142,
+    "name": "[DL] LordVadercraft",
+    "demonlistScore": 1131.366978030928
+  },
+  {
+    "demonlistRank": 143,
+    "name": "[HOLA] Wity",
+    "demonlistScore": 1131.2644741925753
+  },
+  {
+    "demonlistRank": 144,
+    "name": "[MAX] CookieIsMine",
+    "demonlistScore": 1123.2068293292184
+  },
+  {
+    "demonlistRank": 145,
+    "name": "Helix",
+    "demonlistScore": 1111.424445271261
+  },
+  {
+    "demonlistRank": 146,
+    "name": "[Ñ] Yuuwi",
+    "demonlistScore": 1110.4673339451863
+  },
+  {
+    "demonlistRank": 147,
+    "name": "[USSR] Dolphy",
+    "demonlistScore": 1095.1422127849546
+  },
+  {
+    "demonlistRank": 148,
+    "name": "Litoks",
+    "demonlistScore": 1089.728809928304
+  },
+  {
+    "demonlistRank": 149,
+    "name": "noname228gg",
+    "demonlistScore": 1073.9635101170638
+  },
+  {
+    "demonlistRank": 150,
+    "name": "nSwish",
+    "demonlistScore": 1056.0777027729541
+  },
+  {
+    "demonlistRank": 151,
+    "name": "[4MO] SagerR",
+    "demonlistScore": 1054.2565433248865
+  },
+  {
+    "demonlistRank": 152,
+    "name": "[ROAR] coubitic",
+    "demonlistScore": 1051.0253792655212
+  },
+  {
+    "demonlistRank": 153,
+    "name": "[MEALY] MrOozer",
+    "demonlistScore": 1049.5362208167714
+  },
+  {
+    "demonlistRank": 154,
+    "name": "Beastular",
+    "demonlistScore": 1038.0822610730784
+  },
+  {
+    "demonlistRank": 155,
+    "name": "Cymmas",
+    "demonlistScore": 1034.782857641373
+  },
+  {
+    "demonlistRank": 156,
+    "name": "[A$AP] Twister21",
+    "demonlistScore": 1033.5909933657824
+  },
+  {
+    "demonlistRank": 157,
+    "name": "Dezstro",
+    "demonlistScore": 1022.4224941618288
+  },
+  {
+    "demonlistRank": 158,
+    "name": "[LTF] GalwayGuy",
+    "demonlistScore": 1020.0250236417795
+  },
+  {
+    "demonlistRank": 159,
+    "name": "[BLOOM] nei",
+    "demonlistScore": 1015.8385487423778
+  },
+  {
+    "demonlistRank": 160,
+    "name": "DarkTD",
+    "demonlistScore": 1014.0181967426731
+  },
+  {
+    "demonlistRank": 161,
+    "name": "[ABA] Syrcx",
+    "demonlistScore": 995.4845343027412
+  },
+  {
+    "demonlistRank": 162,
+    "name": "[IQB7] SaturMan",
+    "demonlistScore": 964.5663249750912
+  },
+  {
+    "demonlistRank": 163,
+    "name": "dovv1n",
+    "demonlistScore": 960.0526649920355
+  },
+  {
+    "demonlistRank": 164,
+    "name": "ProudGiraffe311",
+    "demonlistScore": 954.9080363686078
+  },
+  {
+    "demonlistRank": 165,
+    "name": "[YAHO] agonom",
+    "demonlistScore": 947.178849041352
+  },
+  {
+    "demonlistRank": 166,
+    "name": "[1319] swiborg",
+    "demonlistScore": 946.8396755716659
+  },
+  {
+    "demonlistRank": 167,
+    "name": "[Ñ] BebeCoy",
+    "demonlistScore": 946.8017932325943
+  },
+  {
+    "demonlistRank": 168,
+    "name": "[USSR] Улыбочку",
+    "demonlistScore": 946.185717203358
+  },
+  {
+    "demonlistRank": 169,
+    "name": "[DTC] Teno",
+    "demonlistScore": 936.8597514633705
+  },
+  {
+    "demonlistRank": 170,
+    "name": "yolomodeboom",
+    "demonlistScore": 933.6361891630147
+  },
+  {
+    "demonlistRank": 171,
+    "name": "[KIRB] AidanTR",
+    "demonlistScore": 931.9795916670614
+  },
+  {
+    "demonlistRank": 172,
+    "name": "[Ñ] Sid125",
+    "demonlistScore": 929.4934022134031
+  },
+  {
+    "demonlistRank": 173,
+    "name": "[WAWA] el terror de las coneras",
+    "demonlistScore": 927.9238818751097
+  },
+  {
+    "demonlistRank": 174,
+    "name": "[USSR] GreenZz",
+    "demonlistScore": 900.6995084678855
+  },
+  {
+    "demonlistRank": 175,
+    "name": "[MHC] Slijee",
+    "demonlistScore": 890.1005162317606
+  },
+  {
+    "demonlistRank": 176,
+    "name": "Analitic",
+    "demonlistScore": 889.5075363804121
+  },
+  {
+    "demonlistRank": 177,
+    "name": "BrianTheBurger",
+    "demonlistScore": 888.8959438812196
+  },
+  {
+    "demonlistRank": 178,
+    "name": "kay.",
+    "demonlistScore": 885.0955711515769
+  },
+  {
+    "demonlistRank": 179,
+    "name": "[DL] vonic",
+    "demonlistScore": 882.1368292908709
+  },
+  {
+    "demonlistRank": 180,
+    "name": "[SARK] Bamvie",
+    "demonlistScore": 870.0495500419431
+  },
+  {
+    "demonlistRank": 181,
+    "name": "[24hs] voicechatping",
+    "demonlistScore": 862.7280866058167
+  },
+  {
+    "demonlistRank": 182,
+    "name": "[YAHO] DNM121",
+    "demonlistScore": 857.7623261083827
+  },
+  {
+    "demonlistRank": 183,
+    "name": "[910] kakol",
+    "demonlistScore": 853.9232574926949
+  },
+  {
+    "demonlistRank": 184,
+    "name": "[KIRB] chickenborgorr",
+    "demonlistScore": 845.5109814952193
+  },
+  {
+    "demonlistRank": 185,
+    "name": "Wain",
+    "demonlistScore": 843.8340224716
+  },
+  {
+    "demonlistRank": 186,
+    "name": "[ARMED] murderrr",
+    "demonlistScore": 843.3018660196993
+  },
+  {
+    "demonlistRank": 187,
+    "name": "[KIRB] jupi",
+    "demonlistScore": 838.0759561279004
+  },
+  {
+    "demonlistRank": 188,
+    "name": "[jello] Blackhole",
+    "demonlistScore": 836.2723485904484
+  },
+  {
+    "demonlistRank": 189,
+    "name": "TheRealEandis",
+    "demonlistScore": 832.5888713017513
+  },
+  {
+    "demonlistRank": 190,
+    "name": "Samot",
+    "demonlistScore": 831.3712777483545
+  },
+  {
+    "demonlistRank": 191,
+    "name": "[DTC] Tombstone",
+    "demonlistScore": 825.3864480046278
+  },
+  {
+    "demonlistRank": 192,
+    "name": "fluxe",
+    "demonlistScore": 823.6228360798584
+  },
+  {
+    "demonlistRank": 193,
+    "name": "Gibiji",
+    "demonlistScore": 817.5421608272081
+  },
+  {
+    "demonlistRank": 194,
+    "name": "Pixeldragon42",
+    "demonlistScore": 810.6858393972993
+  },
+  {
+    "demonlistRank": 195,
+    "name": "[JUICE] Q1m",
+    "demonlistScore": 803.7069022843684
+  },
+  {
+    "demonlistRank": 196,
+    "name": "[DTC] bims",
+    "demonlistScore": 797.4696540646713
+  },
+  {
+    "demonlistRank": 197,
+    "name": "[IH82P] Draks_Loves_U",
+    "demonlistScore": 796.8599573133492
+  },
+  {
+    "demonlistRank": 198,
+    "name": "Adri420",
+    "demonlistScore": 795.5790722415777
+  },
+  {
+    "demonlistRank": 199,
+    "name": "[67] Jif",
+    "demonlistScore": 792.4356907359777
+  },
+  {
+    "demonlistRank": 200,
+    "name": "[jello] zGabriel",
+    "demonlistScore": 778.7962498776474
+  },
+  {
+    "demonlistRank": 201,
+    "name": "[ZEL] CringyDylan",
+    "demonlistScore": 775.8151584752582
+  },
+  {
+    "demonlistRank": 202,
+    "name": "[USSR] Sardina",
+    "demonlistScore": 773.1761150202457
+  },
+  {
+    "demonlistRank": 203,
+    "name": "[MSTRD] tiredfish",
+    "demonlistScore": 773.1291262811982
+  },
+  {
+    "demonlistRank": 204,
+    "name": "[VALET] Joker",
+    "demonlistScore": 770.7961137328813
+  },
+  {
+    "demonlistRank": 205,
+    "name": "[TWN] PaltAcheron",
+    "demonlistScore": 764.6707421410421
+  },
+  {
+    "demonlistRank": 206,
+    "name": "[KIRB] rinjello",
+    "demonlistScore": 757.4358770342305
+  },
+  {
+    "demonlistRank": 207,
+    "name": "Toka",
+    "demonlistScore": 756.9900717734183
+  },
+  {
+    "demonlistRank": 208,
+    "name": "ChopBlox",
+    "demonlistScore": 753.9325490187764
+  },
+  {
+    "demonlistRank": 209,
+    "name": "Klopz",
+    "demonlistScore": 743.0931613081484
+  },
+  {
+    "demonlistRank": 210,
+    "name": "[SVO] The_Bat0",
+    "demonlistScore": 735.301174054363
+  },
+  {
+    "demonlistRank": 211,
+    "name": "[YAHO] GuitGuit",
+    "demonlistScore": 731.2150771384205
+  },
+  {
+    "demonlistRank": 212,
+    "name": "[EZ] AleZiniX",
+    "demonlistScore": 728.6059464259419
+  },
+  {
+    "demonlistRank": 213,
+    "name": "Audiam",
+    "demonlistScore": 725.0818702515957
+  },
+  {
+    "demonlistRank": 214,
+    "name": "Victurkey",
+    "demonlistScore": 723.453260535775
+  },
+  {
+    "demonlistRank": 215,
+    "name": "[JUICE] Amplitron",
+    "demonlistScore": 723.0546880600572
+  },
+  {
+    "demonlistRank": 216,
+    "name": "VeturnusGDMC",
+    "demonlistScore": 718.1109482362658
+  },
+  {
+    "demonlistRank": 217,
+    "name": "Kelvin",
+    "demonlistScore": 716.1438035234572
+  },
+  {
+    "demonlistRank": 218,
+    "name": "[PRIME] vaen",
+    "demonlistScore": 715.7538690792406
+  },
+  {
+    "demonlistRank": 219,
+    "name": "naro",
+    "demonlistScore": 715.4356740032185
+  },
+  {
+    "demonlistRank": 220,
+    "name": "[MHC] skeebOwO",
+    "demonlistScore": 715.3518343176246
+  },
+  {
+    "demonlistRank": 221,
+    "name": "[MOOSE] zoiilamPRO:v",
+    "demonlistScore": 714.1328159832242
+  },
+  {
+    "demonlistRank": 222,
+    "name": "[FRIXO] freksolereal",
+    "demonlistScore": 711.8271362004285
+  },
+  {
+    "demonlistRank": 223,
+    "name": "spookkd",
+    "demonlistScore": 710.6967770037134
+  },
+  {
+    "demonlistRank": 224,
+    "name": "[4MO] Tazik",
+    "demonlistScore": 705.6942157102844
+  },
+  {
+    "demonlistRank": 225,
+    "name": "slimepesoz",
+    "demonlistScore": 705.6411937793459
+  },
+  {
+    "demonlistRank": 226,
+    "name": "Polterghast",
+    "demonlistScore": 704.2429742401963
+  },
+  {
+    "demonlistRank": 227,
+    "name": "[Ñ] Diris:v",
+    "demonlistScore": 702.5919868800527
+  },
+  {
+    "demonlistRank": 228,
+    "name": "[JOB] s3batr0nic",
+    "demonlistScore": 697.1081658163575
+  },
+  {
+    "demonlistRank": 229,
+    "name": "[IH82P] Danieljgd",
+    "demonlistScore": 691.4923512931437
+  },
+  {
+    "demonlistRank": 230,
+    "name": "[FISHE] abb2k",
+    "demonlistScore": 691.1559877364991
+  },
+  {
+    "demonlistRank": 231,
+    "name": "1qawsz",
+    "demonlistScore": 689.3544632195513
+  },
+  {
+    "demonlistRank": 232,
+    "name": "Kyasshukodo",
+    "demonlistScore": 688.1480122780044
+  },
+  {
+    "demonlistRank": 233,
+    "name": "Luqualizer",
+    "demonlistScore": 687.366793509861
+  },
+  {
+    "demonlistRank": 234,
+    "name": "Ryth",
+    "demonlistScore": 687.1215399871796
+  },
+  {
+    "demonlistRank": 235,
+    "name": "hstorm",
+    "demonlistScore": 684.9919710539931
+  },
+  {
+    "demonlistRank": 236,
+    "name": "[TeamJ] pohgii",
+    "demonlistScore": 683.7207970935264
+  },
+  {
+    "demonlistRank": 237,
+    "name": "Mycrafted",
+    "demonlistScore": 682.4991201998915
+  },
+  {
+    "demonlistRank": 238,
+    "name": "Tortric",
+    "demonlistScore": 676.7561483777952
+  },
+  {
+    "demonlistRank": 239,
+    "name": "[st] Aless50",
+    "demonlistScore": 668.224570684519
+  },
+  {
+    "demonlistRank": 240,
+    "name": "[smd] Blebae",
+    "demonlistScore": 667.256902284321
+  },
+  {
+    "demonlistRank": 241,
+    "name": "[JUICE] penpenliddy",
+    "demonlistScore": 665.2469796224636
+  },
+  {
+    "demonlistRank": 242,
+    "name": "[TEC] Deez",
+    "demonlistScore": 661.532793506908
+  },
+  {
+    "demonlistRank": 243,
+    "name": "[HOLA] neutrark",
+    "demonlistScore": 661.2386962935325
+  },
+  {
+    "demonlistRank": 244,
+    "name": "sameddd",
+    "demonlistScore": 655.7916803271992
+  },
+  {
+    "demonlistRank": 245,
+    "name": "Timo",
+    "demonlistScore": 654.6599565112357
+  },
+  {
+    "demonlistRank": 246,
+    "name": "itzhealer",
+    "demonlistScore": 654.6507879327196
+  },
+  {
+    "demonlistRank": 247,
+    "name": "[SOSA] LANX4",
+    "demonlistScore": 648.4085749243867
+  },
+  {
+    "demonlistRank": 248,
+    "name": "[CHAT] Theitha",
+    "demonlistScore": 645.8808857907328
+  },
+  {
+    "demonlistRank": 249,
+    "name": "Splingxz",
+    "demonlistScore": 644.6638897329565
+  },
+  {
+    "demonlistRank": 250,
+    "name": "RUSSO",
+    "demonlistScore": 643.3211219587254
+  },
+  {
+    "demonlistRank": 251,
+    "name": "sawyer",
+    "demonlistScore": 641.9320112543978
+  },
+  {
+    "demonlistRank": 252,
+    "name": "bufbat",
+    "demonlistScore": 641.7900966596189
+  },
+  {
+    "demonlistRank": 253,
+    "name": "FrostBurn",
+    "demonlistScore": 641.5716956834262
+  },
+  {
+    "demonlistRank": 254,
+    "name": "[YAHO] Erixen",
+    "demonlistScore": 640.3283322685021
+  },
+  {
+    "demonlistRank": 255,
+    "name": "[FISHE] wFishe",
+    "demonlistScore": 637.1917703425435
+  },
+  {
+    "demonlistRank": 256,
+    "name": "[SARK] Timy",
+    "demonlistScore": 635.7088443424069
+  },
+  {
+    "demonlistRank": 257,
+    "name": "stevenxd42",
+    "demonlistScore": 631.860504564248
+  },
+  {
+    "demonlistRank": 258,
+    "name": "[WBT] Freezy",
+    "demonlistScore": 627.4187454060416
+  },
+  {
+    "demonlistRank": 259,
+    "name": "Bradenbowl",
+    "demonlistScore": 626.6268153868253
+  },
+  {
+    "demonlistRank": 260,
+    "name": "[V2] Illyes",
+    "demonlistScore": 625.5949175588943
+  },
+  {
+    "demonlistRank": 261,
+    "name": "CraZDemonX",
+    "demonlistScore": 618.5740947758179
+  },
+  {
+    "demonlistRank": 262,
+    "name": "Tuggy",
+    "demonlistScore": 618.2500757419273
+  },
+  {
+    "demonlistRank": 263,
+    "name": "[SWHTT] Noctal",
+    "demonlistScore": 617.7890242431085
+  },
+  {
+    "demonlistRank": 264,
+    "name": "itzGoldiX3156",
+    "demonlistScore": 614.9331123724613
+  },
+  {
+    "demonlistRank": 265,
+    "name": "jilna",
+    "demonlistScore": 613.651346643396
+  },
+  {
+    "demonlistRank": 266,
+    "name": "[DTC] nicor77",
+    "demonlistScore": 611.8179490401606
+  },
+  {
+    "demonlistRank": 267,
+    "name": "[Ñ] Jaegerdd",
+    "demonlistScore": 609.5093895943585
+  },
+  {
+    "demonlistRank": 268,
+    "name": "[FLEUR] DraxitIII",
+    "demonlistScore": 604.5653386806604
+  },
+  {
+    "demonlistRank": 269,
+    "name": "Reptilian",
+    "demonlistScore": 601.8554754757807
+  },
+  {
+    "demonlistRank": 270,
+    "name": "[BLKHL] ScoffGD",
+    "demonlistScore": 599.6919942231797
+  },
+  {
+    "demonlistRank": 271,
+    "name": "[RF] Ronrjkw",
+    "demonlistScore": 599.2080279366847
+  },
+  {
+    "demonlistRank": 272,
+    "name": "[SKWAD] Slithium",
+    "demonlistScore": 598.8660912638135
+  },
+  {
+    "demonlistRank": 273,
+    "name": "mcrawford001",
+    "demonlistScore": 598.5357883498629
+  },
+  {
+    "demonlistRank": 274,
+    "name": "[KIRB] patos",
+    "demonlistScore": 595.044788064001
+  },
+  {
+    "demonlistRank": 275,
+    "name": "Conical",
+    "demonlistScore": 594.8287308099722
+  },
+  {
+    "demonlistRank": 276,
+    "name": "skycrab",
+    "demonlistScore": 593.357545658269
+  },
+  {
+    "demonlistRank": 277,
+    "name": "[MERWO] Byleom",
+    "demonlistScore": 593.0862240396117
+  },
+  {
+    "demonlistRank": 278,
+    "name": "AlecZD",
+    "demonlistScore": 592.9676997345315
+  },
+  {
+    "demonlistRank": 279,
+    "name": "NotNickOk",
+    "demonlistScore": 589.011598844301
+  },
+  {
+    "demonlistRank": 280,
+    "name": "Viwi",
+    "demonlistScore": 587.3853173027711
+  },
+  {
+    "demonlistRank": 281,
+    "name": "Dan2D",
+    "demonlistScore": 586.4685196686517
+  },
+  {
+    "demonlistRank": 282,
+    "name": "Ree eee",
+    "demonlistScore": 584.6178587665147
+  },
+  {
+    "demonlistRank": 283,
+    "name": "[IH82P] Marcosito",
+    "demonlistScore": 584.5426953958648
+  },
+  {
+    "demonlistRank": 284,
+    "name": "[!MUTE] piesy",
+    "demonlistScore": 579.664149134645
+  },
+  {
+    "demonlistRank": 285,
+    "name": "[TARIQ] eve",
+    "demonlistScore": 579.1888765595002
+  },
+  {
+    "demonlistRank": 286,
+    "name": "JabkaGD",
+    "demonlistScore": 573.1633218902659
+  },
+  {
+    "demonlistRank": 287,
+    "name": "[YSTA] kirii",
+    "demonlistScore": 571.5509100823358
+  },
+  {
+    "demonlistRank": 288,
+    "name": "ffzer",
+    "demonlistScore": 569.6946496387602
+  },
+  {
+    "demonlistRank": 289,
+    "name": "DoGGy",
+    "demonlistScore": 568.2558450452165
+  },
+  {
+    "demonlistRank": 290,
+    "name": "xxxluigixxx",
+    "demonlistScore": 566.9595678741255
+  },
+  {
+    "demonlistRank": 291,
+    "name": "[AURA] Hollan",
+    "demonlistScore": 566.9400993418833
+  },
+  {
+    "demonlistRank": 292,
+    "name": "[CHAT] sunix.",
+    "demonlistScore": 561.0880148646786
+  },
+  {
+    "demonlistRank": 293,
+    "name": "[BHO] bionik",
+    "demonlistScore": 557.5984187565825
+  },
+  {
+    "demonlistRank": 294,
+    "name": "[DTC] Bibu",
+    "demonlistScore": 552.5428102024828
+  },
+  {
+    "demonlistRank": 295,
+    "name": "MarKushh",
+    "demonlistScore": 542.114700503347
+  },
+  {
+    "demonlistRank": 296,
+    "name": "Raluca",
+    "demonlistScore": 540.3762773857043
+  },
+  {
+    "demonlistRank": 297,
+    "name": "LHenrique",
+    "demonlistScore": 539.0169280160025
+  },
+  {
+    "demonlistRank": 298,
+    "name": "GameMeneer",
+    "demonlistScore": 535.7545128015993
+  },
+  {
+    "demonlistRank": 299,
+    "name": "[SWHTT] Lucidium",
+    "demonlistScore": 532.4689815958012
+  },
+  {
+    "demonlistRank": 300,
+    "name": "kyoto",
+    "demonlistScore": 526.5703952614178
+  },
+  {
+    "demonlistRank": 301,
+    "name": "[GUI] Boodbdog",
+    "demonlistScore": 526.3143694940593
+  },
+  {
+    "demonlistRank": 302,
+    "name": "[DTC] Dragoon",
+    "demonlistScore": 523.0759065256649
+  },
+  {
+    "demonlistRank": 303,
+    "name": "[24hs] 金艮",
+    "demonlistScore": 521.645811125035
+  },
+  {
+    "demonlistRank": 304,
+    "name": "[999] Thisisfcp",
+    "demonlistScore": 518.4951462742004
+  },
+  {
+    "demonlistRank": 305,
+    "name": "Zeekoid",
+    "demonlistScore": 515.2799356294792
+  },
+  {
+    "demonlistRank": 306,
+    "name": "Varium",
+    "demonlistScore": 513.7401234620485
+  },
+  {
+    "demonlistRank": 307,
+    "name": "DijonGD",
+    "demonlistScore": 508.79216255922137
+  },
+  {
+    "demonlistRank": 308,
+    "name": "scykic",
+    "demonlistScore": 495.2914322023446
+  },
+  {
+    "demonlistRank": 309,
+    "name": "[1319] Xanii",
+    "demonlistScore": 493.27594474238117
+  },
+  {
+    "demonlistRank": 310,
+    "name": "[TRC] mishamaers",
+    "demonlistScore": 491.6612411077583
+  },
+  {
+    "demonlistRank": 311,
+    "name": "VoTcHi",
+    "demonlistScore": 488.3466463836825
+  },
+  {
+    "demonlistRank": 312,
+    "name": "[Ñ] daky",
+    "demonlistScore": 486.49821514920484
+  },
+  {
+    "demonlistRank": 313,
+    "name": "Thusky",
+    "demonlistScore": 486.407722966047
+  },
+  {
+    "demonlistRank": 314,
+    "name": "[HOLA] zentic",
+    "demonlistScore": 484.4012480886574
+  },
+  {
+    "demonlistRank": 315,
+    "name": "[DLE] BlazerFreak_",
+    "demonlistScore": 480.72158092363543
+  },
+  {
+    "demonlistRank": 316,
+    "name": "VERTOP",
+    "demonlistScore": 477.4981570305607
+  },
+  {
+    "demonlistRank": 317,
+    "name": "sykaav",
+    "demonlistScore": 475.4162270550718
+  },
+  {
+    "demonlistRank": 318,
+    "name": "Sushiboys",
+    "demonlistScore": 475.19261150104825
+  },
+  {
+    "demonlistRank": 319,
+    "name": "~ lenii.",
+    "demonlistScore": 473.5993776956691
+  },
+  {
+    "demonlistRank": 320,
+    "name": "DLAppleGamez",
+    "demonlistScore": 472.74696661641
+  },
+  {
+    "demonlistRank": 321,
+    "name": "[BLKHL] cudby",
+    "demonlistScore": 472.4529004605809
+  },
+  {
+    "demonlistRank": 322,
+    "name": "Slim",
+    "demonlistScore": 467.04923612367065
+  },
+  {
+    "demonlistRank": 323,
+    "name": "[S9] MahjongLegend",
+    "demonlistScore": 464.85214596504284
+  },
+  {
+    "demonlistRank": 324,
+    "name": "adrian",
+    "demonlistScore": 464.0382554963222
+  },
+  {
+    "demonlistRank": 325,
+    "name": "Jenath",
+    "demonlistScore": 462.36383656205
+  },
+  {
+    "demonlistRank": 326,
+    "name": "Avifa",
+    "demonlistScore": 458.9715966506113
+  },
+  {
+    "demonlistRank": 327,
+    "name": "Konsuno",
+    "demonlistScore": 456.5861221431795
+  },
+  {
+    "demonlistRank": 328,
+    "name": "okjongmin",
+    "demonlistScore": 455.44370400919104
+  },
+  {
+    "demonlistRank": 329,
+    "name": "[IH82P] ty3544",
+    "demonlistScore": 454.8477786452223
+  },
+  {
+    "demonlistRank": 330,
+    "name": "[POB2P] conski",
+    "demonlistScore": 454.29727636164364
+  },
+  {
+    "demonlistRank": 331,
+    "name": "[MEALY] redd",
+    "demonlistScore": 452.7407563775149
+  },
+  {
+    "demonlistRank": 332,
+    "name": "npesta",
+    "demonlistScore": 450.8872279035423
+  },
+  {
+    "demonlistRank": 333,
+    "name": "[A$AP] Baprag",
+    "demonlistScore": 448.6848304644344
+  },
+  {
+    "demonlistRank": 334,
+    "name": "[DL] mari",
+    "demonlistScore": 447.44784639656154
+  },
+  {
+    "demonlistRank": 335,
+    "name": "[MHC] i43",
+    "demonlistScore": 447.34240369379313
+  },
+  {
+    "demonlistRank": 336,
+    "name": "ViewSonic",
+    "demonlistScore": 445.312357831662
+  },
+  {
+    "demonlistRank": 337,
+    "name": "Garbagee",
+    "demonlistScore": 443.1924358580646
+  },
+  {
+    "demonlistRank": 338,
+    "name": "N3bulA_ :Þ",
+    "demonlistScore": 443.1924358580646
+  },
+  {
+    "demonlistRank": 339,
+    "name": "PlusrMinus",
+    "demonlistScore": 443.1924358580646
+  },
+  {
+    "demonlistRank": 340,
+    "name": "[MTM] Sharpzera",
+    "demonlistScore": 443.0703577868604
+  },
+  {
+    "demonlistRank": 341,
+    "name": "[PRIME] Enzollz",
+    "demonlistScore": 442.4683776206478
+  },
+  {
+    "demonlistRank": 342,
+    "name": "LilGig",
+    "demonlistScore": 441.4570820587906
+  },
+  {
+    "demonlistRank": 343,
+    "name": "OneAlphaHelix",
+    "demonlistScore": 439.7475383704787
+  },
+  {
+    "demonlistRank": 344,
+    "name": "[KIRB] Slayer",
+    "demonlistScore": 438.1815932192527
+  },
+  {
+    "demonlistRank": 345,
+    "name": "Leslie",
+    "demonlistScore": 435.5426005239366
+  },
+  {
+    "demonlistRank": 346,
+    "name": "em",
+    "demonlistScore": 434.93239347479187
+  },
+  {
+    "demonlistRank": 347,
+    "name": "[MEALY] KrNati",
+    "demonlistScore": 434.77970943890114
+  },
+  {
+    "demonlistRank": 348,
+    "name": "[MTM] Kramujo",
+    "demonlistScore": 433.6276036091812
+  },
+  {
+    "demonlistRank": 349,
+    "name": "[RF] Fxrmula",
+    "demonlistScore": 433.5916088119195
+  },
+  {
+    "demonlistRank": 350,
+    "name": "[MDT] Foxbro",
+    "demonlistScore": 433.1601212506164
+  },
+  {
+    "demonlistRank": 351,
+    "name": "｛出見塩｝",
+    "demonlistScore": 432.22795236653906
+  },
+  {
+    "demonlistRank": 352,
+    "name": "Rando",
+    "demonlistScore": 430.35687753530516
+  },
+  {
+    "demonlistRank": 353,
+    "name": "[SBR] invle",
+    "demonlistScore": 428.9886342915258
+  },
+  {
+    "demonlistRank": 354,
+    "name": "[JUICE] Jabron",
+    "demonlistScore": 428.14690764307073
+  },
+  {
+    "demonlistRank": 355,
+    "name": "MatsuoIsHere",
+    "demonlistScore": 427.3323466220099
+  },
+  {
+    "demonlistRank": 356,
+    "name": "Paqoe",
+    "demonlistScore": 425.7288855474377
+  },
+  {
+    "demonlistRank": 357,
+    "name": "zVision",
+    "demonlistScore": 425.7288855474377
+  },
+  {
+    "demonlistRank": 358,
+    "name": "niwox",
+    "demonlistScore": 425.7288855474377
+  },
+  {
+    "demonlistRank": 359,
+    "name": "Triqz",
+    "demonlistScore": 425.7288855474377
+  },
+  {
+    "demonlistRank": 360,
+    "name": "Juls",
+    "demonlistScore": 425.7288855474377
+  },
+  {
+    "demonlistRank": 361,
+    "name": "[Ñ] Jasuki",
+    "demonlistScore": 425.4432009755235
+  },
+  {
+    "demonlistRank": 362,
+    "name": "Dorvict",
+    "demonlistScore": 424.54560740024294
+  },
+  {
+    "demonlistRank": 363,
+    "name": "ElTitoGuille",
+    "demonlistScore": 421.86983397802715
+  },
+  {
+    "demonlistRank": 364,
+    "name": "[V2] Pop-cat_8-bit",
+    "demonlistScore": 419.326540890274
+  },
+  {
+    "demonlistRank": 365,
+    "name": "[HOLA] gbaqueroGD",
+    "demonlistScore": 417.48372611243207
+  },
+  {
+    "demonlistRank": 366,
+    "name": "GDUltim8",
+    "demonlistScore": 416.41835844381956
+  },
+  {
+    "demonlistRank": 367,
+    "name": "JHdash77",
+    "demonlistScore": 415.6819315076159
+  },
+  {
+    "demonlistRank": 368,
+    "name": "[AUF] Pushenka",
+    "demonlistScore": 414.62668986390884
+  },
+  {
+    "demonlistRank": 369,
+    "name": "GDonut",
+    "demonlistScore": 413.98102895168586
+  },
+  {
+    "demonlistRank": 370,
+    "name": "[FOWL] geodom",
+    "demonlistScore": 412.58586461524584
+  },
+  {
+    "demonlistRank": 371,
+    "name": "[ID] Sangkan",
+    "demonlistScore": 412.4310413962376
+  },
+  {
+    "demonlistRank": 372,
+    "name": "Crimsonking22",
+    "demonlistScore": 409.1067458951664
+  },
+  {
+    "demonlistRank": 373,
+    "name": "Wavyy",
+    "demonlistScore": 408.95346879861535
+  },
+  {
+    "demonlistRank": 374,
+    "name": "Kamris",
+    "demonlistScore": 408.42359073440394
+  },
+  {
+    "demonlistRank": 375,
+    "name": "[MDT] Raffox",
+    "demonlistScore": 403.1627451829856
+  },
+  {
+    "demonlistRank": 376,
+    "name": "[MEALY] Zombay",
+    "demonlistScore": 401.8175880343475
+  },
+  {
+    "demonlistRank": 377,
+    "name": "[REME] RubenChuGD",
+    "demonlistScore": 401.7286313159717
+  },
+  {
+    "demonlistRank": 378,
+    "name": "(SWEDEN) LOL123",
+    "demonlistScore": 400.81529476952284
+  },
+  {
+    "demonlistRank": 379,
+    "name": "[USSR] ItzTayfun",
+    "demonlistScore": 397.75901678422395
+  },
+  {
+    "demonlistRank": 380,
+    "name": "[KIRB] Oscar",
+    "demonlistScore": 397.01688629412956
+  },
+  {
+    "demonlistRank": 381,
+    "name": "BrowarKedawar",
+    "demonlistScore": 395.2002812432238
+  },
+  {
+    "demonlistRank": 382,
+    "name": "[TARIQ] super79",
+    "demonlistScore": 393.0753470325344
+  },
+  {
+    "demonlistRank": 383,
+    "name": "PixelGqmer_",
+    "demonlistScore": 392.1071470409253
+  },
+  {
+    "demonlistRank": 384,
+    "name": "[MHC] maybee",
+    "demonlistScore": 392.0544544709973
+  },
+  {
+    "demonlistRank": 385,
+    "name": "DJ",
+    "demonlistScore": 387.36525150967987
+  },
+  {
+    "demonlistRank": 386,
+    "name": "[KIRB] mac",
+    "demonlistScore": 386.72535769976787
+  },
+  {
+    "demonlistRank": 387,
+    "name": "Dovi",
+    "demonlistScore": 385.0215729025775
+  },
+  {
+    "demonlistRank": 388,
+    "name": "Castro 13GD",
+    "demonlistScore": 382.0884359098306
+  },
+  {
+    "demonlistRank": 389,
+    "name": "UnityHost",
+    "demonlistScore": 379.6768662558517
+  },
+  {
+    "demonlistRank": 390,
+    "name": "[NULL] StarXV",
+    "demonlistScore": 378.88644831519446
+  },
+  {
+    "demonlistRank": 391,
+    "name": "Nexi",
+    "demonlistScore": 378.73885817259537
+  },
+  {
+    "demonlistRank": 392,
+    "name": "Norealis",
+    "demonlistScore": 377.3596436018162
+  },
+  {
+    "demonlistRank": 393,
+    "name": "vulcanium4",
+    "demonlistScore": 376.69163565343104
+  },
+  {
+    "demonlistRank": 394,
+    "name": "ItzMagnetar",
+    "demonlistScore": 376.36038307948365
+  },
+  {
+    "demonlistRank": 395,
+    "name": "Tizetre",
+    "demonlistScore": 376.1836552378908
+  },
+  {
+    "demonlistRank": 396,
+    "name": "rori",
+    "demonlistScore": 372.94942822318353
+  },
+  {
+    "demonlistRank": 397,
+    "name": "Miro",
+    "demonlistScore": 372.89396962656167
+  },
+  {
+    "demonlistRank": 398,
+    "name": "[DAMN!] razsta4ax",
+    "demonlistScore": 372.7609643729067
+  },
+  {
+    "demonlistRank": 399,
+    "name": "Clare",
+    "demonlistScore": 372.643371238137
+  },
+  {
+    "demonlistRank": 400,
+    "name": "KenosSongReal",
+    "demonlistScore": 369.85018669414006
+  },
+  {
+    "demonlistRank": 401,
+    "name": "GDwavedash",
+    "demonlistScore": 369.85018669414006
+  },
+  {
+    "demonlistRank": 402,
+    "name": "Dylinator",
+    "demonlistScore": 369.7743668373459
+  },
+  {
+    "demonlistRank": 403,
+    "name": "JawV",
+    "demonlistScore": 367.2161036604633
+  },
+  {
+    "demonlistRank": 404,
+    "name": "[DLTP] DanielTMOG",
+    "demonlistScore": 365.3033274238228
+  },
+  {
+    "demonlistRank": 405,
+    "name": "[SNUS] zarm",
+    "demonlistScore": 364.14405424489064
+  },
+  {
+    "demonlistRank": 406,
+    "name": "[FOWL] Lfz",
+    "demonlistScore": 363.8741289694798
+  },
+  {
+    "demonlistRank": 407,
+    "name": "w5678rr",
+    "demonlistScore": 362.8795695279424
+  },
+  {
+    "demonlistRank": 408,
+    "name": "recsysice",
+    "demonlistScore": 362.49016797892665
+  },
+  {
+    "demonlistRank": 409,
+    "name": "Alex TT",
+    "demonlistScore": 362.49016797892665
+  },
+  {
+    "demonlistRank": 410,
+    "name": "[Ñ] Slashomi",
+    "demonlistScore": 360.43783978789384
+  },
+  {
+    "demonlistRank": 411,
+    "name": "nilscoefx3",
+    "demonlistScore": 359.64861972387575
+  },
+  {
+    "demonlistRank": 412,
+    "name": "rose;",
+    "demonlistScore": 357.5307273521203
+  },
+  {
+    "demonlistRank": 413,
+    "name": "he7ven",
+    "demonlistScore": 352.7463239839875
+  },
+  {
+    "demonlistRank": 414,
+    "name": "[910] trollface",
+    "demonlistScore": 352.5814578222793
+  },
+  {
+    "demonlistRank": 415,
+    "name": "Benja",
+    "demonlistScore": 350.9187730340445
+  },
+  {
+    "demonlistRank": 416,
+    "name": "[NULL] powersplit",
+    "demonlistScore": 349.6325386902896
+  },
+  {
+    "demonlistRank": 417,
+    "name": "enfix",
+    "demonlistScore": 348.2066090247867
+  },
+  {
+    "demonlistRank": 418,
+    "name": "Tylor",
+    "demonlistScore": 348.2066090247867
+  },
+  {
+    "demonlistRank": 419,
+    "name": "nerveless",
+    "demonlistScore": 348.2066090247867
+  },
+  {
+    "demonlistRank": 420,
+    "name": "[GLUKE] MayoYoma",
+    "demonlistScore": 346.64641770422907
+  },
+  {
+    "demonlistRank": 421,
+    "name": "[IQB7] Mag8zq5er7up",
+    "demonlistScore": 346.12290670291253
+  },
+  {
+    "demonlistRank": 422,
+    "name": "[GFSM] Neoflyx",
+    "demonlistScore": 345.769823876189
+  },
+  {
+    "demonlistRank": 423,
+    "name": "[IQB7] sock",
+    "demonlistScore": 344.0328726173626
+  },
+  {
+    "demonlistRank": 424,
+    "name": "Excellentmeep",
+    "demonlistScore": 341.2772975051934
+  },
+  {
+    "demonlistRank": 425,
+    "name": "레전드아잉몰라요",
+    "demonlistScore": 341.2772975051934
+  },
+  {
+    "demonlistRank": 426,
+    "name": "EdwardUKraine",
+    "demonlistScore": 341.2772975051934
+  },
+  {
+    "demonlistRank": 427,
+    "name": "GodGamer2442",
+    "demonlistScore": 341.2772975051934
+  },
+  {
+    "demonlistRank": 428,
+    "name": "DravenPvP",
+    "demonlistScore": 341.2772975051934
+  },
+  {
+    "demonlistRank": 429,
+    "name": "[67] Grifonzo",
+    "demonlistScore": 339.43037399501884
+  },
+  {
+    "demonlistRank": 430,
+    "name": "Sydno",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 431,
+    "name": "zStucc",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 432,
+    "name": "holycrap",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 433,
+    "name": "ezzzzka",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 434,
+    "name": "R3dTrickshots",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 435,
+    "name": "seels55",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 436,
+    "name": "KlimK",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 437,
+    "name": "no serenity",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 438,
+    "name": "DeadlockRC",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 439,
+    "name": "fluget",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 440,
+    "name": "zInslanex",
+    "demonlistScore": 334.4858792848401
+  },
+  {
+    "demonlistRank": 441,
+    "name": "[YAHO] Cosicant",
+    "demonlistScore": 334.4065724989792
+  },
+  {
+    "demonlistRank": 442,
+    "name": "[DLTP] RAASU",
+    "demonlistScore": 334.3153637357067
+  },
+  {
+    "demonlistRank": 443,
+    "name": "P0wdered",
+    "demonlistScore": 333.86267744983684
+  },
+  {
+    "demonlistRank": 444,
+    "name": "[SSS] ggero",
+    "demonlistScore": 330.0346445243856
+  },
+  {
+    "demonlistRank": 445,
+    "name": "[BHO] ItzMira",
+    "demonlistScore": 329.0643444971114
+  },
+  {
+    "demonlistRank": 446,
+    "name": "[개섹스] tector",
+    "demonlistScore": 328.64939290187874
+  },
+  {
+    "demonlistRank": 447,
+    "name": "[KIRB] OwOPink",
+    "demonlistScore": 328.23349756583843
+  },
+  {
+    "demonlistRank": 448,
+    "name": "[GC] mancersito",
+    "demonlistScore": 327.87173235902253
+  },
+  {
+    "demonlistRank": 449,
+    "name": "JonasGMD",
+    "demonlistScore": 327.8296102870718
+  },
+  {
+    "demonlistRank": 450,
+    "name": "KingKain",
+    "demonlistScore": 327.8296102870718
+  },
+  {
+    "demonlistRank": 451,
+    "name": "a6iq1",
+    "demonlistScore": 327.8296102870718
+  },
+  {
+    "demonlistRank": 452,
+    "name": "FUNAREX",
+    "demonlistScore": 327.8296102870718
+  },
+  {
+    "demonlistRank": 453,
+    "name": "TO_KYO",
+    "demonlistScore": 325.9333377550248
+  },
+  {
+    "demonlistRank": 454,
+    "name": "[meow] 5shine",
+    "demonlistScore": 324.0842990587743
+  },
+  {
+    "demonlistRank": 455,
+    "name": "Dorami",
+    "demonlistScore": 323.2574314402387
+  },
+  {
+    "demonlistRank": 456,
+    "name": "[USSR] Citrus",
+    "demonlistScore": 322.76200766122525
+  },
+  {
+    "demonlistRank": 457,
+    "name": "[910] kedi",
+    "demonlistScore": 322.5277946675442
+  },
+  {
+    "demonlistRank": 458,
+    "name": "Artify8",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 459,
+    "name": "midgatal",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 460,
+    "name": "ilikeYEETing",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 461,
+    "name": "Openix",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 462,
+    "name": "FASHROD",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 463,
+    "name": "смышленый",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 464,
+    "name": "risk",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 465,
+    "name": "moosoose",
+    "demonlistScore": 321.305801042359
+  },
+  {
+    "demonlistRank": 466,
+    "name": "Eclipse",
+    "demonlistScore": 321.0479429905893
+  },
+  {
+    "demonlistRank": 467,
+    "name": "[YAHO] nng",
+    "demonlistScore": 319.1895594137876
+  },
+  {
+    "demonlistRank": 468,
+    "name": "[EVIL] Cryostaz",
+    "demonlistScore": 318.3933003926114
+  },
+  {
+    "demonlistRank": 469,
+    "name": "npoctou_gamer",
+    "demonlistScore": 317.6865203630297
+  },
+  {
+    "demonlistRank": 470,
+    "name": "rSteel",
+    "demonlistScore": 316.51736567808854
+  },
+  {
+    "demonlistRank": 471,
+    "name": "[TSC] destr",
+    "demonlistScore": 316.4488431678249
+  },
+  {
+    "demonlistRank": 472,
+    "name": "[YAHO] GDmuno",
+    "demonlistScore": 315.5014073519387
+  },
+  {
+    "demonlistRank": 473,
+    "name": "[MSTRD] Bracus",
+    "demonlistScore": 315.442087281501
+  },
+  {
+    "demonlistRank": 474,
+    "name": "Lavatrex",
+    "demonlistScore": 314.91181560161607
+  },
+  {
+    "demonlistRank": 475,
+    "name": "13marciano",
+    "demonlistScore": 311.312980978006
+  },
+  {
+    "demonlistRank": 476,
+    "name": "[QOG] MagnificCub9216",
+    "demonlistScore": 310.7597579892414
+  },
+  {
+    "demonlistRank": 477,
+    "name": "hanni",
+    "demonlistScore": 310.4441157691938
+  },
+  {
+    "demonlistRank": 478,
+    "name": "[TRC] zavet",
+    "demonlistScore": 309.80754821968253
+  },
+  {
+    "demonlistRank": 479,
+    "name": "ddamian",
+    "demonlistScore": 308.64507047114387
+  },
+  {
+    "demonlistRank": 480,
+    "name": "XaviiiFG",
+    "demonlistScore": 308.64507047114387
+  },
+  {
+    "demonlistRank": 481,
+    "name": "PaulaGPe",
+    "demonlistScore": 308.64507047114387
+  },
+  {
+    "demonlistRank": 482,
+    "name": "DeyLix",
+    "demonlistScore": 308.64507047114387
+  },
+  {
+    "demonlistRank": 483,
+    "name": "[AURA] Rosey",
+    "demonlistScore": 307.8568384488693
+  },
+  {
+    "demonlistRank": 484,
+    "name": "Jakercut",
+    "demonlistScore": 304.9900264260158
+  },
+  {
+    "demonlistRank": 485,
+    "name": "[DTC] roud",
+    "demonlistScore": 298.92072490013805
+  },
+  {
+    "demonlistRank": 486,
+    "name": "Jyvl01",
+    "demonlistScore": 297.9932844770364
+  },
+  {
+    "demonlistRank": 487,
+    "name": "VxMasTeR",
+    "demonlistScore": 297.98539195885
+  },
+  {
+    "demonlistRank": 488,
+    "name": "Abaddox",
+    "demonlistScore": 297.2026549199468
+  },
+  {
+    "demonlistRank": 489,
+    "name": "beggo",
+    "demonlistScore": 296.4832232007496
+  },
+  {
+    "demonlistRank": 490,
+    "name": "Lavaclaw",
+    "demonlistScore": 293.7613196686173
+  },
+  {
+    "demonlistRank": 491,
+    "name": "Aidan混合種族",
+    "demonlistScore": 293.40704413626975
+  },
+  {
+    "demonlistRank": 492,
+    "name": "OrangeStorm",
+    "demonlistScore": 292.5710959314276
+  },
+  {
+    "demonlistRank": 493,
+    "name": "Zevoo",
+    "demonlistScore": 290.70675415637123
+  },
+  {
+    "demonlistRank": 494,
+    "name": "Millinillion",
+    "demonlistScore": 290.58320705905464
+  },
+  {
+    "demonlistRank": 495,
+    "name": "ZipperAndClear",
+    "demonlistScore": 290.58320705905464
+  },
+  {
+    "demonlistRank": 496,
+    "name": "[GOATS] SomeoneNamedToby",
+    "demonlistScore": 289.3140163716603
+  },
+  {
+    "demonlistRank": 497,
+    "name": "Plasmalust",
+    "demonlistScore": 288.52976232971685
+  },
+  {
+    "demonlistRank": 498,
+    "name": "[MOOSE] funnyPoop1",
+    "demonlistScore": 286.5304968984414
+  },
+  {
+    "demonlistRank": 499,
+    "name": "LunarGhost30",
+    "demonlistScore": 286.00630870520394
+  },
+  {
+    "demonlistRank": 500,
+    "name": "Gizbro",
+    "demonlistScore": 284.95834318324825
+  },
+  {
+    "demonlistRank": 501,
+    "name": "M4nst3r",
+    "demonlistScore": 283.49021900185403
+  },
+  {
+    "demonlistRank": 502,
+    "name": "[BUDDY] Terry Pinkleton",
+    "demonlistScore": 280.80440162279643
+  },
+  {
+    "demonlistRank": 503,
+    "name": "[IH82P] Nsaynchkn",
+    "demonlistScore": 280.2440076445838
+  },
+  {
+    "demonlistRank": 504,
+    "name": "[QW3] Eletriple",
+    "demonlistScore": 280.0826381605858
+  },
+  {
+    "demonlistRank": 505,
+    "name": "Gaminlife123",
+    "demonlistScore": 279.59299584543083
+  },
+  {
+    "demonlistRank": 506,
+    "name": "Doli",
+    "demonlistScore": 277.88101702445204
+  },
+  {
+    "demonlistRank": 507,
+    "name": "[TOOL] stav",
+    "demonlistScore": 276.9121210490707
+  },
+  {
+    "demonlistRank": 508,
+    "name": "Drech120",
+    "demonlistScore": 276.82244672894967
+  },
+  {
+    "demonlistRank": 509,
+    "name": "oni",
+    "demonlistScore": 275.34667203269345
+  },
+  {
+    "demonlistRank": 510,
+    "name": "[PRIME] azren",
+    "demonlistScore": 274.9851781862061
+  },
+  {
+    "demonlistRank": 511,
+    "name": "[RR] TheRealCave",
+    "demonlistScore": 274.60872388539184
+  },
+  {
+    "demonlistRank": 512,
+    "name": "x99",
+    "demonlistScore": 273.043944812737
+  },
+  {
+    "demonlistRank": 513,
+    "name": "Glames",
+    "demonlistScore": 269.7556614791879
+  },
+  {
+    "demonlistRank": 514,
+    "name": "[DLTP] CaveMelv",
+    "demonlistScore": 267.60359929504307
+  },
+  {
+    "demonlistRank": 515,
+    "name": "[MHC] Milos",
+    "demonlistScore": 266.7048952490322
+  },
+  {
+    "demonlistRank": 516,
+    "name": "Gelforce",
+    "demonlistScore": 264.1247613700451
+  },
+  {
+    "demonlistRank": 517,
+    "name": "truegaymer",
+    "demonlistScore": 262.79824376278094
+  },
+  {
+    "demonlistRank": 518,
+    "name": "[BLKHL] Popsi",
+    "demonlistScore": 262.7430730307204
+  },
+  {
+    "demonlistRank": 519,
+    "name": "Verzieyan",
+    "demonlistScore": 262.30860770370793
+  },
+  {
+    "demonlistRank": 520,
+    "name": "VerdantLands",
+    "demonlistScore": 261.27813369498944
+  },
+  {
+    "demonlistRank": 521,
+    "name": "SpeedyMuffin",
+    "demonlistScore": 261.06831872380417
+  },
+  {
+    "demonlistRank": 522,
+    "name": "[GURDY] cvrro",
+    "demonlistScore": 261.06831872380417
+  },
+  {
+    "demonlistRank": 523,
+    "name": "Fhyr",
+    "demonlistScore": 261.03004756159567
+  },
+  {
+    "demonlistRank": 524,
+    "name": "Dustabounds",
+    "demonlistScore": 261.02540089479
+  },
+  {
+    "demonlistRank": 525,
+    "name": "[SARK] CookedPugs",
+    "demonlistScore": 258.59263811318795
+  },
+  {
+    "demonlistRank": 526,
+    "name": "[ROAR] Blavox",
+    "demonlistScore": 257.6384638288325
+  },
+  {
+    "demonlistRank": 527,
+    "name": "[KIRB] zSquidknight",
+    "demonlistScore": 257.6108761571667
+  },
+  {
+    "demonlistRank": 528,
+    "name": "akka",
+    "demonlistScore": 257.5685587119016
+  },
+  {
+    "demonlistRank": 529,
+    "name": "Oceliveth",
+    "demonlistScore": 257.5685587119016
+  },
+  {
+    "demonlistRank": 530,
+    "name": "Cheese438",
+    "demonlistScore": 257.51339648125554
+  },
+  {
+    "demonlistRank": 531,
+    "name": "[ZOBRO] Kot",
+    "demonlistScore": 257.51339648125554
+  },
+  {
+    "demonlistRank": 532,
+    "name": "AlyXz",
+    "demonlistScore": 252.4429443935347
+  },
+  {
+    "demonlistRank": 533,
+    "name": "luisf12321",
+    "demonlistScore": 252.4429443935347
+  },
+  {
+    "demonlistRank": 534,
+    "name": "galaxa04",
+    "demonlistScore": 252.4429443935347
+  },
+  {
+    "demonlistRank": 535,
+    "name": "[TCC] Lonox",
+    "demonlistScore": 251.76187535976405
+  },
+  {
+    "demonlistRank": 536,
+    "name": "[JUICE] Trees",
+    "demonlistScore": 251.33693854949288
+  },
+  {
+    "demonlistRank": 537,
+    "name": "lamp86",
+    "demonlistScore": 250.93504383714446
+  },
+  {
+    "demonlistRank": 538,
+    "name": "CuTTeR",
+    "demonlistScore": 250.8139263760686
+  },
+  {
+    "demonlistRank": 539,
+    "name": "[RF] Mystery",
+    "demonlistScore": 248.67291030075853
+  },
+  {
+    "demonlistRank": 540,
+    "name": "[MAX] njacked",
+    "demonlistScore": 242.67244189661395
+  },
+  {
+    "demonlistRank": 541,
+    "name": "zane",
+    "demonlistScore": 242.64383274012053
+  },
+  {
+    "demonlistRank": 542,
+    "name": "BUNNYGRAM",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 543,
+    "name": "Arkane",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 544,
+    "name": "LitRuge",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 545,
+    "name": "Classic Jeff",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 546,
+    "name": "NinSam",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 547,
+    "name": "1ssky",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 548,
+    "name": "Spectrin",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 549,
+    "name": "Swerve",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 550,
+    "name": "RevizPlayz",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 551,
+    "name": "Fer27GD",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 552,
+    "name": "Aerma",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 553,
+    "name": "Comet",
+    "demonlistScore": 242.4956851370813
+  },
+  {
+    "demonlistRank": 554,
+    "name": "[MHC] Sulky",
+    "demonlistScore": 240.14393747222937
+  },
+  {
+    "demonlistRank": 555,
+    "name": "Dycibel",
+    "demonlistScore": 239.69695959528576
+  },
+  {
+    "demonlistRank": 556,
+    "name": "HotNooB",
+    "demonlistScore": 238.61498483706333
+  },
+  {
+    "demonlistRank": 557,
+    "name": "Thelifinof",
+    "demonlistScore": 237.6700210028534
+  },
+  {
+    "demonlistRank": 558,
+    "name": "dizbro",
+    "demonlistScore": 237.6700210028534
+  },
+  {
+    "demonlistRank": 559,
+    "name": "MyntiFresh",
+    "demonlistScore": 237.6700210028534
+  },
+  {
+    "demonlistRank": 560,
+    "name": "ennea",
+    "demonlistScore": 237.6700210028534
+  },
+  {
+    "demonlistRank": 561,
+    "name": "Keir",
+    "demonlistScore": 236.55769198181193
+  },
+  {
+    "demonlistRank": 562,
+    "name": "Kurumi",
+    "demonlistScore": 236.32902280443278
+  },
+  {
+    "demonlistRank": 563,
+    "name": "myrzik",
+    "demonlistScore": 236.28454798657174
+  },
+  {
+    "demonlistRank": 564,
+    "name": "[KIRB] chumo",
+    "demonlistScore": 235.57651182972134
+  },
+  {
+    "demonlistRank": 565,
+    "name": "[FULEX] Mob",
+    "demonlistScore": 233.78844291443679
+  },
+  {
+    "demonlistRank": 566,
+    "name": "TheBlissfulVoid",
+    "demonlistScore": 232.9403875848966
+  },
+  {
+    "demonlistRank": 567,
+    "name": "NotHeco",
+    "demonlistScore": 232.9403875848966
+  },
+  {
+    "demonlistRank": 568,
+    "name": "larry7",
+    "demonlistScore": 232.9403875848966
+  },
+  {
+    "demonlistRank": 569,
+    "name": "Dramel [GD]",
+    "demonlistScore": 232.56857839605175
+  },
+  {
+    "demonlistRank": 570,
+    "name": "MultiverseGD",
+    "demonlistScore": 231.28137984373552
+  },
+  {
+    "demonlistRank": 571,
+    "name": "Arcturus",
+    "demonlistScore": 230.11495041432283
+  },
+  {
+    "demonlistRank": 572,
+    "name": "Droixz",
+    "demonlistScore": 230.01007507192412
+  },
+  {
+    "demonlistRank": 573,
+    "name": "[DAMN!] Washed",
+    "demonlistScore": 228.84472327104277
+  },
+  {
+    "demonlistRank": 574,
+    "name": "EsotericHydra",
+    "demonlistScore": 228.31841054674513
+  },
+  {
+    "demonlistRank": 575,
+    "name": "Pukklez",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 576,
+    "name": "Oportan",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 577,
+    "name": "S1ngan1",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 578,
+    "name": "AuroraeDrago",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 579,
+    "name": "mythicalrocket",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 580,
+    "name": "Saladishealthy",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 581,
+    "name": "PIMBAAAALLL",
+    "demonlistScore": 228.30487387195714
+  },
+  {
+    "demonlistRank": 582,
+    "name": "AlexDIRO",
+    "demonlistScore": 228.10815645251608
+  },
+  {
+    "demonlistRank": 583,
+    "name": "[EVIL] angl",
+    "demonlistScore": 227.99006224378422
+  },
+  {
+    "demonlistRank": 584,
+    "name": "[TCC] Enfur",
+    "demonlistScore": 226.73993953286825
+  },
+  {
+    "demonlistRank": 585,
+    "name": "[IH82P] Motor8",
+    "demonlistScore": 226.5429047732651
+  },
+  {
+    "demonlistRank": 586,
+    "name": "frozen",
+    "demonlistScore": 225.3279660720434
+  },
+  {
+    "demonlistRank": 587,
+    "name": "Zari",
+    "demonlistScore": 224.8953226162783
+  },
+  {
+    "demonlistRank": 588,
+    "name": "[KCK] Myles",
+    "demonlistScore": 224.69505076666326
+  },
+  {
+    "demonlistRank": 589,
+    "name": "[JUICE] Ratio",
+    "demonlistScore": 224.66695084714615
+  },
+  {
+    "demonlistRank": 590,
+    "name": "KJ8ishere",
+    "demonlistScore": 223.76160688190518
+  },
+  {
+    "demonlistRank": 591,
+    "name": "Simmyy",
+    "demonlistScore": 220.59101705136067
+  },
+  {
+    "demonlistRank": 592,
+    "name": "[A$AP] Renoi_fatiguew",
+    "demonlistScore": 219.33692938150278
+  },
+  {
+    "demonlistRank": 593,
+    "name": "Mr. troll",
+    "demonlistScore": 219.30875090495528
+  },
+  {
+    "demonlistRank": 594,
+    "name": "Calow",
+    "demonlistScore": 219.30875090495528
+  },
+  {
+    "demonlistRank": 595,
+    "name": "[RCDM] LunarSpark",
+    "demonlistScore": 218.57509236458165
+  },
+  {
+    "demonlistRank": 596,
+    "name": "[IH82P] Sneaky_",
+    "demonlistScore": 217.63648810430632
+  },
+  {
+    "demonlistRank": 597,
+    "name": "[EGIRL] Bob Tahiti",
+    "demonlistScore": 214.9346231067474
+  },
+  {
+    "demonlistRank": 598,
+    "name": "combi",
+    "demonlistScore": 214.84680404823536
+  },
+  {
+    "demonlistRank": 599,
+    "name": "[NULL] Juan_7542",
+    "demonlistScore": 213.5288008781229
+  },
+  {
+    "demonlistRank": 600,
+    "name": "Spyrosh",
+    "demonlistScore": 213.19637245097806
+  },
+  {
+    "demonlistRank": 601,
+    "name": "LaserGD",
+    "demonlistScore": 213.1163893401153
+  },
+  {
+    "demonlistRank": 602,
+    "name": "[A$AP] TGM05",
+    "demonlistScore": 212.10829141992366
+  },
+  {
+    "demonlistRank": 603,
+    "name": "Oblivionus",
+    "demonlistScore": 211.91344246735818
+  },
+  {
+    "demonlistRank": 604,
+    "name": "noxell",
+    "demonlistScore": 211.77517269115
+  },
+  {
+    "demonlistRank": 605,
+    "name": "permabad",
+    "demonlistScore": 210.66711107738394
+  },
+  {
+    "demonlistRank": 606,
+    "name": "mafioznik",
+    "demonlistScore": 210.66711107738394
+  },
+  {
+    "demonlistRank": 607,
+    "name": "realiosteelio",
+    "demonlistScore": 210.66711107738394
+  },
+  {
+    "demonlistRank": 608,
+    "name": "Dagger",
+    "demonlistScore": 210.66711107738394
+  },
+  {
+    "demonlistRank": 609,
+    "name": "lilWC",
+    "demonlistScore": 209.7685306274402
+  },
+  {
+    "demonlistRank": 610,
+    "name": "Fandom",
+    "demonlistScore": 209.40645853054147
+  },
+  {
+    "demonlistRank": 611,
+    "name": "rBedziu",
+    "demonlistScore": 208.875373192247
+  },
+  {
+    "demonlistRank": 612,
+    "name": "TherZ",
+    "demonlistScore": 208.75906458374772
+  },
+  {
+    "demonlistRank": 613,
+    "name": "ViZeris",
+    "demonlistScore": 208.29409632813582
+  },
+  {
+    "demonlistRank": 614,
+    "name": "Local_Happy",
+    "demonlistScore": 208.18404119412548
+  },
+  {
+    "demonlistRank": 615,
+    "name": "e-Bread",
+    "demonlistScore": 208.17234396941635
+  },
+  {
+    "demonlistRank": 616,
+    "name": "[TARIQ] Katzen",
+    "demonlistScore": 205.11567127858478
+  },
+  {
+    "demonlistRank": 617,
+    "name": "[KIRB] celineity",
+    "demonlistScore": 204.60282988913494
+  },
+  {
+    "demonlistRank": 618,
+    "name": "[MHC] Kacekdash",
+    "demonlistScore": 204.48164843783957
+  },
+  {
+    "demonlistRank": 619,
+    "name": "Gamerdude",
+    "demonlistScore": 204.05901646615695
+  },
+  {
+    "demonlistRank": 620,
+    "name": "[ZOBRO] Doubley123",
+    "demonlistScore": 203.62885375897034
+  },
+  {
+    "demonlistRank": 621,
+    "name": "[TCC] TheButcher",
+    "demonlistScore": 203.48184395384874
+  },
+  {
+    "demonlistRank": 622,
+    "name": "Riot48572",
+    "demonlistScore": 203.38615219930526
+  },
+  {
+    "demonlistRank": 623,
+    "name": "[IQB7] Chubs Dubs",
+    "demonlistScore": 203.3478802160431
+  },
+  {
+    "demonlistRank": 624,
+    "name": "Travisaurus",
+    "demonlistScore": 203.12699769423838
+  },
+  {
+    "demonlistRank": 625,
+    "name": "[BUDDY] DuckOfSxness𓅭",
+    "demonlistScore": 202.2628233973948
+  },
+  {
+    "demonlistRank": 626,
+    "name": "lisyteam1230",
+    "demonlistScore": 201.9454907769896
+  },
+  {
+    "demonlistRank": 627,
+    "name": "[MLEM] Jarmusz",
+    "demonlistScore": 200.15594410861837
+  },
+  {
+    "demonlistRank": 628,
+    "name": "Bird",
+    "demonlistScore": 198.33890321101245
+  },
+  {
+    "demonlistRank": 629,
+    "name": "Chiloé",
+    "demonlistScore": 198.33890321101245
+  },
+  {
+    "demonlistRank": 630,
+    "name": "garrowpop",
+    "demonlistScore": 197.8692936844421
+  },
+  {
+    "demonlistRank": 631,
+    "name": "Arouvis",
+    "demonlistScore": 197.06299051791544
+  },
+  {
+    "demonlistRank": 632,
+    "name": "[ETB] Reokin",
+    "demonlistScore": 196.81148902670503
+  },
+  {
+    "demonlistRank": 633,
+    "name": "CoJong",
+    "demonlistScore": 196.7945639374263
+  },
+  {
+    "demonlistRank": 634,
+    "name": "[KIRB] Parithon",
+    "demonlistScore": 196.28035888945297
+  },
+  {
+    "demonlistRank": 635,
+    "name": "[SLR] carv",
+    "demonlistScore": 194.92177191624552
+  },
+  {
+    "demonlistRank": 636,
+    "name": "[e] Electrx",
+    "demonlistScore": 194.75861808625137
+  },
+  {
+    "demonlistRank": 637,
+    "name": "[TCC] Cork",
+    "demonlistScore": 194.65631261683868
+  },
+  {
+    "demonlistRank": 638,
+    "name": "[KIRB] Bosonic",
+    "demonlistScore": 194.40961012479391
+  },
+  {
+    "demonlistRank": 639,
+    "name": "Firefoxed",
+    "demonlistScore": 194.3929012336905
+  },
+  {
+    "demonlistRank": 640,
+    "name": "skyzl",
+    "demonlistScore": 194.39195903711328
+  },
+  {
+    "demonlistRank": 641,
+    "name": "deex",
+    "demonlistScore": 194.39195903711328
+  },
+  {
+    "demonlistRank": 642,
+    "name": "JTYYY",
+    "demonlistScore": 194.39195903711328
+  },
+  {
+    "demonlistRank": 643,
+    "name": "Uni",
+    "demonlistScore": 194.39195903711328
+  },
+  {
+    "demonlistRank": 644,
+    "name": "ShadowNevio",
+    "demonlistScore": 192.91728663127805
+  },
+  {
+    "demonlistRank": 645,
+    "name": "[MYS] Zamasu",
+    "demonlistScore": 191.66175656510805
+  },
+  {
+    "demonlistRank": 646,
+    "name": "MintyNoodle",
+    "demonlistScore": 191.02096006018326
+  },
+  {
+    "demonlistRank": 647,
+    "name": "CHOOONK",
+    "demonlistScore": 190.83748404701882
+  },
+  {
+    "demonlistRank": 648,
+    "name": "MaFFaKa",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 649,
+    "name": "Senatorias",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 650,
+    "name": "Gamingbyte",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 651,
+    "name": "Inquired",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 652,
+    "name": "zackpickle",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 653,
+    "name": "Saitama",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 654,
+    "name": "onrush",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 655,
+    "name": "MB",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 656,
+    "name": "sym",
+    "demonlistScore": 190.52355905227475
+  },
+  {
+    "demonlistRank": 657,
+    "name": "Kuromi",
+    "demonlistScore": 190.48275552966894
+  },
+  {
+    "demonlistRank": 658,
+    "name": "[BRIZZ] surrounded",
+    "demonlistScore": 190.4478759771267
+  },
+  {
+    "demonlistRank": 659,
+    "name": "[RR] TreblePKGD",
+    "demonlistScore": 189.3107499936537
+  },
+  {
+    "demonlistRank": 660,
+    "name": "[GFSM] Sfan",
+    "demonlistScore": 187.97507407805452
+  },
+  {
+    "demonlistRank": 661,
+    "name": "BudgieParrot",
+    "demonlistScore": 186.73214022713447
+  },
+  {
+    "demonlistRank": 662,
+    "name": "positive",
+    "demonlistScore": 186.73214022713447
+  },
+  {
+    "demonlistRank": 663,
+    "name": "Fufam",
+    "demonlistScore": 186.73214022713447
+  },
+  {
+    "demonlistRank": 664,
+    "name": "Mullsy",
+    "demonlistScore": 185.8786743243448
+  },
+  {
+    "demonlistRank": 665,
+    "name": "Swib",
+    "demonlistScore": 185.75490616989632
+  },
+  {
+    "demonlistRank": 666,
+    "name": "hellbellone",
+    "demonlistScore": 185.50225166845016
+  },
+  {
+    "demonlistRank": 667,
+    "name": "z0rty",
+    "demonlistScore": 185.2683532500069
+  },
+  {
+    "demonlistRank": 668,
+    "name": "MechanicGD",
+    "demonlistScore": 184.0339623862346
+  },
+  {
+    "demonlistRank": 669,
+    "name": "한명",
+    "demonlistScore": 183.01617063661448
+  },
+  {
+    "demonlistRank": 670,
+    "name": "rowinile",
+    "demonlistScore": 183.01617063661448
+  },
+  {
+    "demonlistRank": 671,
+    "name": "Tankalty",
+    "demonlistScore": 183.01617063661448
+  },
+  {
+    "demonlistRank": 672,
+    "name": "lunatism",
+    "demonlistScore": 183.01617063661448
+  },
+  {
+    "demonlistRank": 673,
+    "name": "sirwilliamous",
+    "demonlistScore": 183.01617063661448
+  },
+  {
+    "demonlistRank": 674,
+    "name": "gunnie",
+    "demonlistScore": 183.01617063661448
+  },
+  {
+    "demonlistRank": 675,
+    "name": "[IH82P] Bram4Real",
+    "demonlistScore": 182.94346977660274
+  },
+  {
+    "demonlistRank": 676,
+    "name": "[NULL] CoolBonnie1987",
+    "demonlistScore": 182.71186215460597
+  },
+  {
+    "demonlistRank": 677,
+    "name": "[AXYB] azxprovn",
+    "demonlistScore": 182.67518161304235
+  },
+  {
+    "demonlistRank": 678,
+    "name": "Yumira",
+    "demonlistScore": 181.72346184623527
+  },
+  {
+    "demonlistRank": 679,
+    "name": "poopstain11442",
+    "demonlistScore": 181.35720676430276
+  },
+  {
+    "demonlistRank": 680,
+    "name": "Laurendi",
+    "demonlistScore": 179.37414884094582
+  },
+  {
+    "demonlistRank": 681,
+    "name": "Comlayze",
+    "demonlistScore": 179.37414884094582
+  },
+  {
+    "demonlistRank": 682,
+    "name": "ZygisDij",
+    "demonlistScore": 179.37414884094582
+  },
+  {
+    "demonlistRank": 683,
+    "name": "Iva",
+    "demonlistScore": 179.37414884094582
+  },
+  {
+    "demonlistRank": 684,
+    "name": "vynshi",
+    "demonlistScore": 179.37414884094582
+  },
+  {
+    "demonlistRank": 685,
+    "name": "youngs6",
+    "demonlistScore": 179.37414884094582
+  },
+  {
+    "demonlistRank": 686,
+    "name": "[POSTY] Dystire",
+    "demonlistScore": 178.48911631665234
+  },
+  {
+    "demonlistRank": 687,
+    "name": "[MDT] AVALANCHA121",
+    "demonlistScore": 178.33659072925323
+  },
+  {
+    "demonlistRank": 688,
+    "name": "Joshua28",
+    "demonlistScore": 175.98112203821245
+  },
+  {
+    "demonlistRank": 689,
+    "name": "ultracauaHD",
+    "demonlistScore": 175.80460327901105
+  },
+  {
+    "demonlistRank": 690,
+    "name": "kelvin0",
+    "demonlistScore": 175.80460327901105
+  },
+  {
+    "demonlistRank": 691,
+    "name": "Detrezo",
+    "demonlistScore": 175.80460327901105
+  },
+  {
+    "demonlistRank": 692,
+    "name": "PureQuasar",
+    "demonlistScore": 175.80460327901105
+  },
+  {
+    "demonlistRank": 693,
+    "name": "spcreat",
+    "demonlistScore": 174.3093733569528
+  },
+  {
+    "demonlistRank": 694,
+    "name": "Lekoda",
+    "demonlistScore": 173.4848430742507
+  },
+  {
+    "demonlistRank": 695,
+    "name": "SirCaldeX",
+    "demonlistScore": 173.33545710218473
+  },
+  {
+    "demonlistRank": 696,
+    "name": "Saltoulious",
+    "demonlistScore": 170.0324946970731
+  },
+  {
+    "demonlistRank": 697,
+    "name": "[SF] yanz7r",
+    "demonlistScore": 169.0353589348298
+  },
+  {
+    "demonlistRank": 698,
+    "name": "[EDM] leucovorin",
+    "demonlistScore": 168.97877317637827
+  },
+  {
+    "demonlistRank": 699,
+    "name": "Geranika",
+    "demonlistScore": 168.8772004494509
+  },
+  {
+    "demonlistRank": 700,
+    "name": "meanssq",
+    "demonlistScore": 168.8772004494509
+  },
+  {
+    "demonlistRank": 701,
+    "name": "NanduO3O",
+    "demonlistScore": 168.8772004494509
+  },
+  {
+    "demonlistRank": 702,
+    "name": "Biprex",
+    "demonlistScore": 168.8772004494509
+  },
+  {
+    "demonlistRank": 703,
+    "name": "SoggyCat",
+    "demonlistScore": 168.8772004494509
+  },
+  {
+    "demonlistRank": 704,
+    "name": "[1319] D3ltex",
+    "demonlistScore": 167.2469588686269
+  },
+  {
+    "demonlistRank": 705,
+    "name": "[MEDAL] hundeguten",
+    "demonlistScore": 166.0020844097686
+  },
+  {
+    "demonlistRank": 706,
+    "name": "IPhotonicI",
+    "demonlistScore": 165.5165441605068
+  },
+  {
+    "demonlistRank": 707,
+    "name": "Thezeropro",
+    "demonlistScore": 165.5165441605068
+  },
+  {
+    "demonlistRank": 708,
+    "name": "PingasGD",
+    "demonlistScore": 165.5165441605068
+  },
+  {
+    "demonlistRank": 709,
+    "name": "gdStraightFly",
+    "demonlistScore": 165.5165441605068
+  },
+  {
+    "demonlistRank": 710,
+    "name": "[ABA] attrixia",
+    "demonlistScore": 164.3377308559551
+  },
+  {
+    "demonlistRank": 711,
+    "name": "-",
+    "demonlistScore": 164.10499719746198
+  },
+  {
+    "demonlistRank": 712,
+    "name": "[USSR] kszhyä10ki",
+    "demonlistScore": 162.35466133569923
+  },
+  {
+    "demonlistRank": 713,
+    "name": "twopointd",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 714,
+    "name": "NectarineUwU",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 715,
+    "name": "Anileyy",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 716,
+    "name": "MrAlejandro",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 717,
+    "name": "Polixe",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 718,
+    "name": "Krieger717",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 719,
+    "name": "ZsolZEE",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 720,
+    "name": "Apfel",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 721,
+    "name": "nStep",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 722,
+    "name": "BBGameGuru",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 723,
+    "name": "Ordacan",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 724,
+    "name": "PostyGD",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 725,
+    "name": "Delta42",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 726,
+    "name": "ninetix",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 727,
+    "name": "itorio",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 728,
+    "name": "xRengokuGD",
+    "demonlistScore": 162.22276493171273
+  },
+  {
+    "demonlistRank": 729,
+    "name": "[BETON] Martin",
+    "demonlistScore": 161.5724627511703
+  },
+  {
+    "demonlistRank": 730,
+    "name": "BigMacGD",
+    "demonlistScore": 160.08221851042512
+  },
+  {
+    "demonlistRank": 731,
+    "name": "Ryclix",
+    "demonlistScore": 160.06282874839002
+  },
+  {
+    "demonlistRank": 732,
+    "name": "Amatsu",
+    "demonlistScore": 159.03768364905454
+  },
+  {
+    "demonlistRank": 733,
+    "name": "blobik",
+    "demonlistScore": 158.99453190957163
+  },
+  {
+    "demonlistRank": 734,
+    "name": "CJxCCVI",
+    "demonlistScore": 156.7932985336154
+  },
+  {
+    "demonlistRank": 735,
+    "name": "Giggle",
+    "demonlistScore": 156.73269862574435
+  },
+  {
+    "demonlistRank": 736,
+    "name": "[CNDL] Liternix",
+    "demonlistScore": 156.16542061533295
+  },
+  {
+    "demonlistRank": 737,
+    "name": "Matter",
+    "demonlistScore": 154.64839821450448
+  },
+  {
+    "demonlistRank": 738,
+    "name": "Xylitol",
+    "demonlistScore": 153.30475189505415
+  },
+  {
+    "demonlistRank": 739,
+    "name": "[DL] Acacia",
+    "demonlistScore": 153.02145570498695
+  },
+  {
+    "demonlistRank": 740,
+    "name": "SkyJax",
+    "demonlistScore": 152.72951296415218
+  },
+  {
+    "demonlistRank": 741,
+    "name": "xJuan98",
+    "demonlistScore": 152.72951296415218
+  },
+  {
+    "demonlistRank": 742,
+    "name": "Skarro",
+    "demonlistScore": 151.79293298654218
+  },
+  {
+    "demonlistRank": 743,
+    "name": "chloechu",
+    "demonlistScore": 150.6036499820678
+  },
+  {
+    "demonlistRank": 744,
+    "name": "[SCOOB] Zaphe",
+    "demonlistScore": 149.80871333727694
+  },
+  {
+    "demonlistRank": 745,
+    "name": "Pluntix",
+    "demonlistScore": 149.69019565616557
+  },
+  {
+    "demonlistRank": 746,
+    "name": "Freikz",
+    "demonlistScore": 149.69019565616557
+  },
+  {
+    "demonlistRank": 747,
+    "name": "Stefan",
+    "demonlistScore": 149.69019565616557
+  },
+  {
+    "demonlistRank": 748,
+    "name": "Drema",
+    "demonlistScore": 149.69019565616557
+  },
+  {
+    "demonlistRank": 749,
+    "name": "[MAFE] Moix",
+    "demonlistScore": 149.20756444789237
+  },
+  {
+    "demonlistRank": 750,
+    "name": "[SOS] Tendo",
+    "demonlistScore": 148.6240980337471
+  },
+  {
+    "demonlistRank": 751,
+    "name": "[YAHO] C4rin",
+    "demonlistScore": 147.75740220838765
+  },
+  {
+    "demonlistRank": 752,
+    "name": "Chayok",
+    "demonlistScore": 147.4830295168479
+  },
+  {
+    "demonlistRank": 753,
+    "name": "eliooenver",
+    "demonlistScore": 147.19373475594708
+  },
+  {
+    "demonlistRank": 754,
+    "name": "[TRZ] Ptiru",
+    "demonlistScore": 146.751178801271
+  },
+  {
+    "demonlistRank": 755,
+    "name": "[24hs] netsi",
+    "demonlistScore": 144.2296386188751
+  },
+  {
+    "demonlistRank": 756,
+    "name": "BreadGuyGD",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 757,
+    "name": "Hasik",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 758,
+    "name": "BlueGMD",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 759,
+    "name": "Reizz",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 760,
+    "name": "Sergalix",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 761,
+    "name": "Idkman232",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 762,
+    "name": "Zephal",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 763,
+    "name": "metis86",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 764,
+    "name": "szamle",
+    "demonlistScore": 143.79180468343193
+  },
+  {
+    "demonlistRank": 765,
+    "name": "Bua",
+    "demonlistScore": 142.9535851027262
+  },
+  {
+    "demonlistRank": 766,
+    "name": "benedikT",
+    "demonlistScore": 142.33029609197942
+  },
+  {
+    "demonlistRank": 767,
+    "name": "[PRIME]  BrutalSword107",
+    "demonlistScore": 141.76410827194334
+  },
+  {
+    "demonlistRank": 768,
+    "name": "[RF] Nitwose",
+    "demonlistScore": 141.72928011597403
+  },
+  {
+    "demonlistRank": 769,
+    "name": "[Ufff] Vitinho",
+    "demonlistScore": 141.57063759969304
+  },
+  {
+    "demonlistRank": 770,
+    "name": "blazenik",
+    "demonlistScore": 140.93034777023166
+  },
+  {
+    "demonlistRank": 771,
+    "name": "Buter",
+    "demonlistScore": 140.93034777023166
+  },
+  {
+    "demonlistRank": 772,
+    "name": "Wynder_ex",
+    "demonlistScore": 140.93034777023166
+  },
+  {
+    "demonlistRank": 773,
+    "name": "relpix",
+    "demonlistScore": 140.93034777023166
+  },
+  {
+    "demonlistRank": 774,
+    "name": "frostya.",
+    "demonlistScore": 140.93034777023166
+  },
+  {
+    "demonlistRank": 775,
+    "name": "Hyru1e",
+    "demonlistScore": 140.93034777023166
+  },
+  {
+    "demonlistRank": 776,
+    "name": "[USSR] ksojeweu",
+    "demonlistScore": 140.49139641628236
+  },
+  {
+    "demonlistRank": 777,
+    "name": "[RR] DuplicateSpark",
+    "demonlistScore": 140.1850752245415
+  },
+  {
+    "demonlistRank": 778,
+    "name": "[ABA] Riley",
+    "demonlistScore": 138.8256653950637
+  },
+  {
+    "demonlistRank": 779,
+    "name": "_blueberry",
+    "demonlistScore": 138.46462597709782
+  },
+  {
+    "demonlistRank": 780,
+    "name": "Nam13",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 781,
+    "name": "Bizer",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 782,
+    "name": "steelik",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 783,
+    "name": "TrueInverse",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 784,
+    "name": "C0mical",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 785,
+    "name": "aatosliina",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 786,
+    "name": "Ayana",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 787,
+    "name": "Внибрачьная Систренка Эйриле",
+    "demonlistScore": 138.12583384960402
+  },
+  {
+    "demonlistRank": 788,
+    "name": "ZeusGD",
+    "demonlistScore": 137.57212900442124
+  },
+  {
+    "demonlistRank": 789,
+    "name": "[GURT] HamsterPlayz",
+    "demonlistScore": 136.95106438436198
+  },
+  {
+    "demonlistRank": 790,
+    "name": "xoen",
+    "demonlistScore": 134.1254898617293
+  },
+  {
+    "demonlistRank": 791,
+    "name": "[IH82P] Astrala",
+    "demonlistScore": 132.05142662801725
+  },
+  {
+    "demonlistRank": 792,
+    "name": "[FOWL] ItsSkinn7Y",
+    "demonlistScore": 131.55464601287125
+  },
+  {
+    "demonlistRank": 793,
+    "name": "Rainstorm",
+    "demonlistScore": 131.1668126870502
+  },
+  {
+    "demonlistRank": 794,
+    "name": "ralex",
+    "demonlistScore": 130.04273068886292
+  },
+  {
+    "demonlistRank": 795,
+    "name": "SaltyGuy",
+    "demonlistScore": 130.04273068886292
+  },
+  {
+    "demonlistRank": 796,
+    "name": "Prograde",
+    "demonlistScore": 130.04273068886292
+  },
+  {
+    "demonlistRank": 797,
+    "name": "Krowsong",
+    "demonlistScore": 130.04273068886292
+  },
+  {
+    "demonlistRank": 798,
+    "name": "Brad",
+    "demonlistScore": 129.63747077117927
+  },
+  {
+    "demonlistRank": 799,
+    "name": "zYosh",
+    "demonlistScore": 129.1866969013668
+  },
+  {
+    "demonlistRank": 800,
+    "name": "[OOSS] zJannis",
+    "demonlistScore": 128.86394855546365
+  },
+  {
+    "demonlistRank": 801,
+    "name": "[EVIL] nemzie",
+    "demonlistScore": 128.4839892246585
+  },
+  {
+    "demonlistRank": 802,
+    "name": "ultrakawaHD",
+    "demonlistScore": 128.38127685860397
+  },
+  {
+    "demonlistRank": 803,
+    "name": "Abloxite",
+    "demonlistScore": 127.7923185044134
+  },
+  {
+    "demonlistRank": 804,
+    "name": "TheJaco9",
+    "demonlistScore": 127.45488034815453
+  },
+  {
+    "demonlistRank": 805,
+    "name": "[YAHO] Sovereign",
+    "demonlistScore": 126.91875533267847
+  },
+  {
+    "demonlistRank": 806,
+    "name": "NIIIIIIIICO",
+    "demonlistScore": 126.7049466979691
+  },
+  {
+    "demonlistRank": 807,
+    "name": "CreatorRiley",
+    "demonlistScore": 125.95076859997658
+  },
+  {
+    "demonlistRank": 808,
+    "name": "jasonyes",
+    "demonlistScore": 125.41519790132567
+  },
+  {
+    "demonlistRank": 809,
+    "name": "strayW",
+    "demonlistScore": 125.15240619142878
+  },
+  {
+    "demonlistRank": 810,
+    "name": "EYEYEULE",
+    "demonlistScore": 124.91852822922625
+  },
+  {
+    "demonlistRank": 811,
+    "name": "Kir1lkata",
+    "demonlistScore": 124.91852822922625
+  },
+  {
+    "demonlistRank": 812,
+    "name": "Airez",
+    "demonlistScore": 124.91852822922625
+  },
+  {
+    "demonlistRank": 813,
+    "name": "ByteLaww",
+    "demonlistScore": 124.91852822922625
+  },
+  {
+    "demonlistRank": 814,
+    "name": "[KCK] Fabricorn",
+    "demonlistScore": 123.15697546217882
+  },
+  {
+    "demonlistRank": 815,
+    "name": "LCotton",
+    "demonlistScore": 122.43264951746464
+  },
+  {
+    "demonlistRank": 816,
+    "name": "Mario-07",
+    "demonlistScore": 122.43264951746464
+  },
+  {
+    "demonlistRank": 817,
+    "name": "Hyperlith",
+    "demonlistScore": 122.43264951746464
+  },
+  {
+    "demonlistRank": 818,
+    "name": "Wurstwasser",
+    "demonlistScore": 122.43264951746464
+  },
+  {
+    "demonlistRank": 819,
+    "name": "[SOGGY] Customize45",
+    "demonlistScore": 120.72510403432392
+  },
+  {
+    "demonlistRank": 820,
+    "name": "Tyreek Bigs",
+    "demonlistScore": 120.60421551682882
+  },
+  {
+    "demonlistRank": 821,
+    "name": "[meow] fox binch",
+    "demonlistScore": 120.02880724213122
+  },
+  {
+    "demonlistRank": 822,
+    "name": "[HOLA] Jtarin",
+    "demonlistScore": 118.28919058832352
+  },
+  {
+    "demonlistRank": 823,
+    "name": "Nisha",
+    "demonlistScore": 117.60831462020496
+  },
+  {
+    "demonlistRank": 824,
+    "name": "ItzSpecial",
+    "demonlistScore": 117.60831462020496
+  },
+  {
+    "demonlistRank": 825,
+    "name": "Almier",
+    "demonlistScore": 117.60831462020496
+  },
+  {
+    "demonlistRank": 826,
+    "name": "arkanite",
+    "demonlistScore": 117.60831462020496
+  },
+  {
+    "demonlistRank": 827,
+    "name": "XBelugaX",
+    "demonlistScore": 116.92803007739221
+  },
+  {
+    "demonlistRank": 828,
+    "name": "LanLiangator",
+    "demonlistScore": 116.60399055150184
+  },
+  {
+    "demonlistRank": 829,
+    "name": "Penguinman2200",
+    "demonlistScore": 116.41293660389798
+  },
+  {
+    "demonlistRank": 830,
+    "name": "zShuriken",
+    "demonlistScore": 115.48371880802887
+  },
+  {
+    "demonlistRank": 831,
+    "name": "Grey749",
+    "demonlistScore": 115.4099196448889
+  },
+  {
+    "demonlistRank": 832,
+    "name": "[MEALY] GD cripz",
+    "demonlistScore": 115.29919332185034
+  },
+  {
+    "demonlistRank": 833,
+    "name": "Shmo",
+    "demonlistScore": 115.26790915926287
+  },
+  {
+    "demonlistRank": 834,
+    "name": "Gopsiur",
+    "demonlistScore": 115.26790915926287
+  },
+  {
+    "demonlistRank": 835,
+    "name": "sharkwave31",
+    "demonlistScore": 115.23615842778966
+  },
+  {
+    "demonlistRank": 836,
+    "name": "Harhir",
+    "demonlistScore": 114.80583484617624
+  },
+  {
+    "demonlistRank": 837,
+    "name": "[AXYB] birii",
+    "demonlistScore": 114.60175385488023
+  },
+  {
+    "demonlistRank": 838,
+    "name": "aether",
+    "demonlistScore": 113.79522161906652
+  },
+  {
+    "demonlistRank": 839,
+    "name": "RunT",
+    "demonlistScore": 113.34552655427908
+  },
+  {
+    "demonlistRank": 840,
+    "name": "[20er] RealPokeGamer",
+    "demonlistScore": 113.03948570492655
+  },
+  {
+    "demonlistRank": 841,
+    "name": "[OOSS] BartaviousBaseball4",
+    "demonlistScore": 113.03948570492655
+  },
+  {
+    "demonlistRank": 842,
+    "name": "[TACSO] Teyyo",
+    "demonlistScore": 113.03948570492655
+  },
+  {
+    "demonlistRank": 843,
+    "name": "kobbob7",
+    "demonlistScore": 112.97407776699355
+  },
+  {
+    "demonlistRank": 844,
+    "name": "Deshae",
+    "demonlistScore": 112.97407776699355
+  },
+  {
+    "demonlistRank": 845,
+    "name": "Demented",
+    "demonlistScore": 112.3730394224685
+  },
+  {
+    "demonlistRank": 846,
+    "name": "ImFeelingGreen",
+    "demonlistScore": 112.11704769289534
+  },
+  {
+    "demonlistRank": 847,
+    "name": "Johnfree",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 848,
+    "name": "Squinset",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 849,
+    "name": "CHANGMOON",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 850,
+    "name": "poteryashka",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 851,
+    "name": "Zawy",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 852,
+    "name": "Gravitorix",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 853,
+    "name": "mella",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 854,
+    "name": "alzasonki",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 855,
+    "name": "Trenonicle",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 856,
+    "name": "Zylaku",
+    "demonlistScore": 110.72589361943037
+  },
+  {
+    "demonlistRank": 857,
+    "name": "Almohadaless",
+    "demonlistScore": 109.92222139266127
+  },
+  {
+    "demonlistRank": 858,
+    "name": "[JUICE] iXope",
+    "demonlistScore": 109.15072302354857
+  },
+  {
+    "demonlistRank": 859,
+    "name": "Wooshi",
+    "demonlistScore": 108.97411758521504
+  },
+  {
+    "demonlistRank": 860,
+    "name": "CoffeeChips",
+    "demonlistScore": 108.5224483364037
+  },
+  {
+    "demonlistRank": 861,
+    "name": "V3ncho",
+    "demonlistScore": 108.5224483364037
+  },
+  {
+    "demonlistRank": 862,
+    "name": "Lonhi",
+    "demonlistScore": 108.5224483364037
+  },
+  {
+    "demonlistRank": 863,
+    "name": "Frozix",
+    "demonlistScore": 108.5224483364037
+  },
+  {
+    "demonlistRank": 864,
+    "name": "ywuChaos",
+    "demonlistScore": 108.5224483364037
+  },
+  {
+    "demonlistRank": 865,
+    "name": "[EDM] Insurgentes54",
+    "demonlistScore": 108.32025328683422
+  },
+  {
+    "demonlistRank": 866,
+    "name": "supahant",
+    "demonlistScore": 107.51909551007135
+  },
+  {
+    "demonlistRank": 867,
+    "name": "[QOG] maxidlo147",
+    "demonlistScore": 107.42390370585346
+  },
+  {
+    "demonlistRank": 868,
+    "name": "eternalluna",
+    "demonlistScore": 107.41941961402065
+  },
+  {
+    "demonlistRank": 869,
+    "name": "wistful",
+    "demonlistScore": 106.36285161450925
+  },
+  {
+    "demonlistRank": 870,
+    "name": "Wooshify",
+    "demonlistScore": 106.36285161450925
+  },
+  {
+    "demonlistRank": 871,
+    "name": "[YN] XaldzGD",
+    "demonlistScore": 105.91544791123684
+  },
+  {
+    "demonlistRank": 872,
+    "name": "Latko",
+    "demonlistScore": 105.62642260079768
+  },
+  {
+    "demonlistRank": 873,
+    "name": "[YSTA] kekchungle44",
+    "demonlistScore": 104.59039364755175
+  },
+  {
+    "demonlistRank": 874,
+    "name": "freedom",
+    "demonlistScore": 104.24623086738052
+  },
+  {
+    "demonlistRank": 875,
+    "name": "[KIRB] foody",
+    "demonlistScore": 104.07289639010446
+  },
+  {
+    "demonlistRank": 876,
+    "name": "[TARIQ] Billzer",
+    "demonlistScore": 103.64377195092483
+  },
+  {
+    "demonlistRank": 877,
+    "name": "BlakeJM",
+    "demonlistScore": 103.50378639139706
+  },
+  {
+    "demonlistRank": 878,
+    "name": "[S9] Pablohh",
+    "demonlistScore": 103.50378639139706
+  },
+  {
+    "demonlistRank": 879,
+    "name": "Kapinapi",
+    "demonlistScore": 103.01145011566388
+  },
+  {
+    "demonlistRank": 880,
+    "name": "The Rykinator",
+    "demonlistScore": 102.19946068156148
+  },
+  {
+    "demonlistRank": 881,
+    "name": "Karawii",
+    "demonlistScore": 102.17173087311964
+  },
+  {
+    "demonlistRank": 882,
+    "name": "grantalini",
+    "demonlistScore": 102.17173087311964
+  },
+  {
+    "demonlistRank": 883,
+    "name": "tea",
+    "demonlistScore": 102.17173087311964
+  },
+  {
+    "demonlistRank": 884,
+    "name": "Polyqueseraine",
+    "demonlistScore": 102.17173087311964
+  },
+  {
+    "demonlistRank": 885,
+    "name": "Shroderling",
+    "demonlistScore": 102.17173087311964
+  },
+  {
+    "demonlistRank": 886,
+    "name": "M1nerB0ss",
+    "demonlistScore": 102.17173087311964
+  },
+  {
+    "demonlistRank": 887,
+    "name": "[KIRB] Lilaaay",
+    "demonlistScore": 101.44406104220826
+  },
+  {
+    "demonlistRank": 888,
+    "name": "[CG] Glungus",
+    "demonlistScore": 101.11366625961469
+  },
+  {
+    "demonlistRank": 889,
+    "name": "aquariusy",
+    "demonlistScore": 100.13851342874456
+  },
+  {
+    "demonlistRank": 890,
+    "name": "flamongo",
+    "demonlistScore": 100.13851342874456
+  },
+  {
+    "demonlistRank": 891,
+    "name": "ywe",
+    "demonlistScore": 99.2850591847137
+  },
+  {
+    "demonlistRank": 892,
+    "name": "th13teen",
+    "demonlistScore": 98.64302457468585
+  },
+  {
+    "demonlistRank": 893,
+    "name": "NuvoGD",
+    "demonlistScore": 98.14575701151254
+  },
+  {
+    "demonlistRank": 894,
+    "name": "Ninde",
+    "demonlistScore": 98.14575701151254
+  },
+  {
+    "demonlistRank": 895,
+    "name": "fxpusphire",
+    "demonlistScore": 98.14575701151254
+  },
+  {
+    "demonlistRank": 896,
+    "name": "Vankley",
+    "demonlistScore": 98.14575701151254
+  },
+  {
+    "demonlistRank": 897,
+    "name": "SebasLopez",
+    "demonlistScore": 98.12473760249664
+  },
+  {
+    "demonlistRank": 898,
+    "name": "Hexeract",
+    "demonlistScore": 98.09572387502347
+  },
+  {
+    "demonlistRank": 899,
+    "name": "YeldA",
+    "demonlistScore": 97.23834270046817
+  },
+  {
+    "demonlistRank": 900,
+    "name": "Maseh",
+    "demonlistScore": 96.19265644698343
+  },
+  {
+    "demonlistRank": 901,
+    "name": "TunDHra",
+    "demonlistScore": 96.19265644698343
+  },
+  {
+    "demonlistRank": 902,
+    "name": "[S9] MinYong",
+    "demonlistScore": 95.9712612642439
+  },
+  {
+    "demonlistRank": 903,
+    "name": "NitrosHigh",
+    "demonlistScore": 95.37283170544984
+  },
+  {
+    "demonlistRank": 904,
+    "name": "qxwr",
+    "demonlistScore": 94.27842258368847
+  },
+  {
+    "demonlistRank": 905,
+    "name": "[MERWO] bigfat",
+    "demonlistScore": 92.48881944009858
+  },
+  {
+    "demonlistRank": 906,
+    "name": "[PAWS] KittyGoesMeow",
+    "demonlistScore": 92.4525172907371
+  },
+  {
+    "demonlistRank": 907,
+    "name": "Cewew",
+    "demonlistScore": 92.41415453077072
+  },
+  {
+    "demonlistRank": 908,
+    "name": "zesorqe1",
+    "demonlistScore": 92.40228197427307
+  },
+  {
+    "demonlistRank": 909,
+    "name": "Freddy3",
+    "demonlistScore": 91.86779727945606
+  },
+  {
+    "demonlistRank": 910,
+    "name": "[DTC] tria",
+    "demonlistScore": 91.86779727945606
+  },
+  {
+    "demonlistRank": 911,
+    "name": "[RF] BryceTheBest",
+    "demonlistScore": 91.86779727945606
+  },
+  {
+    "demonlistRank": 912,
+    "name": "NicolasDaBoss",
+    "demonlistScore": 91.79402440391358
+  },
+  {
+    "demonlistRank": 913,
+    "name": "hazelmrow",
+    "demonlistScore": 90.56347656298502
+  },
+  {
+    "demonlistRank": 914,
+    "name": "Chrisuhan",
+    "demonlistScore": 90.56347656298502
+  },
+  {
+    "demonlistRank": 915,
+    "name": "AthenaFloof",
+    "demonlistScore": 90.2490008480333
+  },
+  {
+    "demonlistRank": 916,
+    "name": "[IH82P] MeowMasterer",
+    "demonlistScore": 89.81143504077026
+  },
+  {
+    "demonlistRank": 917,
+    "name": "pcklkng",
+    "demonlistScore": 89.11417361778014
+  },
+  {
+    "demonlistRank": 918,
+    "name": "bnuuy",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 919,
+    "name": "yolettuce",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 920,
+    "name": "kane",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 921,
+    "name": "ChiefKeefSosaGD",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 922,
+    "name": "Lilbro334",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 923,
+    "name": "Azlyni",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 924,
+    "name": "Ares",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 925,
+    "name": "Pimpolluelo_",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 926,
+    "name": "Cewz",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 927,
+    "name": "ObvV0ID",
+    "demonlistScore": 88.76126337938162
+  },
+  {
+    "demonlistRank": 928,
+    "name": "Willo",
+    "demonlistScore": 86.99491423813193
+  },
+  {
+    "demonlistRank": 929,
+    "name": "[DL] Blitzer",
+    "demonlistScore": 86.4546745342117
+  },
+  {
+    "demonlistRank": 930,
+    "name": "Zachiechan",
+    "demonlistScore": 85.2637154447931
+  },
+  {
+    "demonlistRank": 931,
+    "name": "Chattative",
+    "demonlistScore": 85.2637154447931
+  },
+  {
+    "demonlistRank": 932,
+    "name": "minusPetar",
+    "demonlistScore": 85.2637154447931
+  },
+  {
+    "demonlistRank": 933,
+    "name": "JaxSmack",
+    "demonlistScore": 85.2637154447931
+  },
+  {
+    "demonlistRank": 934,
+    "name": "1GMitzy",
+    "demonlistScore": 84.90506295037689
+  },
+  {
+    "demonlistRank": 935,
+    "name": "[GHOST] Lemiz",
+    "demonlistScore": 84.06135950929162
+  },
+  {
+    "demonlistRank": 936,
+    "name": "Hypno",
+    "demonlistScore": 83.84172831409144
+  },
+  {
+    "demonlistRank": 937,
+    "name": "Ozzy",
+    "demonlistScore": 83.56696750744172
+  },
+  {
+    "demonlistRank": 938,
+    "name": "Dils thik",
+    "demonlistScore": 83.56696750744172
+  },
+  {
+    "demonlistRank": 939,
+    "name": "ItsPlus824",
+    "demonlistScore": 83.56696750744172
+  },
+  {
+    "demonlistRank": 940,
+    "name": "Zekidash [PR]",
+    "demonlistScore": 82.37815587809368
+  },
+  {
+    "demonlistRank": 941,
+    "name": "Samuuu18",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 942,
+    "name": "inevitable27",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 943,
+    "name": "Karasurtwitch",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 944,
+    "name": "Samamba",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 945,
+    "name": "YourLocalGOAT",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 946,
+    "name": "Ekskriptn",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 947,
+    "name": "MiOteK",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 948,
+    "name": "Bassidy",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 949,
+    "name": "Evesoon",
+    "demonlistScore": 81.90398485404363
+  },
+  {
+    "demonlistRank": 950,
+    "name": "[TSC] Rilso",
+    "demonlistScore": 81.36453420692892
+  },
+  {
+    "demonlistRank": 951,
+    "name": "[TETO] vapidf",
+    "demonlistScore": 81.34974215153797
+  },
+  {
+    "demonlistRank": 952,
+    "name": "Lundthedog",
+    "demonlistScore": 80.27409555544816
+  },
+  {
+    "demonlistRank": 953,
+    "name": "AeonAir",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 954,
+    "name": "Jenkshouse1",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 955,
+    "name": "Paip",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 956,
+    "name": "JustJohn",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 957,
+    "name": "Circle",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 958,
+    "name": "NaNsor29",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 959,
+    "name": "timmyidkr",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 960,
+    "name": "McCoco",
+    "demonlistScore": 78.67664105389473
+  },
+  {
+    "demonlistRank": 961,
+    "name": "저능저능열매능력자",
+    "demonlistScore": 78.11630388819223
+  },
+  {
+    "demonlistRank": 962,
+    "name": "gecko",
+    "demonlistScore": 77.18319260303463
+  },
+  {
+    "demonlistRank": 963,
+    "name": "[KEVIN] runi",
+    "demonlistScore": 77.18319260303463
+  },
+  {
+    "demonlistRank": 964,
+    "name": "[JCR] animized",
+    "demonlistScore": 77.18319260303463
+  },
+  {
+    "demonlistRank": 965,
+    "name": "[67] Hypa",
+    "demonlistScore": 77.18319260303463
+  },
+  {
+    "demonlistRank": 966,
+    "name": "Zytrox",
+    "demonlistScore": 77.11097589692223
+  },
+  {
+    "demonlistRank": 967,
+    "name": "GDLNB",
+    "demonlistScore": 77.11097589692223
+  },
+  {
+    "demonlistRank": 968,
+    "name": "CSM",
+    "demonlistScore": 75.57646747657347
+  },
+  {
+    "demonlistRank": 969,
+    "name": "MTX",
+    "demonlistScore": 75.57646747657347
+  },
+  {
+    "demonlistRank": 970,
+    "name": "Todd",
+    "demonlistScore": 75.57646747657347
+  },
+  {
+    "demonlistRank": 971,
+    "name": "Superflitzer123",
+    "demonlistScore": 75.57646747657347
+  },
+  {
+    "demonlistRank": 972,
+    "name": "falloostic",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 973,
+    "name": "CursedCat",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 974,
+    "name": "mike.",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 975,
+    "name": "davi",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 976,
+    "name": "cyslake",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 977,
+    "name": "insert cringe",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 978,
+    "name": "Yoshikid",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 979,
+    "name": "ExtremeO",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 980,
+    "name": "Sangalchi",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 981,
+    "name": "LinelTheKnight",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 982,
+    "name": "EffectedFish",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 983,
+    "name": "Zaaforus",
+    "demonlistScore": 74.07249577378965
+  },
+  {
+    "demonlistRank": 984,
+    "name": "ADecentUsername",
+    "demonlistScore": 72.72069972354466
+  },
+  {
+    "demonlistRank": 985,
+    "name": "telepracity",
+    "demonlistScore": 72.59845310789123
+  },
+  {
+    "demonlistRank": 986,
+    "name": "okthen5",
+    "demonlistScore": 72.59845310789123
+  },
+  {
+    "demonlistRank": 987,
+    "name": "WhiteEmerald",
+    "demonlistScore": 71.73853547100256
+  },
+  {
+    "demonlistRank": 988,
+    "name": "Radium",
+    "demonlistScore": 71.1537438910442
+  },
+  {
+    "demonlistRank": 989,
+    "name": "basbas1234",
+    "demonlistScore": 71.1537438910442
+  },
+  {
+    "demonlistRank": 990,
+    "name": "parker",
+    "demonlistScore": 71.1537438910442
+  },
+  {
+    "demonlistRank": 991,
+    "name": "lucy",
+    "demonlistScore": 71.1537438910442
+  },
+  {
+    "demonlistRank": 992,
+    "name": "Lola",
+    "demonlistScore": 71.11747085094332
+  },
+  {
+    "demonlistRank": 993,
+    "name": "[YSTA] lolwut",
+    "demonlistScore": 70.85888081795687
+  },
+  {
+    "demonlistRank": 994,
+    "name": "Ptyw",
+    "demonlistScore": 70.16137580566374
+  },
+  {
+    "demonlistRank": 995,
+    "name": "TNNG",
+    "demonlistScore": 69.73778438761242
+  },
+  {
+    "demonlistRank": 996,
+    "name": "jaozitu",
+    "demonlistScore": 69.73778438761242
+  },
+  {
+    "demonlistRank": 997,
+    "name": "hibachidefect",
+    "demonlistScore": 69.73778438761242
+  },
+  {
+    "demonlistRank": 998,
+    "name": "Prmak",
+    "demonlistScore": 69.73778438761242
+  },
+  {
+    "demonlistRank": 999,
+    "name": "TopzeraYT",
+    "demonlistScore": 69.73778438761242
+  },
+  {
+    "demonlistRank": 1000,
+    "name": "DonkGMD",
+    "demonlistScore": 68.35000247829893
+  },
+  {
+    "demonlistRank": 1001,
+    "name": "KneeVan",
+    "demonlistScore": 68.35000247829893
+  },
+  {
+    "demonlistRank": 1002,
+    "name": "Mithrand",
+    "demonlistScore": 68.35000247829893
+  },
+  {
+    "demonlistRank": 1003,
+    "name": "Pulse",
+    "demonlistScore": 67.2421472917968
+  },
+  {
+    "demonlistRank": 1004,
+    "name": "WatchPiggy",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1005,
+    "name": "Hollin",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1006,
+    "name": "MerkyB2",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1007,
+    "name": "sleyy",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1008,
+    "name": "Elinore",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1009,
+    "name": "ado",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1010,
+    "name": "temoofgod",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1011,
+    "name": "Starlite",
+    "demonlistScore": 66.98983742898078
+  },
+  {
+    "demonlistRank": 1012,
+    "name": "mybeloved",
+    "demonlistScore": 65.65673966414407
+  },
+  {
+    "demonlistRank": 1013,
+    "name": "NazCompgames",
+    "demonlistScore": 65.65673966414407
+  },
+  {
+    "demonlistRank": 1014,
+    "name": "xteryan",
+    "demonlistScore": 65.65673966414407
+  },
+  {
+    "demonlistRank": 1015,
+    "name": "BurritoBryton",
+    "demonlistScore": 65.65673966414407
+  },
+  {
+    "demonlistRank": 1016,
+    "name": "plimbus",
+    "demonlistScore": 65.65673966414407
+  },
+  {
+    "demonlistRank": 1017,
+    "name": "Will",
+    "demonlistScore": 65.09716451970709
+  },
+  {
+    "demonlistRank": 1018,
+    "name": "ShadowGao",
+    "demonlistScore": 64.7227163534279
+  },
+  {
+    "demonlistRank": 1019,
+    "name": "Volplay",
+    "demonlistScore": 64.7227163534279
+  },
+  {
+    "demonlistRank": 1020,
+    "name": "Alpha Ary",
+    "demonlistScore": 64.35017054482759
+  },
+  {
+    "demonlistRank": 1021,
+    "name": "kula",
+    "demonlistScore": 64.35017054482759
+  },
+  {
+    "demonlistRank": 1022,
+    "name": "VinniboyGD",
+    "demonlistScore": 64.35017054482759
+  },
+  {
+    "demonlistRank": 1023,
+    "name": "Skyb4g",
+    "demonlistScore": 64.35017054482759
+  },
+  {
+    "demonlistRank": 1024,
+    "name": "Pouche",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1025,
+    "name": "Birb",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1026,
+    "name": "Sam1yd",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1027,
+    "name": "play4funplus",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1028,
+    "name": "Angel",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1029,
+    "name": "FelipeNeto",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1030,
+    "name": "Naxrin",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1031,
+    "name": "Kallical",
+    "demonlistScore": 63.06960215098552
+  },
+  {
+    "demonlistRank": 1032,
+    "name": "kasiaUwU",
+    "demonlistScore": 62.43116490729993
+  },
+  {
+    "demonlistRank": 1033,
+    "name": "UnTypoRandom",
+    "demonlistScore": 61.814517068180905
+  },
+  {
+    "demonlistRank": 1034,
+    "name": "bopsi",
+    "demonlistScore": 61.814517068180905
+  },
+  {
+    "demonlistRank": 1035,
+    "name": "Cosmik7",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1036,
+    "name": "Thonyell",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1037,
+    "name": "FantasticGime",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1038,
+    "name": "FloofiWan",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1039,
+    "name": "GDRed",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1040,
+    "name": "Enderloning",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1041,
+    "name": "Arial",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1042,
+    "name": "goobs",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1043,
+    "name": "Zunexi",
+    "demonlistScore": 60.58440817852411
+  },
+  {
+    "demonlistRank": 1044,
+    "name": "Fossa",
+    "demonlistScore": 59.378778455771474
+  },
+  {
+    "demonlistRank": 1045,
+    "name": "?!zob",
+    "demonlistScore": 59.378778455771474
+  },
+  {
+    "demonlistRank": 1046,
+    "name": "gu5",
+    "demonlistScore": 59.378778455771474
+  },
+  {
+    "demonlistRank": 1047,
+    "name": "estorm",
+    "demonlistScore": 59.378778455771474
+  },
+  {
+    "demonlistRank": 1048,
+    "name": "zPifoxo",
+    "demonlistScore": 59.378778455771474
+  },
+  {
+    "demonlistRank": 1049,
+    "name": "Iceblivionx",
+    "demonlistScore": 58.675445854798014
+  },
+  {
+    "demonlistRank": 1050,
+    "name": "stardream999",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1051,
+    "name": "GeoDasher36",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1052,
+    "name": "Plus0ne",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1053,
+    "name": "FarrSec",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1054,
+    "name": "Tay",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1055,
+    "name": "UFWM",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1056,
+    "name": "aniwuu",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1057,
+    "name": "zGod",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1058,
+    "name": "AlejandroGD",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1059,
+    "name": "lukz715",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1060,
+    "name": "UltravioletRS",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1061,
+    "name": "BlackEye23",
+    "demonlistScore": 58.197140764501626
+  },
+  {
+    "demonlistRank": 1062,
+    "name": "Atomic",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1063,
+    "name": "Nyan Cat",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1064,
+    "name": "Sparky",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1065,
+    "name": "D A G",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1066,
+    "name": "Modamer",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1067,
+    "name": "Beanstalk",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1068,
+    "name": "zed",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1069,
+    "name": "Bobssy",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1070,
+    "name": "Griffin128",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1071,
+    "name": "bdoo",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1072,
+    "name": "Razlan",
+    "demonlistScore": 57.039017663288035
+  },
+  {
+    "demonlistRank": 1073,
+    "name": "GMDomy",
+    "demonlistScore": 55.9039412117886
+  },
+  {
+    "demonlistRank": 1074,
+    "name": "Incoromi",
+    "demonlistScore": 55.9039412117886
+  },
+  {
+    "demonlistRank": 1075,
+    "name": "mestupid",
+    "demonlistScore": 55.9039412117886
+  },
+  {
+    "demonlistRank": 1076,
+    "name": "gxmd",
+    "demonlistScore": 55.9039412117886
+  },
+  {
+    "demonlistRank": 1077,
+    "name": "Heretoghw",
+    "demonlistScore": 55.9039412117886
+  },
+  {
+    "demonlistRank": 1078,
+    "name": "Hubertos",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1079,
+    "name": "BusinessSheep",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1080,
+    "name": "qd1m",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1081,
+    "name": "KarimuKaritoons",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1082,
+    "name": "Kafpu",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1083,
+    "name": "VooBu",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1084,
+    "name": "Polar Bear on the Bingak",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1085,
+    "name": "Lukrasz",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1086,
+    "name": "MateleQ",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1087,
+    "name": "dids",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1088,
+    "name": "JoogstarGD",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1089,
+    "name": "brightboi",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1090,
+    "name": "blue_orbe",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1091,
+    "name": "Nxbulah",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1092,
+    "name": "RPT29",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1093,
+    "name": "FuzioN2004",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1094,
+    "name": "Brian_Cheese",
+    "demonlistScore": 54.79145278167401
+  },
+  {
+    "demonlistRank": 1095,
+    "name": "[FAX] GDBatle1",
+    "demonlistScore": 54.776360387641816
+  },
+  {
+    "demonlistRank": 1096,
+    "name": "[IH82P] Skello",
+    "demonlistScore": 53.68631081592774
+  },
+  {
+    "demonlistRank": 1097,
+    "name": "[DOUD] Because_im_lulu",
+    "demonlistScore": 53.68631081592774
+  },
+  {
+    "demonlistRank": 1098,
+    "name": "whitepoop",
+    "demonlistScore": 52.63245092417945
+  },
+  {
+    "demonlistRank": 1099,
+    "name": "organseller",
+    "demonlistScore": 52.63245092417945
+  },
+  {
+    "demonlistRank": 1100,
+    "name": "ItsOverLoadYT",
+    "demonlistScore": 51.585065150788274
+  },
+  {
+    "demonlistRank": 1101,
+    "name": "ElohmroW",
+    "demonlistScore": 51.585065150788274
+  },
+  {
+    "demonlistRank": 1102,
+    "name": "NLShorty",
+    "demonlistScore": 51.585065150788274
+  },
+  {
+    "demonlistRank": 1103,
+    "name": "BurningBanana2",
+    "demonlistScore": 51.585065150788274
+  },
+  {
+    "demonlistRank": 1104,
+    "name": "Nimbus",
+    "demonlistScore": 50.55852235428759
+  },
+  {
+    "demonlistRank": 1105,
+    "name": "Fenix",
+    "demonlistScore": 50.55852235428759
+  },
+  {
+    "demonlistRank": 1106,
+    "name": "XtremeK",
+    "demonlistScore": 50.55852235428759
+  },
+  {
+    "demonlistRank": 1107,
+    "name": "DrexX16",
+    "demonlistScore": 50.55852235428759
+  },
+  {
+    "demonlistRank": 1108,
+    "name": "n1ckxd",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1109,
+    "name": "Aphelix",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1110,
+    "name": "Traitor",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1111,
+    "name": "Kuroshika",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1112,
+    "name": "ALIK032",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1113,
+    "name": "zBytrif",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1114,
+    "name": "Spitskool",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1115,
+    "name": "AstralNova",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1116,
+    "name": "Mixasuspa",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1117,
+    "name": "Heqpop",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1118,
+    "name": "TotallyNoHakss",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1119,
+    "name": "zRickyy",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1120,
+    "name": "сергей иванович",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1121,
+    "name": "SashaKray",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1122,
+    "name": "JustYop",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1123,
+    "name": "hyperboll",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1124,
+    "name": "Arise",
+    "demonlistScore": 49.552407759437266
+  },
+  {
+    "demonlistRank": 1125,
+    "name": "xaern",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1126,
+    "name": "asdsdvb",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1127,
+    "name": "North",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1128,
+    "name": "Понижающий коэффициент",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1129,
+    "name": "Akuriserv",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1130,
+    "name": "audo;pi",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1131,
+    "name": "Luminala",
+    "demonlistScore": 48.56631484502446
+  },
+  {
+    "demonlistRank": 1132,
+    "name": "BlackMG",
+    "demonlistScore": 47.599845179608465
+  },
+  {
+    "demonlistRank": 1133,
+    "name": "Kuiper1",
+    "demonlistScore": 47.599845179608465
+  },
+  {
+    "demonlistRank": 1134,
+    "name": "mrsadface82",
+    "demonlistScore": 47.599845179608465
+  },
+  {
+    "demonlistRank": 1135,
+    "name": "Zagros",
+    "demonlistScore": 47.599845179608465
+  },
+  {
+    "demonlistRank": 1136,
+    "name": "nac",
+    "demonlistScore": 47.599845179608465
+  },
+  {
+    "demonlistRank": 1137,
+    "name": "SwordBx",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1138,
+    "name": "AndUhHalf",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1139,
+    "name": "Luc1d",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1140,
+    "name": "NicoFranco",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1141,
+    "name": "Geiser",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1142,
+    "name": "Fakeey",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1143,
+    "name": "Tivu",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1144,
+    "name": "LLoom",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1145,
+    "name": "Manugrk",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1146,
+    "name": "LittleRoi",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1147,
+    "name": "tteokk",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1148,
+    "name": "Shira",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1149,
+    "name": "bigdawg22",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1150,
+    "name": "Luna",
+    "demonlistScore": 46.65260826053426
+  },
+  {
+    "demonlistRank": 1151,
+    "name": "Lia",
+    "demonlistScore": 45.724221356149634
+  },
+  {
+    "demonlistRank": 1152,
+    "name": "Jack0kcaj",
+    "demonlistScore": 45.724221356149634
+  },
+  {
+    "demonlistRank": 1153,
+    "name": "Chess_Gatos",
+    "demonlistScore": 45.724221356149634
+  },
+  {
+    "demonlistRank": 1154,
+    "name": "Vintener",
+    "demonlistScore": 44.81430935116225
+  },
+  {
+    "demonlistRank": 1155,
+    "name": "lappwv",
+    "demonlistScore": 44.81430935116225
+  },
+  {
+    "demonlistRank": 1156,
+    "name": "Zupreme",
+    "demonlistScore": 44.81430935116225
+  },
+  {
+    "demonlistRank": 1157,
+    "name": "chattey",
+    "demonlistScore": 44.81430935116225
+  },
+  {
+    "demonlistRank": 1158,
+    "name": "GalaxyGD",
+    "demonlistScore": 44.81430935116225
+  },
+  {
+    "demonlistRank": 1159,
+    "name": "Vink",
+    "demonlistScore": 43.92250459507412
+  },
+  {
+    "demonlistRank": 1160,
+    "name": "pa1nful",
+    "demonlistScore": 43.92250459507412
+  },
+  {
+    "demonlistRank": 1161,
+    "name": "KubeczekTV",
+    "demonlistScore": 43.92250459507412
+  },
+  {
+    "demonlistRank": 1162,
+    "name": "nRed",
+    "demonlistScore": 43.92250459507412
+  },
+  {
+    "demonlistRank": 1163,
+    "name": "ImaGDChris2K18",
+    "demonlistScore": 43.92250459507412
+  },
+  {
+    "demonlistRank": 1164,
+    "name": "ohohhhooooooohhhhhhhhhwow",
+    "demonlistScore": 43.04844675363215
+  },
+  {
+    "demonlistRank": 1165,
+    "name": "DENNIS3465",
+    "demonlistScore": 43.04844675363215
+  },
+  {
+    "demonlistRank": 1166,
+    "name": "teamsbeta",
+    "demonlistScore": 43.04844675363215
+  },
+  {
+    "demonlistRank": 1167,
+    "name": "lio3527",
+    "demonlistScore": 43.04844675363215
+  },
+  {
+    "demonlistRank": 1168,
+    "name": "Cooliguess",
+    "demonlistScore": 42.19178266323487
+  },
+  {
+    "demonlistRank": 1169,
+    "name": "neons",
+    "demonlistScore": 42.19178266323487
+  },
+  {
+    "demonlistRank": 1170,
+    "name": "Capamari",
+    "demonlistScore": 41.35216618823649
+  },
+  {
+    "demonlistRank": 1171,
+    "name": "riift",
+    "demonlistScore": 41.35216618823649
+  },
+  {
+    "demonlistRank": 1172,
+    "name": "unknowntrashname",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1173,
+    "name": "TraysonGMD",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1174,
+    "name": "Edorver",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1175,
+    "name": "whitelime",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1176,
+    "name": "DrWhoKnowsWhat",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1177,
+    "name": "Firework",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1178,
+    "name": "Pumben",
+    "demonlistScore": 40.529258081090575
+  },
+  {
+    "demonlistRank": 1179,
+    "name": "Ranian",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1180,
+    "name": "Lantern",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1181,
+    "name": "Cyzyex",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1182,
+    "name": "Azali",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1183,
+    "name": "xdastro",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1184,
+    "name": "AzyMyt",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1185,
+    "name": "Macik01",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1186,
+    "name": "Fluxz",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1187,
+    "name": "JustDevil",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1188,
+    "name": "Killhinker",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1189,
+    "name": "burga",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1190,
+    "name": "shiddlebinglehoodler",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1191,
+    "name": "VeloStatue66",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1192,
+    "name": "Genesis",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1193,
+    "name": "Jerpunen",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1194,
+    "name": "sealiyuh",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1195,
+    "name": "Tweaking Adder",
+    "demonlistScore": 39.72272584527688
+  },
+  {
+    "demonlistRank": 1196,
+    "name": "Spamdrew128",
+    "demonlistScore": 38.932243600955864
+  },
+  {
+    "demonlistRank": 1197,
+    "name": "Cersia",
+    "demonlistScore": 38.932243600955864
+  },
+  {
+    "demonlistRank": 1198,
+    "name": "Marker",
+    "demonlistScore": 38.932243600955864
+  },
+  {
+    "demonlistRank": 1199,
+    "name": "waturn",
+    "demonlistScore": 38.932243600955864
+  },
+  {
+    "demonlistRank": 1200,
+    "name": "necreiP",
+    "demonlistScore": 38.932243600955864
+  },
+  {
+    "demonlistRank": 1201,
+    "name": "samtaylor",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1202,
+    "name": "Artaix",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1203,
+    "name": "Fluff467",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1204,
+    "name": "Cramble",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1205,
+    "name": "Lanmi",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1206,
+    "name": "SunKen",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1207,
+    "name": "Staticon",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1208,
+    "name": "zRobin",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1209,
+    "name": "Koish",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1210,
+    "name": "oginn",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1211,
+    "name": "Miika",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1212,
+    "name": "zSyzygy",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1213,
+    "name": "edduh",
+    "demonlistScore": 38.15749195329685
+  },
+  {
+    "demonlistRank": 1214,
+    "name": "Marko",
+    "demonlistScore": 37.398157863426235
+  },
+  {
+    "demonlistRank": 1215,
+    "name": "Frice",
+    "demonlistScore": 37.398157863426235
+  },
+  {
+    "demonlistRank": 1216,
+    "name": "Jonete2",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1217,
+    "name": "sleepy",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1218,
+    "name": "Soletki",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1219,
+    "name": "kath",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1220,
+    "name": "santiricca",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1221,
+    "name": "CCbrito",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1222,
+    "name": "Coke",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1223,
+    "name": "Bean",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1224,
+    "name": "AvainPortti",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1225,
+    "name": "nico27",
+    "demonlistScore": 36.65393452194405
+  },
+  {
+    "demonlistRank": 1226,
+    "name": "RodCor",
+    "demonlistScore": 35.92452122495737
+  },
+  {
+    "demonlistRank": 1227,
+    "name": "Lighty",
+    "demonlistScore": 35.209623252580705
+  },
+  {
+    "demonlistRank": 1228,
+    "name": "jbmoon",
+    "demonlistScore": 35.209623252580705
+  },
+  {
+    "demonlistRank": 1229,
+    "name": "Berb Sak (HNG)",
+    "demonlistScore": 35.209623252580705
+  },
+  {
+    "demonlistRank": 1230,
+    "name": "Penesial",
+    "demonlistScore": 35.209623252580705
+  },
+  {
+    "demonlistRank": 1231,
+    "name": "Influx",
+    "demonlistScore": 35.209623252580705
+  },
+  {
+    "demonlistRank": 1232,
+    "name": "explono",
+    "demonlistScore": 35.209623252580705
+  },
+  {
+    "demonlistRank": 1233,
+    "name": "SyncJaws",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1234,
+    "name": "MwHey",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1235,
+    "name": "Magic",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1236,
+    "name": "BlueTomcat",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1237,
+    "name": "Cejelost",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1238,
+    "name": "APD9",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1239,
+    "name": "Zeyn",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1240,
+    "name": "Zoink Doink",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1241,
+    "name": "kropka",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1242,
+    "name": "Mac Chunky",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1243,
+    "name": "astrabb",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1244,
+    "name": "Vazian",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1245,
+    "name": "F1nnie",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1246,
+    "name": "Etherealogy",
+    "demonlistScore": 34.508951749854354
+  },
+  {
+    "demonlistRank": 1247,
+    "name": "Dakamerplayz",
+    "demonlistScore": 33.82222361003225
+  },
+  {
+    "demonlistRank": 1248,
+    "name": "Deados35",
+    "demonlistScore": 33.82222361003225
+  },
+  {
+    "demonlistRank": 1249,
+    "name": "bebelnirk",
+    "demonlistScore": 33.82222361003225
+  },
+  {
+    "demonlistRank": 1250,
+    "name": "Zetlix",
+    "demonlistScore": 33.82222361003225
+  },
+  {
+    "demonlistRank": 1251,
+    "name": "ItzGabrix",
+    "demonlistScore": 33.82222361003225
+  },
+  {
+    "demonlistRank": 1252,
+    "name": "Batak",
+    "demonlistScore": 33.82222361003225
+  },
+  {
+    "demonlistRank": 1253,
+    "name": "kvvv",
+    "demonlistScore": 33.14916136019261
+  },
+  {
+    "demonlistRank": 1254,
+    "name": "WERT",
+    "demonlistScore": 33.14916136019261
+  },
+  {
+    "demonlistRank": 1255,
+    "name": "Fubao",
+    "demonlistScore": 33.14916136019261
+  },
+  {
+    "demonlistRank": 1256,
+    "name": "Magmeta",
+    "demonlistScore": 33.14916136019261
+  },
+  {
+    "demonlistRank": 1257,
+    "name": "Edenyx",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1258,
+    "name": "Iruka",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1259,
+    "name": "mlemDOTmp4",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1260,
+    "name": "Xplode",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1261,
+    "name": "Uka",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1262,
+    "name": "Tigrou",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1263,
+    "name": "Laffey",
+    "demonlistScore": 32.489493049124775
+  },
+  {
+    "demonlistRank": 1264,
+    "name": "fayodayo",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1265,
+    "name": "Z4chGMD",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1266,
+    "name": "robl",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1267,
+    "name": "Labirios",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1268,
+    "name": "notaweeb57",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1269,
+    "name": "m3nt411",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1270,
+    "name": "/\\/\\/\\Nairson",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1271,
+    "name": "Infernal",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1272,
+    "name": "veyra",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1273,
+    "name": "chwion",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1274,
+    "name": "Zoom",
+    "demonlistScore": 31.84295213744719
+  },
+  {
+    "demonlistRank": 1275,
+    "name": "Heeru",
+    "demonlistScore": 31.209277389911993
+  },
+  {
+    "demonlistRank": 1276,
+    "name": "wizardman971",
+    "demonlistScore": 31.209277389911993
+  },
+  {
+    "demonlistRank": 1277,
+    "name": "mephhh",
+    "demonlistScore": 31.209277389911993
+  },
+  {
+    "demonlistRank": 1278,
+    "name": "GeometryJosh2",
+    "demonlistScore": 31.209277389911993
+  },
+  {
+    "demonlistRank": 1279,
+    "name": "fwello",
+    "demonlistScore": 31.209277389911993
+  },
+  {
+    "demonlistRank": 1280,
+    "name": "Foxdemix",
+    "demonlistScore": 31.209277389911993
+  },
+  {
+    "demonlistRank": 1281,
+    "name": "awesomeme360",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1282,
+    "name": "Lildumdum",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1283,
+    "name": "zoffey",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1284,
+    "name": "Corrosivv",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1285,
+    "name": "diddy",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1286,
+    "name": "Douroucouli",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1287,
+    "name": "Natsuyodragon",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1288,
+    "name": "TJG",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1289,
+    "name": "Benjam0035",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1290,
+    "name": "splints",
+    "demonlistScore": 30.588212769852742
+  },
+  {
+    "demonlistRank": 1291,
+    "name": "zNova",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1292,
+    "name": "Abr4h4M",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1293,
+    "name": "golem de caca",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1294,
+    "name": "VoltreN",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1295,
+    "name": "НикитаТырыскин",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1296,
+    "name": "Doritos1055",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1297,
+    "name": "Lunin",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1298,
+    "name": "Lagos",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1299,
+    "name": "BliYod",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1300,
+    "name": "Sevant",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1301,
+    "name": "dotComfey",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1302,
+    "name": "MajesticMiltank",
+    "demonlistScore": 29.979507335732674
+  },
+  {
+    "demonlistRank": 1303,
+    "name": "NucDev",
+    "demonlistScore": 29.382915139751592
+  },
+  {
+    "demonlistRank": 1304,
+    "name": "Helleducaiton",
+    "demonlistScore": 29.382915139751592
+  },
+  {
+    "demonlistRank": 1305,
+    "name": "kiseta",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1306,
+    "name": "Happy365",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1307,
+    "name": "Kanati",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1308,
+    "name": "Aeidux",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1309,
+    "name": "Cacademarmota",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1310,
+    "name": "GToast",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1311,
+    "name": "Alexii1",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1312,
+    "name": "Robi0990",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1313,
+    "name": "HargChucu",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1314,
+    "name": "Poongsangae",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1315,
+    "name": "MaxisterGD",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1316,
+    "name": "ImCrisGD",
+    "demonlistScore": 28.79819512847053
+  },
+  {
+    "demonlistRank": 1317,
+    "name": "Sigma",
+    "demonlistScore": 28.225111045413968
+  },
+  {
+    "demonlistRank": 1318,
+    "name": "PL0SIVE",
+    "demonlistScore": 28.225111045413968
+  },
+  {
+    "demonlistRank": 1319,
+    "name": "kevinITA",
+    "demonlistScore": 28.225111045413968
+  },
+  {
+    "demonlistRank": 1320,
+    "name": "rqd",
+    "demonlistScore": 27.112929052031586
+  },
+  {
+    "demonlistRank": 1321,
+    "name": "Neuron",
+    "demonlistScore": 27.112929052031586
+  },
+  {
+    "demonlistRank": 1322,
+    "name": "Cr1msoN",
+    "demonlistScore": 27.112929052031586
+  },
+  {
+    "demonlistRank": 1323,
+    "name": "fonkime",
+    "demonlistScore": 27.112929052031586
+  },
+  {
+    "demonlistRank": 1324,
+    "name": "cluckwork",
+    "demonlistScore": 26.573381763896155
+  },
+  {
+    "demonlistRank": 1325,
+    "name": "RanOutOfUsers",
+    "demonlistScore": 26.573381763896155
+  },
+  {
+    "demonlistRank": 1326,
+    "name": "erzor",
+    "demonlistScore": 26.573381763896155
+  },
+  {
+    "demonlistRank": 1327,
+    "name": "Kyuruga",
+    "demonlistScore": 26.573381763896155
+  },
+  {
+    "demonlistRank": 1328,
+    "name": "mariomcluki",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1329,
+    "name": "F34R_NINJ4",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1330,
+    "name": "GW",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1331,
+    "name": "Snowspike",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1332,
+    "name": "rchamber",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1333,
+    "name": "Sanni",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1334,
+    "name": "sopt1",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1335,
+    "name": "hectox",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1336,
+    "name": "Gabozo123",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1337,
+    "name": "kovosrutek",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1338,
+    "name": "Navx25",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1339,
+    "name": "blixia",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1340,
+    "name": "SamsSlashEllie",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1341,
+    "name": "eleek",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1342,
+    "name": "Scizor",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1343,
+    "name": "CuberCube",
+    "demonlistScore": 26.044571466794622
+  },
+  {
+    "demonlistRank": 1344,
+    "name": "Blathers",
+    "demonlistScore": 25.52628449460541
+  },
+  {
+    "demonlistRank": 1345,
+    "name": "skyhasit",
+    "demonlistScore": 25.52628449460541
+  },
+  {
+    "demonlistRank": 1346,
+    "name": "weekend",
+    "demonlistScore": 25.52628449460541
+  },
+  {
+    "demonlistRank": 1347,
+    "name": "Koreaqwer",
+    "demonlistScore": 25.52628449460541
   }
 ]

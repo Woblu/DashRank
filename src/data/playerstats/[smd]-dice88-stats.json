@@ -1,0 +1,40 @@
+{
+  "name": "[smd] dice88",
+  "demonlistRank": 81,
+  "demonlistScore": 1980.9134034674207,
+  "demonlistStats": {
+    "main": 23,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Deimos",
+  "demonsCompleted": [
+    "Akashic Records",
+    "Calculator Core",
+    "Cobwebs",
+    "Cognition",
+    "Coral Cave",
+    "Crimson Planet",
+    "Deimos",
+    "Delta",
+    "Fragile",
+    "Hard Machine",
+    "Kenos",
+    "Lucid Nightmares",
+    "Oblivion",
+    "Omega Interface",
+    "Renevant",
+    "SARY NEVER CLEAR",
+    "Scream Machine",
+    "Tartarus",
+    "The Golden",
+    "Thinking Space",
+    "Trueffet",
+    "Zodiac",
+    "arcturus"
+  ],
+  "demonsVerified": [
+    "Oblivion"
+  ],
+  "records": []
+}

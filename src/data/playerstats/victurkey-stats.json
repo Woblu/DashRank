@@ -1,0 +1,20 @@
+{
+  "name": "Victurkey",
+  "demonlistRank": 214,
+  "demonlistScore": 723.453260535775,
+  "demonlistStats": {
+    "main": 5,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Firework",
+  "demonsCompleted": [
+    "Calculator Core",
+    "Firework",
+    "LIMBO",
+    "Omega Interface",
+    "Zodiac"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

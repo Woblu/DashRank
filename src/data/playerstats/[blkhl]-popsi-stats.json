@@ -1,0 +1,22 @@
+{
+  "name": "[BLKHL] Popsi",
+  "demonlistRank": 518,
+  "demonlistScore": 262.7430730307204,
+  "demonlistStats": {
+    "main": 5,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "NETWORK",
+  "demonsCompleted": [
+    "DIRECTIONS",
+    "NETWORK",
+    "Neon Skyline",
+    "SAND SAILOR",
+    "Scrubbabingo force"
+  ],
+  "demonsVerified": [
+    "Scrubbabingo force"
+  ],
+  "records": []
+}

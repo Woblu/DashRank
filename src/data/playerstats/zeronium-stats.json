@@ -1,0 +1,45 @@
+{
+  "name": "Zeronium",
+  "demonlistRank": 58,
+  "demonlistScore": 2378.22052775541,
+  "demonlistStats": {
+    "main": 26,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Deimos",
+  "demonsCompleted": [
+    "ATOMIC CANNON Mk II",
+    "ATOMIC CANNON Mk III",
+    "CORRODERE",
+    "Calculator Core",
+    "Cognition",
+    "Crimson Planet",
+    "Critical Heat",
+    "Deimos",
+    "Edge of Destiny",
+    "Fragile",
+    "Gaggatrondra",
+    "Gloxinia",
+    "Lucid Nightmares",
+    "Oblivion",
+    "Omega Interface",
+    "Promethean",
+    "Renevant",
+    "Rigel",
+    "SAND SAILOR",
+    "SARY NEVER CLEAR",
+    "Scrubbabingo force",
+    "Shukketsu",
+    "The Yangire",
+    "Thinking Space",
+    "Verdant Landscape",
+    "Zodiac"
+  ],
+  "demonsVerified": [
+    "ATOMIC CANNON Mk II",
+    "ATOMIC CANNON Mk III",
+    "Gaggatrondra"
+  ],
+  "records": []
+}

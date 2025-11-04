@@ -1,0 +1,37 @@
+{
+  "name": "Crisis",
+  "demonlistRank": 101,
+  "demonlistScore": 1670.3373410787672,
+  "demonlistStats": {
+    "main": 20,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Firework",
+  "demonsCompleted": [
+    "Akashic Records",
+    "Calculator Core",
+    "Cold Sweat",
+    "Cosmic Cyclone",
+    "Crimson Planet",
+    "Firework",
+    "Fragile",
+    "Kenos",
+    "Keres",
+    "Omega Interface",
+    "Promethean",
+    "RUST",
+    "Renevant",
+    "SARY NEVER CLEAR",
+    "Sonic Wave Infinity",
+    "Tartarus",
+    "The Golden",
+    "Thinking Space",
+    "Trueffet",
+    "Zodiac"
+  ],
+  "demonsVerified": [
+    "Keres"
+  ],
+  "records": []
+}

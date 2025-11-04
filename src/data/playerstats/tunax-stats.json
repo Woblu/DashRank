@@ -1,23 +1,32 @@
 {
   "name": "Tunax",
-  "clan": null,
-  "demonlistRank": 55,
-  "demonlistScore": 1730.45,
+  "demonlistRank": 45,
+  "demonlistScore": 2803.036925257424,
+  "demonlistStats": {
+    "main": 17,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Slaughterhouse",
   "demonsCompleted": [
-    "Acheron",
-    "Slaughterhouse",
-    "KOCMOC",
-    "Sakupen Circles",
-    "Firework",
-    "Operation Evolution",
-    "Sinister Silence",
-    "arcturus",
-    "Sonic Wave Infinity",
+    "Calculator Core",
+    "Cosmic Cyclone",
     "Damascus",
-    "Tartarus",
+    "Deimos",
+    "Esfera",
+    "Firework",
+    "Hard Machine",
+    "KOCMOC",
+    "Keres",
+    "Operation Evolution",
+    "RUTHLESS",
+    "SUPERHATEMEWORLD",
+    "Shukketsu",
+    "Sinister Silence",
+    "Slaughterhouse",
     "UNKNOWN",
-    "The Golden",
-    "Shukketsu"
+    "arcturus"
   ],
-  "demonsVerified": []
+  "demonsVerified": [],
+  "records": []
 }

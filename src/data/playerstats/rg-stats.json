@@ -1,0 +1,44 @@
+{
+  "name": "RG",
+  "demonlistRank": 49,
+  "demonlistScore": 2637.183640707392,
+  "demonlistStats": {
+    "main": 27,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Acheron",
+  "demonsCompleted": [
+    "ATOMIC CANNON Mk II",
+    "ATOMIC CANNON Mk III",
+    "Acheron",
+    "Aerial Gleam",
+    "Akashic Records",
+    "CORRODERE",
+    "Cognition",
+    "Crimson Planet",
+    "Fragile",
+    "Instinct",
+    "Kenos",
+    "Keres",
+    "Lucid Nightmares",
+    "NEUTRA",
+    "Oblivion",
+    "Omega Interface",
+    "Promethean",
+    "RUST",
+    "Renevant",
+    "SARY NEVER CLEAR",
+    "SARYYX NEVER CLEAR",
+    "Saul Goodman",
+    "Sky Shredder",
+    "Tartarus",
+    "The Paroxysm of Rage",
+    "The Yangire",
+    "Zodiac"
+  ],
+  "demonsVerified": [
+    "Omega Interface"
+  ],
+  "records": []
+}

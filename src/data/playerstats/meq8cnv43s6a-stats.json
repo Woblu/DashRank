@@ -1,23 +1,28 @@
 {
   "name": "MeQ8cNv43s6A",
-  "clan": null,
-  "demonlistRank": 52,
-  "demonlistScore": 1776.72,
+  "demonlistRank": 73,
+  "demonlistScore": 2072.2264527845605,
+  "demonlistStats": {
+    "main": 13,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Silent clubstep",
   "demonsCompleted": [
-    "Silent clubstep",
-    "Acheron",
-    "Slaughterhouse",
-    "KOCMOC",
-    "poocubed",
-    "KOSETSU",
-    "Sinister Silence",
     "BEELINE",
-    "Sonic Wave Infinity",
     "Coalescence",
-    "UNKNOWN",
-    "The Golden",
+    "Esfera",
+    "KOCMOC",
+    "KOSETSU",
+    "Launchpad Labyrinth",
     "Natural Disaster",
-    "Verdant Landscape"
+    "Rigel",
+    "Silent clubstep",
+    "Sinister Silence",
+    "UNKNOWN",
+    "qoUEO",
+    "ta1LSD0ll"
   ],
-  "demonsVerified": []
+  "demonsVerified": [],
+  "records": []
 }

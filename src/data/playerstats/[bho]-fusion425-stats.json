@@ -1,0 +1,35 @@
+{
+  "name": "[BHO] fusion425",
+  "demonlistRank": 55,
+  "demonlistScore": 2469.774386658005,
+  "demonlistStats": {
+    "main": 18,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Saul Goodman",
+  "demonsCompleted": [
+    "ATOMIC CANNON Mk II",
+    "Axiom Asterism",
+    "COMBUSTION",
+    "Crackhead Circles",
+    "DISSONANCE",
+    "Delta",
+    "Judgement Knights",
+    "Mayhem",
+    "Midnight",
+    "NETWORK",
+    "Oblivion",
+    "Saul Goodman",
+    "Starlit Stroll",
+    "The Hallucination",
+    "The Plunge",
+    "UNKNOWN",
+    "Widestep",
+    "shimmer"
+  ],
+  "demonsVerified": [
+    "Axiom Asterism"
+  ],
+  "records": []
+}

@@ -1,0 +1,25 @@
+{
+  "name": "[MEALY] Tyson",
+  "demonlistRank": 123,
+  "demonlistScore": 1306.2574662961326,
+  "demonlistStats": {
+    "main": 10,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Deimos",
+  "demonsCompleted": [
+    "ATOMIC CANNON Mk II",
+    "ATOMIC CANNON Mk III",
+    "ConClusion",
+    "Deimos",
+    "Gaggatrondra",
+    "IRIS",
+    "NETWORK",
+    "NEUTRA",
+    "Scream Machine",
+    "Sinister Silence"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

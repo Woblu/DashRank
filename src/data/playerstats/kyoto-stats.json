@@ -1,0 +1,21 @@
+{
+  "name": "kyoto",
+  "demonlistRank": 300,
+  "demonlistScore": 526.5703952614178,
+  "demonlistStats": {
+    "main": 6,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Sinister Silence",
+  "demonsCompleted": [
+    "Akashic Records",
+    "Calculator Core",
+    "Hard Machine",
+    "SARY NEVER CLEAR",
+    "Sinister Silence",
+    "Tartarus"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

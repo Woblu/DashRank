@@ -1,0 +1,18 @@
+{
+  "name": "Bradenbowl",
+  "demonlistRank": 259,
+  "demonlistScore": 626.6268153868253,
+  "demonlistStats": {
+    "main": 3,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Slaughterhouse",
+  "demonsCompleted": [
+    "LIMBO",
+    "RUST",
+    "Slaughterhouse"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

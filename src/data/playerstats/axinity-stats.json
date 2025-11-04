@@ -1,22 +1,31 @@
 {
   "name": "Axinity",
-  "clan": null,
-  "demonlistRank": 65,
-  "demonlistScore": 1554.04,
+  "demonlistRank": 43,
+  "demonlistScore": 2890.995925349991,
+  "demonlistStats": {
+    "main": 16,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Acheron",
   "demonsCompleted": [
     "Acheron",
-    "Slaughterhouse",
-    "Sakupen Circles",
+    "Cognition",
+    "Crimson Planet",
     "Firework",
-    "The Hallucination",
-    "Solar Flare",
+    "Fragile",
+    "Kenos",
+    "Keres",
     "Mayhem",
     "Midnight",
-    "arcturus",
-    "Sonic Wave Infinity",
-    "Tartarus",
     "Oblivion",
-    "The Golden"
+    "Sakupen Circles",
+    "Solar Flare",
+    "Sonic Wave Infinity",
+    "The Golden",
+    "The Hallucination",
+    "arcturus"
   ],
-  "demonsVerified": []
+  "demonsVerified": [],
+  "records": []
 }

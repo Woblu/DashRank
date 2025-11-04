@@ -1,0 +1,22 @@
+{
+  "name": "Timo",
+  "demonlistRank": 245,
+  "demonlistScore": 654.6599565112357,
+  "demonlistStats": {
+    "main": 5,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Damascus",
+  "demonsCompleted": [
+    "Damascus",
+    "Kenos",
+    "Tartarus",
+    "The Golden",
+    "Zodiac"
+  ],
+  "demonsVerified": [
+    "Damascus"
+  ],
+  "records": []
+}

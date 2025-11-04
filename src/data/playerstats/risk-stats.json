@@ -1,0 +1,16 @@
+{
+  "name": "risk",
+  "demonlistRank": 464,
+  "demonlistScore": 321.305801042359,
+  "demonlistStats": {
+    "main": 1,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Firework",
+  "demonsCompleted": [
+    "Firework"
+  ],
+  "demonsVerified": [],
+  "records": []
+}

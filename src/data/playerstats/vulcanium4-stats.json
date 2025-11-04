@@ -1,0 +1,23 @@
+{
+  "name": "vulcanium4",
+  "demonlistRank": 393,
+  "demonlistScore": 376.69163565343104,
+  "demonlistStats": {
+    "main": 6,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Oblivion",
+  "demonsCompleted": [
+    "Akashic Records",
+    "NETWORK",
+    "Oblivion",
+    "RUST",
+    "RUTHLESS",
+    "Shardscapes"
+  ],
+  "demonsVerified": [
+    "NETWORK"
+  ],
+  "records": []
+}

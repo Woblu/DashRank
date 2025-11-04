@@ -1,0 +1,23 @@
+{
+  "name": "Helix",
+  "demonlistRank": 145,
+  "demonlistScore": 1111.424445271261,
+  "demonlistStats": {
+    "main": 6,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "KOCMOC",
+  "demonsCompleted": [
+    "Aerial Gleam",
+    "Judgement Knights",
+    "KOCMOC",
+    "Saul Goodman",
+    "Shukketsu",
+    "arcturus"
+  ],
+  "demonsVerified": [
+    "Judgement Knights"
+  ],
+  "records": []
+}

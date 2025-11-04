@@ -1,33 +1,24 @@
 {
   "name": "WaterBottle317",
-  "demonlistRank": 38,
-  "demonlistScore": 2057.25,
+  "demonlistRank": 61,
+  "demonlistScore": 2316.0209526920926,
   "demonlistStats": {
-    "main": 19,
-    "extended": 16,
-    "legacy": 9
+    "main": 10,
+    "extended": 0,
+    "legacy": 0
   },
-  "hardestDemon": "Slaughterhouse",
+  "hardestDemon": "KOCMOC",
   "demonsCompleted": [
-    "Slaughterhouse",
-    "KOCMOC",
-    "Sakupen Circles",
-    "Firework",
-    "poocubed",
-    "Saul Goodman",
-    "Eyes in the Water",
-    "MINUSdry",
-    "The Hallucination",
     "COMBUSTION",
-    "Solar Flare",
     "Edge of Destiny",
-    "arcturus",
-    "Sonic Wave Infinity",
-    "Tartarus",
-    "UNKNOWN",
+    "Eyes in the Water",
+    "KOCMOC",
+    "MINUSdry",
+    "Natural Disaster",
     "Oblivion",
-    "The Golden",
-    "Natural Disaster"
+    "Solar Flare",
+    "The Hallucination",
+    "UNKNOWN"
   ],
   "demonsVerified": [],
   "records": []

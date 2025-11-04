@@ -1,0 +1,32 @@
+{
+  "name": "[YAHO] PoCle",
+  "demonlistRank": 53,
+  "demonlistScore": 2474.6003542146414,
+  "demonlistStats": {
+    "main": 15,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Anathema",
+  "demonsCompleted": [
+    "Abyss of Darkness",
+    "Amalgam",
+    "Anathema",
+    "Coral Cave",
+    "Crackhead Circles",
+    "DIRECTIONS",
+    "Delta",
+    "Edge of Destiny",
+    "KOCMOC",
+    "NETWORK",
+    "Natural Disaster",
+    "Neon Skyline",
+    "SUPERHATEMEWORLD",
+    "Subterminal Point",
+    "UNKNOWN"
+  ],
+  "demonsVerified": [
+    "Subterminal Point"
+  ],
+  "records": []
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Wain",
+  "demonlistRank": 185,
+  "demonlistScore": 843.8340224716,
+  "demonlistStats": {
+    "main": 5,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Belladonna",
+  "demonsCompleted": [
+    "Belladonna",
+    "Climax",
+    "Gaggatrondra",
+    "Natural Disaster",
+    "Rigel"
+  ],
+  "demonsVerified": [
+    "Climax"
+  ],
+  "records": []
+}

@@ -1,0 +1,23 @@
+{
+  "name": "wwdonut",
+  "demonlistRank": 129,
+  "demonlistScore": 1230.8442399509704,
+  "demonlistStats": {
+    "main": 6,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Spectre",
+  "demonsCompleted": [
+    "Calculator Core",
+    "Deimos",
+    "Esfera",
+    "Sinister Silence",
+    "Spectre",
+    "The Yangire"
+  ],
+  "demonsVerified": [
+    "Sinister Silence"
+  ],
+  "records": []
+}

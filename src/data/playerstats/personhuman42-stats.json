@@ -1,26 +1,38 @@
 {
   "name": "PersonHuman42",
-  "clan": null,
-  "demonlistRank": 50,
-  "demonlistScore": 1793.46,
+  "demonlistRank": 40,
+  "demonlistScore": 3269.2470690943064,
+  "demonlistStats": {
+    "main": 21,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Spectre",
   "demonsCompleted": [
-    "Firework",
-    "MINUSdry",
-    "The Hallucination",
-    "Solar Flare",
-    "Apocalyptic Trilogy",
-    "Edge of Destiny",
-    "SARYYX NEVER CLEAR",
-    "Sonic Wave Infinity",
-    "Tartarus",
-    "Oblivion",
-    "The Golden",
-    "Verdant Landscape",
+    "ATOMIC CANNON Mk II",
     "ATOMIC CANNON Mk III",
+    "Aerial Gleam",
+    "Apocalyptic Trilogy",
+    "Axiom Asterism",
+    "Crackhead Circles",
+    "Edge of Destiny",
+    "Firework",
+    "Hard Machine",
+    "IRIS",
+    "Indivine",
+    "MINUSdry",
     "NETWORK",
-    "Shukketsu"
+    "Rigel",
+    "SARYYX NEVER CLEAR",
+    "Solar Flare",
+    "Sonic Wave Infinity",
+    "Spectre",
+    "The Hallucination",
+    "Verdant Landscape",
+    "Zodiac"
   ],
   "demonsVerified": [
     "Spectre"
-  ]
+  ],
+  "records": []
 }

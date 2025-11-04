@@ -1,23 +1,31 @@
 {
   "name": "DJ1482",
-  "clan": null,
-  "demonlistRank": 74,
-  "demonlistScore": 1444.58,
+  "demonlistRank": 72,
+  "demonlistScore": 2079.830286749055,
+  "demonlistStats": {
+    "main": 16,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "LIMBO",
   "demonsCompleted": [
-    "LIMBO",
-    "Gaggatrondra",
-    "Edge of Destiny",
-    "walter white",
-    "Collapse",
-    "The Yangire",
-    "Tartarus",
-    "Delta",
-    "Oblivion",
-    "The Golden",
-    "Verdant Landscape",
+    "ATOMIC CANNON Mk II",
     "ATOMIC CANNON Mk III",
+    "Collapse",
+    "ConClusion",
+    "Coral Cave",
+    "Critical Heat",
+    "Delta",
+    "Edge of Destiny",
+    "Gaggatrondra",
+    "LIMBO",
+    "Lithium",
     "NETWORK",
-    "Shukketsu"
+    "NEUTRA",
+    "Oblivion",
+    "Scream Machine",
+    "The Yangire"
   ],
-  "demonsVerified": []
+  "demonsVerified": [],
+  "records": []
 }

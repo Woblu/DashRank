@@ -1,0 +1,32 @@
+{
+  "name": "nSwish",
+  "demonlistRank": 150,
+  "demonlistScore": 1056.0777027729541,
+  "demonlistStats": {
+    "main": 14,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Sonic Wave Infinity",
+  "demonsCompleted": [
+    "Calculator Core",
+    "Cognition",
+    "Crimson Planet",
+    "Fragile",
+    "Kenos",
+    "Lucid Nightmares",
+    "Omega Interface",
+    "Promethean",
+    "Renevant",
+    "Sonic Wave Infinity",
+    "Tartarus",
+    "The Golden",
+    "Thinking Space",
+    "Zodiac"
+  ],
+  "demonsVerified": [
+    "Cognition",
+    "The Golden"
+  ],
+  "records": []
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Gokill",
+  "demonlistRank": 84,
+  "demonlistScore": 1918.6658243330508,
+  "demonlistStats": {
+    "main": 8,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Anathema",
+  "demonsCompleted": [
+    "Acheron",
+    "Anathema",
+    "Cold Sweat",
+    "Firework",
+    "Jigsaw",
+    "Sevvend Clubstep",
+    "The Golden",
+    "The Plunge"
+  ],
+  "demonsVerified": [
+    "Jigsaw",
+    "The Plunge"
+  ],
+  "records": []
+}

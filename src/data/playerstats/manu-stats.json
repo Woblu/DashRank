@@ -1,26 +1,28 @@
 {
   "name": "manu",
-  "clan": null,
-  "demonlistRank": 48,
-  "demonlistScore": 1804.69,
+  "demonlistRank": 90,
+  "demonlistScore": 1792.8329924831305,
+  "demonlistStats": {
+    "main": 13,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Kyouki",
   "demonsCompleted": [
-    "Kyouki",
-    "Slaughterhouse",
-    "Saul Goodman",
+    "ATOMIC CANNON Mk II",
+    "Axiom Asterism",
     "Belladonna",
-    "LIMBO",
-    "The Yangire",
-    "Midnight",
-    "Sinister Silence",
     "Coalescence",
-    "Tartarus",
     "Delta",
-    "UNKNOWN",
-    "Oblivion",
-    "The Golden",
+    "Esfera",
+    "Judgement Knights",
+    "Kyouki",
     "Natural Disaster",
-    "Verdant Landscape",
-    "Shukketsu"
+    "Sinister Silence",
+    "Sky Shredder",
+    "The Yangire",
+    "shimmer"
   ],
-  "demonsVerified": []
+  "demonsVerified": [],
+  "records": []
 }

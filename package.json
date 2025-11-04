@@ -8,7 +8,8 @@
     "build": "prisma generate && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "seed": "dotenv -e .env -- node seed.js"
+    "seed": "dotenv -e .env -- node seed.js",
+    "generate-stats": "node src/server/statsGeneration.js"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",

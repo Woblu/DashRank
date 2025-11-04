@@ -1,0 +1,23 @@
+{
+  "name": "hstorm",
+  "demonlistRank": 235,
+  "demonlistScore": 684.9919710539931,
+  "demonlistStats": {
+    "main": 6,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "Acheron",
+  "demonsCompleted": [
+    "Acheron",
+    "Critical Heat",
+    "DIRECTIONS",
+    "Hard Machine",
+    "Neon Skyline",
+    "Shardscapes"
+  ],
+  "demonsVerified": [
+    "Critical Heat"
+  ],
+  "records": []
+}

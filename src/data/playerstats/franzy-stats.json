@@ -1,22 +1,45 @@
 {
   "name": "Franzy",
-  "clan": null,
-  "demonlistRank": 60,
-  "demonlistScore": 1657.60,
+  "demonlistRank": 46,
+  "demonlistScore": 2745.77180755819,
+  "demonlistStats": {
+    "main": 28,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "poocubed",
   "demonsCompleted": [
-    "poocubed",
-    "Mayhem",
-    "The Yangire",
-    "Midnight",
-    "arcturus",
-    "Sonic Wave Infinity",
-    "Tartarus",
+    "Aerial Gleam",
+    "Axinie",
+    "CORRODERE",
+    "Coalescence",
+    "Crackhead Circles",
+    "Critical Heat",
+    "Destruction 19",
+    "Dry Out Copyable 2",
+    "Fragile",
     "Jigsaw",
-    "UNKNOWN",
-    "Oblivion",
-    "The Golden",
+    "Judgement Knights",
+    "Lucid Nightmares",
+    "Mayhem",
+    "Midnight",
     "Natural Disaster",
-    "Shukketsu"
+    "Neon Skyline",
+    "Oblivion",
+    "Omega Interface",
+    "RUST",
+    "RUTHLESS",
+    "Scream Machine",
+    "Sky Shredder",
+    "The Paroxysm of Rage",
+    "The Yangire",
+    "Thinking Space",
+    "Trueffet",
+    "poocubed",
+    "qoUEO"
   ],
-  "demonsVerified": []
+  "demonsVerified": [
+    "qoUEO"
+  ],
+  "records": []
 }

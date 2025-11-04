@@ -1,0 +1,23 @@
+{
+  "name": "VoTcHi",
+  "demonlistRank": 311,
+  "demonlistScore": 488.3466463836825,
+  "demonlistStats": {
+    "main": 5,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "The Hallucination",
+  "demonsCompleted": [
+    "Akashic Records",
+    "Calculator Core",
+    "Kenos",
+    "Renevant",
+    "The Hallucination"
+  ],
+  "demonsVerified": [
+    "Akashic Records",
+    "The Hallucination"
+  ],
+  "records": []
+}

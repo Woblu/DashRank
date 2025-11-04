@@ -1,0 +1,17 @@
+{
+  "name": "Bua",
+  "demonlistRank": 765,
+  "demonlistScore": 142.9535851027262,
+  "demonlistStats": {
+    "main": 2,
+    "extended": 0,
+    "legacy": 0
+  },
+  "hardestDemon": "NETWORK",
+  "demonsCompleted": [
+    "Launchpad Labyrinth",
+    "NETWORK"
+  ],
+  "demonsVerified": [],
+  "records": []
+}
