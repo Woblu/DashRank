@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronLeft, Music, User, Tag, BarChartHorizontal, ShieldAlert, Send } from 'lucide-react';
-// [FIX] Updated import path and function name (relative path adjusted)
-import { getEmbedUrl } from '../utils/embedUtils.js';
+// [FIX] Corrected import path from ../ to ../../
+import { getEmbedUrl } from '../../utils/embedUtils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import LayoutManagement from '../../components/LayoutManagement';
 
@@ -159,8 +159,8 @@ export default function LayoutDetailPage() {
   if (!layout) return null;
 
   const isOwner = user?.username === layout.creator.username;
-  // [FIX] Call the renamed function
-  const embedInfo = getYoutubeEmbed(layout.videoUrl);
+  // [FIX] Call the renamed function getEmbedUrl
+  const embedUrl = getEmbedUrl(layout.videoUrl);
 
   return (
     <>
@@ -202,10 +202,11 @@ export default function LayoutDetailPage() {
                <p className="text-gray-400">{layout.description || "No description provided."}</p>
             </div>
             <div className="aspect-video w-full bg-black rounded-xl">
-              {embedInfo ? (
+              {/* [FIX] Use the embedUrl variable */}
+              {embedUrl ? (
                 <iframe
                   width="100%" height="100%"
-                  src={embedInfo.url}
+                  src={embedUrl}
                   title="Layout Video"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
