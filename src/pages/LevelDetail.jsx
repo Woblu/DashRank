@@ -6,7 +6,7 @@ import { ChevronLeft, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getYoutubeEmbed } from '../utils/embedUtils.js'; // Using the renamed util
+import { getEmbedUrl } from '../utils/embedUtils.js';
 
 export default function LevelDetail() {
   const { listType, levelId } = useParams();
