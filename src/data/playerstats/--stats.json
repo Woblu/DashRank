@@ -1,22 +1,16 @@
 {
-  "name": "-",
-  "demonlistRank": 711,
-  "demonlistScore": 164.10499719746198,
+  "name": "Понижающий коэффициент",
+  "demonlistRank": 1128,
+  "demonlistScore": 48.56631484502446,
   "demonlistStats": {
-    "main": 3,
+    "main": 1,
     "extended": 0,
     "legacy": 0
   },
-  "hardestDemon": "Zodiac",
+  "hardestDemon": "shimmer",
   "demonsCompleted": [
-    "Calculator Core",
-    "Launchpad Labyrinth",
-    "Zodiac"
+    "shimmer"
   ],
-  "demonsVerified": [
-    "Calculator Core",
-    "Launchpad Labyrinth",
-    "Zodiac"
-  ],
+  "demonsVerified": [],
   "records": []
 }

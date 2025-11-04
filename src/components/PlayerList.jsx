@@ -5,6 +5,8 @@ import mainStats from '../data/main-statsviewer.json';
 import unratedStats from '../data/unrated-statsviewer.json';
 import platformerStats from '../data/platformer-statsviewer.json';
 import challengeStats from '../data/challenge-statsviewer.json';
+// [FIX] Import the cleanUsername utility
+import { cleanUsername } from '../utils/scoring.js'; 
 
 const allStats = { main: mainStats, unrated: unratedStats, platformer: platformerStats, challenge: challengeStats };
 
@@ -39,10 +41,13 @@ export default function PlayerList() {
       <div className="w-full max-w-4xl p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-xl">
         <ul className="divide-y divide-gray-300 dark:divide-gray-600">
           {currentLeaderboard.map((player) => (
-            // --- MODIFIED: List item structure for proper alignment ---
             <li key={player.name} className="flex items-center justify-between py-3 gap-4">
+              {/*
+                [FIX] Use cleanUsername on player.name before generating the URL slug.
+                This changes "/players/[67]-zoink" to "/players/zoink"
+              */}
               <Link
-                to={`/players/${player.name.toLowerCase().replace(/\s/g, '-')}`}
+                to={`/players/${cleanUsername(player.name).replace(/\s/g, '-')}`}
                 state={{ from: location.pathname }}
                 className="flex-grow min-w-0" // Allow the link to grow and shrink
               >
