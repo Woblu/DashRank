@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Check, X, Clock, ThumbsUp, ThumbsDown, ShieldAlert, Trash2, UserX, CheckCircle, List } from 'lucide-react';
-// [FIX] Updated import path and function name
 import { getEmbedUrl } from '../utils/embedUtils.js';
 import { Link } from 'react-router-dom';
 import ListManager from '../components/admin/ListManager';
@@ -138,7 +137,6 @@ export default function AdminDashboard() {
               <p className="text-gray-400 text-center py-10">No {activeTab.toLowerCase()} submissions.</p>
             ) : (
               submissions.map((sub) => {
-                // [FIX] Call the renamed function getEmbedUrl
                 const embedInfo = getEmbedUrl(sub.videoId);
                 return (
                   <div key={sub.id} className="bg-gray-800 border border-gray-700 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -188,7 +186,7 @@ export default function AdminDashboard() {
                     <div className="md:col-span-2 space-y-2">
                       <h3 className="text-xl font-bold text-red-400 flex items-center gap-2">
                         <ShieldAlert /> Report for: 
-                        {/* [FIX] Pass the layout ID, not the whole object */}
+                        {/* [FIX] Pass report.reportedLayout.id instead of the object */}
                         <Link to={`/layouts/${report.reportedLayout.id}`} className="text-cyan-400 hover:underline">
                           {report.reportedLayout.levelName}
                         </Link>

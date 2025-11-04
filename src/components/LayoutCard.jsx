@@ -49,7 +49,6 @@ export default function LayoutCard({ layout }) {
             onError={(e) => { e.currentTarget.src = 'https://placehold.co/320x180/1e293b/ffffff?text=No+Preview'; }}
           />
         </div>
-        {/* Added `min-w-0` to this container to prevent cropping */}
         <div className="flex flex-col flex-grow min-w-0">
           <div className="flex justify-between items-start">
             <div className="min-w-0">
