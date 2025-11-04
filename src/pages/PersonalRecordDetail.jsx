@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import { ChevronLeft, Film, Link as LinkIcon, Pencil, Trash2 } from 'lucide-react';
 // [FIX] Updated import path and function name
-import { getYoutubeEmbed } from '../utils/embedUtils.js';
+import { getEmbedUrl } from '../utils/embedUtils.js';
 
 export default function PersonalRecordDetail() {
   const { recordId } = useParams();
