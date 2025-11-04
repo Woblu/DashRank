@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronLeft, Music, User, Tag, BarChartHorizontal, ShieldAlert, Send } from 'lucide-react';
 // [FIX] Updated import path and function name (relative path adjusted)
-import { getYoutubeEmbed } from '../../utils/embedUtils.js';
+import { getEmbedUrl } from '../utils/embedUtils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import LayoutManagement from '../../components/LayoutManagement';
 
