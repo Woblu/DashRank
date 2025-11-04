@@ -329,11 +329,13 @@ export default function PlayerProfile() {
             )}
 
             {/* Counts - Calculated from static JSON processing */}
+             {/* [FIX] Changed t('total_completed') to t('completed_demons') */}
              {totalCompleted > 0 && (
-                <p><span className="font-semibold">{t('total_completed')}:</span> {totalCompleted}</p>
+                <p><span className="font-semibold">{t('completed_demons')}:</span> {totalCompleted}</p>
              )}
+             {/* [FIX] Changed t('total_verified') to t('verified_demons') */}
              {totalVerified > 0 && (
-                <p><span className="font-semibold">{t('total_verified')}:</span> {totalVerified}</p>
+                <p><span className="font-semibold">{t('verified_demons')}:</span> {totalVerified}</p>
              )}
           </div>
         </div>
