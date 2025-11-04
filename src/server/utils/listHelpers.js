@@ -39,6 +39,16 @@ const allLists = {
   'speedhack-list': speedhackList,
 };
 
+// [NEW] Function to load the generated stats viewer file
+/**
+ * Loads the static stats viewer JSON file for a specific list.
+ * @param {string} listName - The name of the list (e.g., 'main').
+ * @returns {Array} The array of player stat objects.
+ */
+export function loadStatsViewer(listName) {
+    return loadJson(`${listName}-statsviewer.json`);
+}
+
 /**
  * Loads the static data for a specific list.
  * @param {string} listName - The name of the list (e.g., 'main-list').
