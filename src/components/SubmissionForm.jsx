@@ -42,7 +42,10 @@ export default function SubmissionForm() {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setSuccess(response.data.message || 'Record submitted successfully!'); // Use a clear success message
+      
+      // Use a generic success message if the API doesn't provide one
+      setSuccess(response.data.message || 'Record submitted successfully!');
+      
       // Clear form on success
       setLevelName('');
       setPercent(100);
