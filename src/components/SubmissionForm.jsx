@@ -31,7 +31,8 @@ export default function SubmissionForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('/api/submissions/create', {
+      // [FIX] Changed API endpoint from '/api/submissions/create' to '/api/personal-records'
+      const response = await axios.post('/api/personal-records', {
         levelName,
         player: playerName, // Send the potentially edited player name
         percent: Number(percent),
@@ -41,7 +42,7 @@ export default function SubmissionForm() {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setSuccess(response.data.message);
+      setSuccess(response.data.message || 'Record submitted successfully!'); // Use a clear success message
       // Clear form on success
       setLevelName('');
       setPercent(100);
