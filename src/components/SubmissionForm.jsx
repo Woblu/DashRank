@@ -31,8 +31,8 @@ export default function SubmissionForm() {
     setIsSubmitting(true);
 
     try {
-      // [FIX] Changed API endpoint from '/api/submissions/create' to '/api/personal-records'
-      const response = await axios.post('/api/personal-records', {
+      // [FIX] Changed API endpoint from '/api/personal-records' back to '/api/submissions/create'
+      const response = await axios.post('/api/submissions/create', {
         levelName,
         player: playerName, // Send the potentially edited player name
         percent: Number(percent),

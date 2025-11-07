@@ -137,11 +137,13 @@ model User {
 }
 
 model Submission {
-  id            String           @id @default(auto()) @map("_id") @db.ObjectId
-  levelName     String
-  player        String
-  percent       Int
-  videoId       String
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  levelName String
+  player    String
+  percent   Int
+  videoId   String
+  // [FIX] Added the missing rawFootageLink field
+  rawFootageLink String?
   notes         String?
   status        SubmissionStatus @default(PENDING)
   createdAt     DateTime         @default(now())

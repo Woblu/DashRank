@@ -24,6 +24,7 @@ export async function createSubmission(req, res, decodedToken) {
 
   try {
     // --- Check for an existing level ---
+    // We check against the `name` field in the `Level` model
     const level = await prisma.level.findFirst({
       where: { name: { equals: levelName, mode: 'insensitive' } },
       select: { id: true, name: true }
@@ -52,10 +53,6 @@ export async function createSubmission(req, res, decodedToken) {
 
   } catch (error) {
     console.error("Failed to create submission:", error);
-    // Check for unique constraint errors, e.g., if you add one
-    // if (error.code === 'P2002') {
-    //   return res.status(409).json({ message: "A pending submission for this level and player already exists." });
-    // }
     return res.status(500).json({ message: 'An error occurred while creating the submission.' });
   }
 }
