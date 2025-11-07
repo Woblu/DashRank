@@ -15,6 +15,8 @@ import * as collaborationHandlers from '../src/server/collaborationHandlers.js';
 import * as partHandlers from '../src/server/partHandlers.js';
 import * as chatHandlers from '../src/server/chatHandlers.js';
 import * as listManagementHandlers from '../src/server/listsManagementHandlers.js';
+// [NEW] Import the new submission handler
+import * as submissionHandlers from '../src/server/submissionHandlers.js';
 import { getPlayerStats } from '../src/server/playerStatsHandlers.js';
 import { PrismaClient } from '@prisma/client';
 
@@ -74,9 +76,7 @@ export default async function handler(req, res) {
         try {
             // --- PUBLIC ROUTES (Checked FIRST) ---
 
-            // ** FIX: Match /api/auth specifically for login **
             if (req.method === 'POST' && path === '/api/auth') {
-                // Assuming loginUser handles the logic based on req.body.action or similar
                 console.log("[API Router] Routing to loginUser handler for /api/auth");
                 return await authHandlers.loginUser(req, res);
             }
@@ -85,9 +85,8 @@ export default async function handler(req, res) {
                 return await authHandlers.registerUser(req, res);
             }
 
-            // Public Lists (e.g., /api/lists/main-list)
             const listMatch = path.match(/^\/api\/lists\/([a-zA-Z0-9_-]+)$/);
-            if (req.method === 'GET' && listMatch && listMatch[1] !== 'main-list/history') { // Exclude history subpath
+            if (req.method === 'GET' && listMatch && listMatch[1] !== 'main-list/history') { 
                 req.params.listName = listMatch[1];
                 console.log(`[API Router] Routing to list fetch handler for list: ${req.params.listName}`);
                 return await prisma.level.findMany({
@@ -96,8 +95,7 @@ export default async function handler(req, res) {
                   .catch(error => { console.error(`Error fetching list ${req.params.listName}:`, error); res.status(500).json({ message: "Failed to fetch list."}); });
             }
 
-            // Public Level Details (e.g., /api/level/12345 or /api/level/objectid)
-             const levelMatch = path.match(/^\/api\/level\/([a-zA-Z0-9]+)$/); // Matches digits or ObjectId
+             const levelMatch = path.match(/^\/api\/level\/([a-zA-Z0-9]+)$/); 
              if (req.method === 'GET' && levelMatch) {
                  req.params.levelId = levelMatch[1];
                  const { levelId } = req.params;
@@ -111,7 +109,6 @@ export default async function handler(req, res) {
                  else { return res.status(404).json({ message: 'Level not found' }); }
             }
 
-             // Other public routes
              if (req.method === 'GET' && path === '/api/lists/main-list/history') {
                   console.log("[API Router] Routing to getHistoricList handler");
                  return await listManagementHandlers.getHistoricList(req, res);
@@ -126,11 +123,11 @@ export default async function handler(req, res) {
                   console.log(`[API Router] Routing to getLayoutById handler for ID: ${req.params.layoutId}`);
                  return await layoutHandlers.getLayoutById(req, res, req.params.layoutId);
             }
-             const playerStatsMatch = path.match(/^\/api\/player-stats\/([a-zA-Z0-9%_-]+)$/); // Allow encoded chars
+             const playerStatsMatch = path.match(/^\/api\/player-stats\/([a-zA-Z0-9%_-]+)$/); 
              if (req.method === 'GET' && playerStatsMatch) {
                  req.params.playerName = playerStatsMatch[1];
                   console.log(`[API Router] Routing to getPlayerStats handler for player: ${req.params.playerName}`);
-                 return await getPlayerStats(req, res); // Call the handler
+                 return await getPlayerStats(req, res); 
             }
 
 
@@ -140,11 +137,14 @@ export default async function handler(req, res) {
                 // Route handler logic inside authenticateToken callback
                 console.log(`[API Router] Authentication successful for ${req.method} ${path}. Routing protected request...`);
 
-                // Re-check path and method for protected routes
                 if (req.method === 'GET' && path === '/api/users') return await userHandlers.getUser(req, res, req.user);
                 if (req.method === 'POST' && path === '/api/users') return await userHandlers.pinRecord(req, res, req.user);
-
                 if (req.method === 'POST' && path === '/api/layout-reports') return await moderationHandlers.createLayoutReport(req, res, req.user);
+
+                // [NEW] Route for creating a submission (replaces the old 404)
+                if (req.method === 'POST' && path === '/api/submissions/create') {
+                    return await submissionHandlers.createSubmission(req, res, req.user);
+                }
 
                 // Personal Records
                 if (path === '/api/personal-records') {
@@ -213,7 +213,6 @@ export default async function handler(req, res) {
                     isModeratorOrAdmin(req, res, async () => { // Apply Mod/Admin check
                         console.log(`[API Router] Admin route check passed for ${req.method} ${path}. Routing...`);
                         
-                        // [NEW] Add the new route for adding a record
                         if (req.method === 'POST' && path === '/api/admin/add-record') {
                             return await listManagementHandlers.addRecordToList(req, res);
                         }
@@ -229,18 +228,16 @@ export default async function handler(req, res) {
                         if (req.method === 'DELETE' && path === '/api/admin/layouts') return await layoutHandlers.deleteLayoutByAdmin(req, res);
                         if (req.method === 'PUT' && path === '/api/admin/users/ban') return await moderationHandlers.banUserFromWorkshop(req, res);
 
-                        // If no admin route matched inside this block
                         console.log(`[API Router] Admin route not matched: ${req.method} ${path}`);
                         res.status(404).json({ message: 'Admin route not found.' });
                     });
-                     return; // Prevent fallthrough after calling async middleware
+                     return; 
                 }
 
-                 // If no specific protected route matched after authentication
                 console.log(`[API Router] Authenticated route not found: ${req.method} ${path}`);
                 res.status(404).json({ message: 'API endpoint not found.' });
 
-            }); // End authenticateToken callback
+            }); 
 
         } catch (error) {
             console.error("[API Router] Unhandled error during routing:", error);
@@ -248,5 +245,5 @@ export default async function handler(req, res) {
                 res.status(500).json({ message: 'Internal Server Error' });
             }
         }
-    }); // End CORS middleware callback
+    }); 
 }
