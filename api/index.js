@@ -215,7 +215,7 @@ export default async function handler(req, res) {
                             return await listManagementHandlers.addRecordToList(req, res);
                         }
                         
-                        // [FIX] Added the route for removing a record
+                        // [NEW] Add the new route for removing a record
                         if (req.method === 'POST' && path === '/api/admin/remove-record') {
                             return await listManagementHandlers.removeRecordFromList(req, res);
                         }
