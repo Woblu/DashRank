@@ -17,8 +17,9 @@ export default function RegisterPage() {
     setSuccess('');
     setIsSubmitting(true);
     try {
-      await axios.post('/api/auth', {
-        action: 'register', // Specify the action for the consolidated endpoint
+      // [FIX] Changed endpoint from '/api/auth' to '/api/register'
+      await axios.post('/api/register', {
+        // [FIX] Removed 'action: register'
         email,
         username,
         password,

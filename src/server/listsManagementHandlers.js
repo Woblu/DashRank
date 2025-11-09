@@ -27,6 +27,8 @@ export async function addRecordToList(req, res) {
       return res.status(404).json({ message: 'Level not found.' });
     }
 
+    // Check if this exact record already exists to prevent duplicates
+    // Note: This check is case-sensitive for username
     const recordExists = level.records.some(
       record => record.username === username && record.percent === parsedPercent
     );
@@ -35,6 +37,7 @@ export async function addRecordToList(req, res) {
       return res.status(409).json({ message: 'This exact record (player and percent) already exists on this level.' });
     }
 
+    // Add the new record using Prisma's push for MongoDB
     const updatedLevel = await prisma.level.update({
       where: { id: levelId },
       data: {
@@ -50,9 +53,10 @@ export async function addRecordToList(req, res) {
 
     console.log(`[Admin AddRecord] Added record for ${username} (${parsedPercent}%) on level ${levelId}`);
     
+    // Also log this as a list change
     await prisma.listChange.create({
         data: {
-          type: 'MOVE', 
+          type: 'MOVE', // Using 'MOVE' as a generic "modification" type
           description: `Admin added record: ${username} (${parsedPercent}%)`,
           levelId: levelId,
           list: level.list,
@@ -153,12 +157,14 @@ async function findPlayersInvolvedWithLevels(levelIds) {
         levels.forEach(level => {
             if (level.verifier) {
                 playerNames.add(level.verifier);
+                // console.log(`[Helper] Added verifier: ${level.verifier}`);
             }
             if (Array.isArray(level.records)) {
                 level.records.forEach(record => {
                     // Check if record has a username and completion is 100%
                     if (record.username && record.percent === 100) {
                         playerNames.add(record.username);
+                        // console.log(`[Helper] Added record holder: ${record.username}`);
                     }
                 });
             }
@@ -671,3 +677,5 @@ export async function getHistoricList(req, res) {
     return res.status(500).json({ message: 'Failed to retrieve historic list data.' });
   }
 }
+}
+Here is the listsManagementHandlers.js file. I need the full untruncated file back.
