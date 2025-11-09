@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-// [FIX] Imported Plus icon
-import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus } from 'lucide-react'; // Added Plus
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -39,7 +38,8 @@ const AddRecordModal = ({ levelName, levelId, onClose, onRecordAdded }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
+            {/* Added stopPropagation to prevent modal closing on inner click */}
             <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700" onClick={(e) => e.stopPropagation()}>
                 <header className="p-4 border-b border-gray-700">
                     <h2 className="text-xl font-bold text-white">Add Record to "{levelName}"</h2>
@@ -75,12 +75,12 @@ export default function LevelDetail() {
 
   const [isCopied, setIsCopied] = useState(false);
   const [embedInfo, setEmbedInfo] = useState(null);
-  
+
   // [NEW] State for the admin modal
   const [isAddRecordModalOpen, setIsAddRecordModalOpen] = useState(false);
 
   const fetchLevelAndHistory = async () => {
-    // No need to set loading true here, let the main load handle it
+    // We don't set loading true here, only on the initial load
     setError(null);
     try {
       // Construct the correct API URL using levelId
@@ -88,7 +88,7 @@ export default function LevelDetail() {
       const levelResponse = await axios.get(apiUrl);
       setLevel(levelResponse.data);
 
-      if (levelResponse.data?.videoId) {
+      if (levelResponse.data?.videoId && !embedInfo) { // Only set main embed on first load
         const embedResult = getEmbedUrl(levelResponse.data.videoId);
         setEmbedInfo(embedResult);
       }
@@ -108,7 +108,7 @@ export default function LevelDetail() {
       setError(errMsg);
       setLevel(null);
     } finally {
-      setIsLoading(false); // Only set loading false once
+      setIsLoading(false); // Set loading false after all fetches
     }
   };
 
@@ -122,7 +122,7 @@ export default function LevelDetail() {
         setError("Invalid level ID.");
         setIsLoading(false);
     }
-  }, [levelId, listType, token]);
+  }, [levelId, listType, token]); // Rerun if these change
 
 
   const handleCopyClick = () => {
@@ -143,17 +143,17 @@ export default function LevelDetail() {
     const handleRemoveRecord = async (recordVideoId) => {
     if (!window.confirm('Are you sure you want to permanently remove this record?')) return;
     try {
-      // Note: This endpoint is not in your api/index.js, but I assume it exists
+      // This endpoint is not in your api/index.js, but I'm assuming it exists
       await axios.post('/api/admin/remove-record',
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchLevelAndHistory(); // Refetch data
+      fetchLevelAndHistory(); // Refetch data to show removal
     } catch (err) {
       alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
     }
   };
-  
+
   // [NEW] Handler to be passed to the modal
   const handleRecordAdded = () => {
     fetchLevelAndHistory(); // Just refetch the level data
@@ -164,7 +164,9 @@ export default function LevelDetail() {
   if (error || !level) {
     return (
       <div className="text-center p-8">
+        {/* Adjusted error text color */}
         <h1 className="text-2xl font-bold text-red-600 dark:text-red-500">{error || "Level Not Found"}</h1>
+        {/* Adjusted back button text color */}
         <button onClick={() => navigate(`/`)} className="mt-4 inline-flex items-center text-cyan-600 dark:text-cyan-400 hover:underline">
           <ChevronLeft size={16} /> Go Back to List
         </button>
@@ -181,7 +183,7 @@ export default function LevelDetail() {
       {isAddRecordModalOpen && (
         <AddRecordModal
           levelName={level.name}
-          levelId={level.id}
+          levelId={level.id} // Pass the level's DB ID
           onClose={() => setIsAddRecordModalOpen(false)}
           onRecordAdded={handleRecordAdded}
         />
@@ -284,6 +286,7 @@ export default function LevelDetail() {
 
         {/* Records Box */}
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 backdrop-blur-sm p-6 rounded-lg shadow-inner">
+          {/* [NEW] Added flex container for title and button */}
           <div className="flex justify-center items-center text-center mb-4">
             <h2 className="text-3xl font-bold text-cyan-600 dark:text-cyan-400">{t('records')}</h2>
             {/* [NEW] Admin "Add Record" Button */}
@@ -307,23 +310,22 @@ export default function LevelDetail() {
             </li>
 
             {level.records?.map((record, index) => (
-              record.videoId && (
-                <li key={index} className="flex items-center justify-center gap-2 group text-gray-800 dark:text-gray-200">
-                  <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                    {record.username}
-                    <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
+              // Use a unique key, like videoId or a combination
+              <li key={record.videoId || index} className="flex items-center justify-center gap-2 group text-gray-800 dark:text-gray-200">
+                <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+                  {record.username}
+                  <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
+                </button>
+                {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
+                  <button
+                    onClick={() => handleRemoveRecord(record.videoId)}
+                    className="p-1 text-red-500 hover:bg-red-500/10 rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                    title="Remove Record"
+                  >
+                    <Trash2 className="w-4 h-4" />
                   </button>
-                  {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
-                    <button
-                      onClick={() => handleRemoveRecord(record.videoId)}
-                      className="p-1 text-red-500 hover:bg-red-500/10 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                      title="Remove Record"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  )}
-                </li>
-              )
+                )}
+              </li>
             ))}
           </ul>
 

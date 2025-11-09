@@ -27,8 +27,6 @@ export async function addRecordToList(req, res) {
       return res.status(404).json({ message: 'Level not found.' });
     }
 
-    // Check if this exact record already exists to prevent duplicates
-    // Note: This check is case-sensitive for username
     const recordExists = level.records.some(
       record => record.username === username && record.percent === parsedPercent
     );
@@ -37,8 +35,7 @@ export async function addRecordToList(req, res) {
       return res.status(409).json({ message: 'This exact record (player and percent) already exists on this level.' });
     }
 
-    // Add the new record using Prisma's push for MongoDB
-    await prisma.level.update({
+    const updatedLevel = await prisma.level.update({
       where: { id: levelId },
       data: {
         records: {
@@ -52,21 +49,77 @@ export async function addRecordToList(req, res) {
     });
 
     console.log(`[Admin AddRecord] Added record for ${username} (${parsedPercent}%) on level ${levelId}`);
-    // Also log this as a list change
+    
     await prisma.listChange.create({
         data: {
-          type: 'MOVE', // Using 'MOVE' as a generic "modification" type
+          type: 'MOVE', 
           description: `Admin added record: ${username} (${parsedPercent}%)`,
           levelId: levelId,
           list: level.list,
         },
     });
     
-    return res.status(200).json({ message: 'Record added successfully.' });
+    return res.status(200).json(updatedLevel); // Return the updated level
 
   } catch (error) {
     console.error("[Admin AddRecord] Failed to add record:", error);
     return res.status(500).json({ message: 'Failed to add record.' });
+  }
+}
+
+// [NEW] Function to remove a record from a level by an admin
+export async function removeRecordFromList(req, res) {
+  const { levelId, recordVideoId } = req.body;
+
+  if (!levelId || !recordVideoId) {
+    return res.status(400).json({ message: 'Missing required fields: levelId and recordVideoId.' });
+  }
+
+  try {
+    const level = await prisma.level.findUnique({
+      where: { id: levelId },
+      select: { records: true, list: true }
+    });
+
+    if (!level) {
+      return res.status(404).json({ message: 'Level not found.' });
+    }
+
+    const recordToRemove = level.records.find(r => r.videoId === recordVideoId);
+    if (!recordToRemove) {
+      return res.status(404).json({ message: 'Record with that video ID not found on this level.' });
+    }
+
+    // Filter out the record to remove
+    const updatedRecords = level.records.filter(
+      record => record.videoId !== recordVideoId
+    );
+
+    // Update the level with the new, filtered records array
+    await prisma.level.update({
+      where: { id: levelId },
+      data: {
+        records: updatedRecords
+      }
+    });
+
+    console.log(`[Admin RemoveRecord] Removed record for ${recordToRemove.username} (${recordToRemove.percent}%) from level ${levelId}`);
+
+    // Log this change
+    await prisma.listChange.create({
+        data: {
+          type: 'MOVE', // Using 'MOVE' as a generic "modification" type
+          description: `Admin removed record: ${recordToRemove.username} (${recordToRemove.percent}%)`,
+          levelId: levelId,
+          list: level.list,
+        },
+    });
+
+    return res.status(200).json({ message: 'Record removed successfully.' });
+
+  } catch (error) {
+    console.error("[Admin RemoveRecord] Failed to remove record:", error);
+    return res.status(500).json({ message: 'Failed to remove record.' });
   }
 }
 
@@ -100,14 +153,12 @@ async function findPlayersInvolvedWithLevels(levelIds) {
         levels.forEach(level => {
             if (level.verifier) {
                 playerNames.add(level.verifier);
-                // console.log(`[Helper] Added verifier: ${level.verifier}`);
             }
             if (Array.isArray(level.records)) {
                 level.records.forEach(record => {
                     // Check if record has a username and completion is 100%
                     if (record.username && record.percent === 100) {
                         playerNames.add(record.username);
-                        // console.log(`[Helper] Added record holder: ${record.username}`);
                     }
                 });
             }

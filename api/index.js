@@ -217,6 +217,11 @@ export default async function handler(req, res) {
                             return await listManagementHandlers.addRecordToList(req, res);
                         }
                         
+                        // [NEW] Add the new route for removing a record
+                        if (req.method === 'POST' && path === '/api/admin/remove-record') {
+                            return await listManagementHandlers.removeRecordFromList(req, res);
+                        }
+                        
                         if (req.method === 'POST' && path === '/api/admin/add-level') return await listManagementHandlers.addLevelToList(req, res);
                         if (req.method === 'PUT' && path === '/api/admin/move-level') return await listManagementHandlers.moveLevelInList(req, res);
                         if (req.method === 'DELETE' && path === '/api/admin/remove-level') return await listManagementHandlers.removeLevelFromList(req, res);
