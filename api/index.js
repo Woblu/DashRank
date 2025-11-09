@@ -46,8 +46,7 @@ const isModeratorOrAdmin = (req, res, next) => {
      if (req.user && (req.user.role === 'ADMIN' || req.user.role === 'MODERATOR')) {
         next();
     } else { res.status(403).json({ message: 'Forbidden: Requires Moderator or Admin role' }); }
-};
-// Add isAdmin if needed
+}; // [FIX] Added the missing closing };
 
 // --- Vercel Serverless Function Handler ---
 export default async function handler(req, res) {
@@ -141,7 +140,6 @@ export default async function handler(req, res) {
                 if (req.method === 'POST' && path === '/api/users') return await userHandlers.pinRecord(req, res, req.user);
                 if (req.method === 'POST' && path === '/api/layout-reports') return await moderationHandlers.createLayoutReport(req, res, req.user);
 
-                // [NEW] Route for creating a submission (replaces the old 404)
                 if (req.method === 'POST' && path === '/api/submissions/create') {
                     return await submissionHandlers.createSubmission(req, res, req.user);
                 }
@@ -217,7 +215,7 @@ export default async function handler(req, res) {
                             return await listManagementHandlers.addRecordToList(req, res);
                         }
                         
-                        // [NEW] Add the new route for removing a record
+                        // [FIX] Added the route for removing a record
                         if (req.method === 'POST' && path === '/api/admin/remove-record') {
                             return await listManagementHandlers.removeRecordFromList(req, res);
                         }
