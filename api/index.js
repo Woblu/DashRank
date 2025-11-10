@@ -10,7 +10,7 @@ import * as layoutHandlers from '../src/server/layoutHandlers.js';
 import * as userHandlers from '../src/server/userHandlers.js';
 import * as accountHandlers from '../src/server/accountHandlers.js';
 import * as personalRecordHandlers from '../src/server/personalRecordHandlers.js';
-import * as moderationHandlers from '../src/server/moderationHandlers.js';
+import * as moderationHandlers from '../src/server/moderationHandlers.js'; // This now includes deleteLayoutAsAdmin
 import * as collaborationHandlers from '../src/server/collaborationHandlers.js';
 import * as partHandlers from '../src/server/partHandlers.js';
 import * as chatHandlers from '../src/server/chatHandlers.js';
@@ -228,7 +228,13 @@ export default async function handler(req, res) {
                         if (req.method === 'POST' && path === '/api/admin/update-submission') return await moderationHandlers.updateSubmissionStatus(req, res);
                         if (req.method === 'GET' && path === '/api/admin/layout-reports') return await moderationHandlers.listLayoutReports(req, res);
                         if (req.method === 'PUT' && path === '/api/admin/layout-reports') return await moderationHandlers.updateReportStatus(req, res);
-                        if (req.method === 'DELETE' && path === '/api/admin/layouts') return await layoutHandlers.deleteLayoutByAdmin(req, res);
+                        
+                        // =================== THIS IS THE FIX ===================
+                        if (req.method === 'DELETE' && path === '/api/admin/layouts') {
+                            return await moderationHandlers.deleteLayoutAsAdmin(req, res);
+S                        }
+                        // =======================================================
+
                         if (req.method === 'PUT' && path === '/api/admin/users/ban') return await moderationHandlers.banUserFromWorkshop(req, res);
 
                         console.log(`[API Router] Admin route not matched: ${req.method} ${path}`);

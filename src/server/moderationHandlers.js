@@ -1,3 +1,4 @@
+// src/server/moderationHandlers.js
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -133,5 +134,61 @@ export async function banUserFromWorkshop(req, res) {
     } catch (error) {
         console.error('Ban user error:', error);
         return res.status(500).json({ message: 'Failed to ban user.' });
+    }
+}
+
+/**
+ * (ADMIN) Deletes a layout and all its related data.
+ * This is a cascading delete performed in a transaction.
+ */
+export async function deleteLayoutAsAdmin(req, res) {
+    // NOTE: Make sure your router is set up to get 'layoutId' from the body
+    const { layoutId } = req.body; 
+    if (!layoutId) {
+        return res.status(400).json({ message: 'Layout ID is required.' });
+    }
+
+    try {
+        // We must delete all related records in a transaction
+        // See prisma/schema.prisma for all relations
+        await prisma.$transaction(async (tx) => {
+            // 1. Delete all CollaborationRequests for this layout
+            await tx.collaborationRequest.deleteMany({
+                where: { layoutId: layoutId },
+            });
+
+            // 2. Delete all LevelParts for this layout
+            await tx.levelPart.deleteMany({
+                where: { layoutId: layoutId },
+            });
+
+            // 3. Delete all LayoutReports for this layout
+            await tx.layoutReport.deleteMany({
+                where: { reportedLayoutId: layoutId },
+            });
+
+            // 4. Delete the Conversation for this layout (if it exists)
+            //    This will also delete all Messages related to the conversation
+            //    due to the relation in the Message model.
+            await tx.conversation.deleteMany({
+                where: { layoutId: layoutId },
+            });
+
+            // 5. Finally, delete the Layout itself
+            await tx.layout.delete({
+                where: { id: layoutId },
+            });
+        });
+
+        return res.status(200).json({ message: 'Layout and all related data deleted successfully.' });
+
+    } catch (error) {
+        // Check if the error is the one we're trying to fix
+        if (error.code === 'P2014') {
+             console.error('P2014 Error: Still a relation violation.', error);
+             return res.status(500).json({ message: 'Failed to delete layout due to a database relation conflict. Check server logs.' });
+        }
+        console.error('Delete layout error:', error);
+        return res.status(500).json({ message: 'Failed to delete layout.' });
     }
 }
