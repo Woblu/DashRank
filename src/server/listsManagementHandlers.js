@@ -677,5 +677,5 @@ export async function getHistoricList(req, res) {
     return res.status(500).json({ message: 'Failed to retrieve historic list data.' });
   }
 }
-}
+
 Here is the listsManagementHandlers.js file. I need the full untruncated file back.
