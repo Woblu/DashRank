@@ -137,44 +137,56 @@ export async function banUserFromWorkshop(req, res) {
     }
 }
 
+// ==================================================================
+// =================== THIS IS THE UPDATED FIX ===================
+// ==================================================================
 /**
  * (ADMIN) Deletes a layout and all its related data.
  * This is a cascading delete performed in a transaction.
  */
 export async function deleteLayoutAsAdmin(req, res) {
-    // NOTE: Make sure your router is set up to get 'layoutId' from the body
     const { layoutId } = req.body; 
     if (!layoutId) {
         return res.status(400).json({ message: 'Layout ID is required.' });
     }
 
     try {
-        // We must delete all related records in a transaction
-        // See prisma/schema.prisma for all relations
         await prisma.$transaction(async (tx) => {
-            // 1. Delete all CollaborationRequests for this layout
+            // 1. Find the conversation(s) linked to the layout
+            const conversations = await tx.conversation.findMany({
+                where: { layoutId: layoutId },
+                select: { id: true }
+            });
+            const conversationIds = conversations.map(c => c.id);
+
+            // 2. (NEW) Delete all Messages in those conversations first
+            if (conversationIds.length > 0) {
+                await tx.message.deleteMany({
+                    where: { conversationId: { in: conversationIds } }
+                });
+            }
+
+            // 3. Delete all CollaborationRequests for this layout
             await tx.collaborationRequest.deleteMany({
                 where: { layoutId: layoutId },
             });
 
-            // 2. Delete all LevelParts for this layout
+            // 4. Delete all LevelParts for this layout
             await tx.levelPart.deleteMany({
                 where: { layoutId: layoutId },
             });
 
-            // 3. Delete all LayoutReports for this layout
+            // 5. Delete all LayoutReports for this layout
             await tx.layoutReport.deleteMany({
                 where: { reportedLayoutId: layoutId },
             });
 
-            // 4. Delete the Conversation for this layout (if it exists)
-            //    This will also delete all Messages related to the conversation
-            //    due to the relation in the Message model.
+            // 6. NOW we can safely delete the Conversation(s)
             await tx.conversation.deleteMany({
                 where: { layoutId: layoutId },
             });
 
-            // 5. Finally, delete the Layout itself
+            // 7. Finally, delete the Layout itself
             await tx.layout.delete({
                 where: { id: layoutId },
             });
@@ -183,10 +195,9 @@ export async function deleteLayoutAsAdmin(req, res) {
         return res.status(200).json({ message: 'Layout and all related data deleted successfully.' });
 
     } catch (error) {
-        // Check if the error is the one we're trying to fix
         if (error.code === 'P2014') {
              console.error('P2014 Error: Still a relation violation.', error);
-             return res.status(500).json({ message: 'Failed to delete layout due to a database relation conflict. Check server logs.' });
+             return res.status(500).json({ message: `Failed to delete layout due to a database relation conflict: ${error.meta.relation_name}` });
         }
         console.error('Delete layout error:', error);
         return res.status(500).json({ message: 'Failed to delete layout.' });
