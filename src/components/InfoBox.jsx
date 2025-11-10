@@ -1,3 +1,4 @@
+// src/components/InfoBox.jsx
 import React from 'react';
 import { X, Info } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext'; // <-- 1. Import hook
@@ -42,7 +43,7 @@ export default function InfoBox({ onClose }) {
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">{t('info_history_title')}</h3>
             <p className="text-sm mb-4">
               {t('info_history_desc')}
-            </f>
+            </p> {/* <-- THIS IS THE FIX (was </f>) */}
 
             <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 mb-2">{t('info_api_title')}</h3>
             <p className="text-sm mb-4">
