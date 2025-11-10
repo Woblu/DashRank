@@ -1,4 +1,69 @@
 @tailwind base;
+
+/* === THEME SYSTEM (ALL-IN-ONE) === */
+@layer base {
+  /*
+    Each theme now defines ALL its colors.
+    The .dark class is no longer used.
+  */
+
+  /* --- Theme: Cyan (Dark) --- */
+  html[data-theme="cyan"] {
+    --color-primary-bg: 15 23 42;      /* slate-900 */
+    --color-text-primary: 226 232 240;   /* slate-200 */
+    --color-text-muted: 148 163 184;   /* slate-400 */
+    --color-ui-bg: 30 41 59;            /* slate-800 */
+    --color-accent: 14 165 233;       /* sky-500 */
+    --color-text-secondary: 103 232 249; /* cyan-300 */
+    --color-text-on-ui: 226 232 240;    /* slate-200 */
+  }
+
+  /* --- Theme: Cyan Light --- */
+  html[data-theme="cyan-light"] {
+    --color-primary-bg: 241 245 249;   /* slate-100 */
+    --color-text-primary: 15 23 42;      /* slate-900 */
+    --color-text-muted: 71 85 105;     /* slate-500 */
+    --color-ui-bg: 255 255 255;         /* white */
+    --color-accent: 14 165 233;       /* sky-500 */
+    --color-text-secondary: 6 182 212;   /* cyan-500 */
+    --color-text-on-ui: 15 23 42;        /* slate-900 */
+  }
+
+  /* --- Theme: Mono (White w/ Black Tab) --- */
+  html[data-theme="mono"] {
+    --color-primary-bg: 241 245 249;   /* slate-100 */
+    --color-text-primary: 15 23 42;      /* slate-900 */
+    --color-text-muted: 71 85 105;     /* slate-500 */
+    --color-ui-bg: 0 0 0;               /* black */
+    --color-accent: 55 65 81;         /* gray-600 */
+    --color-text-secondary: 17 24 39;    /* gray-900 */
+    --color-text-on-ui: 255 255 255;    /* white */
+  }
+  
+  /* --- Theme: Red (Dark) --- */
+  html[data-theme="red"] {
+    --color-primary-bg: 15 23 42;      /* slate-900 */
+    --color-text-primary: 226 232 240;   /* slate-200 */
+    --color-text-muted: 148 163 184;   /* slate-400 */
+    --color-ui-bg: 30 41 59;            /* slate-800 */
+    --color-accent: 239 68 68;        /* red-500 */
+    --color-text-secondary: 248 113 113; /* red-400 */
+    --color-text-on-ui: 226 232 240;    /* slate-200 */
+  }
+
+  /* --- Theme: Green (Dark) --- */
+  html[data-theme="green"] {
+    --color-primary-bg: 15 23 42;      /* slate-900 */
+    --color-text-primary: 226 232 240;   /* slate-200 */
+    --color-text-muted: 148 163 184;   /* slate-400 */
+    --color-ui-bg: 30 41 59;            /* slate-800 */
+    --color-accent: 34 197 94;        /* green-500 */
+    --color-text-secondary: 74 222 128; /* green-400 */
+    --color-text-on-ui: 226 232 240;    /* slate-200 */
+  }
+}
+/* ======================== */
+
 @tailwind components;
 @tailwind utilities;
 

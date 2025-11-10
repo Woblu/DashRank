@@ -1,26 +1,28 @@
 // src/components/SettingsMenu.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { Sun, Moon, Settings, User, Shield, BookText } from "lucide-react";
+import { Settings, User, Shield, BookText, Palette } from "lucide-react"; // Removed Sun & Moon
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { Link } from "react-router-dom";
 
 export default function SettingsMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
-  const { language, setLanguage, t } = useLanguage(); // t is already here, perfect
+  
+  // (NEW) We only need one state for the theme
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "cyan");
+
+  const { language, setLanguage, t } = useLanguage();
   const { user } = useAuth();
   const menuRef = useRef(null);
 
+  // (NEW) This single effect controls the theme
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
+  // Effect for closing menu on outside click
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -38,25 +40,25 @@ export default function SettingsMenu() {
       <button
         title="Settings"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-md font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+        className="p-2 rounded-md font-semibold bg-ui-bg/70 text-text-on-ui hover:bg-ui-bg transition-colors"
       >
-        <Settings className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+        <Settings className="w-5 h-5" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4 space-y-4 z-50">
+        <div className="absolute right-0 mt-2 w-56 bg-ui-bg rounded-lg shadow-xl border border-primary-bg p-4 space-y-4 z-50">
           
           {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
             <>
               <Link
                 to="/admin"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
+                className="flex items-center gap-3 text-text-on-ui font-semibold hover:text-accent transition-colors"
               >
                 <Shield className="w-5 h-5" />
-                <span>{t('admin_panel')}</span> {/* <-- Updated */}
+                <span>{t('admin_panel')}</span>
               </Link>
-              <hr className="border-gray-300 dark:border-gray-600 my-2" />
+              <hr className="border-primary-bg my-2" />
             </>
           )}
 
@@ -65,45 +67,51 @@ export default function SettingsMenu() {
               <Link
                 to="/account"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
+                className="flex items-center gap-3 text-text-on-ui font-semibold hover:text-accent transition-colors"
               >
                 <User className="w-5 h-5" />
-                <span>{t('my_account')}</span> {/* <-- Updated */}
+                <span>{t('my_account')}</span>
               </Link>
-              <hr className="border-gray-300 dark:border-gray-600 my-2" />
+              <hr className="border-primary-bg my-2" />
             </>
           )}
 
-          {/* New Guidelines Link */}
           <Link
             to="/guidelines"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
+            className="flex items-center gap-3 text-text-on-ui font-semibold hover:text-accent transition-colors"
           >
             <BookText className="w-5 h-5" />
-            <span>{t('guidelines')}</span> {/* <-- Updated */}
+            <span>{t('guidelines')}</span>
           </Link>
 
-          <hr className="border-gray-300 dark:border-gray-600 my-2" />
+          <hr className="border-primary-bg my-2" />
 
-          <div className="flex items-center justify-between">
-            <span className="text-gray-900 dark:text-gray-100 font-semibold">{t('theme')}</span> {/* <-- Updated */}
-            <div className="flex items-center justify-center gap-3">
-              <Sun className="w-5 h-5 text-yellow-500" />
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
-                <div className="w-12 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-cyan-400 peer-checked:bg-cyan-500 transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all dark:after:bg-gray-800 dark:after:border-gray-600 peer-checked:after:translate-x-6"></div>
-              </label>
-              <Moon className="w-5 h-5 text-blue-300" />
-            </div>
+          {/* (NEW) Theme Selector Dropdown */}
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-text-on-ui font-semibold flex items-center gap-2">
+              <Palette className="w-5 h-5" /> {t('theme')}
+            </span>
+            <select
+              value={theme}
+              onChange={(e) => setTheme(e.target.value)}
+              className="bg-primary-bg text-text-primary rounded-md p-1 border border-ui-bg focus:outline-none focus:ring-1 focus:ring-accent"
+            >
+              <option value="cyan">Cyan</option>
+              <option value="cyan-light">Cyan Light</option>
+              <option value="red">Red</option>
+              <option value="green">Green</option>
+              <option value="mono">Mono</option>
+            </select>
           </div>
           
+          {/* Language Selector */}
           <div className="flex items-center justify-between gap-2">
-            <span className="text-gray-900 dark:text-gray-100 font-semibold">{t('language')}</span>
+            <span className="text-text-on-ui font-semibold">{t('language')}</span>
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md p-1 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+              className="bg-primary-bg text-text-primary rounded-md p-1 border border-ui-bg focus:outline-none focus:ring-1 focus:ring-accent"
             >
               <option value="en">English</option>
               <option value="es">Español</option>
