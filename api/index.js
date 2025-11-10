@@ -46,7 +46,7 @@ const isModeratorOrAdmin = (req, res, next) => {
      if (req.user && (req.user.role === 'ADMIN' || req.user.role === 'MODERATOR')) {
         next();
     } else { res.status(403).json({ message: 'Forbidden: Requires Moderator or Admin role' }); }
-}; // [FIX] Added the missing closing };
+}; // [FIX] Removed the extra '};' typo from this line
 
 // --- Vercel Serverless Function Handler ---
 export default async function handler(req, res) {
