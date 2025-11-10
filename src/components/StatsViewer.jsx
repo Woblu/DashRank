@@ -31,43 +31,42 @@ export default function StatsViewer({ onClose, listType, title }) {
         onClick={onClose}
     >
       <div 
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md flex flex-col max-h-[80vh]" 
+        className="bg-ui-bg rounded-xl shadow-2xl w-full max-w-md flex flex-col max-h-[80vh]" /* THEMED */
         onClick={(e) => e.stopPropagation()}
       >
-        <header className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>
-          <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600">
-            <X className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+        <header className="p-4 border-b border-primary-bg flex justify-between items-center"> {/* THEMED */}
+          <h2 className="text-xl font-bold text-text-on-ui">{title}</h2> {/* THEMED */}
+          <button onClick={onClose} className="p-1 rounded-full text-text-on-ui hover:bg-primary-bg transition-colors"> {/* THEMED */}
+            <X className="w-6 h-6" /> {/* THEMED */}
           </button>
         </header>
         <div className="p-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" /> {/* THEMED */}
             <input
               type="text"
               placeholder={t('search_player_placeholder')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
+              className="w-full pl-10 p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /* THEMED */
             />
           </div>
         </div>
         <ul className="flex-grow overflow-y-auto custom-scrollbar space-y-2 p-4">
           {filteredPlayers.map((player) => (
-            <li key={player.name} className="flex items-center p-2 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-sm">
-              <span className="font-bold text-lg text-cyan-700 dark:text-cyan-400 w-10 text-left">
+            <li key={player.name} className="flex items-center p-2 rounded-lg bg-primary-bg shadow-sm"> {/* THEMED */}
+              <span className="font-bold text-lg text-accent w-10 text-left"> {/* THEMED */}
                 #{player.demonlistRank}
               </span>
               <Link
                 to={`/players/${player.name.toLowerCase().replace(/\s/g, '-')}`}
                 state={{ from: location.pathname }}
-                className="flex-1 text-gray-900 dark:text-gray-100 font-semibold text-left hover:underline"
+                className="flex-1 text-text-primary font-semibold text-left hover:underline" /* THEMED */
                 onClick={onClose}
               >
                 {player.name}
               </Link>
-              <span className="text-gray-700 dark:text-gray-300 font-mono text-right">
-                {/* [FIX] Reverted to show the pre-calculated total score from the JSON */}
+              <span className="text-text-muted font-mono text-right"> {/* THEMED */}
                 {player.demonlistScore.toFixed(2)}
               </span>
             </li>

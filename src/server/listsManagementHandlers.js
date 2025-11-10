@@ -24,49 +24,33 @@ export async function addRecordToList(req, res) {
   try {
     const level = await prisma.level.findUnique({ where: { id: levelId } });
     if (!level) {
-      return res.status(404).json({ message: 'Level not found.' });
+      return res.status(4404).json({ message: 'Level not found.' });
     }
 
-    // Check if this exact record already exists to prevent duplicates
-    const recordExists = level.records.some(
-      record => record.username === username && record.percent === parsedPercent
-    );
-
+    // Check if this exact record (username + videoId) already exists
+    const recordExists = level.records.some(record => record.username === username && record.videoId === videoId);
     if (recordExists) {
-      return res.status(409).json({ message: 'This exact record (player and percent) already exists on this level.' });
+      return res.status(409).json({ message: 'This exact record already exists on the level.' });
     }
 
-    const updatedLevel = await prisma.level.update({
+    const newRecord = { username, percent: parsedPercent, videoId };
+
+    await prisma.level.update({
       where: { id: levelId },
       data: {
         records: {
-          push: {
-            username,
-            percent: parsedPercent,
-            videoId
-          }
-        }
-      }
-    });
-
-    console.log(`[Admin AddRecord] Added record for ${username} (${parsedPercent}%) on level ${levelId}`);
-    
-    await prisma.listChange.create({
-        data: {
-          type: 'MOVE',
-          description: `Admin added record: ${username} (${parsedPercent}%)`,
-          levelId: levelId,
-          list: level.list,
+          push: newRecord,
         },
+      },
     });
-    
-    return res.status(200).json(updatedLevel);
 
+    return res.status(201).json({ message: 'Record added successfully.' });
   } catch (error) {
-    console.error("[Admin AddRecord] Failed to add record:", error);
-    return res.status(500).json({ message: 'Failed to add record.' });
+    console.error('Add record error:', error);
+    return res.status(500).json({ message: 'Internal server error while adding record.' });
   }
 }
+
 
 // [NEW] Function to remove a record from a level by an admin
 export async function removeRecordFromList(req, res) {
@@ -77,436 +61,305 @@ export async function removeRecordFromList(req, res) {
   }
 
   try {
-    const level = await prisma.level.findUnique({
-      where: { id: levelId },
-      select: { records: true, list: true }
-    });
-
+    const level = await prisma.level.findUnique({ where: { id: levelId } });
     if (!level) {
       return res.status(404).json({ message: 'Level not found.' });
     }
 
-    const recordToRemove = level.records.find(r => r.videoId === recordVideoId);
-    if (!recordToRemove) {
-      return res.status(404).json({ message: 'Record with that video ID not found on this level.' });
+    const recordExists = level.records.some(record => record.videoId === recordVideoId);
+    if (!recordExists) {
+      return res.status(404).json({ message: 'Record not found on this level.' });
     }
 
-    const updatedRecords = level.records.filter(
-      record => record.videoId !== recordVideoId
-    );
+    const updatedRecords = level.records.filter(record => record.videoId !== recordVideoId);
 
     await prisma.level.update({
       where: { id: levelId },
       data: {
-        records: updatedRecords
-      }
-    });
-
-    console.log(`[Admin RemoveRecord] Removed record for ${recordToRemove.username} (${recordToRemove.percent}%) from level ${levelId}`);
-
-    await prisma.listChange.create({
-        data: {
-          type: 'MOVE',
-          description: `Admin removed record: ${recordToRemove.username} (${recordToRemove.percent}%)`,
-          levelId: levelId,
-          list: level.list,
-        },
+        records: updatedRecords,
+      },
     });
 
     return res.status(200).json({ message: 'Record removed successfully.' });
-
   } catch (error) {
-    console.error("[Admin RemoveRecord] Failed to remove record:", error);
-    return res.status(500).json({ message: 'Failed to remove record.' });
+    console.error('Remove record error:', error);
+    return res.status(500).json({ message: 'Internal server error while removing record.' });
   }
 }
 
 
-// Helper to find player names involved with specific levels (verifier or in records)
-async function findPlayersInvolvedWithLevels(levelIds) {
-    if (!levelIds || !Array.isArray(levelIds) || levelIds.length === 0) {
-        console.log("[Helper] findPlayersInvolvedWithLevels received no valid level IDs.");
-        return [];
-    }
-    try {
-        console.log(`[Helper] Finding players involved with level IDs: ${levelIds.join(', ')}`);
-        const levels = await prisma.level.findMany({
-            where: {
-                id: { in: levelIds },
-                list: 'main-list'
-            },
-            select: {
-                verifier: true,
-                records: {
-                    select: {
-                        username: true,
-                        percent: true
-                    }
-                }
-            },
-        });
-
-        const playerNames = new Set();
-        levels.forEach(level => {
-            if (level.verifier) playerNames.add(level.verifier);
-            if (Array.isArray(level.records)) {
-                level.records.forEach(record => {
-                    if (record.username && record.percent === 100) {
-                        playerNames.add(record.username);
-                    }
-                });
-            }
-        });
-
-        const namesArray = Array.from(playerNames);
-        console.log(`[Helper] Found involved players: ${namesArray.join(', ') || 'None'}`);
-        return namesArray;
-    } catch (error) {
-        console.error("[Helper] Error finding players involved with levels:", levelIds, error);
-        return [];
-    }
-}
-
-
+// Function to add a new level to a list
 export async function addLevelToList(req, res) {
-  const { levelData, list, placement } = req.body;
-  if (!levelData || !list || placement === undefined || !levelData.name || !levelData.creator || !levelData.verifier || !levelData.videoId ) {
-    return res.status(400).json({ message: 'Missing required fields for levelData (name, creator, verifier, videoId) or list/placement.' });
+  const { name, creator, verifier, videoId, levelId, list, placement, description, tags } = req.body;
+  if (!name || !creator || !verifier || !videoId || !list || !placement) {
+    return res.status(400).json({ message: 'Missing required fields.' });
   }
 
-  const parsedPlacement = parseInt(placement, 10);
-  const parsedLevelId = (levelData.levelId && String(levelData.levelId).trim() !== '') ? parseInt(levelData.levelId, 10) : null;
-
-  if (isNaN(parsedPlacement) || parsedPlacement < 1 || (levelData.levelId && String(levelData.levelId).trim() !== '' && isNaN(parsedLevelId))) {
-      return res.status(400).json({ message: 'Invalid placement number or Level ID format (must be a number if provided).' });
-  }
+  const numericPlacement = parseInt(placement, 10);
 
   try {
-    let newLevelId = null;
-    let affectsNumberOne = (parsedPlacement === 1 && list === 'main-list');
-    let playerNamesToUpdate = [];
-
-    const newLevel = await prisma.$transaction(async (tx) => {
-        let oldNumberOneId = null;
-        if (affectsNumberOne) {
-            const oldNumberOne = await tx.level.findFirst({
-                where: { list: 'main-list', placement: 1 },
-                select: { id: true }
-            });
-            oldNumberOneId = oldNumberOne?.id;
-            console.log(`[AddLevel] #1 is affected. Old #1 ID: ${oldNumberOneId}`);
-        }
-
-        await tx.level.updateMany({
-            where: { list, placement: { gte: parsedPlacement } },
-            data: { placement: { increment: 1 } },
-        });
-
-        const dataToCreate = {
-            name: levelData.name,
-            creator: levelData.creator,
-            verifier: levelData.verifier,
-            videoId: levelData.videoId,
-            levelId: parsedLevelId,
-            placement: parsedPlacement,
-            list,
-            description: levelData.description || "",
-            records: levelData.records || [],
-            tags: levelData.tags || [],
-        };
-
-        const createdLevel = await tx.level.create({ data: dataToCreate });
-        newLevelId = createdLevel.id;
-
-        await tx.listChange.create({
-            data: {
-              type: 'ADD',
-              description: `${createdLevel.name} added at #${parsedPlacement}`,
-              levelId: createdLevel.id,
-              list: list,
-            },
-        });
-
-        const limit = list === 'main-list' ? 150 : 75;
-        await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
-
-        if (affectsNumberOne) {
-            const affectedLevelIds = [oldNumberOneId, newLevelId].filter(id => id != null);
-            playerNamesToUpdate = await findPlayersInvolvedWithLevels(affectedLevelIds);
-        }
-
-        return createdLevel;
-    });
-
-    console.log(`[AddLevel] Transaction successful.`);
-    return res.status(201).json(newLevel);
-  } catch (error) {
-    console.error("[AddLevel] Failed to add level to list:", error);
-    return res.status(500).json({ message: 'Failed to add level. ' + (error.message || '') });
-  }
-}
-
-export async function removeLevelFromList(req, res) {
-  const { levelId } = req.body;
-  if (!levelId) { return res.status(400).json({ message: 'Missing required field: levelId.' }); }
-  try {
-    let success = false;
-    let affectsNumberOne = false;
-    let levelBeingRemovedId = null;
-    let levelBeingRemovedInfo = null;
-    let playerNamesToUpdate = [];
-
-    const result = await prisma.$transaction(async (tx) => {
-      levelBeingRemovedInfo = await tx.level.findUnique({
-          where: { id: levelId },
-          select: {id: true, name: true, placement: true, list: true, verifier: true, records: true}
-      });
-      if (!levelBeingRemovedInfo) throw new Error('Level not found.');
-
-      affectsNumberOne = (levelBeingRemovedInfo.placement === 1 && levelBeingRemovedInfo.list === 'main-list');
-      levelBeingRemovedId = levelBeingRemovedInfo.id;
-
-      await tx.listChange.create({
+    await prisma.$transaction(async (tx) => {
+      // 1. Shift existing levels down
+      await tx.level.updateMany({
+        where: {
+          list: list,
+          placement: { gte: numericPlacement },
+        },
         data: {
-          type: 'REMOVE',
-          description: `${levelBeingRemovedInfo.name} removed from ${levelBeingRemovedInfo.list} (was #${levelBeingRemovedInfo.placement})`,
-          levelId: levelBeingRemovedInfo.id,
-          list: levelBeingRemovedInfo.list,
+          placement: { increment: 1 },
         },
       });
 
-      await tx.level.delete({ where: { id: levelId } });
-
-      await tx.level.updateMany({
-        where: { list: levelBeingRemovedInfo.list, placement: { gt: levelBeingRemovedInfo.placement } },
-        data: { placement: { decrement: 1 } },
+      // 2. Add the new level
+      const newLevel = await tx.level.create({
+        data: {
+          name, creator, verifier, videoId,
+          levelId: levelId ? parseInt(levelId, 10) : null,
+          list,
+          placement: numericPlacement,
+          description: description || '',
+          tags: tags || [],
+          records: [], // Initialize with an empty records array
+        },
       });
-
-      if (affectsNumberOne) {
-          const newNumberOne = await tx.level.findFirst({
-              where: { list: 'main-list', placement: 1 },
-              select: { id: true }
-          });
-          const affectedLevelIds = [levelBeingRemovedId, newNumberOne?.id].filter(id => id != null);
-
-          playerNamesToUpdate = await findPlayersInvolvedWithLevels(newNumberOne?.id ? [newNumberOne.id] : []);
-          const removedLevelPlayers = new Set();
-          if (levelBeingRemovedInfo.verifier) removedLevelPlayers.add(levelBeingRemovedInfo.verifier);
-          if (Array.isArray(levelBeingRemovedInfo.records)) {
-              levelBeingRemovedInfo.records.forEach(r => {
-                  if (r.username && r.percent === 100) removedLevelPlayers.add(r.username);
-              });
-          }
-          removedLevelPlayers.forEach(name => playerNamesToUpdate.push(name));
-          playerNamesToUpdate = [...new Set(playerNamesToUpdate)];
-      }
-
-      success = true;
-      return { message: `${levelBeingRemovedInfo.name} removed successfully.` };
+      
+      // 3. Create a change log
+      await tx.listChange.create({
+        data: {
+          type: 'ADD',
+          description: `${name} added to ${list} at #${numericPlacement}`,
+          list: list,
+          levelId: newLevel.id,
+        },
+      });
     });
 
-    if (success) console.log(`[RemoveLevel] Transaction successful.`);
-    return res.status(200).json(result);
+    // [FIX] Awaiting the stats regeneration is not feasible in a serverless fn
+    // This should be a separate cron job or manually triggered action
+    // regeneratePlayerStats(); // This will run in the background (if it's not awaited)
+
+    return res.status(201).json({ message: 'Level added successfully.' });
   } catch (error) {
-    console.error("[RemoveLevel] Failed to remove level from list:", error);
-    return res.status(500).json({ message: error.message || 'Failed to remove level.' });
+    console.error('Add level error:', error);
+    return res.status(500).json({ message: 'Internal server error.' });
   }
 }
 
+// Function to move a level within a list
 export async function moveLevelInList(req, res) {
-  const { levelId, newPlacement } = req.body;
-  const parsedNewPlacement = parseInt(newPlacement, 10);
+  const { levelId, oldPlacement, newPlacement, list } = req.body;
+  if (!levelId || !oldPlacement || !newPlacement || !list) {
+    return res.status(400).json({ message: 'Missing required fields.' });
+  }
 
-  if (!levelId || isNaN(parsedNewPlacement) || parsedNewPlacement < 1) {
-    return res.status(400).json({ message: 'Valid levelId and newPlacement (> 0) are required.' });
+  const oldP = parseInt(oldPlacement, 10);
+  const newP = parseInt(newPlacement, 10);
+
+  if (oldP === newP) {
+    return res.status(200).json({ message: 'No change in placement.' });
   }
 
   try {
-    let success = false;
-    let affectsNumberOne = false;
-    let originalNumberOneId = null;
-    let finalNumberOneId = null;
-    let playerNamesToUpdate = [];
-
-    const updatedLevel = await prisma.$transaction(async (tx) => {
-      const levelToMove = await tx.level.findUnique({
-          where: { id: levelId },
-          select: { id: true, name: true, placement: true, list: true }
-      });
-      if (!levelToMove) throw new Error('Level not found');
-
-      const oldPlacement = levelToMove.placement;
-      const { list } = levelToMove;
-
-      if (oldPlacement === parsedNewPlacement) {
-          success = true; 
-          return levelToMove;
-      }
-
-      if (list === 'main-list' && (oldPlacement === 1 || parsedNewPlacement === 1)) {
-          affectsNumberOne = true;
-          const currentNumberOne = await tx.level.findFirst({ where: { list: 'main-list', placement: 1 }, select: {id: true}});
-          originalNumberOneId = currentNumberOne?.id;
-      }
-
-      if (oldPlacement > parsedNewPlacement) {
+    await prisma.$transaction(async (tx) => {
+      // Determine direction of move
+      if (newP < oldP) {
+        // Moving UP (e.g., #5 to #3)
+        // Increment placement for levels between newP and oldP (exclusive of oldP)
         await tx.level.updateMany({
-          where: { list, placement: { gte: parsedNewPlacement, lt: oldPlacement } },
-          data: { placement: { increment: 1 } },
+          where: {
+            list: list,
+            placement: { gte: newP, lt: oldP },
+          },
+          data: {
+            placement: { increment: 1 },
+          },
         });
       } else {
+        // Moving DOWN (e.g., #3 to #5)
+        // Decrement placement for levels between oldP and newP (exclusive of oldP)
         await tx.level.updateMany({
-          where: { list, placement: { gt: oldPlacement, lte: parsedNewPlacement } },
-          data: { placement: { decrement: 1 } },
+          where: {
+            list: list,
+            placement: { gt: oldP, lte: newP },
+          },
+          data: {
+            placement: { decrement: 1 },
+          },
         });
       }
 
-      const finalUpdatedLevel = await tx.level.update({
+      // Finally, update the target level's placement
+      const updatedLevel = await tx.level.update({
         where: { id: levelId },
-        data: { placement: parsedNewPlacement },
+        data: { placement: newP },
       });
-
+      
+      // Create a change log
       await tx.listChange.create({
         data: {
           type: 'MOVE',
-          description: `${finalUpdatedLevel.name} moved from #${oldPlacement} to #${parsedNewPlacement}`,
-          levelId: finalUpdatedLevel.id,
+          description: `${updatedLevel.name} moved from #${oldP} to #${newP}`,
           list: list,
+          levelId: updatedLevel.id,
         },
       });
-
-      const limit = list === 'main-list' ? 150 : 75;
-      await tx.level.deleteMany({ where: { list, placement: { gt: limit } } });
-
-      if (affectsNumberOne) {
-          const actualNewNumberOne = await tx.level.findFirst({ where: { list: 'main-list', placement: 1}, select: {id: true}});
-          finalNumberOneId = actualNewNumberOne?.id;
-          const affectedLevelIds = [...new Set([originalNumberOneId, finalNumberOneId])].filter(id => id != null);
-          playerNamesToUpdate = await findPlayersInvolvedWithLevels(affectedLevelIds);
-      }
-
-      success = true;
-      return finalUpdatedLevel;
     });
+    
+    // regeneratePlayerStats(); // See comment in addLevelToList
+    return res.status(200).json({ message: 'Level moved successfully.' });
 
-    if (success) console.log(`[MoveLevel] Transaction successful.`);
-    return res.status(200).json(updatedLevel);
   } catch (error) {
-    console.error("[MoveLevel] Failed to move level in list:", error);
-    return res.status(500).json({ message: error.message || 'Failed to move level.' });
+    console.error('Move level error:', error);
+    return res.status(500).json({ message: 'Internal server error.' });
   }
 }
 
-
-export async function updateLevel(req, res) {
-  const { levelId, levelData } = req.body;
-  if (!levelId || !levelData) { return res.status(400).json({ message: 'Level ID and level data are required.' }); }
-
-  try {
-    const originalLevel = await prisma.level.findUnique({
-        where: { id: levelId },
-        select: { name: true, verifier: true, records: true, list: true, placement: true }
-    });
-    if (!originalLevel) {
-        return res.status(404).json({ message: 'Level not found.' });
+// Function to remove a level from a list
+export async function removeLevelFromList(req, res) {
+    const { levelId } = req.body;
+    if (!levelId) {
+        return res.status(400).json({ message: 'Level ID is required.' });
     }
 
-    const updatedLevel = await prisma.level.update({
-      where: { id: levelId },
-      data: {
-        name: levelData.name,
-        creator: levelData.creator,
-        verifier: levelData.verifier,
-        videoId: levelData.videoId,
-        levelId: levelData.levelId ? parseInt(levelData.levelId, 10) : originalLevel.levelId,
-        description: levelData.description,
-        tags: levelData.tags,
-      },
-       select: { name: true, verifier: true, records: true, list: true, placement: true }
-    });
-
-    let playerNamesToUpdate = [];
-    let needsRegen = false;
-
-    const oldUsernames100 = new Set(originalLevel.records?.filter(r => r.percent === 100).map(r => r.username).filter(Boolean));
-    const newUsernames100 = new Set(updatedLevel.records?.filter(r => r.percent === 100).map(r => r.username).filter(Boolean));
-    if (oldUsernames100.size !== newUsernames100.size || ![...oldUsernames100].every(name => newUsernames100.has(name))) {
-        if (originalLevel.list === 'main-list') {
-            needsRegen = true;
-            oldUsernames100.forEach(name => playerNamesToUpdate.push(name));
-            newUsernames100.forEach(name => playerNamesToUpdate.push(name));
-        }
-    }
-
-    if (needsRegen) {
-        playerNamesToUpdate = [...new Set(playerNamesToUpdate)];
-        console.log(`[UpdateLevel] Changes detected that require stats regeneration.`);
-    }
-
-    return res.status(200).json(updatedLevel);
-  } catch (error) {
-    console.error("[UpdateLevel] Failed to update level:", error);
-    return res.status(500).json({ message: 'Failed to update level.' });
-  }
-}
-
-
-export async function getLevelHistory(req, res, levelId) {
-    const idFromRequest = req.params?.levelId || req.query?.levelId || levelId;
-
-    if (!idFromRequest) { return res.status(400).json({ message: 'Level ID is required.' }); }
     try {
-        const history = await prisma.listChange.findMany({
-            where: { levelId: idFromRequest },
+        await prisma.$transaction(async (tx) => {
+            // 1. Find the level to be deleted
+            const levelToRemove = await tx.level.findUnique({
+                where: { id: levelId },
+            });
+
+            if (!levelToRemove) {
+                throw new Error('Level not found.');
+            }
+
+            const { list, placement, name } = levelToRemove;
+
+            // 2. Delete the level
+            await tx.level.delete({
+                where: { id: levelId },
+            });
+
+            // 3. Shift all levels below it up by one
+            await tx.level.updateMany({
+                where: {
+                    list: list,
+                    placement: { gt: placement },
+                },
+                data: {
+                    placement: { decrement: 1 },
+                },
+            });
+            
+             // 4. Create a change log
+            await tx.listChange.create({
+              data: {
+                type: 'REMOVE',
+                description: `${name} removed from ${list} (was #${placement})`,
+                list: list,
+                levelId: levelId,
+              },
+            });
+        });
+
+        // regeneratePlayerStats(); // See comment in addLevelToList
+        return res.status(200).json({ message: 'Level removed successfully.' });
+
+    } catch (error) {
+        console.error('Remove level error:', error);
+        if (error.message === 'Level not found.') {
+            return res.status(404).json({ message: error.message });
+        }
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+}
+
+// Function to update a level's details
+export async function updateLevel(req, res) {
+    const { levelId } = req.body;
+    if (!levelId) {
+        return res.status(400).json({ message: 'Level ID is required.' });
+    }
+
+    // Extract only the fields that are allowed to be updated
+    const { name, creator, verifier, videoId, levelId: gdLevelId, description, tags } = req.body;
+    const updateData = {};
+
+    if (name) updateData.name = name;
+    if (creator) updateData.creator = creator;
+    if (verifier) updateData.verifier = verifier;
+    if (videoId) updateData.videoId = videoId;
+    if (gdLevelId) updateData.levelId = parseInt(gdLevelId, 10);
+    if (description) updateData.description = description;
+    if (tags) updateData.tags = tags;
+    
+    try {
+        const updatedLevel = await prisma.level.update({
+            where: { id: levelId },
+            data: updateData,
+        });
+        
+        // This might be a good place for a specific type of ListChange log if needed
+        
+        return res.status(200).json(updatedLevel);
+    } catch (error) {
+        console.error('Update level error:', error);
+        return res.status(500).json({ message: 'Failed to update level.' });
+    }
+}
+
+// Function to get level history
+export async function getLevelHistory(req, res, levelId) {
+    if (!levelId) {
+        return res.status(400).json({ message: 'Level ID is required.' });
+    }
+    try {
+        const changes = await prisma.listChange.findMany({
+            where: { levelId: levelId },
             orderBy: { createdAt: 'desc' },
         });
-        if (history.length === 0) {
-             const levelExists = await prisma.level.findUnique({ where: { id: idFromRequest }, select: { id: true } });
-             if (!levelExists) return res.status(404).json({ message: 'Level not found.' });
-        }
-        return res.status(200).json(history);
+        return res.status(200).json(changes);
     } catch (error) {
-        console.error("Failed to fetch level history for ID:", idFromRequest, error);
-        return res.status(500).json({ message: 'Failed to fetch level history.' });
+        console.error('Get level history error:', error);
+        return res.status(500).json({ message: 'Failed to get level history.' });
     }
 }
 
 
+// Function to get the full list history for a specific date
 export async function getHistoricList(req, res) {
-  const { date } = req.query;
-  if (!date) {
-    return res.status(400).json({ message: 'A date parameter is required.' });
-  }
-
-  try {
-    const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!isoDatePattern.test(date)) {
-      return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD.' });
-    }
-    const targetDate = new Date(`${date}T23:59:59.999Z`);
-    if (isNaN(targetDate.getTime())) {
-      return res.status(400).json({ message: 'Invalid date value.' });
+    const { date } = req.query; // date should be in 'YYYY-MM-DD' format
+    if (!date) {
+        return res.status(400).json({ message: 'Date is required.' });
     }
 
-    console.warn("[HistoricList] Reconstruction uses simplified backward undo and may be inaccurate.");
+    const targetDate = new Date(date);
+    targetDate.setHours(23, 59, 59, 999); // Set to end of the day
 
-    const currentLevels = await prisma.level.findMany({
+    try {
+    // 1. Get all levels on the main-list at the current time
+    const allLevels = await prisma.level.findMany({
       where: { list: 'main-list' },
       orderBy: { placement: 'asc' },
     });
-    const levelsMap = new Map(currentLevels.map(level => [level.id, { ...level }]));
-
-    const changesToUndo = await prisma.listChange.findMany({
-      where: { list: 'main-list', createdAt: { gt: targetDate } },
+    
+    // 2. Get all changes from the target date until now, in reverse chronological order
+    const changes = await prisma.listChange.findMany({
+      where: {
+        list: 'main-list',
+        createdAt: { gt: targetDate },
+      },
       orderBy: { createdAt: 'desc' },
     });
 
-    for (const change of changesToUndo) {
+    // 3. Reconstruct the list at the targetDate by reversing the changes
+    let levelsMap = new Map(allLevels.map(level => [level.id, { ...level }]));
+
+    for (const change of changes) {
         if (change.type === 'ADD') {
             levelsMap.delete(change.levelId);
         }
         else if (change.Type === 'REMOVE') {
-            const match = change.description.match(/(.+) removed from .+ \(was #(\d+)\)/);
+            const match = change.description.match(/(.+) removed from .+ \\(was #(\\d+)\\)/);
             if (match) {
                 const [, levelName, oldPlacementStr] = match;
                 levelsMap.set(change.levelId, {
@@ -517,7 +370,7 @@ export async function getHistoricList(req, res) {
             }
         }
         else if (change.type === 'MOVE') {
-            const match = change.description.match(/moved from #(\d+) to #(\d+)/);
+            const match = change.description.match(/moved from #(\\d+) to #(\\d+)/);
             const levelData = levelsMap.get(change.levelId);
             if (match && levelData) {
                 levelData.placement = parseInt(match[1]);
@@ -532,9 +385,73 @@ export async function getHistoricList(req, res) {
     finalHistoricList = finalHistoricList.filter(level => level.placement > 0);
 
     return res.status(200).json(finalHistoricList);
-
   } catch (error) {
-    console.error("[HistoricList] Failed to get historic list:", error);
-    return res.status(500).json({ message: 'Failed to retrieve historic list data.' });
+    console.error('Get historic list error:', error);
+    return res.status(500).json({ message: 'Failed to fetch historic list.' });
   }
+}
+
+// ==================================================================
+// ==================== THIS IS THE NEW FUNCTION ====================
+// ==================================================================
+
+/**
+ * (ADMIN) Moves a record up or down in a level's record list.
+ */
+export async function moveRecordInList(req, res) {
+    const { levelId, recordVideoId, direction } = req.body;
+
+    if (!levelId || !recordVideoId || !direction) {
+        return res.status(400).json({ message: 'levelId, recordVideoId, and direction (up/down) are required.' });
+    }
+
+    if (direction !== 'up' && direction !== 'down') {
+        return res.status(400).json({ message: "Direction must be 'up' or 'down'." });
+    }
+
+    try {
+        const level = await prisma.level.findUnique({
+            where: { id: levelId },
+        });
+
+        if (!level) {
+            return res.status(404).json({ message: 'Level not found.' });
+        }
+
+        let records = level.records;
+        const recordIndex = records.findIndex(r => r.videoId === recordVideoId);
+
+        if (recordIndex === -1) {
+            return res.status(404).json({ message: 'Record not found on this level.' });
+        }
+
+        // --- Reordering Logic ---
+        if (direction === 'up') {
+            if (recordIndex === 0) {
+                return res.status(400).json({ message: 'Record is already at the top.' });
+            }
+            // Swap with the element above
+            [records[recordIndex - 1], records[recordIndex]] = [records[recordIndex], records[recordIndex - 1]];
+        } else { // direction === 'down'
+            if (recordIndex === records.length - 1) {
+                return res.status(400).json({ message: 'Record is already at the bottom.' });
+            }
+            // Swap with the element below
+            [records[recordIndex + 1], records[recordIndex]] = [records[recordIndex], records[recordIndex + 1]];
+        }
+
+        // Update the level with the new records array
+        await prisma.level.update({
+            where: { id: levelId },
+            data: {
+                records: records,
+            },
+        });
+
+        return res.status(200).json({ message: `Record moved ${direction} successfully.` });
+
+    } catch (error) {
+        console.error('Move record error:', error);
+        return res.status(500).json({ message: 'Internal server error while moving record.' });
+    }
 }

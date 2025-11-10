@@ -14,7 +14,7 @@ import * as moderationHandlers from '../src/server/moderationHandlers.js'; // Th
 import * as collaborationHandlers from '../src/server/collaborationHandlers.js';
 import * as partHandlers from '../src/server/partHandlers.js';
 import * as chatHandlers from '../src/server/chatHandlers.js';
-import * as listManagementHandlers from '../src/server/listsManagementHandlers.js';
+import * as listManagementHandlers from '../src/server/listsManagementHandlers.js'; // This now includes moveRecordInList
 // [NEW] Import the new submission handler
 import * as submissionHandlers from '../src/server/submissionHandlers.js';
 import { getPlayerStats } from '../src/server/playerStatsHandlers.js';
@@ -215,10 +215,15 @@ export default async function handler(req, res) {
                             return await listManagementHandlers.addRecordToList(req, res);
                         }
                         
-                        // [NEW] Add the new route for removing a record
                         if (req.method === 'POST' && path === '/api/admin/remove-record') {
                             return await listManagementHandlers.removeRecordFromList(req, res);
                         }
+                        
+                        // =================== THIS IS THE NEW ROUTE ===================
+                        if (req.method === 'POST' && path === '/api/admin/move-record') {
+                            return await listManagementHandlers.moveRecordInList(req, res);
+                        }
+                        // =============================================================
                         
                         if (req.method === 'POST' && path === '/api/admin/add-level') return await listManagementHandlers.addLevelToList(req, res);
                         if (req.method === 'PUT' && path === '/api/admin/move-level') return await listManagementHandlers.moveLevelInList(req, res);
@@ -229,11 +234,9 @@ export default async function handler(req, res) {
                         if (req.method === 'GET' && path === '/api/admin/layout-reports') return await moderationHandlers.listLayoutReports(req, res);
                         if (req.method === 'PUT' && path === '/api/admin/layout-reports') return await moderationHandlers.updateReportStatus(req, res);
                         
-                        // =================== THIS IS THE FIX ===================
                         if (req.method === 'DELETE' && path === '/api/admin/layouts') {
                             return await moderationHandlers.deleteLayoutAsAdmin(req, res);
-S                        }
-                        // =======================================================
+                        }
 
                         if (req.method === 'PUT' && path === '/api/admin/users/ban') return await moderationHandlers.banUserFromWorkshop(req, res);
 

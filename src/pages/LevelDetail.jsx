@@ -2,15 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus } from 'lucide-react'; // Added Plus
+import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus, ArrowUpCircle, ArrowDownCircle } from 'lucide-react'; // 1. Import new icons
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getEmbedUrl } from '../utils/embedUtils.js';
 
-// [NEW] Admin Modal Component
+// Admin Modal Component
 const AddRecordModal = ({ levelName, levelId, onClose, onRecordAdded }) => {
     const { token } = useAuth();
+    const { t } = useLanguage(); 
     const [username, setUsername] = useState('');
     const [percent, setPercent] = useState(100);
     const [videoId, setVideoId] = useState('');
@@ -28,9 +29,9 @@ const AddRecordModal = ({ levelName, levelId, onClose, onRecordAdded }) => {
                 percent: parseInt(percent, 10),
                 videoId,
             }, { headers: { Authorization: `Bearer ${token}` } });
-            onRecordAdded(); // This will refetch the level data
-            onClose(); // Close the modal
-        } catch (err) {
+            onRecordAdded();
+            onClose();
+        } catch (err) :
             setError(err.response?.data?.message || 'Failed to add record.');
         } finally {
             setIsLoading(false);
@@ -39,20 +40,19 @@ const AddRecordModal = ({ levelName, levelId, onClose, onRecordAdded }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
-            {/* Added stopPropagation to prevent modal closing on inner click */}
-            <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700" onClick={(e) => e.stopPropagation()}>
-                <header className="p-4 border-b border-gray-700">
-                    <h2 className="text-xl font-bold text-white">Add Record to "{levelName}"</h2>
+            <div className="bg-ui-bg rounded-xl shadow-2xl w-full max-w-lg border border-primary-bg" onClick={(e) => e.stopPropagation()}> 
+                <header className="p-4 border-b border-primary-bg"> 
+                    <h2 className="text-xl font-bold text-text-on-ui">{t('add_record_to', { name: levelName })}</h2> 
                 </header>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                    <input name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-white" />
-                    <input type="number" name="percent" value={percent} onChange={(e) => setPercent(e.target.value)} placeholder="Percent" required min="1" max="100" className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-white" />
-                    <input name="videoId" value={videoId} onChange={(e) => setVideoId(e.target.value)} placeholder="Video URL or ID" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-white" />
+                    <input name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder={t('username')} required className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> 
+                    <input type="number" name="percent" value={percent} onChange={(e) => setPercent(e.target.value)} placeholder={t('percent')} required min="1" max="100" className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> 
+                    <input name="videoId" value={videoId} onChange={(e) => setVideoId(e.target.value)} placeholder={t('video_url_or_id')} required className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> 
                     
                     {error && <p className="text-red-400 text-center">{error}</p>}
                     <div className="flex justify-end gap-4">
-                        <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-gray-600 hover:bg-gray-500 text-white">Cancel</button>
-                        <button type="submit" disabled={isLoading} className="px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white disabled:bg-gray-500">{isLoading ? 'Adding...' : 'Add Record'}</button>
+                        <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-primary-bg text-text-primary hover:bg-accent/20 transition-colors">{t('cancel')}</button> 
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors disabled:bg-gray-500">{isLoading ? t('adding') : t('add_record')}</button> 
                     </div>
                 </form>
             </div>
@@ -76,19 +76,16 @@ export default function LevelDetail() {
   const [isCopied, setIsCopied] = useState(false);
   const [embedInfo, setEmbedInfo] = useState(null);
 
-  // [NEW] State for the admin modal
   const [isAddRecordModalOpen, setIsAddRecordModalOpen] = useState(false);
 
   const fetchLevelAndHistory = async () => {
-    // We don't set loading true here, only on the initial load
     setError(null);
     try {
-      // Construct the correct API URL using levelId
       const apiUrl = `/api/level/${levelId}?list=${listType}-list`;
       const levelResponse = await axios.get(apiUrl);
       setLevel(levelResponse.data);
 
-      if (levelResponse.data?.videoId && !embedInfo) { // Only set main embed on first load
+      if (levelResponse.data?.videoId && !embedInfo) {
         const embedResult = getEmbedUrl(levelResponse.data.videoId);
         setEmbedInfo(embedResult);
       }
@@ -101,14 +98,13 @@ export default function LevelDetail() {
       }
     } catch (err) {
       console.error("Failed to fetch level details:", err);
-      // More specific error based on response if available
       const errMsg = err.response?.status === 404
-        ? `Level with ID ${levelId} not found on the ${listType} list.`
-        : "Failed to load level data.";
+        ? t('level_not_found_on_list', { levelId: levelId, listType: listType })
+        : t('failed_to_load_level_data');
       setError(errMsg);
       setLevel(null);
     } finally {
-      setIsLoading(false); // Set loading false after all fetches
+      setIsLoading(false);
     }
   };
 
@@ -116,13 +112,13 @@ export default function LevelDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (levelId) {
-       setIsLoading(true); // Set loading true on initial load
+       setIsLoading(true);
        fetchLevelAndHistory();
     } else {
         setError("Invalid level ID.");
         setIsLoading(false);
     }
-  }, [levelId, listType, token]); // Rerun if these change
+  }, [levelId, listType, token]);
 
 
   const handleCopyClick = () => {
@@ -140,50 +136,59 @@ export default function LevelDetail() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-    const handleRemoveRecord = async (recordVideoId) => {
-    if (!window.confirm('Are you sure you want to permanently remove this record?')) return;
+  const handleRemoveRecord = async (recordVideoId) => {
+    if (!window.confirm(t('are_you_sure_remove_record'))) return;
     try {
-      // This endpoint is not in your api/index.js, but I'm assuming it exists
       await axios.post('/api/admin/remove-record',
         { levelId: level.id, recordVideoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchLevelAndHistory(); // Refetch data to show removal
+      fetchLevelAndHistory();
     } catch (err) {
-      alert(`Failed to remove record: ${err.response?.data?.message || 'Server error'}`);
+      alert(t('failed_to_remove_record', { error: err.response?.data?.message || 'Server error' }));
     }
   };
 
-  // [NEW] Handler to be passed to the modal
-  const handleRecordAdded = () => {
-    fetchLevelAndHistory(); // Just refetch the level data
+  // 2. New handler function to call the API
+  const handleMoveRecord = async (recordVideoId, direction) => {
+    try {
+      await axios.post('/api/admin/move-record', 
+        { levelId: level.id, recordVideoId, direction },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // Optimistic update (faster) or refetch
+      fetchLevelAndHistory(); 
+    } catch (err) {
+      alert(`Failed to move record: ${err.response?.data?.message || 'Server error'}`);
+    }
   };
 
-  if (isLoading) return <LoadingSpinner message="Loading Level Details..." />;
+  const handleRecordAdded = () => {
+    fetchLevelAndHistory();
+  };
+
+  if (isLoading) return <LoadingSpinner message={t('loading_level_details')} />;
 
   if (error || !level) {
     return (
       <div className="text-center p-8">
-        {/* Adjusted error text color */}
-        <h1 className="text-2xl font-bold text-red-600 dark:text-red-500">{error || "Level Not Found"}</h1>
-        {/* Adjusted back button text color */}
-        <button onClick={() => navigate(`/`)} className="mt-4 inline-flex items-center text-cyan-600 dark:text-cyan-400 hover:underline">
-          <ChevronLeft size={16} /> Go Back to List
+        <h1 className="text-2xl font-bold text-red-500">{error || t('level_not_found_generic')}</h1> 
+        <button onClick={() => navigate(`/`)} className="mt-4 inline-flex items-center text-accent hover:underline"> 
+          <ChevronLeft size={16} /> {t('go_back_to_list')}
         </button>
       </div>
     );
   }
 
-  const verifierLabel = level.list === 'future-list' ? 'Verification Status:' : 'Verified by:';
-  const recordVerifierLabel = level.list === 'future-list' ? '(Status)' : '(Verifier)';
+  const verifierLabel = level.list === 'future-list' ? t('verification_status') : t('verified_by');
+  const recordVerifierLabel = level.list === 'future-list' ? t('status_verifier') : t('verifier');
 
   return (
     <>
-      {/* [NEW] Render the modal if open */}
       {isAddRecordModalOpen && (
         <AddRecordModal
           levelName={level.name}
-          levelId={level.id} // Pass the level's DB ID
+          levelId={level.id}
           onClose={() => setIsAddRecordModalOpen(false)}
           onRecordAdded={handleRecordAdded}
         />
@@ -191,36 +196,36 @@ export default function LevelDetail() {
 
       <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
         {/* Main Level Box */}
-        <div className="relative bg-white dark:bg-gray-800 border-2 border-dotted border-cyan-400 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
+        <div className="relative bg-ui-bg border-2 border-dotted border-accent backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl"> 
           <button
             onClick={() => navigate(-1)}
-            className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 hover:scale-110 transition-all"
+            className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-primary-bg text-text-primary hover:bg-accent/10 hover:scale-110 transition-all"
             aria-label="Go back"
           >
             <ChevronLeft size={24} />
           </button>
 
           <div className="text-center mb-4 pt-8 sm:pt-0">
-            <h1 className="font-poppins text-5xl font-bold break-words text-cyan-600 dark:text-cyan-400">
+            <h1 className="font-poppins text-5xl font-bold break-words text-accent"> 
               #{level.placement} - {level.name}
             </h1>
           </div>
 
-          <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-gray-600 dark:text-gray-300">
-            <p><span className="font-bold text-gray-800 dark:text-white">Published by:</span> {level.creator}</p>
-            <p><span className="font-bold text-gray-800 dark:text-white">{verifierLabel}</span> {level.verifier}</p>
+          <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-text-muted"> 
+            <p><span className="font-bold text-text-on-ui">{t('published_by')}</span> {level.creator}</p> 
+            <p><span className="font-bold text-text-on-ui">{verifierLabel}</span> {level.verifier}</p> 
             {level.attempts && (
-              <p><span className="font-bold text-gray-800 dark:text-white">Attempts:</span> {level.attempts.toLocaleString()}</p>
+              <p><span className="font-bold text-text-on-ui">{t('attempts')}</span> {level.attempts.toLocaleString()}</p>
             )}
           </div>
 
           {level.levelId && (
             <div className="text-center mb-6">
-              <p className="text-lg text-gray-600 dark:text-gray-300">
-                <span className="font-bold text-gray-800 dark:text-white">Level ID:</span>
+              <p className="text-lg text-text-muted"> 
+                <span className="font-bold text-text-on-ui">{t('level_id')}</span> 
                 <button
                   onClick={handleCopyClick}
-                  className="ml-2 px-3 py-1 rounded-md font-mono bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-gray-700 dark:text-gray-300"
+                  className="ml-2 px-3 py-1 rounded-md font-mono bg-primary-bg border border-primary-bg/50 hover:bg-accent/10 transition-colors text-text-muted"
                 >
                   {isCopied ? t('copied') : level.levelId}
                 </button>
@@ -230,7 +235,7 @@ export default function LevelDetail() {
 
           {/* Video Embed */}
           {embedInfo && embedInfo.url ? (
-            <div className="aspect-video w-full border-2 border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden bg-black">
+            <div className="aspect-video w-full border-2 border-primary-bg rounded-xl overflow-hidden bg-black"> 
               {embedInfo.type === 'iframe' ? (
                 <iframe
                   key={embedInfo.url}
@@ -253,29 +258,29 @@ export default function LevelDetail() {
               )}
             </div>
           ) : (
-            <div className="aspect-video w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-gray-700/30">
-              <p className="text-gray-500 dark:text-gray-400">No embeddable video found for this level.</p>
+            <div className="aspect-video w-full border-2 border-dashed border-primary-bg rounded-xl flex items-center justify-center bg-primary-bg/50"> 
+              <p className="text-text-muted">{t('no_embeddable_video')}</p> 
             </div>
           )}
         </div>
 
          {/* Position History Box */}
          {history.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 backdrop-blur-sm rounded-lg shadow-inner">
+          <div className="bg-ui-bg border border-primary-bg backdrop-blur-sm rounded-lg shadow-inner"> 
             <button
               onClick={() => setIsHistoryOpen(!isHistoryOpen)}
-              className="w-full flex justify-between items-center p-4 text-xl font-bold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="w-full flex justify-between items-center p-4 text-xl font-bold text-text-on-ui hover:bg-primary-bg transition-colors"
             >
-              <span>Position History</span>
+              <span>{t('position_history')}</span>
               {isHistoryOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
             </button>
             {isHistoryOpen && (
-              <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="p-4 border-t border-primary-bg"> 
                 <ul className="space-y-2">
                   {history.map(change => (
-                    <li key={change.id} className="text-gray-700 dark:text-gray-300 flex justify-between items-center text-sm">
+                    <li key={change.id} className="text-text-on-ui flex justify-between items-center text-sm"> 
                       <span>{change.description}</span>
-                      <span className="text-gray-500 dark:text-gray-400">{new Date(change.createdAt).toLocaleString()}</span>
+                      <span className="text-text-muted">{new Date(change.createdAt).toLocaleString()}</span> 
                     </li>
                   ))}
                 </ul>
@@ -285,16 +290,14 @@ export default function LevelDetail() {
         )}
 
         {/* Records Box */}
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 backdrop-blur-sm p-6 rounded-lg shadow-inner">
-          {/* [NEW] Added flex container for title and button */}
+        <div className="bg-ui-bg border border-primary-bg backdrop-blur-sm p-6 rounded-lg shadow-inner"> 
           <div className="flex justify-center items-center text-center mb-4">
-            <h2 className="text-3xl font-bold text-cyan-600 dark:text-cyan-400">{t('records')}</h2>
-            {/* [NEW] Admin "Add Record" Button */}
+            <h2 className="text-3xl font-bold text-accent">{t('records')}</h2> 
             {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
               <button
                 onClick={() => setIsAddRecordModalOpen(true)}
-                className="ml-4 p-2 text-cyan-400 hover:bg-cyan-500/10 rounded-full transition-colors"
-                title="Admin: Add Record"
+                className="ml-4 p-2 text-accent hover:bg-accent/20 rounded-full transition-colors"
+                title={t('admin_add_record')}
               >
                 <Plus size={24} />
               </button>
@@ -303,24 +306,49 @@ export default function LevelDetail() {
 
           <ul className="text-center space-y-2 text-lg">
             <li>
-              <button onClick={() => handleRecordClick(level.videoId)} className="text-gray-800 dark:text-gray-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+              <button onClick={() => handleRecordClick(level.videoId)} className="text-text-on-ui hover:text-accent transition-colors"> 
                 <span className="font-bold">{level.verifier}</span>
-                <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">{recordVerifierLabel}</span>
+                <span className="font-mono text-sm text-text-muted ml-2">{recordVerifierLabel}</span> 
               </button>
             </li>
 
             {level.records?.map((record, index) => (
-              // Use a unique key, like videoId or a combination
-              <li key={record.videoId || index} className="flex items-center justify-center gap-2 group text-gray-800 dark:text-gray-200">
-                <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+              <li key={record.videoId || index} className="flex items-center justify-center gap-2 group text-text-on-ui"> 
+                
+                {/* 3. Add the Admin Move Buttons */}
+                {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
+                  <button
+                    onClick={() => handleMoveRecord(record.videoId, 'up')}
+                    disabled={index === 0}
+                    className="p-1 text-accent hover:bg-accent/20 rounded-full transition-colors opacity-0 group-hover:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move Up"
+                  >
+                    <ArrowUpCircle className="w-4 h-4" />
+                  </button>
+                )}
+
+                <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-accent transition-colors"> 
                   {record.username}
-                  <span className="font-mono text-sm text-gray-500 dark:text-gray-400 ml-2">({record.percent}%)</span>
+                  <span className="font-mono text-sm text-text-muted ml-2">({record.percent}%)</span> 
                 </button>
+                
+                {/* 3. Add the Admin Move Buttons */}
+                {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
+                  <button
+                    onClick={() => handleMoveRecord(record.videoId, 'down')}
+                    disabled={index === level.records.length - 1}
+                    className="p-1 text-accent hover:bg-accent/20 rounded-full transition-colors opacity-0 group-hover:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="Move Down"
+                  >
+                    <ArrowDownCircle className="w-4 h-4" />
+                  </button>
+                )}
+
                 {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
                   <button
                     onClick={() => handleRemoveRecord(record.videoId)}
                     className="p-1 text-red-500 hover:bg-red-500/10 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                    title="Remove Record"
+                    title={t('remove_record')}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -330,7 +358,7 @@ export default function LevelDetail() {
           </ul>
 
           {!level.records?.length && (
-            <p className="text-center text-gray-500 dark:text-gray-400 mt-4">{t('no_records_yet')}</p>
+            <p className="text-center text-text-muted mt-4">{t('no_records_yet')}</p>
           )}
         </div>
       </div>

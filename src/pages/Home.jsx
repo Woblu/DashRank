@@ -16,6 +16,7 @@ const listTitles = {
 
 const HistoryModal = ({ onClose, onFetchHistory }) => {
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const { t } = useLanguage(); // Added t
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,25 +26,27 @@ const HistoryModal = ({ onClose, onFetchHistory }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-            <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-sm border border-gray-700" onClick={(e) => e.stopPropagation()}>
-                <header className="p-4 border-b border-gray-700 flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-white">View List History</h2>
-                    <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-600"><X size={20}/></button>
+            <div className="bg-ui-bg rounded-xl shadow-2xl w-full max-w-sm border border-primary-bg" onClick={(e) => e.stopPropagation()}> {/* THEMED */}
+                <header className="p-4 border-b border-primary-bg flex justify-between items-center"> {/* THEMED */}
+                    <h2 className="text-xl font-bold text-text-on-ui">{t('view_list_history')}</h2> {/* THEMED */}
+                    <button onClick={onClose} className="p-1 rounded-full text-text-on-ui hover:bg-primary-bg"><X size={20}/></button> {/* THEMED */}
                 </header>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-text-muted"> {/* THEMED */}
                         For simplicity, list history only started on <strong>October 4, 2025,</strong> and only works for the main list.
                     </p>
                     <div>
-                        <label className="block text-sm font-bold text-gray-300 mb-2">Select a Date</label>
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('select_a_date')}</label> {/* THEMED */}
                         <input 
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200"
+                            className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /* THEMED */
                         />
                     </div>
-                    <button type="submit" className="w-full px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white">View History</button>
+                    <button type="submit" className="w-full px-4 py-2 rounded-lg font-semibold bg-accent hover:opacity-90 text-text-on-ui"> {/* THEMED */}
+                      {t('view_history')}
+                    </button>
                 </form>
             </div>
         </div>
@@ -185,38 +188,44 @@ export default function Home() {
       {isHistoryModalOpen && <HistoryModal onClose={() => setIsHistoryModalOpen(false)} onFetchHistory={fetchHistoricList} />}
       <div className="min-h-screen flex flex-col items-center pt-6 px-4">
         <div className="w-full max-w-3xl flex justify-center items-center mb-4 relative">
-          <h1 className="font-poppins text-4xl font-bold text-center text-cyan-600 dark:text-cyan-400 capitalize break-words">
+          <h1 className="font-poppins text-4xl font-bold text-center text-accent capitalize break-words"> {/* THEMED */}
             {listTitles[currentListType]}
           </h1>
           {currentListType === 'progression' && user && (
             <button 
               onClick={handleOpenAddModal}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-colors text-sm absolute right-0"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-accent hover:opacity-90 text-text-on-ui transition-colors text-sm absolute right-0" /* THEMED */
             >
-              <PlusCircle className="w-5 h-5" /> Add Record
+              <PlusCircle className="w-5 h-5" /> {t('add_record')}
             </button>
           )}
         </div>
         
         {historicDate && (
-            <div className="w-full max-w-3xl mb-4 p-3 bg-yellow-900/50 border border-yellow-700 rounded-lg flex justify-between items-center">
+            <div className="w-full max-w-3xl mb-4 p-3 bg-yellow-900/50 border border-yellow-700 rounded-lg flex justify-between items-center"> {/* Warning: Left as-is */ }
                 <p className="font-semibold text-yellow-300">
-                    Showing list as of {historicDate.toLocaleDateString()}
+                    {t('showing_list_as_of', { date: historicDate.toLocaleDateString() })}
                 </p>
-                <button onClick={fetchLevels} className="text-sm font-bold text-white hover:underline">Return to Live List</button>
+                <button onClick={fetchLevels} className="text-sm font-bold text-white hover:underline">
+                  {t('return_to_live_list')}
+                </button>
             </div>
         )}
 
         <div className="w-full max-w-3xl mb-6 flex gap-2">
           <input
             type="text"
-            placeholder="Search by Level Name, Placement, Creator, or Verifier..."
+            placeholder={t('search_placeholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-grow p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="flex-grow p-2 rounded-lg border border-primary-bg bg-ui-bg text-text-on-ui focus:outline-none focus:ring-2 focus:ring-accent" /* THEMED */
           />
           {currentListType === 'main' && (
-            <button onClick={() => setIsHistoryModalOpen(true)} title="View List History" className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+            <button 
+              onClick={() => setIsHistoryModalOpen(true)} 
+              title={t('view_list_history')}
+              className="p-2 rounded-lg border border-primary-bg bg-ui-bg text-text-on-ui hover:bg-primary-bg" /* THEMED */
+            >
                 <History className="w-5 h-5"/>
             </button>
           )}
@@ -224,7 +233,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-4 w-full max-w-3xl">
           {isLoading ? (
-            <LoadingSpinner message="Loading List..." />
+            <LoadingSpinner message={t('loading_list')} />
           ) : error ? (
             <p className="text-center text-red-500 mt-8">{error}</p>
           ) : filteredLevels.length > 0 ? (
@@ -240,7 +249,7 @@ export default function Home() {
               />
             ))
           ) : (
-            <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
+            <p className="text-center text-text-muted mt-8"> {/* THEMED */}
               {t('no_levels_found')}
             </p>
           )}
