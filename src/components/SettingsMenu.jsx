@@ -1,6 +1,6 @@
 // src/components/SettingsMenu.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { Sun, Moon, Settings, User, Shield, BookText } from "lucide-react"; // Import BookText
+import { Sun, Moon, Settings, User, Shield, BookText } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function SettingsMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage(); // t is already here, perfect
   const { user } = useAuth();
   const menuRef = useRef(null);
 
@@ -54,7 +54,7 @@ export default function SettingsMenu() {
                 className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
               >
                 <Shield className="w-5 h-5" />
-                <span>Admin Panel</span>
+                <span>{t('admin_panel')}</span> {/* <-- Updated */}
               </Link>
               <hr className="border-gray-300 dark:border-gray-600 my-2" />
             </>
@@ -68,7 +68,7 @@ export default function SettingsMenu() {
                 className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
               >
                 <User className="w-5 h-5" />
-                <span>My Account</span>
+                <span>{t('my_account')}</span> {/* <-- Updated */}
               </Link>
               <hr className="border-gray-300 dark:border-gray-600 my-2" />
             </>
@@ -81,13 +81,13 @@ export default function SettingsMenu() {
             className="flex items-center gap-3 text-gray-900 dark:text-gray-100 font-semibold hover:text-cyan-500 transition-colors"
           >
             <BookText className="w-5 h-5" />
-            <span>Guidelines</span>
+            <span>{t('guidelines')}</span> {/* <-- Updated */}
           </Link>
 
           <hr className="border-gray-300 dark:border-gray-600 my-2" />
 
           <div className="flex items-center justify-between">
-            <span className="text-gray-900 dark:text-gray-100 font-semibold">Theme</span>
+            <span className="text-gray-900 dark:text-gray-100 font-semibold">{t('theme')}</span> {/* <-- Updated */}
             <div className="flex items-center justify-center gap-3">
               <Sun className="w-5 h-5 text-yellow-500" />
               <label className="relative inline-flex items-center cursor-pointer">

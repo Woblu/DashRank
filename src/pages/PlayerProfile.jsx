@@ -35,7 +35,7 @@ export default function PlayerProfile() {
   useEffect(() => {
     const fetchAndProcessData = async () => {
       if (!cleanPlayerName) {
-        setProfileData(prev => ({ ...prev, error: "Player name missing.", loading: false }));
+        setProfileData(prev => ({ ...prev, error: t('player_name_missing'), loading: false })); // <-- Updated
         return;
       }
 
@@ -55,17 +55,18 @@ export default function PlayerProfile() {
         console.log("[PlayerProfile v9] Received all data from API:", apiData);
         if (!apiData || !apiData.playerStat) {
              console.log("[PlayerProfile v9] API returned no playerStat data.");
-             apiError = "No player data found.";
+             apiError = t('no_player_data_found'); // <-- Updated
         }
       } catch (err) {
         console.error("Failed to load player stats from API:", err);
-        apiError = err.response?.data?.message || err.message || "Error fetching core stats.";
+        apiError = err.response?.data?.message || err.message || t('error_fetching_core_stats'); // <-- Updated
         apiData = null;
       }
 
       // --- 2. Set State ---
       if (!apiData) {
-           setProfileData(prev => ({ ...prev, loading: false, error: apiError || `Player "${cleanPlayerName}" not found.` }));
+           // This now uses the new dynamic translation!
+           setProfileData(prev => ({ ...prev, loading: false, error: apiError || t('player_not_found_dynamic', { name: cleanPlayerName }) })); // <-- Updated
       } else {
            setProfileData({
                name: apiData.playerStat.name, // Use the proper-cased name from the API
@@ -129,7 +130,7 @@ export default function PlayerProfile() {
             </div>
           ) : (
              <div className="text-center mb-4 text-gray-500 dark:text-gray-400">
-                <p>Not ranked on the main list.</p>
+                <p>{t('not_ranked_main_list')}</p> {/* <-- Updated */}
              </div>
           )}
 
@@ -150,10 +151,10 @@ export default function PlayerProfile() {
             )}
 
              {totalCompleted > 0 && (
-                <p><span className="font-semibold">{t('completed_levels')}:</span> {totalCompleted}</p>
+                <p><span className="font-semibold">{t('completed_levels')}:</span> {totalCompleted}</p> {/* <-- Updated */}
              )}
              {totalVerified > 0 && (
-                <p><span className="font-semibold">{t('verified_levels')}:</span> {totalVerified}</p>
+                <p><span className="font-semibold">{t('verified_levels')}:</span> {totalVerified}</p> {/* <-- Updated */}
              )}
           </div>
         </div>
