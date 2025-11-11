@@ -16,6 +16,10 @@ export default {
         'accent': 'rgb(var(--color-accent) / <alpha-value>)',
         'text-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
         'text-on-ui': 'rgb(var(--color-text-on-ui) / <alpha-value>)',
+        
+        // --- THIS IS THE NEW COLOR ---
+        // For buttons that were gray-200 / gray-700
+        'button-bg': 'rgb(var(--color-button-bg) / <alpha-value>)',
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite',

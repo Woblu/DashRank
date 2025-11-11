@@ -3,36 +3,34 @@ import { NavLink, useLocation, Link } from "react-router-dom";
 import { BarChart2, Info, LogIn, UserPlus, BookMarked, Hammer, Menu, X } from "lucide-react";
 import logo from "../assets/dashrank-logo.webp";
 import { useAuth } from "../contexts/AuthContext.jsx";
-import { useLanguage } from "../contexts/LanguageContext.jsx"; // 1. Import
+import { useLanguage } from "../contexts/LanguageContext.jsx"; 
 import StatsViewer from "./StatsViewer";
 import InfoBox from "./InfoBox";
 import SettingsMenu from "./SettingsMenu";
 
 export default function Tabs() {
   const { user } = useAuth();
-  const { t } = useLanguage(); // 2. Initialize
+  const { t } = useLanguage(); 
   const location = useLocation();
   const mobileMenuRef = useRef(null);
   
-  // 3. Translated Stats Button Titles
   const statsButtonTitles = {
     main: t('main_stats_viewer'),
     unrated: t('unrated_stats_viewer'),
     platformer: t('platformer_stats_viewer'),
     challenge: t('challenge_stats_viewer'),
-    speedhack: t('speedhack_stats_viewer'), // You will need to add this key
+    speedhack: t('speedhack_stats_viewer'),
     future: t('future_stats_viewer'),
   };
   
-  // 4. Translated Tabs
   const tabs = [
     { name: t('main_list'), path: "/main" }, 
     { name: t('unrated_list'), path: "/unrated" },
     { name: t('platformer_list'), path: "/platformer" }, 
     { name: t('challenge_list'), path: "/challenge" },
-    { name: t('speedhack_list'), path: "/speedhack" }, // You will need to add this key
+    { name: t('speedhack_list'), path: "/speedhack" }, 
     { name: t('future_list'), path: "/future" },
-    { name: t('creators_workshop'), path: "/layouts", icon: Hammer }, // You will need to add this key
+    { name: t('creators_workshop'), path: "/layouts", icon: Hammer }, 
   ];
 
   const [isStatsViewerOpen, setIsStatsViewerOpen] = useState(false);
@@ -49,10 +47,8 @@ export default function Tabs() {
       setListType(currentPathSegment);
       localStorage.setItem('lastViewedList', currentPathSegment);
     }
-    // Update statsButtonTitles if language changes
-  }, [location.pathname, t]); // Add t as a dependency
+  }, [location.pathname, t]); 
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
@@ -75,15 +71,15 @@ export default function Tabs() {
       <div className="flex items-center gap-2">
         <Link 
           to="/login" 
-          className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-primary-bg text-text-primary hover:bg-accent/10 transition-colors text-sm"
+          className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors text-sm" /* THEMED-FIX */
         >
-          <LogIn className="w-4 h-4" /> {t('login')} {/* 5. Translated */}
+          <LogIn className="w-4 h-4" /> {t('login')} 
         </Link>
         <Link 
           to="/register" 
           className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors text-sm"
         >
-          <UserPlus className="w-4 h-4" /> {t('register')} {/* 6. Translated */}
+          <UserPlus className="w-4 h-4" /> {t('register')} 
         </Link>
       </div>
     );
@@ -91,14 +87,20 @@ export default function Tabs() {
 
   return (
     <>
-      <header className="relative bg-ui-bg shadow-lg z-30 border-b border-primary-bg"> {/* THEMED */}
+      {/* This is the KEY FIX for the header.
+        Your original was `bg-white dark:bg-gray-900`.
+        `bg-ui-bg` is `white` (light)
+        `dark:bg-primary-bg` is `dark:bg-gray-900` (dark)
+        This combination now perfectly matches the original AND works with themes.
+      */}
+      <header className="relative bg-ui-bg dark:bg-primary-bg shadow-lg z-30 border-b border-primary-bg"> 
         <div className="flex flex-col md:flex-row items-center justify-between px-4 py-3 gap-y-3">
           <div className="w-full md:flex-1 flex justify-start">
             <Link to="/" className="flex items-center gap-2 flex-shrink-0">
               <img src={logo} alt="DashRank Logo" className="w-8 h-8" />
               <div>
-                <span className="font-bold text-xl text-accent">DashRank</span> {/* THEMED */}
-                <span className="ml-2 text-xs font-mono text-text-muted">v1.0</span> {/* THEMED */}
+                <span className="font-bold text-xl text-accent">DashRank</span>
+                <span className="ml-2 text-xs font-mono text-text-muted">v1.0</span>
               </div>
             </Link>
           </div>
@@ -106,7 +108,7 @@ export default function Tabs() {
           <div className="md:hidden order-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md bg-primary-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED */
+              className="p-2 rounded-md bg-button-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED-FIX */
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -119,17 +121,17 @@ export default function Tabs() {
               <NavLink
                 to={user ? "/progression" : "/login"}
                 state={!user ? { from: { pathname: "/progression" } } : undefined}
-                className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`} /* THEMED */
+                className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`} 
               >
                 <BookMarked className="w-4 h-4" />
-                {t('progression_tracker')} {/* 7. Translated */}
+                {t('progression_tracker')} 
               </NavLink>
 
               {tabs.map((tab) => (
                 <NavLink 
                   key={tab.name} 
                   to={tab.path} 
-                  className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`} /* THEMED */
+                  className={({ isActive }) => `px-3 py-2 rounded-md font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`}
                 >
                   {tab.icon && <tab.icon className="w-4 h-4" />}
                   {tab.name}
@@ -141,15 +143,15 @@ export default function Tabs() {
             <button 
               title={statsButtonTitles[listType]} 
               onClick={() => setIsStatsViewerOpen(true)} 
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-primary-bg text-text-primary hover:bg-accent/10 transition-colors text-sm" /* THEMED */
+              className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors text-sm" /* THEMED-FIX */
             >
               <BarChart2 className="w-4 h-4" />
               <span className="hidden md:inline">{statsButtonTitles[listType]}</span>
             </button>
             <button 
-              title={t('info_title')} /* Translated */
+              title={t('info_title')}
               onClick={() => setIsInfoBoxOpen(true)} 
-              className="p-2 rounded-md font-semibold bg-primary-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED */
+              className="p-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED-FIX */
             >
               <Info className="w-5 h-5" />
             </button>
@@ -160,16 +162,16 @@ export default function Tabs() {
 
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (
-        <div ref={mobileMenuRef} className="md:hidden bg-ui-bg border-b border-primary-bg shadow-lg"> {/* THEMED */}
+        <div ref={mobileMenuRef} className="md:hidden bg-ui-bg dark:bg-primary-bg border-b border-primary-bg shadow-lg"> {/* THEMED-FIX */}
           <div className="px-4 py-3 space-y-2">
             <NavLink
               to={user ? "/progression" : "/login"}
               state={!user ? { from: { pathname: "/progression" } } : undefined}
               onClick={() => setIsMobileMenuOpen(false)}
-              className={({ isActive }) => `block px-3 py-2 rounded-md font-semibold transition-colors text-sm flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`} /* THEMED */
+              className={({ isActive }) => `block px-3 py-2 rounded-md font-semibold transition-colors text-sm flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`} 
             >
               <BookMarked className="w-4 h-4" />
-              {t('progression_tracker')} {/* Translated */}
+              {t('progression_tracker')}
             </NavLink>
 
             {tabs.map((tab) => (
@@ -177,7 +179,7 @@ export default function Tabs() {
                 key={tab.name} 
                 to={tab.path} 
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={({ isActive }) => `block px-3 py-2 rounded-md font-semibold transition-colors text-sm flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`} /* THEMED */
+                className={({ isActive }) => `block px-3 py-2 rounded-md font-semibold transition-colors text-sm flex items-center gap-2 ${isActive ? "bg-accent text-text-on-ui" : "text-accent hover:bg-accent/20"}`}
               >
                 {tab.icon && <tab.icon className="w-4 h-4" />}
                 {tab.name}

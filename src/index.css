@@ -9,10 +9,11 @@
 
   /* --- Theme: Cyan (Default Dark) --- */
   html[data-theme="cyan"] {
-    --color-primary-bg: 17 24 39;      /* gray-900 */
+    --color-primary-bg: 17 24 39;      /* gray-900 (Page BG) */
+    --color-ui-bg: 31 41 55;            /* gray-800 (Card BG) */
+    --color-button-bg: 55 65 81;        /* gray-700 (Button BG) */
     --color-text-primary: 243 244 246;   /* gray-100 */
     --color-text-muted: 156 163 175;   /* gray-400 */
-    --color-ui-bg: 31 41 55;            /* gray-800 */
     --color-accent: 34 211 238;       /* cyan-400 */
     --color-text-secondary: 103 232 249; /* cyan-300 */
     --color-text-on-ui: 243 244 246;    /* gray-100 */
@@ -20,10 +21,11 @@
 
   /* --- Theme: Cyan Light (Default Light) --- */
   html[data-theme="cyan-light"] {
-    --color-primary-bg: 243 244 246;   /* gray-100 */
+    --color-primary-bg: 243 244 246;   /* gray-100 (Page BG) */
+    --color-ui-bg: 255 255 255;         /* white (Card BG) */
+    --color-button-bg: 229 231 235;     /* gray-200 (Button BG) */
     --color-text-primary: 17 24 39;      /* gray-900 */
     --color-text-muted: 107 114 128;     /* gray-500 */
-    --color-ui-bg: 255 255 255;         /* white */
     --color-accent: 8 145 178;       /* cyan-600 */
     --color-text-secondary: 6 182 212;   /* cyan-500 */
     --color-text-on-ui: 17 24 39;        /* gray-900 */
@@ -32,9 +34,10 @@
   /* --- Theme: Mono (White w/ Black Tab) --- */
   html[data-theme="mono"] {
     --color-primary-bg: 243 244 246;   /* gray-100 */
+    --color-ui-bg: 0 0 0;               /* black */
+    --color-button-bg: 229 231 235;     /* gray-200 */
     --color-text-primary: 17 24 39;      /* gray-900 */
     --color-text-muted: 107 114 128;     /* gray-500 */
-    --color-ui-bg: 0 0 0;               /* black */
     --color-accent: 75 85 99;         /* gray-500 */
     --color-text-secondary: 55 65 81;    /* gray-600 */
     --color-text-on-ui: 255 255 255;    /* white */
@@ -43,9 +46,10 @@
   /* --- Theme: Red (Dark) --- */
   html[data-theme="red"] {
     --color-primary-bg: 17 24 39;      /* gray-900 */
+    --color-ui-bg: 31 41 55;            /* gray-800 */
+    --color-button-bg: 55 65 81;        /* gray-700 */
     --color-text-primary: 243 244 246;   /* gray-100 */
     --color-text-muted: 156 163 175;   /* gray-400 */
-    --color-ui-bg: 31 41 55;            /* gray-800 */
     --color-accent: 248 113 113;       /* red-400 */
     --color-text-secondary: 239 68 68;  /* red-500 */
     --color-text-on-ui: 243 244 246;    /* gray-100 */
@@ -54,9 +58,10 @@
   /* --- Theme: Green (Dark) --- */
   html[data-theme="green"] {
     --color-primary-bg: 17 24 39;      /* gray-900 */
+    --color-ui-bg: 31 41 55;            /* gray-800 */
+    --color-button-bg: 55 65 81;        /* gray-700 */
     --color-text-primary: 243 244 246;   /* gray-100 */
     --color-text-muted: 156 163 175;   /* gray-400 */
-    --color-ui-bg: 31 41 55;            /* gray-800 */
     --color-accent: 74 222 128;       /* green-400 */
     --color-text-secondary: 34 197 94;  /* green-500 */
     --color-text-on-ui: 243 244 246;    /* gray-100 */

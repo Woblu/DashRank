@@ -40,7 +40,7 @@ export default function SettingsMenu() {
       <button
         title="Settings"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-md font-semibold bg-ui-bg/70 text-text-on-ui hover:bg-ui-bg transition-colors"
+        className="p-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED-FIX */
       >
         <Settings className="w-5 h-5" />
       </button>
