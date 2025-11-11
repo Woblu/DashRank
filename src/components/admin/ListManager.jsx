@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import { Plus, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext'; // 1. Import
+import { Plus, Trash2, ChevronUp, ChevronDown, X } from 'lucide-react';
 
-// ** THE FIX IS HERE: Updated the list of options **
 const LIST_NAMES = [
-  'main-list', 
-  'unrated-list', 
-  'platformer-list', 
-  'speedhack-list', 
-  'challenge-list', 
-  'future-list'
+  'main-list', 'unrated-list', 'platformer-list', 
+  'speedhack-list', 'challenge-list', 'future-list'
 ];
 
 const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
     const { token } = useAuth();
+    const { t } = useLanguage(); // 2. Initialize
     const [levelData, setLevelData] = useState({ name: '', creator: '', verifier: '', videoId: '', levelId: '' });
     const [placement, setPlacement] = useState(1);
     const [error, setError] = useState('');
@@ -31,7 +28,7 @@ const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
         setError('');
         try {
             await axios.post('/api/admin/add-level', {
-                levelData,
+                ...levelData, // Spread levelData here
                 list: listName,
                 placement: parseInt(placement, 10),
             }, { headers: { Authorization: `Bearer ${token}` } });
@@ -45,23 +42,45 @@ const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-            <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700">
-                <header className="p-4 border-b border-gray-700">
-                    <h2 className="text-xl font-bold text-white">Add Level to "{listName}"</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
+            <div className="bg-ui-bg rounded-xl shadow-2xl w-full max-w-lg border border-primary-bg" onClick={(e) => e.stopPropagation()}> {/* THEMED */}
+                <header className="p-4 border-b border-primary-bg flex justify-between items-center"> {/* THEMED */}
+                    <h2 className="text-xl font-bold text-text-on-ui">{t('add_new_level_to', { listName: listName })}</h2> {/* THEMED & Translated */}
+                    <button onClick={onClose} className="p-1 rounded-full text-text-on-ui hover:bg-primary-bg transition-colors"><X size={20}/></button> {/* THEMED */}
                 </header>
-                <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                    <input name="name" value={levelData.name} onChange={handleInputChange} placeholder="Level Name" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
-                    <input name="creator" value={levelData.creator} onChange={handleInputChange} placeholder="Creator(s)" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
-                    <input name="verifier" value={levelData.verifier} onChange={handleInputChange} placeholder="Verifier" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
-                    <input name="videoId" value={levelData.videoId} onChange={handleInputChange} placeholder="YouTube Video ID" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
-                    <input type="number" name="levelId" value={levelData.levelId} onChange={handleInputChange} placeholder="Level ID" required className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
-                    <input type="number" value={placement} onChange={(e) => setPlacement(e.target.value)} placeholder="Placement" required min="1" className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700" />
+                <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('level_name')}</label> {/* THEMED */}
+                        <input type="text" name="name" value={levelData.name} onChange={handleInputChange} required className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('creator')}</label> {/* THEMED */}
+                        <input type="text" name="creator" value={levelData.creator} onChange={handleInputChange} required className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
+                    </div>
+                     <div>
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('verifier')}</label> {/* THEMED */}
+                        <input type="text" name="verifier" value={levelData.verifier} onChange={handleInputChange} required className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('video_url_or_id')}</label> {/* THEMED */}
+                        <input type="text" name="videoId" value={levelData.videoId} onChange={handleInputChange} required className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('gd_level_id')}</label> {/* THEMED */}
+                        <input type="text" name="levelId" value={levelData.levelId} onChange={handleInputChange} className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('placement')}</label> {/* THEMED */}
+                        <input type="number" value={placement} onChange={(e) => setPlacement(e.target.value)} required min="1" className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
+                    </div>
                     
-                    {error && <p className="text-red-400">{error}</p>}
-                    <div className="flex justify-end gap-4">
-                        <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-gray-600 hover:bg-gray-500">Cancel</button>
-                        <button type="submit" disabled={isLoading} className="px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 disabled:bg-gray-500">{isLoading ? 'Adding...' : 'Add Level'}</button>
+                    {error && <p className="md:col-span-2 text-red-400 text-center">{error}</p>}
+                    
+                    <div className="md:col-span-2 flex justify-end gap-4 mt-4">
+                        <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-primary-bg text-text-primary hover:bg-accent/20 transition-colors">{t('close')}</button> {/* THEMED */}
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors disabled:opacity-70"> {/* THEMED */}
+                            {isLoading ? t('adding_level') : t('add_level')}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -70,15 +89,15 @@ const AddLevelModal = ({ listName, onClose, onLevelAdded }) => {
 };
 
 export default function ListManager() {
-    const { token } = useAuth();
     const [selectedList, setSelectedList] = useState(LIST_NAMES[0]);
     const [levels, setLevels] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { token } = useAuth();
+    const { t } = useLanguage(); // 2. Initialize
 
     const fetchLevels = async () => {
-        if (!selectedList) return;
         setIsLoading(true);
         setError('');
         try {
@@ -95,64 +114,91 @@ export default function ListManager() {
         fetchLevels();
     }, [selectedList]);
 
-    const handleRemove = async (levelId) => {
-        if (!window.confirm("Are you sure you want to remove this level?")) return;
+    const handleMove = async (levelId, newPlacement) => {
+        const levelToMove = levels.find(l => l.id === levelId);
+        if (!levelToMove) return;
+
+        // Prevent moving out of bounds
+        if (newPlacement < 1 || newPlacement > levels.length) return;
+
         try {
-            await axios.delete('/api/admin/remove-level', {
-                headers: { Authorization: `Bearer ${token}` },
-                data: { levelId }
-            });
-            fetchLevels();
+            await axios.put('/api/admin/move-level', 
+                { levelId, oldPlacement: levelToMove.placement, newPlacement, list: selectedList },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            fetchLevels(); // Refetch to get new order
         } catch (err) {
-            alert(err.response?.data?.message || 'Failed to remove level.');
+            alert('Failed to move level: ' + (err.response?.data?.message || 'Server error'));
         }
     };
     
-    const handleMove = async (levelId, newPlacement) => {
-        if (newPlacement < 1) return;
-        try {
-            await axios.put('/api/admin/move-level', 
-                { levelId, newPlacement },
-                { headers: { Authorization: `Bearer ${token}` } }
+    const handleRemove = async (levelId) => {
+        if (!window.confirm('Are you sure you want to permanently remove this level from the list?')) return;
+         try {
+            await axios.delete('/api/admin/remove-level', 
+                { 
+                    data: { levelId },
+                    headers: { Authorization: `Bearer ${token}` } 
+                }
             );
-            fetchLevels();
+            fetchLevels(); // Refetch
         } catch (err) {
-            alert(err.response?.data?.message || 'Failed to move level.');
+            alert('Failed to remove level: ' + (err.response?.data?.message || 'Server error'));
         }
     };
 
     return (
-        <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
+        <div className="p-4 bg-ui-bg rounded-lg shadow-inner border border-primary-bg"> {/* THEMED */}
             {isModalOpen && <AddLevelModal listName={selectedList} onClose={() => setIsModalOpen(false)} onLevelAdded={fetchLevels} />}
-            <h2 className="text-2xl font-bold mb-4">Demonlist Management</h2>
-            <div className="flex justify-between items-center mb-4">
-                <select value={selectedList} onChange={(e) => setSelectedList(e.target.value)} className="p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200">
-                    {LIST_NAMES.map(name => <option key={name} value={name}>{name}</option>)}
-                </select>
-                <button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700">
-                    <Plus size={18} /> Add New Level
-                </button>
-            </div>
-
-            {isLoading && <p className="animate-pulse">Loading levels...</p>}
-            {error && <p className="text-red-500">{error}</p>}
             
-            {!isLoading && !error && (
-                <div className="space-y-2">
-                    {levels.map((level) => (
-                        <div key={level.id} className="grid grid-cols-12 gap-4 items-center p-3 bg-gray-700/50 rounded-lg">
-                            <span className="font-bold text-lg text-cyan-400 col-span-1">#{level.placement}</span>
-                            <span className="col-span-6">{level.name}</span>
-                            <span className="text-gray-400 col-span-3">by {level.creator}</span>
-                            <div className="flex justify-end items-center gap-2 col-span-2">
-                                <button onClick={() => handleMove(level.id, level.placement - 1)} className="p-1 hover:bg-gray-600 rounded-full"><ChevronUp size={20} /></button>
-                                <button onClick={() => handleMove(level.id, level.placement + 1)} className="p-1 hover:bg-gray-600 rounded-full"><ChevronDown size={20} /></button>
-                                <button onClick={() => handleRemove(level.id)} className="p-1 text-red-400 hover:bg-red-500/20 rounded-full"><Trash2 size={18} /></button>
-                            </div>
-                        </div>
-                    ))}
+            <header className="pb-4 border-b border-primary-bg flex justify-between items-center"> {/* THEMED */}
+                <h2 className="text-2xl font-bold text-text-on-ui">{t('list_management')}</h2> {/* THEMED & Translated */}
+                <div className="flex gap-4">
+                    <select 
+                        value={selectedList} 
+                        onChange={(e) => setSelectedList(e.target.value)}
+                        className="p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /* THEMED */
+                    >
+                        <option value="" disabled>{t('select_list')}</option> {/* Translated */}
+                        {LIST_NAMES.map(name => <option key={name} value={name}>{name}</option>)}
+                    </select>
+                    <button 
+                        onClick={() => setIsModalOpen(true)} 
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors" /* THEMED */
+                    >
+                        <Plus size={20} /> {t('add_level')} {/* Translated */}
+                    </button>
                 </div>
-            )}
+            </header>
+            
+            <div className="mt-4">
+                {isLoading && <p className="animate-pulse text-text-muted">{t('loading_levels')}</p>} {/* THEMED & Translated */}
+                {error && <p className="text-red-500">{error}</p>}
+                
+                {!isLoading && !error && (
+                    <div className="space-y-2">
+                        {/* List Header */}
+                        <div className="grid grid-cols-12 gap-4 items-center p-3 text-text-muted font-bold text-sm"> {/* THEMED */}
+                            <span className="col-span-1">#</span>
+                            <span className="col-span-6">{t('level')}</span> {/* Translated */}
+                            <span className="col-span-3">{t('creator')}</span> {/* Translated */}
+                            <span className="col-span-2 text-right">{t('actions')}</span> {/* Translated */}
+                        </div>
+                        {levels.map((level) => (
+                            <div key={level.id} className="grid grid-cols-12 gap-4 items-center p-3 bg-primary-bg rounded-lg"> {/* THEMED */}
+                                <span className="font-bold text-lg text-accent col-span-1">#{level.placement}</span> {/* THEMED */}
+                                <span className="col-span-6 text-text-primary">{level.name}</span> {/* THEMED */}
+                                <span className="text-text-muted col-span-3">{level.creator}</span> {/* THEMED */}
+                                <div className="flex justify-end items-center gap-2 col-span-2 text-text-primary"> {/* THEMED */}
+                                    <button onClick={() => handleMove(level.id, level.placement - 1)} className="p-1 hover:bg-accent/20 rounded-full" disabled={level.placement === 1}><ChevronUp size={20} /></button> {/* THEMED */}
+                                    <button onClick={() => handleMove(level.id, level.placement + 1)} className="p-1 hover:bg-accent/20 rounded-full" disabled={level.placement === levels.length}><ChevronDown size={20} /></button> {/* THEMED */}
+                                    <button onClick={() => handleRemove(level.id)} className="p-1 text-red-400 hover:bg-red-500/20 rounded-full"><Trash2 size={18} /></button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LayoutCard from '../../components/LayoutCard';
 import { PlusCircle, Filter, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext'; // 1. Import
 
 // Constants for filter dropdowns, derived from your schema
 const demonDifficulties = ['EASY', 'MEDIUM', 'HARD', 'INSANE', 'EXTREME'];
@@ -17,6 +18,7 @@ export default function LayoutGalleryPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const { user } = useAuth();
+  const { t } = useLanguage(); // 2. Initialize
 
   // State for the filter functionality
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -33,8 +35,7 @@ export default function LayoutGalleryPage() {
         const res = await axios.get('/api/layouts');
         setLayouts(res.data);
       } catch (err) {
-        setError('Failed to load layouts. Please try again later.');
-        console.error(err);
+        setError('Failed to fetch layouts.');
       } finally {
         setIsLoading(false);
       }
@@ -42,86 +43,85 @@ export default function LayoutGalleryPage() {
     fetchLayouts();
   }, []);
 
-  // Filter logic
-  const filteredLayouts = useMemo(() => {
-    return layouts.filter(layout => {
-      const difficultyMatch = filters.difficulty === 'ALL' || layout.difficulty === filters.difficulty;
-      const tagMatch = filters.tag === 'ALL' || layout.tags.includes(filters.tag);
-      const songMatch = !filters.song || layout.songName?.toLowerCase().includes(filters.song.toLowerCase());
-      return difficultyMatch && tagMatch && songMatch;
-    });
-  }, [layouts, filters]);
-
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const resetFilters = () => {
     setFilters({ difficulty: 'ALL', tag: 'ALL', song: '' });
-    setIsFilterOpen(false);
   };
 
+  const filteredLayouts = useMemo(() => {
+    return layouts.filter(layout => {
+      const { difficulty, tag, song } = filters;
+      if (difficulty !== 'ALL' && layout.difficulty !== difficulty) return false;
+      if (tag !== 'ALL' && (!layout.gameplayTags || !layout.gameplayTags.includes(tag))) return false;
+      if (song && layout.songName && !layout.songName.toLowerCase().includes(song.toLowerCase())) return false;
+      return true;
+    });
+  }, [layouts, filters]);
 
   return (
-    <div className="max-w-7xl mx-auto text-white">
-      <div className="text-center border-b-2 border-dotted border-gray-700 pb-8 mb-8">
-        <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-[0_0_15px_rgba(8,145,178,0.5)]">
-          Creator's Workshop
-        </h1>
-        <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-          Browse unfinished layouts from the community. Find a project to decorate, or share your own work to find collaborators.
-        </p>
-        {user && (
-          <Link 
-            to="/layouts/new" 
-            className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-colors shadow-lg shadow-cyan-500/20"
+    <div className="max-w-4xl mx-auto p-4">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold text-accent">{t('creators_workshop')}</h1> {/* THEMED */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold bg-ui-bg text-text-on-ui hover:bg-primary-bg transition-colors" /* THEMED */
           >
-            <PlusCircle /> Submit Your Layout
-          </Link>
-        )}
+            <Filter size={18} /> {t('filters')}
+          </button>
+          {user && (
+            <Link
+              to="/layouts/new"
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors" /* THEMED */
+            >
+              <PlusCircle size={18} /> {t('create_new_layout')}
+            </Link>
+          )}
+        </div>
       </div>
-
-      {/* Filter Controls */}
-      <div className="mb-6">
-        <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-gray-700 hover:bg-gray-600 text-white transition-colors">
-          <Filter size={18} /> {isFilterOpen ? 'Close Filters' : 'Open Filters'}
-        </button>
-        {isFilterOpen && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4 bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+      
+      {/* Filter Panel */}
+      {isFilterOpen && (
+        <div className="p-4 bg-ui-bg rounded-lg border border-primary-bg mb-6"> {/* THEMED */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Difficulty Filter */}
             <div>
-              <label className="block text-sm font-bold text-gray-400 mb-1">Difficulty</label>
-              <select name="difficulty" value={filters.difficulty} onChange={handleFilterChange} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200">
-                <option value="ALL">All Difficulties</option>
+              <label className="block text-sm font-bold text-text-muted mb-1">{t('difficulty')}</label> {/* THEMED */}
+              <select name="difficulty" value={filters.difficulty} onChange={handleFilterChange} className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary"> {/* THEMED */}
+                <option value="ALL">{t('all')}</option>
                 {demonDifficulties.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
             </div>
             {/* Tag Filter */}
             <div>
-              <label className="block text-sm font-bold text-gray-400 mb-1">Tag</label>
-              <select name="tag" value={filters.tag} onChange={handleFilterChange} className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200">
-                <option value="ALL">All Tags</option>
-                {gameplayTags.map(t => <option key={t} value={t}>{t}</option>)}
+              <label className="block text-sm font-bold text-text-muted mb-1">{t('tag')}</label> {/* THEMED */}
+              <select name="tag" value={filters.tag} onChange={handleFilterChange} className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary"> {/* THEMED */}
+                <option value="ALL">{t('all')}</option>
+                {gameplayTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
               </select>
             </div>
             {/* Song Filter */}
             <div>
-              <label className="block text-sm font-bold text-gray-400 mb-1">Song Name</label>
-              <input name="song" type="text" value={filters.song} onChange={handleFilterChange} placeholder="Enter song name..." className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" />
+              <label className="block text-sm font-bold text-text-muted mb-1">{t('song_name')}</label> {/* THEMED */}
+              <input name="song" type="text" value={filters.song} onChange={handleFilterChange} placeholder={t('song_name_placeholder')} className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /> {/* THEMED */}
             </div>
             {/* Reset Button */}
             <div className="flex items-end">
               <button onClick={resetFilters} className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold bg-red-600/80 hover:bg-red-700/80 text-white transition-colors">
-                <X size={18} /> Reset
+                <X size={18} /> {t('reset')}
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {isLoading ? (
-        <p className="text-center text-gray-400 animate-pulse">Loading Layouts...</p>
+        <p className="text-center text-text-muted animate-pulse">{t('loading_layouts')}</p> /* THEMED */
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
@@ -130,8 +130,8 @@ export default function LayoutGalleryPage() {
           {filteredLayouts.length > 0 ? (
             filteredLayouts.map(layout => <LayoutCard key={layout.id} layout={layout} />)
           ) : (
-            <div className="text-center text-gray-500 border-2 border-dashed border-gray-700 p-10 rounded-lg col-span-full">
-              <p>No layouts match the current filters. Try resetting them!</p>
+            <div className="text-center text-text-muted border-2 border-dashed border-primary-bg p-10 rounded-lg"> {/* THEMED */}
+              <p className="text-lg font-bold">{t('no_layouts_found')}</p>
             </div>
           )}
         </div>

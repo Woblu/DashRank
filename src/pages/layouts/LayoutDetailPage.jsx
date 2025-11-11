@@ -5,7 +5,9 @@ import axios from 'axios';
 import { ChevronLeft, Music, User, Tag, BarChartHorizontal, ShieldAlert, Send } from 'lucide-react';
 import { getEmbedUrl } from '../../utils/embedUtils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
+import { useLanguage } from '../../contexts/LanguageContext.jsx'; // 1. Import
 import LayoutManagement from '../../components/LayoutManagement';
+import LoadingSpinner from '../../components/LoadingSpinner'; // Import spinner
 
 const difficultyColors = {
   EASY: 'text-green-400',
@@ -15,82 +17,90 @@ const difficultyColors = {
   EXTREME: 'text-purple-400',
 };
 
-const ReportModal = ({ layout, onClose, reportReason, setReportReason, handleReportSubmit, reportError, reportSuccess }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
-    <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700" onClick={(e) => e.stopPropagation()}>
-      <header className="p-4 border-b border-gray-700">
-        <h2 className="text-xl font-bold text-white">Report Layout: {layout.levelName}</h2>
-      </header>
-      <form onSubmit={handleReportSubmit} className="p-6 space-y-4">
-        <div>
-          <label className="block text-sm font-bold text-gray-300 mb-2">Reason for reporting</label>
+// 2. Theme and Translate ReportModal
+const ReportModal = ({ layout, onClose, reportReason, setReportReason, handleReportSubmit, reportError, reportSuccess }) => {
+  const { t } = useLanguage();
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-ui-bg rounded-xl shadow-2xl w-full max-w-lg border border-primary-bg" onClick={(e) => e.stopPropagation()}> {/* THEMED */}
+        <header className="p-4 border-b border-primary-bg"> {/* THEMED */}
+          <h2 className="text-xl font-bold text-text-on-ui">{t('report_layout')}: {layout.levelName}</h2> {/* THEMED */}
+        </header>
+        <form onSubmit={handleReportSubmit} className="p-6 space-y-4">
+          <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('reason_for_report')}</label> {/* THEMED */}
           <textarea
             value={reportReason}
             onChange={(e) => setReportReason(e.target.value)}
             required
-            rows="5"
-            placeholder="Please provide a detailed reason for your report (e.g., inappropriate content, stolen layout, etc.)."
-            className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200"
-          />
-        </div>
-        {reportError && <p className="text-red-400">{reportError}</p>}
-        {reportSuccess && <p className="text-green-400">{reportSuccess}</p>}
-        <div className="flex justify-end gap-4">
-          <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-gray-600 hover:bg-gray-500">Cancel</button>
-          <button type="submit" className="px-4 py-2 rounded-lg font-semibold bg-red-600 hover:bg-red-700">Submit Report</button>
-        </div>
-      </form>
-    </div>
-  </div>
-);
-
-const ApplyModal = ({ layout, onClose, applicationMessage, setApplicationMessage, handleApplySubmit, applyError, applySuccess }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700" onClick={(e) => e.stopPropagation()}>
-        <header className="p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold text-white">Apply for: {layout.levelName}</h2>
-        </header>
-        <form onSubmit={handleApplySubmit} className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">Message (Optional)</label>
-            <textarea
-              value={applicationMessage}
-              onChange={(e) => setApplicationMessage(e.target.value)}
-              rows="5"
-              placeholder="Include a short message to the layout creator..."
-              className="w-full p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200"
-            />
-          </div>
-          {applyError && <p className="text-red-400 text-center">{applyError}</p>}
-          {applySuccess && <p className="text-green-400 text-center">{applySuccess}</p>}
+            placeholder={t('reason_placeholder')}
+            className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /* THEMED */
+            rows="4"
+          ></textarea>
+          {reportError && <p className="text-red-400 text-sm">{reportError}</p>}
+          {reportSuccess && <p className="text-green-400 text-sm">{reportSuccess}</p>}
           <div className="flex justify-end gap-4">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-gray-600 hover:bg-gray-500">Cancel</button>
-            <button type="submit" className="px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 flex items-center gap-2">
-                <Send size={16} /> Submit Application
-            </button>
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-primary-bg text-text-primary hover:bg-accent/20 transition-colors">{t('cancel')}</button> {/* THEMED */}
+            <button type="submit" className="px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors">{t('submit_report')}</button> {/* THEMED */}
           </div>
         </form>
       </div>
     </div>
-);
+  );
+};
+
+// 3. Theme and Translate ApplyModal
+const ApplyModal = ({ layout, onClose, message, setMessage, handleApplySubmit, applyError, applySuccess }) => {
+  const { t } = useLanguage();
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-ui-bg rounded-xl shadow-2xl w-full max-w-lg border border-primary-bg" onClick={(e) => e.stopPropagation()}> {/* THEMED */}
+        <header className="p-4 border-b border-primary-bg"> {/* THEMED */}
+          <h2 className="text-xl font-bold text-text-on-ui">{t('apply_to_decorate')}: {layout.levelName}</h2> {/* THEMED */}
+        </header>
+        <form onSubmit={handleApplySubmit} className="p-6 space-y-4">
+          <label className="block text-sm font-bold text-text-on-ui/90 mb-2">{t('message_to_creator')}</label> {/* THEMED */}
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={t('message_placeholder')}
+            className="w-full p-2 rounded-lg border border-primary-bg bg-primary-bg text-text-primary" /* THEMED */
+            rows="4"
+          ></textarea>
+          {applyError && <p className="text-red-400 text-sm">{applyError}</p>}
+          {applySuccess && <p className="text-green-400 text-sm">{applySuccess}</p>}
+          <div className="flex justify-end gap-4">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg font-semibold bg-primary-bg text-text-primary hover:bg-accent/20 transition-colors">{t('cancel')}</button> {/* THEMED */}
+            <button type="submit" className="px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors">{t('send_application')}</button> {/* THEMED */}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 
 export default function LayoutDetailPage() {
   const { layoutId } = useParams();
   const { user, token } = useAuth();
+  const { t } = useLanguage(); // 4. Initialize
   const [layout, setLayout] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-
-  // Report Modal State
+  const [embedInfo, setEmbedInfo] = useState(null);
+  
+  const [isOwner, setIsOwner] = useState(false);
+  
+  // Modal states
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  
+  // Report states
   const [reportReason, setReportReason] = useState('');
   const [reportError, setReportError] = useState('');
   const [reportSuccess, setReportSuccess] = useState('');
-
-  // Apply Modal State
-  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
-  const [applicationMessage, setApplicationMessage] = useState('');
+  
+  // Apply states
+  const [message, setMessage] = useState('');
   const [applyError, setApplyError] = useState('');
   const [applySuccess, setApplySuccess] = useState('');
 
@@ -100,37 +110,34 @@ export default function LayoutDetailPage() {
       try {
         const res = await axios.get(`/api/layouts/${layoutId}`);
         setLayout(res.data);
+        if (res.data.videoUrl) {
+          setEmbedInfo(getEmbedUrl(res.data.videoUrl));
+        }
+        if (user && res.data.creator.id === user.userId) {
+          setIsOwner(true);
+        }
       } catch (err) {
-        setError('Failed to load layout details.');
-        console.error(err);
+        setError(t('layout_load_failed')); // Translated
       } finally {
         setIsLoading(false);
       }
     };
     fetchLayout();
-  }, [layoutId]);
+  }, [layoutId, user, t]);
 
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     setReportError('');
     setReportSuccess('');
-    if (reportReason.length < 10) {
-      setReportError('Please provide a more detailed reason.');
-      return;
-    }
     try {
-      await axios.post('/api/layout-reports',
-        { layoutId: layout.id, reason: reportReason },
+      await axios.post('/api/layout-reports', 
+        { layoutId, reason: reportReason },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setReportSuccess('Report submitted successfully. Thank you!');
-      setTimeout(() => {
-        setIsReportModalOpen(false);
-        setReportReason('');
-        setReportSuccess('');
-      }, 2000);
+      setReportSuccess(t('report_success')); // Translated
+      setTimeout(() => setIsReportModalOpen(false), 2000);
     } catch (err) {
-      setReportError(err.response?.data?.message || 'Failed to submit report.');
+      setReportError(err.response?.data?.message || t('report_failed')); // Translated
     }
   };
 
@@ -139,31 +146,106 @@ export default function LayoutDetailPage() {
     setApplyError('');
     setApplySuccess('');
     try {
-        await axios.post('/api/collaboration-requests',
-            { layoutId: layout.id, message: applicationMessage },
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setApplySuccess('Application sent successfully!');
-        setTimeout(() => {
-            setIsApplyModalOpen(false);
-            setApplicationMessage('');
-        }, 2000);
+      await axios.post('/api/collaboration-requests',
+        { layoutId, message },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setApplySuccess(t('application_sent_success')); // Translated
+      setTimeout(() => setIsApplyModalOpen(false), 2000);
     } catch (err) {
-        setApplyError(err.response?.data?.message || 'Failed to submit application.');
+      setApplyError(err.response?.data?.message || t('application_sent_failed')); // Translated
     }
   };
 
-  if (isLoading) return <p className="text-center text-gray-400 animate-pulse">Loading Layout...</p>;
+  if (isLoading) return <LoadingSpinner message={t('loading_layout')} />;
   if (error) return <p className="text-center text-red-500">{error}</p>;
   if (!layout) return null;
 
-  const isOwner = user?.username === layout.creator.username;
-  const embedInfo = getEmbedUrl(layout.videoUrl); // embedInfo is an object { url, type }
-
   return (
     <>
+      <div className="max-w-6xl mx-auto p-4 text-text-primary"> {/* THEMED */}
+        <div className="mb-6">
+          <Link to="/layouts" className="flex items-center gap-2 text-accent hover:text-accent/80 transition-colors"> {/* THEMED */}
+            <ChevronLeft size={20} />
+            {t('back_to_layout_gallery')}
+          </Link>
+        </div>
+
+        {/* Main Layout Card */}
+        <div className="bg-ui-bg/80 backdrop-blur-sm p-6 rounded-xl shadow-2xl border border-primary-bg mb-8"> {/* THEMED */}
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h1 className="font-poppins text-5xl font-bold break-words text-text-on-ui">{layout.levelName}</h1> {/* THEMED */}
+            <p className="text-lg text-text-muted mt-2">{t('by')} {layout.creator.username}</p> {/* THEMED & Translated */}
+          </div>
+          
+          {/* Video Embed */}
+          {embedInfo && embedInfo.url ? (
+            <div className="aspect-video w-full border border-primary-bg rounded-xl overflow-hidden bg-primary-bg"> {/* THEMED */}
+              {embedInfo.type === 'iframe' ? (
+                <iframe key={embedInfo.url} width="100%" height="100%" src={embedInfo.url} title="Video Player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+              ) : (
+                <video key={embedInfo.url} width="100%" height="100%" src={embedInfo.url} controls></video>
+              )}
+            </div>
+          ) : (
+            <div className="aspect-video w-full border-2 border-dashed border-primary-bg rounded-xl flex items-center justify-center bg-primary-bg/50"> {/* THEMED */}
+              <p className="text-text-muted">{t('no_embeddable_video')}</p> {/* THEMED */}
+            </div>
+          )}
+        </div>
+        
+        {/* Layout Management Dashboard (for owner) */}
+        {isOwner && (
+          <LayoutManagement layout={layout} />
+        )}
+        
+        {/* Public Layout Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="bg-primary-bg/50 p-6 rounded-xl border border-primary-bg"> {/* THEMED */}
+            <h2 className="text-xl font-bold mb-4 text-text-primary">{t('description')}</h2> {/* THEMED */}
+            <p className="text-text-muted">{layout.description || t('no_description_provided')}</p> {/* THEMED */}
+          </div>
+          <div className="bg-primary-bg/50 p-6 rounded-xl border border-primary-bg"> {/* THEMED */}
+            <h2 className="text-xl font-bold mb-4 text-text-primary">{t('song')}</h2> {/* THEMED */}
+            <p className="text-text-muted flex items-center gap-2"> {/* THEMED */}
+              <Music size={18} /> {layout.songName || t('unknown_song')}
+            </p>
+          </div>
+          <div className="bg-primary-bg/50 p-6 rounded-xl border border-primary-bg"> {/* THEMED */}
+            <h2 className="text-xl font-bold mb-4 text-text-primary">{t('info')}</h2> {/* THEMED */}
+            <div className="space-y-2 text-text-muted"> {/* THEMED */}
+              <p className="flex items-center gap-2"><User size={18} /> {t('creator')}: {layout.creator.username}</p>
+              <p className={`flex items-center gap-2 font-bold ${difficultyColors[layout.difficulty]}`}><BarChartHorizontal size={18} /> {t('difficulty')}: {layout.difficulty}</p>
+            </div>
+          </div>
+          <div className="bg-primary-bg/50 p-6 rounded-xl border border-primary-bg"> {/* THEMED */}
+            <h2 className="text-xl font-bold mb-4 text-text-primary"><Tag/> {t('tags')}</h2> {/* THEMED */}
+            <div className="flex flex-wrap gap-2">
+              {layout.tags?.length > 0 ? layout.tags.map(tag => (
+                <span key={tag} className="text-sm bg-ui-bg text-text-muted px-3 py-1 rounded-full">{tag}</span> /* THEMED */
+              )) : <p className="text-sm text-text-muted">{t('no_tags_provided')}</p>} {/* THEMED */}
+            </div>
+          </div>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="space-y-4">
+          <button
+            onClick={() => setIsApplyModalOpen(true)}
+            disabled={isOwner || !user}
+            className="w-full flex items-center justify-center gap-2 bg-accent hover:opacity-90 text-text-on-ui font-bold py-3 px-4 rounded-lg shadow-lg shadow-accent/20 disabled:bg-ui-bg disabled:text-text-muted disabled:cursor-not-allowed disabled:shadow-none" /* THEMED */
+          >
+            {isOwner ? t('this_is_your_layout') : (user ? t('request_to_decorate') : t('login_to_request'))}
+          </button>
+          <button onClick={() => setIsReportModalOpen(true)} disabled={!user} className="w-full flex items-center justify-center gap-2 bg-red-900/50 hover:bg-red-900/80 text-red-400 font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <ShieldAlert size={18} /> {user ? t('report_this_layout') : t('login_to_report')}
+          </button>
+        </div>
+      </div>
+
       {isReportModalOpen && (
-        <ReportModal
+        <ReportModal 
           layout={layout}
           onClose={() => setIsReportModalOpen(false)}
           reportReason={reportReason}
@@ -173,91 +255,18 @@ export default function LayoutDetailPage() {
           reportSuccess={reportSuccess}
         />
       )}
+      
       {isApplyModalOpen && (
         <ApplyModal
-            layout={layout}
-            onClose={() => setIsApplyModalOpen(false)}
-            applicationMessage={applicationMessage}
-            setApplicationMessage={setApplicationMessage}
-            handleApplySubmit={handleApplySubmit}
-            applyError={applyError}
-            applySuccess={applySuccess}
+          layout={layout}
+          onClose={() => setIsApplyModalOpen(false)}
+          message={message}
+          setMessage={setMessage}
+          handleApplySubmit={handleApplySubmit}
+          applyError={applyError}
+          applySuccess={applySuccess}
         />
       )}
-
-      <div className="max-w-5xl mx-auto text-white">
-        <div className="mb-6">
-          <Link to="/layouts" className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors">
-            <ChevronLeft size={20} />
-            Back to Layout Gallery
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700 mb-4">
-               <h1 className="text-4xl font-bold mb-2">{layout.levelName}</h1>
-               <p className="text-gray-400">{layout.description || "No description provided."}</p>
-            </div>
-            <div className="aspect-video w-full bg-black rounded-xl">
-              {/* [FIX] Use embedInfo.url and check embedInfo.type */}
-              {embedInfo && embedInfo.url ? (
-                embedInfo.type === 'iframe' ? (
-                  <iframe
-                    width="100%" height="100%"
-                    src={embedInfo.url}
-                    title="Layout Video"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="rounded-xl shadow-lg"
-                  ></iframe>
-                ) : (
-                  <video
-                    width="100%" height="100%"
-                    src={embedInfo.url}
-                    controls
-                    className="rounded-xl shadow-lg"
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                )
-              ) : <div className="w-full h-full rounded-xl bg-gray-900 flex items-center justify-center"><p>Video preview not available.</p></div>}
-            </div>
-          </div>
-
-          <div className="lg:col-span-1 space-y-6">
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-              <h2 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Details</h2>
-              <div className="space-y-3 text-gray-300">
-                <p className="flex items-center gap-2"><User size={16} className="text-cyan-400"/> <strong>Creator:</strong> {layout.creator.username}</p>
-                <p className="flex items-center gap-2"><Music size={16} className="text-cyan-400"/> <strong>Song:</strong> {layout.songName || 'N/A'}</p>
-                <p className="flex items-center gap-2"><BarChartHorizontal size={16} className="text-cyan-400"/> <strong className={difficultyColors[layout.difficulty]}>Difficulty:</strong> {layout.difficulty}</p>
-              </div>
-            </div>
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><Tag/> Tags</h2>
-              <div className="flex flex-wrap gap-2">
-                {layout.tags?.length > 0 ? layout.tags.map(tag => (
-                  <span key={tag} className="text-sm bg-gray-700 text-gray-300 px-3 py-1 rounded-full">{tag}</span>
-                )) : <p className="text-sm text-gray-500">No tags provided.</p>}
-              </div>
-            </div>
-            <button
-              onClick={() => setIsApplyModalOpen(true)}
-              disabled={isOwner}
-              className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg shadow-cyan-500/20 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:shadow-none"
-            >
-              {isOwner ? "This is your layout" : "Request to Decorate"}
-            </button>
-            <button onClick={() => setIsReportModalOpen(true)} className="w-full flex items-center justify-center gap-2 bg-red-900/50 hover:bg-red-900/80 text-red-400 font-bold py-2 px-4 rounded-lg">
-              <ShieldAlert size={16} /> Report Layout
-            </button>
-          </div>
-        </div>
-
-        {isOwner && <LayoutManagement layoutId={layout.id} layoutCreatorId={layout.creatorId} />}
-      </div>
     </>
   );
 }
