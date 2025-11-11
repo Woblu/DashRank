@@ -51,8 +51,8 @@ export default function Tabs() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
-        setIsMobileMenuOpen(false);
+      if (mobileMenuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
       }
     }
     if (isMobileMenuOpen) {
@@ -71,7 +71,7 @@ export default function Tabs() {
       <div className="flex items-center gap-2">
         <Link 
           to="/login" 
-          className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors text-sm" /* THEMED-FIX */
+          className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors text-sm"
         >
           <LogIn className="w-4 h-4" /> {t('login')} 
         </Link>
@@ -87,13 +87,11 @@ export default function Tabs() {
 
   return (
     <>
-      {/* This is the KEY FIX for the header.
-        Your original was `bg-white dark:bg-gray-900`.
-        `bg-ui-bg` is `white` (light)
-        `dark:bg-primary-bg` is `dark:bg-gray-900` (dark)
-        This combination now perfectly matches the original AND works with themes.
-      */}
-      <header className="relative bg-ui-bg dark:bg-primary-bg shadow-lg z-30 border-b border-primary-bg"> 
+      {/* --- THIS IS THE KEY FIX --- */}
+      {/* Use `bg-header-bg` for the background */}
+      {/* Use `text-text-on-header` for logo text, buttons, etc. */}
+      {/* Use `text-accent` for the main logo, as that's consistent */}
+      <header className="relative bg-header-bg shadow-lg z-30 border-b border-primary-bg"> 
         <div className="flex flex-col md:flex-row items-center justify-between px-4 py-3 gap-y-3">
           <div className="w-full md:flex-1 flex justify-start">
             <Link to="/" className="flex items-center gap-2 flex-shrink-0">
@@ -108,7 +106,7 @@ export default function Tabs() {
           <div className="md:hidden order-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md bg-button-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED-FIX */
+              className="p-2 rounded-md bg-button-bg text-text-primary hover:bg-accent/10 transition-colors"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -143,7 +141,7 @@ export default function Tabs() {
             <button 
               title={statsButtonTitles[listType]} 
               onClick={() => setIsStatsViewerOpen(true)} 
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors text-sm" /* THEMED-FIX */
+              className="flex items-center gap-2 px-3 py-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors text-sm"
             >
               <BarChart2 className="w-4 h-4" />
               <span className="hidden md:inline">{statsButtonTitles[listType]}</span>
@@ -151,7 +149,7 @@ export default function Tabs() {
             <button 
               title={t('info_title')}
               onClick={() => setIsInfoBoxOpen(true)} 
-              className="p-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors" /* THEMED-FIX */
+              className="p-2 rounded-md font-semibold bg-button-bg text-text-primary hover:bg-accent/10 transition-colors"
             >
               <Info className="w-5 h-5" />
             </button>
@@ -162,7 +160,7 @@ export default function Tabs() {
 
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (
-        <div ref={mobileMenuRef} className="md:hidden bg-ui-bg dark:bg-primary-bg border-b border-primary-bg shadow-lg"> {/* THEMED-FIX */}
+        <div ref={mobileMenuRef} className="md:hidden bg-header-bg border-b border-primary-bg shadow-lg"> {/* THEMED-FIX */}
           <div className="px-4 py-3 space-y-2">
             <NavLink
               to={user ? "/progression" : "/login"}

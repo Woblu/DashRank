@@ -7,22 +7,17 @@ import { Link } from "react-router-dom";
 
 export default function SettingsMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  
-  // Set the default theme to "cyan", which is now your original dark mode
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "cyan");
-
   const { language, setLanguage, t } = useLanguage();
   const { user } = useAuth();
   const menuRef = useRef(null);
 
-  // This single effect controls the theme
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Effect for closing menu on outside click
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -46,7 +41,7 @@ export default function SettingsMenu() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-ui-bg rounded-lg shadow-xl border border-primary-bg p-4 space-y-4 z-50">
+        <div className="absolute right-0 mt-2 w-56 bg-ui-bg rounded-lg shadow-xl border border-primary-bg p-4 space-y-4 z-50"> {/* THEMED-FIX */}
           
           {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
             <>
@@ -99,8 +94,6 @@ export default function SettingsMenu() {
             >
               <option value="cyan">Default (Dark)</option>
               <option value="cyan-light">Default (Light)</option>
-              <option value="red">Red (Dark)</option>
-              <option value="green">Green (Dark)</option>
               <option value="mono">Mono (Light)</option>
             </select>
           </div>
