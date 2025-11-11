@@ -1,65 +1,65 @@
 @tailwind base;
 
-/* === THEME SYSTEM (ALL-IN-ONE) === */
+/* === THEME SYSTEM (FIXED) === */
 @layer base {
   /*
-    Each theme now defines ALL its colors.
-    The .dark class is no longer used.
+    These are the theme definitions.
+    They now match your site's original dark/light mode.
   */
 
-  /* --- Theme: Cyan (Dark) --- */
+  /* --- Theme: Cyan (Default Dark) --- */
   html[data-theme="cyan"] {
-    --color-primary-bg: 15 23 42;      /* slate-900 */
-    --color-text-primary: 226 232 240;   /* slate-200 */
-    --color-text-muted: 148 163 184;   /* slate-400 */
-    --color-ui-bg: 30 41 59;            /* slate-800 */
-    --color-accent: 14 165 233;       /* sky-500 */
+    --color-primary-bg: 17 24 39;      /* gray-900 */
+    --color-text-primary: 243 244 246;   /* gray-100 */
+    --color-text-muted: 156 163 175;   /* gray-400 */
+    --color-ui-bg: 31 41 55;            /* gray-800 */
+    --color-accent: 34 211 238;       /* cyan-400 */
     --color-text-secondary: 103 232 249; /* cyan-300 */
-    --color-text-on-ui: 226 232 240;    /* slate-200 */
+    --color-text-on-ui: 243 244 246;    /* gray-100 */
   }
 
-  /* --- Theme: Cyan Light --- */
+  /* --- Theme: Cyan Light (Default Light) --- */
   html[data-theme="cyan-light"] {
-    --color-primary-bg: 241 245 249;   /* slate-100 */
-    --color-text-primary: 15 23 42;      /* slate-900 */
-    --color-text-muted: 71 85 105;     /* slate-500 */
+    --color-primary-bg: 243 244 246;   /* gray-100 */
+    --color-text-primary: 17 24 39;      /* gray-900 */
+    --color-text-muted: 107 114 128;     /* gray-500 */
     --color-ui-bg: 255 255 255;         /* white */
-    --color-accent: 14 165 233;       /* sky-500 */
+    --color-accent: 8 145 178;       /* cyan-600 */
     --color-text-secondary: 6 182 212;   /* cyan-500 */
-    --color-text-on-ui: 15 23 42;        /* slate-900 */
+    --color-text-on-ui: 17 24 39;        /* gray-900 */
   }
 
   /* --- Theme: Mono (White w/ Black Tab) --- */
   html[data-theme="mono"] {
-    --color-primary-bg: 241 245 249;   /* slate-100 */
-    --color-text-primary: 15 23 42;      /* slate-900 */
-    --color-text-muted: 71 85 105;     /* slate-500 */
+    --color-primary-bg: 243 244 246;   /* gray-100 */
+    --color-text-primary: 17 24 39;      /* gray-900 */
+    --color-text-muted: 107 114 128;     /* gray-500 */
     --color-ui-bg: 0 0 0;               /* black */
-    --color-accent: 55 65 81;         /* gray-600 */
-    --color-text-secondary: 17 24 39;    /* gray-900 */
+    --color-accent: 75 85 99;         /* gray-500 */
+    --color-text-secondary: 55 65 81;    /* gray-600 */
     --color-text-on-ui: 255 255 255;    /* white */
   }
   
   /* --- Theme: Red (Dark) --- */
   html[data-theme="red"] {
-    --color-primary-bg: 15 23 42;      /* slate-900 */
-    --color-text-primary: 226 232 240;   /* slate-200 */
-    --color-text-muted: 148 163 184;   /* slate-400 */
-    --color-ui-bg: 30 41 59;            /* slate-800 */
-    --color-accent: 239 68 68;        /* red-500 */
-    --color-text-secondary: 248 113 113; /* red-400 */
-    --color-text-on-ui: 226 232 240;    /* slate-200 */
+    --color-primary-bg: 17 24 39;      /* gray-900 */
+    --color-text-primary: 243 244 246;   /* gray-100 */
+    --color-text-muted: 156 163 175;   /* gray-400 */
+    --color-ui-bg: 31 41 55;            /* gray-800 */
+    --color-accent: 248 113 113;       /* red-400 */
+    --color-text-secondary: 239 68 68;  /* red-500 */
+    --color-text-on-ui: 243 244 246;    /* gray-100 */
   }
 
   /* --- Theme: Green (Dark) --- */
   html[data-theme="green"] {
-    --color-primary-bg: 15 23 42;      /* slate-900 */
-    --color-text-primary: 226 232 240;   /* slate-200 */
-    --color-text-muted: 148 163 184;   /* slate-400 */
-    --color-ui-bg: 30 41 59;            /* slate-800 */
-    --color-accent: 34 197 94;        /* green-500 */
-    --color-text-secondary: 74 222 128; /* green-400 */
-    --color-text-on-ui: 226 232 240;    /* slate-200 */
+    --color-primary-bg: 17 24 39;      /* gray-900 */
+    --color-text-primary: 243 244 246;   /* gray-100 */
+    --color-text-muted: 156 163 175;   /* gray-400 */
+    --color-ui-bg: 31 41 55;            /* gray-800 */
+    --color-accent: 74 222 128;       /* green-400 */
+    --color-text-secondary: 34 197 94;  /* green-500 */
+    --color-text-on-ui: 243 244 246;    /* gray-100 */
   }
 }
 /* ======================== */
@@ -68,49 +68,39 @@
 @tailwind utilities;
 
 /* Custom Scrollbar Styles */
-
-/* For Webkit browsers (Chrome, Safari, Edge) */
+/* ... (your existing scrollbar styles) ... */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
+  width: 10px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f0f9ff; /* light-blue-50 - Color of the tracking area */
-  border-radius: 8px; /* Slightly rounded track */
+  background: #f0f9ff;
+  border-radius: 8px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #06b6d4; /* cyan-500 - Color of the scroll thumb */
-  border-radius: 8px; /* Roundness of the scroll thumb */
-  border: 2px solid #f0f9ff; /* light-blue-50 - Padding around thumb, matching track color */
-  background-clip: content-box; /* Ensures border doesn't get colored */
+  background-color: #06b6d4;
+  border-radius: 8px;
+  border: 2px solid #f0f9ff;
+  background-clip: content-box;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #0891b2; /* cyan-600 - Color on hover */
+  background-color: #0891b2;
 }
 
-/* Dark mode adjustments for Webkit scrollbar */
+/* This .dark selector is now redundant, but harmless */
 .dark .custom-scrollbar::-webkit-scrollbar-track {
-  background: #1f2937; /* gray-800 */
+  background: #1f2937;
 }
-
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #22d3ee; /* cyan-400 */
-  border: 2px solid #1f2937; /* gray-800 */
+  background-color: #22d3ee;
+  border: 2px solid #1f2937;
 }
-
 .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #67e8f9; /* cyan-300 */
+  background-color: #67e8f9;
 }
-
-/* For Firefox */
 .custom-scrollbar {
-  scrollbar-width: thin; /* "auto" or "thin" */
-  scrollbar-color: #06b6d4 #f0f9ff; /* thumb color and track color (cyan-500 light-blue-50) */
+  scrollbar-width: thin;
+  scrollbar-color: #06b6d4 #f0f9ff;
 }
-
-/* Dark mode adjustments for Firefox scrollbar */
 .dark .custom-scrollbar {
-  scrollbar-color: #22d3ee #1f2937; /* thumb color and track color (cyan-400 gray-800) */
+  scrollbar-color: #22d3ee #1f2937;
 }

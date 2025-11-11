@@ -1,6 +1,6 @@
 // src/components/SettingsMenu.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { Settings, User, Shield, BookText, Palette } from "lucide-react"; // Removed Sun & Moon
+import { Settings, User, Shield, BookText, Palette } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { Link } from "react-router-dom";
@@ -8,14 +8,14 @@ import { Link } from "react-router-dom";
 export default function SettingsMenu() {
   const [isOpen, setIsOpen] = useState(false);
   
-  // (NEW) We only need one state for the theme
+  // Set the default theme to "cyan", which is now your original dark mode
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "cyan");
 
   const { language, setLanguage, t } = useLanguage();
   const { user } = useAuth();
   const menuRef = useRef(null);
 
-  // (NEW) This single effect controls the theme
+  // This single effect controls the theme
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
@@ -87,7 +87,7 @@ export default function SettingsMenu() {
 
           <hr className="border-primary-bg my-2" />
 
-          {/* (NEW) Theme Selector Dropdown */}
+          {/* Theme Selector Dropdown */}
           <div className="flex items-center justify-between gap-2">
             <span className="text-text-on-ui font-semibold flex items-center gap-2">
               <Palette className="w-5 h-5" /> {t('theme')}
@@ -97,11 +97,11 @@ export default function SettingsMenu() {
               onChange={(e) => setTheme(e.target.value)}
               className="bg-primary-bg text-text-primary rounded-md p-1 border border-ui-bg focus:outline-none focus:ring-1 focus:ring-accent"
             >
-              <option value="cyan">Cyan</option>
-              <option value="cyan-light">Cyan Light</option>
-              <option value="red">Red</option>
-              <option value="green">Green</option>
-              <option value="mono">Mono</option>
+              <option value="cyan">Default (Dark)</option>
+              <option value="cyan-light">Default (Light)</option>
+              <option value="red">Red (Dark)</option>
+              <option value="green">Green (Dark)</option>
+              <option value="mono">Mono (Light)</option>
             </select>
           </div>
           
