@@ -3,11 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
 import LevelCard from '../components/LevelCard';
-import { Award, BarChart2, Hash, UserPlus, ServerCrash } from 'lucide-react';
+import { Award, BarChart2, Hash, UserPlus, ServerCrash, Check, Clock } from 'lucide-react'; // Added Check and Clock
+import LoadingSpinner from '../components/LoadingSpinner'; // 1. Import
+import { useLanguage } from '../contexts/LanguageContext'; // 2. Import
 
 export default function UserProfile() {
   const { username } = useParams();
   const { token, user } = useAuth();
+  const { t } = useLanguage(); // 3. Initialize
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +27,14 @@ export default function UserProfile() {
       });
       setProfile(res.data);
     } catch (err) {
-      setError(err.response?.data?.message || `Failed to load profile for ${username}.`);
+      // 4. Translate error messages
+      let errorMsg = err.response?.data?.message || t('user_not_found_dynamic', { username: username });
+      if (errorMsg.includes('not your friend')) {
+        errorMsg = t('not_your_friend_error', { username: username });
+      } else if (errorMsg.includes('view your own profile')) {
+        errorMsg = t('own_profile_error');
+      }
+      setError(errorMsg);
       if (err.response?.data?.data) {
         setErrorData(err.response.data.data);
       }
@@ -35,114 +45,113 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchProfile();
-  }, [username, token]);
-  
-  const handleSendRequest = async (receiverId) => {
+  }, [username, token, t]); // Add t to dependency array
+
+  const handleAddFriend = async () => {
     try {
-      await axios.post('/api/friends', { action: 'request', receiverId }, { headers: { Authorization: `Bearer ${token}` } });
-      alert('Friend request sent!');
-      fetchProfile();
+      await axios.post('/api/friends', { receiverId: profile.user.id }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchProfile(); // Re-fetch profile to update friendship status
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to send request.');
+      let errorMsg = err.response?.data?.message || t('friend_request_failed');
+      if (errorMsg.includes('already sent')) {
+        errorMsg = t('request_already_sent');
+      } else if (errorMsg.includes('already friends')) {
+        errorMsg = t('already_friends');
+      }
+      alert(errorMsg);
     }
   };
 
+  const renderFriendshipButton = () => {
+    const status = errorData?.friendshipStatus;
+    switch (status) {
+      case 'NONE':
+        return <button onClick={handleAddFriend} className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-accent text-text-on-ui hover:opacity-90 transition-colors"><UserPlus size={18} /> {t('add_friend')}</button>; // THEMED
+      case 'PENDING_YOU_SENT':
+        return <button disabled className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-ui-bg text-text-muted cursor-not-allowed"><Clock size={18} /> {t('friend_request_pending')}</button>; // THEMED
+      case 'FRIEND':
+        return <button disabled className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-green-600/80 text-white cursor-not-allowed"><Check size={18} /> {t('friend')}</button>; // Semantic Color
+      default:
+        return null;
+    }
+  };
 
-  if (isLoading) {
-    return <p className="text-center text-gray-400 mt-12 animate-pulse">Loading profile...</p>;
-  }
+  if (isLoading) return <LoadingSpinner message={t('loading_profile')} />; // THEMED
 
   if (error) {
     return (
-      <div className="text-center text-gray-400 mt-12 bg-gray-800/50 backdrop-blur-sm max-w-lg mx-auto p-8 rounded-2xl border border-gray-700">
-        <ServerCrash size={48} className="mx-auto text-red-500 mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">{errorData?.username || username}</h2>
-        <p className="text-red-400 mb-6">{error}</p>
-        {errorData && errorData.friendStatus === 'not_friends' && (
-          <button 
-            onClick={() => handleSendRequest(errorData.userId)}
-            className="flex items-center justify-center gap-2 mx-auto px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-colors shadow-lg shadow-cyan-500/20"
-          >
-            <UserPlus size={18} /> Send Friend Request
-          </button>
-        )}
-         {errorData && errorData.friendStatus === 'PENDING' && (
-          <p className="text-yellow-500 font-semibold">Friend request pending...</p>
-        )}
+      <div className="text-center p-8">
+        <ServerCrash className="w-16 h-16 text-red-500 mx-auto mb-4" />
+        <h1 className="text-2xl font-bold text-red-500">{t('user_not_found')}</h1>
+        <p className="text-text-muted mt-2 mb-6">{error}</p> {/* THEMED */}
+        <Link to="/account/friends" className="mt-4 inline-flex items-center text-accent hover:underline"> {/* THEMED */}
+          <ChevronLeft size={16} /> {t('go_back_to_friends')}
+        </Link>
       </div>
     );
   }
 
   if (!profile) return null;
 
-  const isOwnProfile = user.username === username;
-
   return (
-    <div className="max-w-7xl mx-auto text-white space-y-12">
-      {/* Profile Header */}
-      <div className="text-center">
-        <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-[0_0_15px_rgba(8,145,178,0.5)]">
-          {profile.username}
-        </h1>
-        <p className="text-gray-400 mt-2">Player Profile</p>
+    <div className="max-w-4xl mx-auto p-4 text-text-primary"> {/* THEMED */}
+      <div className="mb-4">
+        <Link to="/account/friends" className="flex items-center gap-2 text-accent hover:text-accent/80 transition-colors"> {/* THEMED */}
+          <ChevronLeft size={20} />
+          {t('go_back_to_friends')}
+        </Link>
       </div>
       
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Left Column: Pinned Demon */}
-        <div className="lg:col-span-2">
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 h-full">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
-              <Award className="text-yellow-400" /> Pinned Completion
-            </h2>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-5xl font-bold">{profile.user.username}</h1>
+        {errorData && renderFriendshipButton()}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Left Column (Pinned Record & Stats) */}
+        <div className="md:col-span-1 space-y-6">
+          <div className="bg-ui-bg p-6 rounded-lg shadow-inner border border-primary-bg"> {/* THEMED */}
+            <h2 className="text-2xl font-bold mb-4 text-text-on-ui">{t('pinned_record')}</h2> {/* THEMED */}
             {profile.pinnedRecord ? (
-                <LevelCard level={profile.pinnedRecord} listType="progression" />
-            ) : isOwnProfile ? (
-                <Link to="/progression" className="flex items-center justify-center h-48 text-center text-gray-500 border-2 border-dashed border-gray-700 p-6 rounded-lg hover:bg-gray-800 hover:text-cyan-400 transition-colors">
-                  You haven't pinned a record yet. <br/> Go to your Progression Tracker to pin your hardest completion!
-                </Link>
+              <LevelCard level={profile.pinnedRecord} index={0} listType="progression" />
             ) : (
-                <div className="flex items-center justify-center h-48 text-center text-gray-500 border-2 border-dashed border-gray-700 p-6 rounded-lg">
-                  This player hasn't pinned a record.
-                </div>
+              <p className="text-text-muted">{t('no_pinned_record')}</p> /* THEMED */
             )}
           </div>
-        </div>
-        
-        {/* Right Column: Stats */}
-        <div className="lg:col-span-1">
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 h-full">
-            <h2 className="text-2xl font-bold mb-4">Player Stats</h2>
+          
+          <div className="bg-ui-bg p-6 rounded-lg shadow-inner border border-primary-bg"> {/* THEMED */}
+            <h2 className="text-2xl font-bold mb-4 text-text-on-ui">{t('player_stats')}</h2> {/* THEMED */}
             <div className="space-y-6">
-              <div className="text-center bg-gray-900/50 p-4 rounded-lg">
-                <Hash className="text-cyan-400 h-8 w-8 mx-auto mb-2"/> 
-                <p className="text-4xl font-bold">{profile.stats.totalDemons}</p>
-                <p className="text-gray-400">Demons Beaten</p>
+              <div className="text-center bg-primary-bg p-4 rounded-lg"> {/* THEMED */}
+                <Hash className="text-accent h-8 w-8 mx-auto mb-2"/> {/* THEMED */}
+                <p className="text-4xl font-bold text-text-on-ui">{profile.stats.totalDemons}</p> {/* THEMED */}
+                <p className="text-text-muted">{t('demons_beaten')}</p> {/* THEMED */}
               </div>
-              <div className="text-center bg-gray-900/50 p-4 rounded-lg">
-                <BarChart2 className="text-cyan-400 h-8 w-8 mx-auto mb-2"/> 
-                <p className="text-4xl font-bold">{profile.stats.averageAttempts.toLocaleString()}</p>
-                <p className="text-gray-400">Average Attempts</p>
+              <div className="text-center bg-primary-bg p-4 rounded-lg"> {/* THEMED */}
+                <BarChart2 className="text-accent h-8 w-8 mx-auto mb-2"/> {/* THEMED */}
+                <p className="text-4xl font-bold text-text-on-ui">{profile.stats.averageAttempts.toLocaleString()}</p> {/* THEMED */}
+                <p className="text-text-muted">{t('average_attempts')}</p> {/* THEMED */}
               </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Full Progression List */}
-      <div>
-        <h2 className="text-3xl font-bold mb-6">Completion Log</h2>
-        <div className="flex flex-col gap-4">
-          {profile.progressionTracker.length > 0 ? (
-            profile.progressionTracker.map((record, index) => (
-              <LevelCard key={record.id} level={record} index={index} listType="progression" />
-            ))
-          ) : (
-            <div className="text-center text-gray-500 border-2 border-dashed border-gray-700 p-10 rounded-lg">
-              <p>This user hasn't added any completed demons yet.</p>
-            </div>
-          )}
+        
+        {/* Right Column (Full Progression List) */}
+        <div className="md:col-span-2">
+          <h2 className="text-3xl font-bold mb-6 text-text-primary">{t('completion_log')}</h2> {/* THEMED */}
+          <div className="flex flex-col gap-4">
+            {profile.progressionTracker.length > 0 ? (
+              profile.progressionTracker.map((record, index) => (
+                <LevelCard key={record.id} level={record} index={index} listType="progression" />
+              ))
+            ) : (
+              <p className="text-center text-text-muted border-2 border-dashed border-primary-bg p-10 rounded-lg"> {/* THEMED */}
+                {t('no_completion_log')}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

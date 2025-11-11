@@ -3,14 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
-import { ChevronLeft, Film, Link as LinkIcon, Pencil, Trash2 } from 'lucide-react';
-// [FIX] Updated import path and function name
+import { ChevronLeft, Film, Link as LinkIcon } from 'lucide-react';
 import { getEmbedUrl } from '../utils/embedUtils.js';
+import { useLanguage } from '../contexts/LanguageContext.jsx'; // 1. Import
+import LoadingSpinner from '../components/LoadingSpinner.jsx'; // 2. Import
 
 export default function PersonalRecordDetail() {
   const { recordId } = useParams();
   const navigate = useNavigate();
   const { token } = useAuth();
+  const { t } = useLanguage(); // 3. Initialize
   const [record, setRecord] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,94 +37,43 @@ export default function PersonalRecordDetail() {
     fetchRecord();
   }, [recordId, token]);
 
-  const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to permanently delete this personal record?')) {
-      return;
-    }
-    try {
-      await axios.delete('/api/personal-records', {
-        headers: { Authorization: `Bearer ${token}` },
-        data: { recordId: record.id }
-      });
-      navigate('/progression');
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete record.');
-    }
-  };
+  // Note: Delete/Edit functionality is handled by <LevelCard> on the Home page
+  // This page is just the read-only detail view.
 
-  if (loading) {
-    return <div className="text-center p-8 text-gray-200">Loading Record...</div>;
-  }
+  if (loading) return <LoadingSpinner message={t('loading_record_details')} />; // 4. Use Spinner & Translate
 
   if (!record) {
     return (
-      <div className="text-center p-8">
-        <h1 className="text-2xl font-bold text-red-500">Record Not Found</h1>
-        <button onClick={() => navigate('/progression')} className="mt-4 inline-flex items-center text-cyan-400 hover:underline">
-          <ChevronLeft size={16} /> Go Back to Progression List
-        </button>
+      <div className="text-center p-8 text-text-primary"> {/* THEMED */}
+        <h1 className="text-2xl font-bold text-red-500">{t('record_not_found')}</h1> {/* Translated */}
+        <button onClick={() => navigate('/progression')} className="mt-4 inline-flex items-center text-accent hover:underline"> {/* THEMED */}
+          <ChevronLeft size={16} /> {t('back_to_progression')}
+        </button> {/* Translated */}
       </div>
     );
   }
 
-  // [FIX] Call the renamed function
   const embedInfo = getEmbedUrl(record.videoUrl);
+  const difficulty = record.difficulty?.replace('_', ' ');
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 text-gray-900 dark:text-gray-100">
-      <div className="relative bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg mb-6">
-        <button
-          onClick={() => navigate('/progression')}
-          className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-          aria-label="Go back to list"
-        >
-          <ChevronLeft size={24} />
+    <div className="max-w-4xl mx-auto p-4 text-text-primary"> {/* THEMED */}
+      <div className="mb-4">
+        <button onClick={() => navigate('/progression')} className="flex items-center gap-2 text-accent hover:text-accent/80 transition-colors"> {/* THEMED */}
+          <ChevronLeft size={20} />
+          {t('back_to_progression')}
         </button>
+      </div>
 
-        <div className="absolute top-4 right-4 z-10 flex gap-2">
-          <button
-            onClick={() => navigate('/progression', { state: { editRecordId: record.id } })}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors"
-            aria-label="Edit Record"
-            title="Edit Record"
-          >
-            <Pencil size={20} />
-          </button>
-
-          <button
-            onClick={handleDelete}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
-            aria-label="Delete Record"
-            title="Delete Record"
-          >
-            <Trash2 size={20} />
-          </button>
-        </div>
-
-        <div className="text-center mb-4 pt-8 sm:pt-0">
-          <h1 className="font-poppins text-5xl font-bold text-cyan-600 dark:text-cyan-400 break-words">
-            #{record.placement} - {record.levelName}
-          </h1>
-        </div>
-
-        <div className="flex justify-center text-center mb-4 gap-x-8">
-          <p className="text-lg text-gray-700 dark:text-gray-300">
-            <span className="font-bold">Difficulty:</span> {record.difficulty.charAt(0) + record.difficulty.slice(1).toLowerCase()} Demon
-          </p>
-          {record.attempts && (
-             <p className="text-lg text-gray-700 dark:text-gray-300">
-              <span className="font-bold">Attempts:</span> {record.attempts}
-            </p>
-          )}
-        </div>
-
-        <div className="aspect-video w-full bg-black rounded-xl">
-          {embedInfo ? (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Video Player */}
+        <div className="md:col-span-2 aspect-video bg-primary-bg rounded-xl shadow-lg"> {/* THEMED */}
+          {embedInfo && embedInfo.url ? (
             embedInfo.type === 'iframe' ? (
               <iframe
                 width="100%" height="100%"
                 src={embedInfo.url}
-                title="Record Video"
+                title="Video Player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -135,26 +86,38 @@ export default function PersonalRecordDetail() {
                 src={embedInfo.url}
                 className="rounded-xl shadow-lg"
               >
-                Your browser does not support the video tag.
+                {t('video_not_supported')}
               </video>
             )
           ) : (
-             <div className="w-full h-full rounded-xl shadow-lg bg-gray-900 flex flex-col items-center justify-center">
-                <p className="text-gray-300">Video preview not available.</p>
-                <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-cyan-400 hover:underline">
-                    View Original Video Link
+             <div className="w-full h-full rounded-xl shadow-lg bg-primary-bg flex flex-col items-center justify-center"> {/* THEMED */}
+                <p className="text-text-muted">{t('video_preview_unavailable')}</p> {/* THEMED */}
+                <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-accent hover:underline"> {/* THEMED */}
+                    {t('view_original_video_link')}
                 </a>
             </div>
           )}
         </div>
-      </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-inner">
-        <h2 className="text-2xl font-bold text-center text-cyan-600 dark:text-cyan-400 mb-4">Record Details</h2>
-        <div className="flex items-center justify-center gap-6 mt-2">
-            <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-cyan-400 transition-colors">
-                <Film className="w-5 h-5" /> Video Proof
-            </a>
+        {/* Details Card */}
+        <div className="bg-ui-bg p-6 rounded-lg shadow-inner border border-primary-bg"> {/* THEMED */}
+          <h2 className="text-2xl font-bold text-center text-accent mb-4">{t('record_details')}</h2> {/* THEMED */}
+          
+          <div className="space-y-3 text-text-on-ui/90"> {/* THEMED */}
+            <p><span className="font-bold text-text-on-ui">{t('placement')}:</span> #{record.placement}</p> {/* THEMED */}
+            <p><span className="font-bold text-text-on-ui">{t('level')}:</span> {record.levelName}</p> {/* THEMED */}
+            <p><span className="font-bold text-text-on-ui">{t('difficulty')}:</span> {difficulty}</p> {/* THEMED */}
+            {record.attempts && (
+              <p><span className="font-bold text-text-on-ui">{t('attempts')}:</span> {record.attempts.toLocaleString()}</p> /* THEMED */
+            )}
+          </div>
+          
+          <div className="flex items-center justify-center gap-6 mt-6 border-t border-primary-bg pt-4"> {/* THEMED */}
+              <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-text-on-ui hover:text-accent transition-colors font-semibold"> {/* THEMED */}
+                  <Film size={20} />
+                  <span>{t('view_proof')}</span>
+              </a>
+          </div>
         </div>
       </div>
     </div>

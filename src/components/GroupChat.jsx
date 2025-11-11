@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext'; // 1. Import
 import { Send } from 'lucide-react';
 
 export default function GroupChat({ layoutId }) {
   const { user, token } = useAuth();
+  const { t } = useLanguage(); // 2. Initialize
   const [messages, setMessages] = useState([]);
   const [conversationId, setConversationId] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const chatEndRef = useRef(null);
-
-  // This function would be in your WebSocket service file
-  // const socket = useSocket(); // Example custom hook
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -30,17 +29,12 @@ export default function GroupChat({ layoutId }) {
     };
     fetchHistory();
 
-    // --- WebSocket Integration Point ---
-    // Here you would listen for incoming messages
-    // socket.on('newMessage', (incomingMessage) => {
-    //   if (incomingMessage.conversationId === conversationId) {
-    //     setMessages(prevMessages => [...prevMessages, incomingMessage]);
-    //   }
-    // });
-    // return () => socket.off('newMessage');
+    // --- WebSocket Integration Point (Future) ---
+    // socket.on('newMessage', (incomingMessage) => { ... });
+    
   }, [layoutId, token]);
-  
-  // Scroll to the latest message
+
+  // Scroll to bottom when new messages arrive
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -49,53 +43,51 @@ export default function GroupChat({ layoutId }) {
     e.preventDefault();
     if (!newMessage.trim() || !conversationId) return;
 
+    const optimisticId = `optimistic-${Date.now()}`;
     const optimisticMessage = {
-        id: Date.now().toString(),
-        content: newMessage,
-        createdAt: new Date().toISOString(),
-        author: { username: user.username },
-        isOptimistic: true,
+      id: optimisticId,
+      content: newMessage,
+      author: { username: user.username },
+      isOptimistic: true,
     };
     
     setMessages(prev => [...prev, optimisticMessage]);
     setNewMessage('');
-    
-    try {
-      // In a WebSocket setup, you would emit the message instead of using POST
-      // socket.emit('sendMessage', { conversationId, content: newMessage });
-      const res = await axios.post('/api/chat/post', 
-        { conversationId, content: newMessage },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      // Replace the optimistic message with the real one from the server
-      setMessages(prev => prev.map(msg => msg.id === optimisticMessage.id ? res.data : msg));
 
+    try {
+      await axios.post('/api/chat/post', {
+        messageContent: newMessage,
+        conversationId: conversationId
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      // A real-time app would remove the optimistic message
+      // when the real one arrives via WebSocket.
+      // For now, we'll just refetch or let the WS handle it.
     } catch (error) {
-      console.error("Failed to send message", error);
-      // Revert optimistic update on failure
-      setMessages(prev => prev.filter(msg => !msg.isOptimistic));
-      alert("Failed to send message.");
+      console.error('Failed to send message', error);
+      // Remove the optimistic message on failure
+      setMessages(prev => prev.filter(msg => msg.id !== optimisticId));
     }
   };
-  
-  if (isLoading) return <p className="text-gray-400 animate-pulse">Loading Chat...</p>;
+
+  if (isLoading) return <p className="text-text-muted animate-pulse">{t('loading_chat')}</p>; {/* THEMED */}
 
   if (!conversationId) {
       return (
-        <div className="text-center text-gray-500 p-8 bg-gray-900/50 rounded-lg">
-            <p>The group chat will be created once the first collaborator is accepted.</p>
+        <div className="text-center text-text-muted p-8 bg-primary-bg rounded-lg"> {/* THEMED */}
+            <p>{t('chat_create_desc')}</p> {/* Translated */}
         </div>
       );
   }
 
   return (
-    <div className="flex flex-col h-96 bg-gray-900/50 rounded-lg p-4">
-      <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+    <div className="flex flex-col h-96 bg-primary-bg rounded-lg p-4"> {/* THEMED */}
+      <div className="flex-1 overflow-y-auto pr-2 space-y-4 custom-scrollbar"> {/* Applied custom scrollbar */}
         {messages.map((msg) => (
           <div key={msg.id} className={`flex gap-3 ${msg.author.username === user.username ? 'flex-row-reverse' : ''}`}>
-            <div className={`p-3 rounded-lg max-w-xs lg:max-w-md ${msg.author.username === user.username ? 'bg-cyan-800' : 'bg-gray-700'} ${msg.isOptimistic ? 'opacity-60' : ''}`}>
-              <p className="text-white text-sm">{msg.content}</p>
+            <div className={`p-3 rounded-lg max-w-xs lg:max-w-md ${msg.author.username === user.username ? 'bg-accent' : 'bg-ui-bg'} ${msg.isOptimistic ? 'opacity-60' : ''}`}> {/* THEMED */}
+              <p className="text-text-on-ui text-sm">{msg.content}</p> {/* THEMED */}
             </div>
           </div>
         ))}
@@ -106,10 +98,12 @@ export default function GroupChat({ layoutId }) {
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-          className="flex-1 p-2 rounded-lg border border-gray-600 bg-gray-700 text-gray-200"
+          placeholder={t('type_a_message')} /* Translated */
+          className="flex-1 p-2 rounded-lg border border-primary-bg bg-ui-bg text-text-on-ui" /* THEMED */
         />
-        <button type="submit" className="p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white"><Send size={20} /></button>
+        <button type="submit" className="p-2 bg-accent hover:opacity-90 text-text-on-ui rounded-lg"> {/* THEMED */}
+          <Send size={20} />
+        </button>
       </form>
     </div>
   );
