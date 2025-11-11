@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus, ArrowUpCircle, ArrowDownCircle } from 'lucide-react'; // 1. Import new icons
+import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -31,7 +31,7 @@ const AddRecordModal = ({ levelName, levelId, onClose, onRecordAdded }) => {
             }, { headers: { Authorization: `Bearer ${token}` } });
             onRecordAdded();
             onClose();
-        } catch (err) :
+        } catch (err) { // <-- THIS IS THE FIX (was a colon :)
             setError(err.response?.data?.message || 'Failed to add record.');
         } finally {
             setIsLoading(false);
@@ -149,14 +149,12 @@ export default function LevelDetail() {
     }
   };
 
-  // 2. New handler function to call the API
   const handleMoveRecord = async (recordVideoId, direction) => {
     try {
       await axios.post('/api/admin/move-record', 
         { levelId: level.id, recordVideoId, direction },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Optimistic update (faster) or refetch
       fetchLevelAndHistory(); 
     } catch (err) {
       alert(`Failed to move record: ${err.response?.data?.message || 'Server error'}`);
@@ -315,7 +313,6 @@ export default function LevelDetail() {
             {level.records?.map((record, index) => (
               <li key={record.videoId || index} className="flex items-center justify-center gap-2 group text-text-on-ui"> 
                 
-                {/* 3. Add the Admin Move Buttons */}
                 {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
                   <button
                     onClick={() => handleMoveRecord(record.videoId, 'up')}
@@ -332,7 +329,6 @@ export default function LevelDetail() {
                   <span className="font-mono text-sm text-text-muted ml-2">({record.percent}%)</span> 
                 </button>
                 
-                {/* 3. Add the Admin Move Buttons */}
                 {user && (user.role === 'ADMIN' || user.role === 'MODERATOR') && (
                   <button
                     onClick={() => handleMoveRecord(record.videoId, 'down')}
