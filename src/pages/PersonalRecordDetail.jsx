@@ -4,8 +4,10 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getYouTubeEmbedUrl } from '../utils/embedUtils'; // Using the util from your file structure
+import { getEmbedUrl } from '../utils/embedUtils'; // [FIX] Using the correct exported function
 import { ArrowLeft } from 'lucide-react';
+
+// [FIX] The local helper function has been removed, as we are now importing the correct one.
 
 export default function PersonalRecordDetail() {
   const { recordId } = useParams();
@@ -26,7 +28,6 @@ export default function PersonalRecordDetail() {
     const fetchRecord = async () => {
       try {
         setIsLoading(true);
-        // This API endpoint corresponds to your 'getPersonalRecordById' handler
         const response = await axios.get(`/api/personal-records/${recordId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -42,7 +43,8 @@ export default function PersonalRecordDetail() {
     fetchRecord();
   }, [recordId, token, t]);
 
-  const embedUrl = record ? getYouTubeEmbedUrl(record.videoUrl) : null;
+  // [FIX] Use getEmbedUrl, which takes the full URL and returns an object
+  const embedData = record ? getEmbedUrl(record.videoUrl) : null;
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -61,12 +63,13 @@ export default function PersonalRecordDetail() {
       {record && !isLoading && (
         <div className="bg-ui-bg border border-primary-bg rounded-xl shadow-lg overflow-hidden">
           {/* Video Embed */}
-          {embedUrl ? (
+          {/* [FIX] Check for embedData AND type 'iframe', then use embedData.url */}
+          {embedData && embedData.type === 'iframe' ? (
             <div className="aspect-video">
               <iframe
                 width="100%"
                 height="100%"
-                src={embedUrl}
+                src={embedData.url}
                 title={`Video for ${record.levelName}`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -74,6 +77,7 @@ export default function PersonalRecordDetail() {
               ></iframe>
             </div>
           ) : (
+            // Fallback to thumbnail if embedData is null OR not an iframe
             record.thumbnailUrl && (
               <img src={record.thumbnailUrl} alt={record.levelName} className="w-full object-cover" />
             )
