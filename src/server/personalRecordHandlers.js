@@ -185,7 +185,8 @@ export async function deletePersonalRecord(req, res, decodedToken) {
 
   try {
     const recordToDelete = await prisma.personalRecord.findFirst({ where: { id: recordId, userId: decodedToken.userId } });
-    if (!recordToDelete) return res.status(4G03).json({ message: 'Record not found or you do not have permission to delete it.' });
+    // [FIX] Changed 4G03 to 403
+    if (!recordToDelete) return res.status(403).json({ message: 'Record not found or you do not have permission to delete it.' });
     
     await prisma.$transaction([
       prisma.personalRecord.delete({ where: { id: recordId } }),
