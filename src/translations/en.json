@@ -1,4 +1,8 @@
 {
+ "completions": "Completions",
+  "runs": "Runs",
+  "add_to_completions": "Add to Completions",
+  "add_to_runs": "Add to Runs",
   "landing_feature_solo_title": "Solo-Developed",
   "landing_feature_solo_desc": "A passion project built by one person, dedicated to the community.",
   "landing_feature_fast_title": "Fast Updates",

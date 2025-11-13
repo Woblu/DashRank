@@ -1,125 +1,203 @@
-// src/pages/PersonalRecordDetail.jsx
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import axios from 'axios';
-import { ChevronLeft, Film, Link as LinkIcon } from 'lucide-react';
-import { getEmbedUrl } from '../utils/embedUtils.js';
-import { useLanguage } from '../contexts/LanguageContext.jsx'; // 1. Import
-import LoadingSpinner from '../components/LoadingSpinner.jsx'; // 2. Import
+import { PrismaClient, PersonalRecordProgressStatus } from '@prisma/client'; // Import the enum
 
-export default function PersonalRecordDetail() {
-  const { recordId } = useParams();
-  const navigate = useNavigate();
-  const { token } = useAuth();
-  const { t } = useLanguage(); // 3. Initialize
-  const [record, setRecord] = useState(null);
-  const [loading, setLoading] = useState(true);
+const prisma = new PrismaClient();
 
-  useEffect(() => {
-    const fetchRecord = async () => {
-      if (!token || !recordId) {
-        setLoading(false);
-        return;
-      }
-      setLoading(true);
-      try {
-        const res = await axios.get(`/api/personal-records/${recordId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setRecord(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchRecord();
-  }, [recordId, token]);
+export async function listPersonalRecords(req, res, decodedToken) {
+  try {
+    const records = await prisma.personalRecord.findMany({
+      where: { userId: decodedToken.userId },
+      orderBy: { placement: 'asc' },
+    });
+    return res.status(200).json(records);
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to fetch records.' });
+  }
+}
 
-  // Note: Delete/Edit functionality is handled by <LevelCard> on the Home page
-  // This page is just the read-only detail view.
-
-  if (loading) return <LoadingSpinner message={t('loading_record_details')} />; // 4. Use Spinner & Translate
-
-  if (!record) {
-    return (
-      <div className="text-center p-8 text-text-primary"> {/* THEMED */}
-        <h1 className="text-2xl font-bold text-red-500">{t('record_not_found')}</h1> {/* Translated */}
-        <button onClick={() => navigate('/progression')} className="mt-4 inline-flex items-center text-accent hover:underline"> {/* THEMED */}
-          <ChevronLeft size={16} /> {t('back_to_progression')}
-        </button> {/* Translated */}
-      </div>
-    );
+export async function createPersonalRecord(req, res, decodedToken) {
+  // 1. ADD 'status' to the destructuring
+  const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl, status } = req.body;
+  
+  // 2. Validate the new 'status' field
+  if (!placement || !levelName || !difficulty || !videoUrl || !status) {
+    return res.status(400).json({ message: 'Required fields are missing.' });
+  }
+  if (status !== 'COMPLETED' && status !== 'IN_PROGRESS') {
+    return res.status(400).json({ message: 'Invalid status.' });
   }
 
-  const embedInfo = getEmbedUrl(record.videoUrl);
-  const difficulty = record.difficulty?.replace('_', ' ');
+  try {
+    await prisma.$transaction([
+      prisma.personalRecord.updateMany({
+        where: { 
+          userId: decodedToken.userId, 
+          placement: { gte: Number(placement) },
+          status: status // Only shift records in the same status list
+        },
+        data: { placement: { increment: 1 } },
+      }),
+      prisma.personalRecord.create({
+        data: {
+          placement: Number(placement),
+          levelName,
+          difficulty,
+          attempts: attempts ? Number(attempts) : null,
+          videoUrl,
+          thumbnailUrl,
+          userId: decodedToken.userId,
+          status: status // 3. SAVE the status to the database
+        },
+      }),
+    ]);
+    return res.status(201).json({ message: 'Record added successfully.' });
+  } catch (error) {
+    console.error('Create record error:', error);
+    return res.status(500).json({ message: 'Failed to create record.' });
+  }
+}
 
-  return (
-    <div className="max-w-4xl mx-auto p-4 text-text-primary"> {/* THEMED */}
-      <div className="mb-4">
-        <button onClick={() => navigate('/progression')} className="flex items-center gap-2 text-accent hover:text-accent/80 transition-colors"> {/* THEMED */}
-          <ChevronLeft size={20} />
-          {t('back_to_progression')}
-        </button>
-      </div>
+export async function getPersonalRecordById(req, res, decodedToken, recordId) {
+    try {
+      const record = await prisma.personalRecord.findUnique({ where: { id: recordId } });
+      if (!record) return res.status(404).json({ message: 'Record not found.' });
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Video Player */}
-        <div className="md:col-span-2 aspect-video bg-primary-bg rounded-xl shadow-lg"> {/* THEMED */}
-          {embedInfo && embedInfo.url ? (
-            embedInfo.type === 'iframe' ? (
-              <iframe
-                width="100%" height="100%"
-                src={embedInfo.url}
-                title="Video Player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="rounded-xl shadow-lg"
-              ></iframe>
-            ) : (
-              <video
-                width="100%" height="100%"
-                controls
-                src={embedInfo.url}
-                className="rounded-xl shadow-lg"
-              >
-                {t('video_not_supported')}
-              </video>
-            )
-          ) : (
-             <div className="w-full h-full rounded-xl shadow-lg bg-primary-bg flex flex-col items-center justify-center"> {/* THEMED */}
-                <p className="text-text-muted">{t('video_preview_unavailable')}</p> {/* THEMED */}
-                <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-accent hover:underline"> {/* THEMED */}
-                    {t('view_original_video_link')}
-                </a>
-            </div>
-          )}
-        </div>
+      const isOwner = record.userId === decodedToken.userId;
+      const friendship = await prisma.friendship.findFirst({
+        where: { status: 'ACCEPTED', OR: [{ requesterId: decodedToken.userId, receiverId: record.userId }, { requesterId: record.userId, receiverId: decodedToken.userId }] },
+      });
+      const isFriend = !!friendship;
 
-        {/* Details Card */}
-        <div className="bg-ui-bg p-6 rounded-lg shadow-inner border border-primary-bg"> {/* THEMED */}
-          <h2 className="text-2xl font-bold text-center text-accent mb-4">{t('record_details')}</h2> {/* THEMED */}
-          
-          <div className="space-y-3 text-text-on-ui/90"> {/* THEMED */}
-            <p><span className="font-bold text-text-on-ui">{t('placement')}:</span> #{record.placement}</p> {/* THEMED */}
-            <p><span className="font-bold text-text-on-ui">{t('level')}:</span> {record.levelName}</p> {/* THEMED */}
-            <p><span className="font-bold text-text-on-ui">{t('difficulty')}:</span> {difficulty}</p> {/* THEMED */}
-            {record.attempts && (
-              <p><span className="font-bold text-text-on-ui">{t('attempts')}:</span> {record.attempts.toLocaleString()}</p> /* THEMED */
-            )}
-          </div>
-          
-          <div className="flex items-center justify-center gap-6 mt-6 border-t border-primary-bg pt-4"> {/* THEMED */}
-              <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-text-on-ui hover:text-accent transition-colors font-semibold"> {/* THEMED */}
-                  <Film size={20} />
-                  <span>{t('view_proof')}</span>
-              </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+      if (!isOwner && !isFriend) return res.status(403).json({ message: 'You do not have permission to view this record.' });
+      
+      return res.status(200).json(record);
+    } catch (error) {
+      return res.status(500).json({ message: 'Failed to fetch record.' });
+    }
+}
+
+export async function updatePersonalRecord(req, res, decodedToken, recordId) {
+    // 1. ADD 'status' to the destructuring
+    const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl, status } = req.body;
+
+    // 2. Validate the new 'status' field
+    if (!placement || !levelName || !difficulty || !videoUrl || !status) {
+      return res.status(400).json({ message: 'All required fields must be provided.' });
+    }
+    if (status !== 'COMPLETED' && status !== 'IN_PROGRESS') {
+      return res.status(400).json({ message: 'Invalid status.' });
+    }
+
+    try {
+      const newPlacement = Number(placement);
+      const attemptsNum = attempts ? Number(attempts) : null;
+
+      const originalRecord = await prisma.personalRecord.findUnique({
+        where: { id: recordId }
+      });
+
+      if (!originalRecord) {
+        return res.status(404).json({ message: 'Record not found.' });
+      }
+      if (originalRecord.userId !== decodedToken.userId) {
+        return res.status(403).json({ message: 'You do not have permission to edit this record.' });
+      }
+
+      const oldPlacement = originalRecord.placement;
+      const oldStatus = originalRecord.status;
+
+      await prisma.$transaction(async (tx) => {
+        const userId = decodedToken.userId;
+
+        // 3. Handle status change (moving from Runs to Completions, or vice-versa)
+        if (status !== oldStatus) {
+          // Decrement all items in the OLD list that were below the item
+          await tx.personalRecord.updateMany({
+            where: {
+              userId: userId,
+              status: oldStatus,
+              placement: { gt: oldPlacement }
+            },
+            data: { placement: { decrement: 1 } }
+          });
+          // Increment all items in the NEW list that are at or above the new placement
+          await tx.personalRecord.updateMany({
+            where: {
+              userId: userId,
+              status: status,
+              placement: { gte: newPlacement }
+            },
+            data: { placement: { increment: 1 } }
+          });
+        } 
+        // 4. Handle placement change (staying in the same list)
+        else if (newPlacement !== oldPlacement) {
+          if (newPlacement < oldPlacement) {
+            // Moving UP
+            await tx.personalRecord.updateMany({
+              where: {
+                userId: userId,
+                status: status, // Only affect records in the same list
+                placement: { gte: newPlacement, lt: oldPlacement }
+              },
+              data: { placement: { increment: 1 } }
+            });
+          } else { // newPlacement > oldPlacement
+            // Moving DOWN
+            await tx.personalRecord.updateMany({
+              where: {
+                userId: userId,
+                status: status, // Only affect records in the same list
+                placement: { gt: oldPlacement, lte: newPlacement }
+              },
+              data: { placement: { decrement: 1 } }
+            });
+          }
+        }
+
+        // 5. Finally, update the target record with all new data
+        await tx.personalRecord.update({
+          where: { id: recordId },
+          data: {
+            placement: newPlacement,
+            levelName,
+            difficulty,
+            attempts: attemptsNum,
+            videoUrl,
+            thumbnailUrl,
+            status: status // SAVE the new status
+          }
+        });
+      });
+
+      return res.status(200).json({ message: 'Record updated successfully.' });
+
+    } catch (error) {
+      console.error('Failed to update record:', error); 
+      return res.status(500).json({ message: 'Failed to update record.' });
+    }
+}
+
+export async function deletePersonalRecord(req, res, decodedToken) {
+  const { recordId } = req.body;
+  if (!recordId) return res.status(400).json({ message: 'Record ID is required.' });
+
+  try {
+    const recordToDelete = await prisma.personalRecord.findFirst({ where: { id: recordId, userId: decodedToken.userId } });
+    if (!recordToDelete) return res.status(403).json({ message: 'Record not found or you do not have permission to delete it.' });
+    
+    await prisma.$transaction([
+      prisma.personalRecord.delete({ where: { id: recordId } }),
+      prisma.personalRecord.updateMany({
+        where: { 
+          userId: decodedToken.userId, 
+          placement: { gt: recordToDelete.placement },
+          status: recordToDelete.status // Only shift records in the same list
+        },
+        data: { placement: { decrement: 1 } },
+      }),
+    ]);
+    return res.status(200).json({ message: 'Record deleted successfully.' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to delete record.' });
+  }
 }

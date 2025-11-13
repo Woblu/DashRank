@@ -1,4 +1,8 @@
 {
+  "completions": "Completados",
+  "runs": "Progresos",
+  "add_to_completions": "Añadir a Completados",
+  "add_to_runs": "Añadir a Progresos",
   "landing_feature_solo_title": "Desarrollo Individual",
   "landing_feature_solo_desc": "Un proyecto de pasión construido por una persona, dedicado a la comunidad.",
   "landing_feature_fast_title": "Actualizaciones Rápidas",

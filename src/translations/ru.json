@@ -1,4 +1,8 @@
 {
+  "completions": "Пройденные",
+  "runs": "В процессе",
+  "add_to_completions": "Добавить в Пройденные",
+  "add_to_runs": "Добавить в Процессе",
   "landing_feature_solo_title": "Соло-разработка",
   "landing_feature_solo_desc": "Проект, созданный с душой одним человеком и посвященный сообществу.",
   "landing_feature_fast_title": "Быстрые обновления",
