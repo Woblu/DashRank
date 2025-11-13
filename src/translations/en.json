@@ -1,4 +1,12 @@
 {
+  "loading_record_details": "Loading Record Details...",
+  "record_not_found": "Record not found",
+  "back_to_progression": "Back to Progression",
+  "video_not_supported": "Your browser does not support the video tag.",
+  "video_preview_unavailable": "Video preview not available.",
+  "view_original_video_link": "View Original Video Link",
+  "record_details": "Record Details",
+  "view_proof": "View Proof",
   "landing_page_subtitle": "The all-in-one Geometry Dash list and creator hub.",
   "loading_profile": "Loading profile...",
   "go_back_to_friends": "Go Back to Friends",

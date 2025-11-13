@@ -1,4 +1,12 @@
 {
+  "loading_record_details": "기록 상세 정보 로드 중...",
+  "record_not_found": "기록을 찾을 수 없습니다",
+  "back_to_progression": "진행도 목록으로 돌아가기",
+  "video_not_supported": "브라우저에서 비디오 태그를 지원하지 않습니다.",
+  "video_preview_unavailable": "비디오 미리보기를 사용할 수 없습니다.",
+  "view_original_video_link": "원본 비디오 링크 보기",
+  "record_details": "기록 상세 정보",
+  "view_proof": "증거 영상 보기",
   "landing_page_subtitle": "올인원 Geometry Dash 리스트 및 크리에이터 허브.",
   "loading_profile": "프로필 로드 중...",
   "go_back_to_friends": "친구 목록으로 돌아가기",

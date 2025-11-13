@@ -1,4 +1,12 @@
 {
+  "loading_record_details": "Загрузка деталей рекорда...",
+  "record_not_found": "Рекорд не найден",
+  "back_to_progression": "Вернуться к Прогрессу",
+  "video_not_supported": "Ваш браузер не поддерживает тег video.",
+  "video_preview_unavailable": "Превью видео недоступно.",
+  "view_original_video_link": "Смотреть видео по оригинальной ссылке",
+  "record_details": "Детали Рекорда",
+  "view_proof": "Смотреть Доказательство",
   "landing_page_subtitle": "Универсальный список Geometry Dash и центр для создателей.",
   "loading_profile": "Загрузка профиля...",
   "go_back_to_friends": "Вернуться к друзьям",

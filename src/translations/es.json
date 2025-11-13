@@ -1,4 +1,12 @@
 {
+  "loading_record_details": "Cargando Detalles del Récord...",
+  "record_not_found": "Récord no encontrado",
+  "back_to_progression": "Volver a Progreso",
+  "video_not_supported": "Tu navegador no soporta la etiqueta de video.",
+  "video_preview_unavailable": "Vista previa de video no disponible.",
+  "view_original_video_link": "Ver Enlace del Video Original",
+  "record_details": "Detalles del Récord",
+  "view_proof": "Ver Prueba",
   "landing_page_subtitle": "La lista de Geometry Dash y centro de creadores todo en uno.",
   "loading_profile": "Cargando perfil...",
   "go_back_to_friends": "Volver a Amigos",
