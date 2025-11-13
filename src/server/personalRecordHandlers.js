@@ -17,8 +17,10 @@ export async function listPersonalRecords(req, res, decodedToken) {
 }
 
 export async function createPersonalRecord(req, res, decodedToken) {
+  // 1. ADD 'status' to the destructuring
   const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl, status } = req.body;
   
+  // 2. Validate the new 'status' field
   if (!placement || !levelName || !difficulty || !videoUrl || !status) {
     return res.status(400).json({ message: 'Required fields are missing.' });
   }
@@ -45,7 +47,7 @@ export async function createPersonalRecord(req, res, decodedToken) {
           videoUrl,
           thumbnailUrl,
           userId: decodedToken.userId,
-          status: status 
+          status: status // 3. SAVE the status to the database
         },
       }),
     ]);
@@ -76,8 +78,10 @@ export async function getPersonalRecordById(req, res, decodedToken, recordId) {
 }
 
 export async function updatePersonalRecord(req, res, decodedToken, recordId) {
+    // 1. ADD 'status' to the destructuring
     const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl, status } = req.body;
 
+    // 2. Validate the new 'status' field
     if (!placement || !levelName || !difficulty || !videoUrl || !status) {
       return res.status(400).json({ message: 'All required fields must be provided.' });
     }
@@ -106,6 +110,7 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
       await prisma.$transaction(async (tx) => {
         const userId = decodedToken.userId;
 
+        // 3. Handle status change (moving from Runs to Completions, or vice-versa)
         if (status !== oldStatus) {
           // Decrement all items in the OLD list that were below the item
           await tx.personalRecord.updateMany({
@@ -126,13 +131,14 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
             data: { placement: { increment: 1 } }
           });
         } 
+        // 4. Handle placement change (staying in the same list)
         else if (newPlacement !== oldPlacement) {
           if (newPlacement < oldPlacement) {
             // Moving UP
             await tx.personalRecord.updateMany({
               where: {
                 userId: userId,
-                status: status, 
+                status: status, // Only affect records in the same list
                 placement: { gte: newPlacement, lt: oldPlacement }
               },
               data: { placement: { increment: 1 } }
@@ -142,7 +148,7 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
             await tx.personalRecord.updateMany({
               where: {
                 userId: userId,
-                status: status, 
+                status: status, // Only affect records in the same list
                 placement: { gt: oldPlacement, lte: newPlacement }
               },
               data: { placement: { decrement: 1 } }
@@ -150,6 +156,7 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
           }
         }
 
+        // 5. Finally, update the target record with all new data
         await tx.personalRecord.update({
           where: { id: recordId },
           data: {
@@ -159,7 +166,7 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
             attempts: attemptsNum,
             videoUrl,
             thumbnailUrl,
-            status: status 
+            status: status // SAVE the new status
           }
         });
       });
@@ -178,7 +185,7 @@ export async function deletePersonalRecord(req, res, decodedToken) {
 
   try {
     const recordToDelete = await prisma.personalRecord.findFirst({ where: { id: recordId, userId: decodedToken.userId } });
-    if (!recordToDelete) return res.status(403).json({ message: 'Record not found or you do not have permission to delete it.' });
+    if (!recordToDelete) return res.status(4G03).json({ message: 'Record not found or you do not have permission to delete it.' });
     
     await prisma.$transaction([
       prisma.personalRecord.delete({ where: { id: recordId } }),
