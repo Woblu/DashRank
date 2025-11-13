@@ -1,3 +1,5 @@
+// --- THIS IS THE FIX ---
+// I have removed 'PersonalRecordProgressStatus' from this import
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -15,26 +17,41 @@ export async function listPersonalRecords(req, res, decodedToken) {
 }
 
 export async function createPersonalRecord(req, res, decodedToken) {
-  const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl } = req.body;
-  if (!placement || !levelName || !difficulty || !videoUrl) {
+  const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl, status } = req.body;
+  
+  if (!placement || !levelName || !difficulty || !videoUrl || !status) {
     return res.status(400).json({ message: 'Required fields are missing.' });
   }
+  if (status !== 'COMPLETED' && status !== 'IN_PROGRESS') {
+    return res.status(400).json({ message: 'Invalid status.' });
+  }
+
   try {
     await prisma.$transaction([
       prisma.personalRecord.updateMany({
-        where: { userId: decodedToken.userId, placement: { gte: Number(placement) } },
+        where: { 
+          userId: decodedToken.userId, 
+          placement: { gte: Number(placement) },
+          status: status // Only shift records in the same status list
+        },
         data: { placement: { increment: 1 } },
       }),
       prisma.personalRecord.create({
         data: {
-          placement: Number(placement), levelName, difficulty,
+          placement: Number(placement),
+          levelName,
+          difficulty,
           attempts: attempts ? Number(attempts) : null,
-          videoUrl, thumbnailUrl, userId: decodedToken.userId,
+          videoUrl,
+          thumbnailUrl,
+          userId: decodedToken.userId,
+          status: status 
         },
       }),
     ]);
     return res.status(201).json({ message: 'Record added successfully.' });
   } catch (error) {
+    console.error('Create record error:', error);
     return res.status(500).json({ message: 'Failed to create record.' });
   }
 }
@@ -58,20 +75,20 @@ export async function getPersonalRecordById(req, res, decodedToken, recordId) {
     }
 }
 
-// ==================================================================
-// ==================== THIS IS THE FIXED FUNCTION ====================
-// ==================================================================
 export async function updatePersonalRecord(req, res, decodedToken, recordId) {
-    const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl } = req.body;
-    if (!placement || !levelName || !difficulty || !videoUrl) {
+    const { placement, levelName, difficulty, attempts, videoUrl, thumbnailUrl, status } = req.body;
+
+    if (!placement || !levelName || !difficulty || !videoUrl || !status) {
       return res.status(400).json({ message: 'All required fields must be provided.' });
+    }
+    if (status !== 'COMPLETED' && status !== 'IN_PROGRESS') {
+      return res.status(400).json({ message: 'Invalid status.' });
     }
 
     try {
       const newPlacement = Number(placement);
       const attemptsNum = attempts ? Number(attempts) : null;
 
-      // 1. Get the original record to check ownership and old placement
       const originalRecord = await prisma.personalRecord.findUnique({
         where: { id: recordId }
       });
@@ -79,56 +96,60 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
       if (!originalRecord) {
         return res.status(404).json({ message: 'Record not found.' });
       }
-
       if (originalRecord.userId !== decodedToken.userId) {
         return res.status(403).json({ message: 'You do not have permission to edit this record.' });
       }
 
       const oldPlacement = originalRecord.placement;
+      const oldStatus = originalRecord.status;
 
-      // 2. If placement hasn't changed, just update the data (no transaction needed)
-      if (newPlacement === oldPlacement) {
-        await prisma.personalRecord.update({
-          where: { id: recordId },
-          data: { 
-            levelName, 
-            difficulty, 
-            attempts: attemptsNum, 
-            videoUrl, 
-            thumbnailUrl 
-          }
-        });
-        // 5. SEND RESPONSE
-        return res.status(200).json({ message: 'Record updated successfully.' });
-      }
-
-      // 3. If placement *has* changed, we need a transaction
       await prisma.$transaction(async (tx) => {
         const userId = decodedToken.userId;
 
-        if (newPlacement < oldPlacement) {
-          // Moving record UP the list (e.g., 5 -> 3)
-          // Shift records 3 and 4 DOWN (increment placement)
+        if (status !== oldStatus) {
+          // Decrement all items in the OLD list that were below the item
           await tx.personalRecord.updateMany({
             where: {
               userId: userId,
-              placement: { gte: newPlacement, lt: oldPlacement }
-            },
-            data: { placement: { increment: 1 } }
-          });
-        } else if (newPlacement > oldPlacement) {
-          // Moving record DOWN the list (e.g., 3 -> 5)
-          // Shift records 4 and 5 UP (decrement placement)
-          await tx.personalRecord.updateMany({
-            where: {
-              userId: userId,
-              placement: { gt: oldPlacement, lte: newPlacement }
+              status: oldStatus,
+              placement: { gt: oldPlacement }
             },
             data: { placement: { decrement: 1 } }
           });
+          // Increment all items in the NEW list that are at or above the new placement
+          await tx.personalRecord.updateMany({
+            where: {
+              userId: userId,
+              status: status,
+              placement: { gte: newPlacement }
+            },
+            data: { placement: { increment: 1 } }
+          });
+        } 
+        else if (newPlacement !== oldPlacement) {
+          if (newPlacement < oldPlacement) {
+            // Moving UP
+            await tx.personalRecord.updateMany({
+              where: {
+                userId: userId,
+                status: status, 
+                placement: { gte: newPlacement, lt: oldPlacement }
+              },
+              data: { placement: { increment: 1 } }
+            });
+          } else { // newPlacement > oldPlacement
+            // Moving DOWN
+            await tx.personalRecord.updateMany({
+              where: {
+                userId: userId,
+                status: status, 
+                placement: { gt: oldPlacement, lte: newPlacement }
+              },
+              data: { placement: { decrement: 1 } }
+            });
+          }
         }
 
-        // 4. Finally, update the target record with all new data
         await tx.personalRecord.update({
           where: { id: recordId },
           data: {
@@ -137,24 +158,19 @@ export async function updatePersonalRecord(req, res, decodedToken, recordId) {
             difficulty,
             attempts: attemptsNum,
             videoUrl,
-            thumbnailUrl
+            thumbnailUrl,
+            status: status 
           }
         });
       });
 
-      // 5. SEND RESPONSE
       return res.status(200).json({ message: 'Record updated successfully.' });
 
     } catch (error) {
-      console.error('Failed to update record:', error); // Good to log the error
-      // 5. SEND RESPONSE (on error)
+      console.error('Failed to update record:', error); 
       return res.status(500).json({ message: 'Failed to update record.' });
     }
 }
-// ==================================================================
-// ==================================================================
-// ==================================================================
-
 
 export async function deletePersonalRecord(req, res, decodedToken) {
   const { recordId } = req.body;
@@ -167,7 +183,11 @@ export async function deletePersonalRecord(req, res, decodedToken) {
     await prisma.$transaction([
       prisma.personalRecord.delete({ where: { id: recordId } }),
       prisma.personalRecord.updateMany({
-        where: { userId: decodedToken.userId, placement: { gt: recordToDelete.placement } },
+        where: { 
+          userId: decodedToken.userId, 
+          placement: { gt: recordToDelete.placement },
+          status: recordToDelete.status // Only shift records in the same list
+        },
         data: { placement: { decrement: 1 } },
       }),
     ]);
