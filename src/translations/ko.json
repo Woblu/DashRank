@@ -1,4 +1,9 @@
 {
+  "landing_feature_solo_title": "1인 개발",
+  "landing_feature_solo_desc": "커뮤니티에 헌신하는 한 사람의 열정으로 만든 프로젝트입니다.",
+  "landing_feature_fast_title": "빠른 업데이트",
+  "landing_feature_fast_desc": "1달간의 대기 시간 없음. 새로운 레벨은 신속하게 검토되고 추가됩니다.",
+  "landing_footer_solo": "1인 개발자가 열정으로 만든 프로젝트입니다.",
   "landing_page_subtitle": "올인원 Geometry Dash 리스트 및 크리에이터 허브.",
   "landing_card_main_desc": "공식 상위 데몬 랭킹 리스트입니다.",
   "landing_card_workshop_desc": "협업하고, 데코레이터를 찾고, 레이아웃을 공유하세요.",

@@ -1,4 +1,9 @@
 {
+  "landing_feature_solo_title": "Solo-Developed",
+  "landing_feature_solo_desc": "A passion project built by one person, dedicated to the community.",
+  "landing_feature_fast_title": "Fast Updates",
+  "landing_feature_fast_desc": "No one-month wait times. New levels are reviewed and added quickly.",
+  "landing_footer_solo": "A solo-developer passion project.",
   "landing_page_subtitle": "The all-in-one Geometry Dash list and creator hub.",
   "landing_card_main_desc": "The official ranked list of top demons.",
   "landing_card_workshop_desc": "Collaborate, find decorators, and share layouts.",

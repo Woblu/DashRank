@@ -1,4 +1,9 @@
 {
+  "landing_feature_solo_title": "Соло-разработка",
+  "landing_feature_solo_desc": "Проект, созданный с душой одним человеком и посвященный сообществу.",
+  "landing_feature_fast_title": "Быстрые обновления",
+  "landing_feature_fast_desc": "Никакого месячного ожидания. Новые уровни рассматриваются и добавляются быстро.",
+  "landing_footer_solo": "Фанатский проект от одного разработчика.",
   "landing_page_subtitle": "Универсальный список Geometry Dash и центр для создателей.",
   "landing_card_main_desc": "Официальный рейтинговый список топ-демонов.",
   "landing_card_workshop_desc": "Сотрудничайте, находите декораторов и делитесь layout'ами.",

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
-import { List, Hammer, BookMarked, Users, Database, Code, ShieldCheck } from 'lucide-react';
+import { List, Hammer, BookMarked, Users, Database, Code, ShieldCheck, User, Zap } from 'lucide-react'; // Added User and Zap icons
 import logo from '../assets/dashrank-logo.webp';
 
 // Feature Card Component
 const FeatureCard = ({ icon: Icon, title, children }) => (
-  <div className="bg-ui-bg/50 backdrop-blur-sm p-6 rounded-xl border border-primary-bg shadow-lg">
+  <div className="bg-ui-bg/50 backdrop-blur-sm p-6 rounded-xl border border-primary-bg shadow-lg h-full"> {/* Added h-full */}
     <Icon className="w-10 h-10 text-accent mb-4" />
     <h3 className="text-2xl font-bold text-text-on-ui mb-2">{title}</h3>
     <p className="text-text-muted">{children}</p>
@@ -18,14 +18,10 @@ export default function LandingPage() {
   const { t } = useLanguage();
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // This is the key to your request:
-  // It forces the dark theme ("cyan") when this page loads.
-  // The `return` function is a cleanup: it RESTORES the user's
-  // saved theme when they navigate away from this page.
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "cyan";
     document.documentElement.setAttribute('data-theme', 'cyan');
-    setIsLoaded(true); // Trigger fade-in animation
+    setIsLoaded(true);
 
     return () => {
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -70,25 +66,33 @@ export default function LandingPage() {
           ))}
         </div>
         <div className="mt-16 text-text-muted animate-pulse">
-          {t('scroll_down_for_more', { defaultValue: 'Scroll down for more info' })}
+          {t('scroll_down_for_more')}
         </div>
       </div>
 
       {/* About Section */}
       <div className="py-24 bg-ui-bg border-y border-primary-bg">
-        <div className="max-w-4xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center">
-          <div>
+        <div className="max-w-6xl mx-auto px-8"> {/* Widened max-width for 2x2 grid */}
+          <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-4xl font-bold text-text-on-ui mb-4">{t('info_about_title')}</h2>
-            <p className="text-lg text-text-muted">
+            <p className="text-lg text-text-muted mb-12">
               {t('info_about_desc')}
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <FeatureCard icon={List} title={t('landing_feature_lists_title', { defaultValue: 'All Lists, One Place' })}>
-              {t('landing_feature_lists_desc', { defaultValue: 'Access the Main, Unrated, Platformer, and Challenge lists without changing sites.' })}
+          {/* --- UPDATED 2x2 GRID --- */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FeatureCard icon={List} title={t('landing_feature_lists_title')}>
+              {t('landing_feature_lists_desc')}
             </FeatureCard>
-            <FeatureCard icon={Hammer} title={t('landing_feature_workshop_title', { defaultValue: 'Creator\'s Workshop' })}>
-              {t('landing_feature_workshop_desc', { defaultValue: 'Find collaborators for your layouts and manage your decoration team.' })}
+            <FeatureCard icon={Hammer} title={t('landing_feature_workshop_title')}>
+              {t('landing_feature_workshop_desc')}
+            </FeatureCard>
+            {/* --- NEW CARDS --- */}
+            <FeatureCard icon={User} title={t('landing_feature_solo_title')}>
+              {t('landing_feature_solo_desc')}
+            </FeatureCard>
+            <FeatureCard icon={Zap} title={t('landing_feature_fast_title')}>
+              {t('landing_feature_fast_desc')}
             </FeatureCard>
           </div>
         </div>
@@ -121,7 +125,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="text-center py-8 border-t border-primary-bg">
-        <p className="text-text-muted">DashRank v1.0.0 - {t('not_affiliated_robtop', { defaultValue: 'Not affiliated with RobTop Games AB.' })}</p>
+        <p className="text-text-muted">{t('landing_footer_solo')} {t('not_affiliated_robtop')}</p> {/* UPDATED */}
       </footer>
     </div>
   );
