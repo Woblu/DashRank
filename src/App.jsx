@@ -39,7 +39,8 @@ export default function App() {
       <main className="flex-grow p-4 w-full max-w-7xl mx-auto z-20">
         <Routes>
           {/* Main public lists */}
-          <Route path="/" element={<Navigate to="/main" replace />} />
+          {/* [FIX] Changed route to load Home directly instead of redirecting */}
+          <Route path="/" element={<Home />} />
           <Route path="/:listType" element={<Home />} />
           <Route path="/level/:listType/:levelId" element={<LevelDetail />} />                
           <Route path="/players" element={<PlayerList />} />
