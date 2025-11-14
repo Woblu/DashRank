@@ -358,8 +358,9 @@ export async function getHistoricList(req, res) {
         if (change.type === 'ADD') {
             levelsMap.delete(change.levelId);
         }
-        else if (change.Type === 'REMOVE') {
-            const match = change.description.match(/(.+) removed from .+ \\(was #(\\d+)\\)/);
+        // [FIX] Corrected 'change.Type' to 'change.type'
+        else if (change.type === 'REMOVE') { 
+            const match = change.description.match(/(.+) removed from .+ \(was #(\d+)\)/);
             if (match) {
                 const [, levelName, oldPlacementStr] = match;
                 levelsMap.set(change.levelId, {
@@ -370,7 +371,7 @@ export async function getHistoricList(req, res) {
             }
         }
         else if (change.type === 'MOVE') {
-            const match = change.description.match(/moved from #(\\d+) to #(\\d+)/);
+            const match = change.description.match(/moved from #(\d+) to #(\d+)/);
             const levelData = levelsMap.get(change.levelId);
             if (match && levelData) {
                 levelData.placement = parseInt(match[1]);
