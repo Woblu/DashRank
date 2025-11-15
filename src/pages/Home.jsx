@@ -122,14 +122,24 @@ export default function Home() {
     }
   };
   
-  const fetchHistoricList = async (date) => {
+const fetchHistoricList = async (date) => {
     setIsLoading(true);
     setError(null);
     setSearch("");
     try {
-        const response = await axios.get(`/api/lists/main-list/history?date=${date}`);
-        setLevels(response.data);
-        setHistoricDate(new Date(date));
+        // [FIX] Create a date object from the YYYY-MM-DD string
+        // This will be in the user's local time, e.g., "2025-10-10T00:00:00" (local)
+        const localDate = new Date(date + "T12:00:00");
+        
+        // [FIX] Convert the local date to a full ISO string (e.g., "2025-10-10T17:00:00.000Z")
+        // This locks in the user's intended date in a universal format.
+        const dateString = localDate.toISOString();
+
+        // [FIX] Send this universal string to the API
+        const response = await axios.get(`/api/lists/main-list/history?date=${dateString}`);
+        
+        // We set the historicDate from the *original* local date string
+        setHistoricDate(new Date(date + "T12:00:00")); 
     } catch (err) {
         console.error("Failed to fetch historic list:", err);
         setError(`Failed to load history for ${date}.`);

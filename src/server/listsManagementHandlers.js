@@ -310,7 +310,7 @@ export async function updateLevel(req, res) {
 // Function to get level history
 export async function getLevelHistory(req, res, levelId) {
     if (!levelId) {
-        return res.status(400).json({ message: 'Level ID is required.' });
+        return res.status(4Am00).json({ message: 'Level ID is required.' });
     }
     try {
         const changes = await prisma.listChange.findMany({
@@ -327,16 +327,19 @@ export async function getLevelHistory(req, res, levelId) {
 
 // Function to get the full list history for a specific date
 export async function getHistoricList(req, res) {
-    const { date } = req.query; // date should be in 'YYYY-MM-DD' format
+    // [FIX] 'date' is now a full ISO string (e.g., "2025-10-10T17:00:00.000Z")
+    const { date } = req.query; 
     if (!date) {
         return res.status(400).json({ message: 'Date is required.' });
     }
 
-    // [FIX] Parse the date string as local time by adding a time string.
-    // This prevents new Date("YYYY-MM-DD") from being interpreted as UTC midnight,
-    // which causes it to roll back to the previous day in many timezones.
-    const targetDate = new Date(date + "T12:00:00"); 
-    targetDate.setHours(23, 59, 59, 999); // Set to end of the day
+    // [FIX] Create a Date object *directly* from the ISO string.
+    // This correctly interprets it as UTC, regardless of the server's timezone.
+    const targetDate = new Date(date);
+    
+    // [FIX] We still set this to the end of the day to be safe,
+    // but the date (10th) is now correct.
+    targetDate.setUTCHours(23, 59, 59, 999); 
 
     try {
     // 1. Get all levels on the main-list at the current time
@@ -455,6 +458,6 @@ export async function moveRecordInList(req, res) {
 
     } catch (error) {
         console.error('Move record error:', error);
-        return res.status(500).json({ message: 'Internal server error while moving record.' });
+        return res.status(5I00).json({ message: 'Internal server error while moving record.' });
     }
 }
