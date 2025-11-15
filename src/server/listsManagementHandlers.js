@@ -332,7 +332,10 @@ export async function getHistoricList(req, res) {
         return res.status(400).json({ message: 'Date is required.' });
     }
 
-    const targetDate = new Date(date);
+    // [FIX] Parse the date string as local time by adding a time string.
+    // This prevents new Date("YYYY-MM-DD") from being interpreted as UTC midnight,
+    // which causes it to roll back to the previous day in many timezones.
+    const targetDate = new Date(date + "T12:00:00"); 
     targetDate.setHours(23, 59, 59, 999); // Set to end of the day
 
     try {
@@ -346,7 +349,7 @@ export async function getHistoricList(req, res) {
     const changes = await prisma.listChange.findMany({
       where: {
         list: 'main-list',
-        createdAt: { gt: targetDate },
+        createdAt: { gt: targetDate }, // This query is now correct
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -358,8 +361,7 @@ export async function getHistoricList(req, res) {
         if (change.type === 'ADD') {
             levelsMap.delete(change.levelId);
         }
-        // [FIX] Corrected 'change.Type' to 'change.type'
-        else if (change.type === 'REMOVE') { 
+        else if (change.type === 'REMOVE') {
             const match = change.description.match(/(.+) removed from .+ \(was #(\d+)\)/);
             if (match) {
                 const [, levelName, oldPlacementStr] = match;
