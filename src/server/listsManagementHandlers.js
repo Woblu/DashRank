@@ -310,7 +310,8 @@ export async function updateLevel(req, res) {
 // Function to get level history
 export async function getLevelHistory(req, res, levelId) {
     if (!levelId) {
-        return res.status(4Am00).json({ message: 'Level ID is required.' });
+        // [FIX] Corrected '4Am00' to '400'
+        return res.status(400).json({ message: 'Level ID is required.' });
     }
     try {
         const changes = await prisma.listChange.findMany({
@@ -458,6 +459,7 @@ export async function moveRecordInList(req, res) {
 
     } catch (error) {
         console.error('Move record error:', error);
-        return res.status(5I00).json({ message: 'Internal server error while moving record.' });
+        // [FIX] Corrected '5I00' to '500'
+        return res.status(500).json({ message: 'Internal server error while moving record.' });
     }
 }
