@@ -1,67 +1,68 @@
 // src/pages/PersonalRecordDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
+import { ChevronLeft } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
-import { ChevronLeft, Film, Link as LinkIcon } from 'lucide-react';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { getEmbedUrl } from '../utils/embedUtils.js';
-import { useLanguage } from '../contexts/LanguageContext.jsx';
-import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 export default function PersonalRecordDetail() {
-  const { recordId } = useParams();
+  const { recordId } = useParams(); // Use recordId from PersonalRecordDetail
   const navigate = useNavigate();
-  const { token } = useAuth();
   const { t } = useLanguage();
-  const [record, setRecord] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // [FIX] Added error state
+  const { token } = useAuth(); // Use token from PersonalRecordDetail
+
+  const [record, setRecord] = useState(null); // Use record state from PersonalRecordDetail
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [embedInfo, setEmbedInfo] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!recordId || !token) {
+      setIsLoading(false);
+      return;
+    }
+    
     const fetchRecord = async () => {
-      if (!token || !recordId) {
-        setLoading(false);
-        return;
-      }
-      setLoading(true);
-      setError(null); // [FIX] Reset error on new fetch
+      setIsLoading(true);
+      setError(null);
       try {
+        // Use the API endpoint from PersonalRecordDetail
         const res = await axios.get(`/api/personal-records/${recordId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setRecord(res.data);
+        
+        // Set embed info once data is fetched
+        if (res.data?.videoUrl) {
+          const embedResult = getEmbedUrl(res.data.videoUrl);
+          setEmbedInfo(embedResult);
+        }
+        
       } catch (err) {
-        console.error(err);
-        // [FIX] Set error message for the user
-        setError(err.response?.data?.message || t('failed_to_load_record'));
+        console.error("Failed to fetch record details:", err);
+        const errMsg = err.response?.status === 404
+          ? t('record_not_found')
+          : (err.response?.data?.message || t('failed_to_load_record'));
+        setError(errMsg);
+        setRecord(null);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
+
     fetchRecord();
-  }, [recordId, token, t]); // [FIX] Added 't' to dependency array
+  }, [recordId, token, t]); // Use dependencies from PersonalRecordDetail
 
-  // Note: Delete/Edit functionality is handled by <LevelCard> on the Home page
-  // This page is just the read-only detail view.
+  if (isLoading) return <LoadingSpinner message={t('loading_record_details')} />; // Use message from PersonalRecordDetail
 
-  if (loading) return <LoadingSpinner message={t('loading_record_details')} />;
-
-  // [FIX] Show error message if fetching failed
-  if (error) {
-     return (
-      <div className="text-center p-8 text-text-primary">
-        <h1 className="text-2xl font-bold text-red-500">{error}</h1>
-        <button onClick={() => navigate('/progression')} className="mt-4 inline-flex items-center text-accent hover:underline">
-          <ChevronLeft size={16} /> {t('back_to_progression')}
-        </button>
-      </div>
-    );
-  }
-
-  if (!record) {
+  if (error || !record) {
     return (
-      <div className="text-center p-8 text-text-primary">
-        <h1 className="text-2xl font-bold text-red-500">{t('record_not_found')}</h1>
+      <div className="text-center p-8">
+        <h1 className="text-2xl font-bold text-red-500">{error || t('record_not_found')}</h1>
         <button onClick={() => navigate('/progression')} className="mt-4 inline-flex items-center text-accent hover:underline">
           <ChevronLeft size={16} /> {t('back_to_progression')}
         </button>
@@ -69,75 +70,74 @@ export default function PersonalRecordDetail() {
     );
   }
 
-  const embedInfo = getEmbedUrl(record.videoUrl);
+  // Get difficulty and status from the record
   const difficulty = record.difficulty?.replace('_', ' ');
+  const status = record.status === 'COMPLETED' ? t('completed') : t('in_progress');
 
   return (
-    <div className="max-w-4xl mx-auto p-4 text-text-primary">
-      <div className="mb-4">
-        <button onClick={() => navigate('/progression')} className="flex items-center gap-2 text-accent hover:text-accent/80 transition-colors">
-          <ChevronLeft size={20} />
-          {t('back_to_progression')}
-        </button>
-      </div>
+    <>
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
+        {/* Main Level Box (Adapted for Record) */}
+        <div className="relative bg-ui-bg border-2 border-dotted border-accent backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-2xl">
+          <button
+            onClick={() => navigate('/progression')} // Navigate back to progression
+            className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-primary-bg text-text-primary hover:bg-accent/10 hover:scale-110 transition-all"
+            aria-label="Go back to progression"
+          >
+            <ChevronLeft size={24} />
+          </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Video Player */}
-        <div className="md:col-span-2 aspect-video bg-primary-bg rounded-xl shadow-lg">
-          {embedInfo && embedInfo.url ? (
-            embedInfo.type === 'iframe' ? (
-              <iframe
-                width="100%" height="100%"
-                src={embedInfo.url}
-                title="Video Player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="rounded-xl shadow-lg"
-              ></iframe>
-            ) : (
-              <video
-                width="100%" height="100%"
-                controls
-                src={embedInfo.url}
-                className="rounded-xl shadow-lg"
-              >
-                {t('video_not_supported')}
-              </video>
-            )
-          ) : (
-             <div className="w-full h-full rounded-xl shadow-lg bg-primary-bg flex flex-col items-center justify-center">
-                <p className="text-text-muted">{t('video_preview_unavailable')}</p>
-                <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-accent hover:underline">
-                    {t('view_original_video_link')}
-                </a>
-             </div>
-          )}
-        </div>
+          <div className="text-center mb-4 pt-8 sm:pt-0">
+            <h1 className="font-poppins text-5xl font-bold break-words text-accent">
+              {/* Map record data */}
+              #{record.placement} - {record.levelName}
+            </h1>
+          </div>
 
-        {/* Details Card */}
-        <div className="bg-ui-bg p-6 rounded-lg shadow-inner border border-primary-bg">
-          <h2 className="text-2xl font-bold text-center text-accent mb-4">{t('record_details')}</h2>
-          
-          <div className="space-y-3 text-text-on-ui/90">
-            <p><span className="font-bold text-text-on-ui">{t('placement')}:</span> #{record.placement}</p>
-            <p><span className="font-bold text-text-on-ui">{t('level')}:</span> {record.levelName}</p>
+          <div className="flex flex-wrap justify-center text-center mb-4 gap-x-8 gap-y-2 text-lg text-text-muted">
+            {/* Map record data */}
             <p><span className="font-bold text-text-on-ui">{t('difficulty')}:</span> {difficulty}</p>
+            <p><span className="font-bold text-text-on-ui">{t('status')}:</span> {status}</p>
             {record.attempts && (
               <p><span className="font-bold text-text-on-ui">{t('attempts')}:</span> {record.attempts.toLocaleString()}</p>
             )}
-            {/* [FIX] Added Status field from your other version */}
-            <p><span className="font-bold text-text-on-ui">{t('status')}:</span> {record.status === 'COMPLETED' ? t('completed') : t('in_progress')}</p>
           </div>
-          
-          <div className="flex items-center justify-center gap-6 mt-6 border-t border-primary-bg pt-4">
-              <a href={record.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-text-on-ui hover:text-accent transition-colors font-semibold">
-                  <Film size={20} />
-                  <span>{t('view_proof')}</span>
-              </a>
-          </div>
+
+          {/* Video Embed */}
+          {embedInfo && embedInfo.url ? (
+            <div className="aspect-video w-full border-2 border-primary-bg rounded-xl overflow-hidden bg-black">
+              {embedInfo.type === 'iframe' ? (
+                <iframe
+                  key={embedInfo.url}
+                  width="100%"
+                  height="100%"
+                  src={embedInfo.url}
+                  title="Video Player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <video
+                  key={embedInfo.url}
+                  width="100%"
+                  height="100%"
+                  src={embedInfo.url}
+                  controls
+                ></video>
+              )}
+            </div>
+          ) : (
+            <div className="aspect-video w-full border-2 border-dashed border-primary-bg rounded-xl flex items-center justify-center bg-primary-bg/50">
+              <p className="text-text-muted">{t('no_embeddable_video')}</p>
+            </div>
+          )}
         </div>
+
+        {/* Removed Position History Box (Doesn't apply to a single record) */}
+        
+        {/* Removed Records Box (Doesn't apply to a single record) */}
       </div>
-    </div>
+    </>
   );
 }
