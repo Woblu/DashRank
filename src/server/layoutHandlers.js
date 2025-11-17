@@ -11,7 +11,12 @@ export async function listLayouts(req, res) {
     const layouts = await prisma.layout.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
-        creator: { select: { username: true } },
+        creator: {
+          select: {
+            id: true, // [FIX] Added id here
+            username: true
+          }
+        },
       },
     });
     return res.status(200).json(layouts);
