@@ -1,3 +1,4 @@
+// src/server/layoutHandlers.js
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -28,7 +29,12 @@ export async function getLayoutById(req, res, layoutId) {
     const layout = await prisma.layout.findUnique({
       where: { id: layoutId },
       include: {
-        creator: { select: { username: true } },
+        creator: {
+          select: {
+            id: true, // [FIX] Added id here
+            username: true
+          }
+        },
       },
     });
 
