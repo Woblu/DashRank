@@ -112,16 +112,14 @@ export default function LayoutDetailPage() {
           setEmbedInfo(getEmbedUrl(res.data.videoUrl));
         }
         
-        // [FIX] Robust Ownership Check
-        // 1. Safely access both IDs
+        // [FIX] Use user.id instead of user.userId because AuthContext sets it as 'id'
         const creatorId = res.data.creator?.id;
-        const currentUserId = user?.userId;
+        const currentUserId = user?.id; 
         
-        // 2. Convert both to Strings before comparing to handle '123' (Int) vs "123" (String) mismatches
         if (creatorId && currentUserId && String(creatorId) === String(currentUserId)) {
           setIsOwner(true);
         } else {
-          setIsOwner(false); // Explicitly set false if not matching
+          setIsOwner(false);
         }
 
       } catch (err) {
@@ -131,7 +129,7 @@ export default function LayoutDetailPage() {
       }
     };
     fetchLayout();
-  }, [layoutId, user, t]); // Dependencies ensure this re-runs if user logs in/out
+  }, [layoutId, user, t]);
 
   const handleReportSubmit = async (e) => {
     e.preventDefault();
