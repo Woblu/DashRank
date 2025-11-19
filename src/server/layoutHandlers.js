@@ -13,7 +13,7 @@ export async function listLayouts(req, res) {
       include: {
         creator: {
           select: {
-            id: true, // [FIX] Added id here
+            id: true, // [FIX] Added creator's ID
             username: true
           }
         },
@@ -36,7 +36,7 @@ export async function getLayoutById(req, res, layoutId) {
       include: {
         creator: {
           select: {
-            id: true, // [FIX] Added id here
+            id: true, // [FIX] Added creator's ID
             username: true
           }
         },
