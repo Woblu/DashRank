@@ -231,7 +231,7 @@ export default function LevelDetail() {
             </div>
           )}
 
-          {/* [FIX] Description Display */}
+          {/* [FIX] Description Display - Centered, Italic, Quoted */}
           {level.description && (
             <div className="text-center mb-6 px-4 italic text-text-on-ui/90 text-lg">
               "{level.description}"
