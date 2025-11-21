@@ -31,7 +31,7 @@ const AddRecordModal = ({ levelName, levelId, onClose, onRecordAdded }) => {
             }, { headers: { Authorization: `Bearer ${token}` } });
             onRecordAdded();
             onClose();
-        } catch (err) { // <-- THIS IS THE FIX (was a colon :)
+        } catch (err) {
             setError(err.response?.data?.message || 'Failed to add record.');
         } finally {
             setIsLoading(false);
@@ -228,6 +228,13 @@ export default function LevelDetail() {
                   {isCopied ? t('copied') : level.levelId}
                 </button>
               </p>
+            </div>
+          )}
+
+          {/* [FIX] Description Display */}
+          {level.description && (
+            <div className="text-center mb-6 px-4 italic text-text-on-ui/90 text-lg">
+              "{level.description}"
             </div>
           )}
 
