@@ -179,7 +179,9 @@ export default function LevelDetail() {
   }
 
   const verifierLabel = level.list === 'future-list' ? t('verification_status') : t('verified_by');
-  
+  // [FIX] Changed to always be (Verifier) or (Status Verifier) based on your request to change the text
+  const recordVerifierLabel = level.list === 'future-list' ? '(Status Verifier)' : '(Verifier)';
+
   return (
     <>
       {isAddRecordModalOpen && (
@@ -230,7 +232,7 @@ export default function LevelDetail() {
             </div>
           )}
 
-          {/* Description Display - Centered, Italic, Quoted */}
+          {/* [FIX] Description Display - Centered, Italic, Quoted */}
           {level.description && (
             <div className="text-center mb-6 px-4 italic text-text-on-ui/90 text-lg">
               "{level.description}"
@@ -309,11 +311,11 @@ export default function LevelDetail() {
           </div>
 
           <ul className="text-center space-y-2 text-lg">
-            {/* [FIX] Reverted to simple centering (no absolute pos) AND changed text to (Verifier) */}
             <li>
               <button onClick={() => handleRecordClick(level.videoId)} className="text-text-on-ui hover:text-accent transition-colors"> 
-                <span className="font-mono text-sm text-text-muted mr-2">(Verifier)</span> 
-                <span className="font-bold">{level.verifier}</span>
+                {/* [FIX] Changed text to use the new label */}
+                <span className="font-bold">{level.verifier}</span> 
+                <span className="font-mono text-sm text-text-muted ml-2">{recordVerifierLabel}</span> 
               </button>
             </li>
 
