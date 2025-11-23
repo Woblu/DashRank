@@ -310,10 +310,11 @@ export default function LevelDetail() {
           </div>
 
           <ul className="text-center space-y-2 text-lg">
-            <li>
-              <button onClick={() => handleRecordClick(level.videoId)} className="text-text-on-ui hover:text-accent transition-colors"> 
-                {/* [FIX] Flipped these two spans */}
-                <span className="font-mono text-sm text-text-muted mr-2">{recordVerifierLabel}</span> 
+            {/* [FIX] Made this li flex justify-center to enforce centering */}
+            <li className="flex justify-center">
+              {/* [FIX] Added flex, items-center, justify-center, gap-2 to button */}
+              <button onClick={() => handleRecordClick(level.videoId)} className="flex items-center justify-center gap-2 text-text-on-ui hover:text-accent transition-colors"> 
+                <span className="font-mono text-sm text-text-muted">{recordVerifierLabel}</span> 
                 <span className="font-bold">{level.verifier}</span>
               </button>
             </li>
