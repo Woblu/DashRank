@@ -231,7 +231,7 @@ export default function LevelDetail() {
             </div>
           )}
 
-          {/* [FIX] Description Display - Centered, Italic, Quoted */}
+          {/* Description Display - Centered, Italic, Quoted */}
           {level.description && (
             <div className="text-center mb-6 px-4 italic text-text-on-ui/90 text-lg">
               "{level.description}"
@@ -312,8 +312,9 @@ export default function LevelDetail() {
           <ul className="text-center space-y-2 text-lg">
             <li>
               <button onClick={() => handleRecordClick(level.videoId)} className="text-text-on-ui hover:text-accent transition-colors"> 
+                {/* [FIX] Flipped these two spans */}
+                <span className="font-mono text-sm text-text-muted mr-2">{recordVerifierLabel}</span> 
                 <span className="font-bold">{level.verifier}</span>
-                <span className="font-mono text-sm text-text-muted ml-2">{recordVerifierLabel}</span> 
               </button>
             </li>
 
