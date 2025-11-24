@@ -179,7 +179,6 @@ export default function LevelDetail() {
   }
 
   const verifierLabel = level.list === 'future-list' ? t('verification_status') : t('verified_by');
-  // [FIX] Explicitly set to (Verifier)
   const recordVerifierLabel = level.list === 'future-list' ? '(Status Verifier)' : '(Verifier)';
   const isPlatformer = listType === 'platformer';
 
@@ -312,11 +311,12 @@ export default function LevelDetail() {
           </div>
 
           <ul className="text-center space-y-2 text-lg">
-            {/* [FIX] Reverted to centered list item, but using the updated label */}
-            <li>
-              <button onClick={() => handleRecordClick(level.videoId)} className="text-text-on-ui hover:text-accent transition-colors"> 
-                <span className="font-mono text-sm text-text-muted mr-2">{recordVerifierLabel}</span> 
-                <span className="font-bold">{level.verifier}</span>
+            {/* [FIX] Name centered in flexbox, label absolutely positioned to left */}
+            <li className="relative flex items-center justify-center min-h-[2rem] px-2">
+              <span className="absolute left-0 font-mono text-sm text-text-muted">{recordVerifierLabel}</span> 
+              
+              <button onClick={() => handleRecordClick(level.videoId)} className="font-bold text-text-on-ui hover:text-accent transition-colors text-xl"> 
+                {level.verifier}
               </button>
             </li>
 
