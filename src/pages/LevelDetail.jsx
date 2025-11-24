@@ -179,7 +179,7 @@ export default function LevelDetail() {
   }
 
   const verifierLabel = level.list === 'future-list' ? t('verification_status') : t('verified_by');
-  // Explicitly set to (Verifier) or (Status Verifier)
+  // [FIX] Explicitly set to (Verifier)
   const recordVerifierLabel = level.list === 'future-list' ? '(Status Verifier)' : '(Verifier)';
   const isPlatformer = listType === 'platformer';
 
@@ -233,7 +233,7 @@ export default function LevelDetail() {
             </div>
           )}
 
-          {/* Description Display - Centered, Italic, Quoted */}
+          {/* Description Display */}
           {level.description && (
             <div className="text-center mb-6 px-4 italic text-text-on-ui/90 text-lg">
               "{level.description}"
@@ -312,12 +312,18 @@ export default function LevelDetail() {
           </div>
 
           <ul className="text-center space-y-2 text-lg">
-            {/* [FIX] Removed absolute positioning. Added flex gap to keep label next to name. */}
-            <li className="flex items-center justify-center gap-2 min-h-[2rem] px-2">
-              <span className="font-mono text-sm text-text-muted">{recordVerifierLabel}</span> 
-              
-              <button onClick={() => handleRecordClick(level.videoId)} className="font-bold text-text-on-ui hover:text-accent transition-colors text-xl"> 
-                {level.verifier}
+            {/* [FIX] Centered Name, Absolute Left Label */}
+            <li className="flex justify-center relative">
+              <button 
+                onClick={() => handleRecordClick(level.videoId)} 
+                className="relative inline-flex items-center justify-center text-text-on-ui hover:text-accent transition-colors"
+              > 
+                {/* Label floating to the left of the centered name */}
+                <span className="absolute right-full mr-2 whitespace-nowrap font-mono text-sm text-text-muted">
+                  {recordVerifierLabel}
+                </span>
+                {/* Centered Name */}
+                <span className="font-bold">{level.verifier}</span>
               </button>
             </li>
 
