@@ -2,52 +2,36 @@ import fs from 'fs';
 
 const BASE_URL = 'https://pemonlist.com/api';
 
-// Helper delay to prevent rate-limiting
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function scrapeTop150() {
     console.log("Starting Pemonlist Scrape (Top 150 Only)...");
 
     try {
-        // --- PHASE 1: Fetch the Skeleton List (First 150 Levels) ---
         let skeletonList = [];
         let page = 1;
 
         console.log("\n--- Phase 1: Fetching List Index ---");
 
-        // We only need to loop until we have at least 150 levels.
-        // Since max limit per page is usually restricted, we'll do chunks of 100.
         while (skeletonList.length < 150) {
-            // Using limit=100 to get data efficiently
             const response = await fetch(`${BASE_URL}/list?limit=100&page=${page}`);
-            
-            if (!response.ok) {
-                throw new Error(`List fetch failed on page ${page}: ${response.statusText}`);
-            }
-
+            if (!response.ok) throw new Error(`List fetch failed: ${response.statusText}`);
             const result = await response.json();
 
             if (result.data && result.data.length > 0) {
                 skeletonList = skeletonList.concat(result.data);
-                console.log(`Page ${page} retrieved. Total levels found so far: ${skeletonList.length}`);
+                console.log(`Page ${page} retrieved. Total levels: ${skeletonList.length}`);
                 page++;
                 await delay(200); 
             } else {
-                // Stop if we run out of levels before hitting 150
                 break;
             }
         }
 
-        // Ensure we sort by placement to be 100% accurate
         skeletonList.sort((a, b) => a.placement - b.placement);
-
-        // Cut the list to exactly the Top 150
         const top150 = skeletonList.slice(0, 150);
 
-        console.log(`\nList trimmed to Top ${top150.length} levels.`);
-        console.log("Now fetching full details...");
-        
-        // --- PHASE 2: Fetch Full Details for Top 150 ---
+        console.log(`\nList trimmed to Top ${top150.length}. Now fetching details...`);
         console.log("\n--- Phase 2: Fetching Records & Details ---");
         
         const fullData = [];
@@ -55,19 +39,15 @@ async function scrapeTop150() {
         for (const basicLevel of top150) {
             const levelId = basicLevel.level_id;
             const levelName = basicLevel.name;
-            const placement = basicLevel.placement;
-
+            
             if (!levelId) continue;
 
             try {
-                // Query the specific level endpoint for full records
                 const detailResponse = await fetch(`${BASE_URL}/level/${levelId}`);
-                
                 if (!detailResponse.ok) {
-                    console.error(`Failed to fetch details for ${levelName} (#${placement})`);
+                    console.error(`Failed to fetch details for ${levelName}`);
                     continue;
                 }
-
                 const levelDetails = await detailResponse.json();
 
                 if (levelDetails.error) {
@@ -75,27 +55,24 @@ async function scrapeTop150() {
                     continue;
                 }
 
-                // Construct the complete data object
                 const completeLevelObject = {
                     id: levelDetails.level_id,
                     name: levelDetails.name,
                     placement: levelDetails.placement,
-                    points: levelDetails.points,     //
+                    points: levelDetails.points,
                     creator: levelDetails.creator,
-                    verifier: levelDetails.verifier, //
-                    records: levelDetails.records    //
+                    verifier: levelDetails.verifier,
+                    records: levelDetails.records,
+                    description: levelDetails.description || "",
+                    video_id: levelDetails.video_id // [FIX] Capture the root video_id
                 };
 
                 fullData.push(completeLevelObject);
-
-                const recordCount = levelDetails.records ? levelDetails.records.length : 0;
-                console.log(`[#${placement}] ${levelName} - Saved (${recordCount} records)`);
+                console.log(`[#${levelDetails.placement}] ${levelName} - Saved`);
 
             } catch (err) {
                 console.error(`Exception while scraping ${levelName}:`, err);
             }
-
-            // 600ms delay to be safe
             await delay(600); 
         }
 
@@ -107,12 +84,9 @@ async function scrapeTop150() {
     }
 }
 
-// --- Execute and Save ---
 scrapeTop150().then(data => {
     if (data) {
-        console.log("\n--- Scrape Complete ---");
-        const fileName = 'pemon_top150.json';
-        fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
-        console.log(`Success! Data for ${data.length} levels saved to ${fileName}`);
+        fs.writeFileSync('pemon_top150.json', JSON.stringify(data, null, 2));
+        console.log(`Success! Saved to pemon_top150.json`);
     }
 });

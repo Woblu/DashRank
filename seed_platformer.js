@@ -24,30 +24,31 @@ async function seedPlatformer() {
   console.log('Seeding new levels...');
 
   for (const pLevel of platformerLevels) {
-    // Map records according to Pemonlist API structure
+    // Map records
     const mappedRecords = pLevel.records.map(rec => ({
-      username: rec.player.name,        //
+      username: rec.player.name,
       percent: 100,
-      videoId: rec.video_id || '',      //
-      time: rec.formatted_time,         //
-      mobile: rec.mobile,               //
-      timestamp: rec.timestamp_milliseconds //
+      videoId: rec.video_id || '',
+      time: rec.formatted_time,
+      mobile: rec.mobile,
+      timestamp: rec.timestamp_milliseconds
     }));
 
-    // Handle verifier data safely
-    const verifierName = pLevel.verifier ? pLevel.verifier.name : 'Unknown'; //
-    const verifierVideoId = pLevel.verifier && pLevel.verifier.video_id ? pLevel.verifier.video_id : ''; //
+    const verifierName = pLevel.verifier ? pLevel.verifier.name : 'Unknown';
+    
+    // [FIX] Use the root video_id we just scraped
+    const mainVideoId = pLevel.video_id || '';
 
     await prisma.level.create({
       data: {
-        name: pLevel.name,              //
-        placement: pLevel.placement,    //
-        creator: pLevel.creator,        //
+        name: pLevel.name,
+        placement: pLevel.placement,
+        creator: pLevel.creator,
         verifier: verifierName,
-        videoId: verifierVideoId,       // [FIX] Uses verifier.video_id
-        levelId: pLevel.level_id,       //
+        videoId: mainVideoId,       // [FIX] Now uses the correct field
+        levelId: pLevel.id,
         list: 'platformer-list',
-        description: '',                // [FIX] Forced empty description (ignores points)
+        description: '',            // [FIX] Forced empty description
         records: mappedRecords
       }
     });
