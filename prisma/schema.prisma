@@ -10,10 +10,14 @@ generator client {
 }
 
 // --- Your Types and Enums ---
+// [FIX] Updated to include Platformer specific fields
 type Record {
   username String
   percent  Int
   videoId  String
+  time     String?  // New: "0:04:23.866"
+  mobile   Boolean? // New: true/false
+  timestamp Int?    // New: 23866
 }
 
 enum Role {
