@@ -1,6 +1,6 @@
 // src/components/SettingsMenu.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { Settings, User, Shield, BookText, Palette } from "lucide-react";
+import { Settings, User, Shield, BookText, Palette, Users } from "lucide-react"; // [FIX] Added Users icon
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { Link } from "react-router-dom";
@@ -78,6 +78,16 @@ export default function SettingsMenu() {
           >
             <BookText className="w-5 h-5" />
             <span>{t('guidelines')}</span>
+          </Link>
+
+          {/* [NEW] Credits Link */}
+          <Link
+            to="/credits"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 text-text-on-ui font-semibold hover:text-accent transition-colors"
+          >
+            <Users className="w-5 h-5" />
+            <span>Credits</span>
           </Link>
 
           <hr className="border-primary-bg my-2" />

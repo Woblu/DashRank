@@ -1,5 +1,5 @@
+// src/App.jsx
 import React from "react";
-// 1. Import useLocation
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import LevelDetail from "./pages/LevelDetail";
@@ -24,7 +24,8 @@ import LayoutGalleryPage from './pages/layouts/LayoutGalleryPage';
 import LayoutDetailPage from './pages/layouts/LayoutDetailPage';
 import AdminReportsPage from './pages/AdminReportsPage';
 import GuidelinesPage from './pages/GuidelinesPage';
-import LandingPage from './pages/LandingPage'; // 2. Import the new LandingPage
+import LandingPage from './pages/LandingPage';
+import CreditsPage from './pages/CreditsPage'; // [NEW] Import
 
 // This new component checks if we should show the main app layout
 const AppLayout = ({ children }) => {
@@ -62,9 +63,9 @@ const AppLayout = ({ children }) => {
 
 export default function App() {
   return (
-    <AppLayout> {/* 3. Wrap Routes in the new AppLayout */}
+    <AppLayout>
       <Routes>
-        <Route path="/" element={<LandingPage />} /> {/* 4. Set root to LandingPage */}
+        <Route path="/" element={<LandingPage />} />
         
         {/* Main public lists */}
         <Route path="/:listType" element={<Home />} />
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="/players" element={<PlayerList />} />
         <Route path="/players/:playerName" element={<PlayerProfile />} />
         <Route path="/guidelines" element={<GuidelinesPage />} />
+        <Route path="/credits" element={<CreditsPage />} /> {/* [NEW] Route added */}
         
         {/* User-specific routes */}
         <Route path="/login" element={<LoginPage />} />
