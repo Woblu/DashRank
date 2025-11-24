@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
-import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus, ArrowUpCircle, ArrowDownCircle, Smartphone } from 'lucide-react'; // [FIX] Imported Smartphone icon
+import { ChevronLeft, Trash2, ChevronDown, ChevronUp, Plus, ArrowUpCircle, ArrowDownCircle, Smartphone } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -179,9 +179,8 @@ export default function LevelDetail() {
   }
 
   const verifierLabel = level.list === 'future-list' ? t('verification_status') : t('verified_by');
+  // [FIX] Explicitly set to (Verifier)
   const recordVerifierLabel = level.list === 'future-list' ? '(Status Verifier)' : '(Verifier)';
-
-  // [FIX] Helper to determine if this is a platformer list
   const isPlatformer = listType === 'platformer';
 
   return (
@@ -234,6 +233,7 @@ export default function LevelDetail() {
             </div>
           )}
 
+          {/* Description Display - Centered, Italic, Quoted */}
           {level.description && (
             <div className="text-center mb-6 px-4 italic text-text-on-ui/90 text-lg">
               "{level.description}"
@@ -312,10 +312,11 @@ export default function LevelDetail() {
           </div>
 
           <ul className="text-center space-y-2 text-lg">
-            <li className="relative flex items-center justify-center min-h-[2rem] px-2">
-              <span className="absolute left-0 font-mono text-sm text-text-muted">{recordVerifierLabel}</span> 
-              <button onClick={() => handleRecordClick(level.videoId)} className="font-bold text-text-on-ui hover:text-accent transition-colors text-xl"> 
-                {level.verifier}
+            {/* [FIX] Reverted to centered list item, but using the updated label */}
+            <li>
+              <button onClick={() => handleRecordClick(level.videoId)} className="text-text-on-ui hover:text-accent transition-colors"> 
+                <span className="font-mono text-sm text-text-muted mr-2">{recordVerifierLabel}</span> 
+                <span className="font-bold">{level.verifier}</span>
               </button>
             </li>
 
@@ -336,7 +337,6 @@ export default function LevelDetail() {
                 <button onClick={() => handleRecordClick(record.videoId)} className="hover:text-accent transition-colors flex items-center gap-2"> 
                   <span>{record.username}</span>
                   
-                  {/* [FIX] Conditional Display for Platformer vs Normal */}
                   {isPlatformer ? (
                     <>
                         <span className="font-mono text-sm text-text-muted">({record.time})</span>

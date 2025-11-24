@@ -18,37 +18,36 @@ async function seedPlatformer() {
   const platformerLevels = JSON.parse(rawData);
   console.log(`Found ${platformerLevels.length} levels to import.`);
 
-  // Clear existing Platformer List to avoid duplicates
   console.log('Clearing old platformer-list levels...');
   await prisma.level.deleteMany({ where: { list: 'platformer-list' } });
 
   console.log('Seeding new levels...');
 
   for (const pLevel of platformerLevels) {
-    // Map Pemon records to our Schema's Record type
+    // Map records according to Pemonlist API structure
     const mappedRecords = pLevel.records.map(rec => ({
-      username: rec.player.name, // Flatten the player object to just the name
-      percent: 100,              // Platformer records are completions
-      videoId: rec.video_id || '', // Handle missing video IDs
-      // New fields:
-      time: rec.formatted_time,
-      mobile: rec.mobile,
-      timestamp: rec.timestamp_milliseconds
+      username: rec.player.name,        //
+      percent: 100,
+      videoId: rec.video_id || '',      //
+      time: rec.formatted_time,         //
+      mobile: rec.mobile,               //
+      timestamp: rec.timestamp_milliseconds //
     }));
 
-    // Flatten verifier object if it exists, otherwise use null
-    const verifierName = pLevel.verifier ? pLevel.verifier.name : 'Unknown';
+    // Handle verifier data safely
+    const verifierName = pLevel.verifier ? pLevel.verifier.name : 'Unknown'; //
+    const verifierVideoId = pLevel.verifier && pLevel.verifier.video_id ? pLevel.verifier.video_id : ''; //
 
     await prisma.level.create({
       data: {
-        name: pLevel.name,
-        placement: pLevel.placement,
-        creator: pLevel.creator,
+        name: pLevel.name,              //
+        placement: pLevel.placement,    //
+        creator: pLevel.creator,        //
         verifier: verifierName,
-        videoId: '', // Pemon list doesn't always give a main verification video on the top object, leave blank or find one
-        levelId: pLevel.id, // The GD Level ID
+        videoId: verifierVideoId,       // [FIX] Uses verifier.video_id
+        levelId: pLevel.level_id,       //
         list: 'platformer-list',
-        description: `Points: ${pLevel.points}`, // Storing points in description for now
+        description: '',                // [FIX] Forced empty description (ignores points)
         records: mappedRecords
       }
     });
